@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="yellowpages2">
+    <header/>
+    <body>
+      <trans-unit id="scheduler.pid" xml:space="preserve">
+        <source>Storage PID</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

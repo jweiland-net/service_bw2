@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z" product-name="service_bw2">
+		<header/>
+		<body>
+
+			<trans-unit id="sheetGeneral" xml:space="preserve">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="chooseAction" xml:space="preserve">
+				<source>Choose action</source>
+			</trans-unit>
+			<trans-unit id="list" xml:space="preserve">
+				<source>List view</source>
+			</trans-unit>
+			<trans-unit id="show" xml:space="preserve">
+				<source>Detail view</source>
+			</trans-unit>
+			<trans-unit id="pidOfDetailPage">
+				<source>PID of detail page</source>
+			</trans-unit>
+			<trans-unit id="pidOfListPage">
+				<source>PID of list page</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

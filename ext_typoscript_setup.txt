@@ -1,0 +1,104 @@
+config.tx_extbase {
+  objects {
+    TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper.className = JWeiland\ServiceBw2\Persistence\Generic\Mapper\DataMapper
+    TYPO3\CMS\Extbase\Persistence\Generic\Backend.className = JWeiland\ServiceBw2\Persistence\Generic\Backend
+  }
+  persistence {
+    classes {
+      JWeiland\ServiceBw2\Domain\Model\Anschrift {
+        mapping {
+          tableName = tx_servicebw2_anschrift
+        }
+      }
+
+      JWeiland\ServiceBw2\Domain\Model\BankVerbindung {
+        mapping {
+          tableName = tx_servicebw2_bank_verbindung
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Behoerde {
+        mapping {
+          tableName = tx_servicebw2_behoerde
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Benutzer {
+        mapping {
+          tableName = tx_servicebw2_benutzer
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\GeoKodierung {
+        mapping {
+          tableName = tx_servicebw2_geo_kodierung
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Gueltigkeit {
+        mapping {
+          tableName = tx_servicebw2_gueltigkeit
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Info115 {
+        mapping {
+          tableName = tx_servicebw2_info115
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\InternetAdresse {
+        mapping {
+          tableName = tx_servicebw2_internet_adresse
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Kommunikation {
+        mapping {
+          tableName = tx_servicebw2_kommunikation
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\KontaktPerson {
+        mapping {
+          tableName = tx_servicebw2_kontakt_person
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\KontakPersonMm {
+        mapping {
+          tableName = tx_servicebw2_kontakt_person_mm
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Oeffnungszeiten {
+        mapping {
+          tableName = tx_servicebw2_oeffnungszeiten
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\OeffnungszeitenMm {
+        mapping {
+          tableName = tx_servicebw2_oeffnungszeiten_mm
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\OrganisationsEinheit {
+        mapping {
+          tableName = tx_servicebw2_organisations_einheit
+          columns {
+            anschrift.mapOnProperty = anschriften
+            kommunikation.mapOnProperty = kommunikationen
+            kontakt_person.mapOnProperty = kontaktPersonen
+            kommunikations_system.mapOnProperty = kommunikationsSysteme
+            bank_verbindung.mapOnProperty = bankVerbindungen
+            gueltigkeit.mapOnProperty = gueltigkeiten
+          }
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Schluessel {
+        mapping {
+          tableName = tx_servicebw2_schluessel
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\VerwaltungspolitischeKodierung {
+        mapping {
+          tableName = tx_servicebw2_verwaltungspolitische_kodierung
+        }
+      }
+      JWeiland\ServiceBw2\Domain\Model\Zustaendigkeit {
+        mapping {
+          tableName = tx_servicebw2_zustaendigkeit
+        }
+      }
+    }
+  }
+}

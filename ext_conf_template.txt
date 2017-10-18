@@ -1,0 +1,10 @@
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:username
+username =
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:password
+password =
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:mandant
+mandant =
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:baseUrl
+baseUrl = https://sgw.service-bw.de:443/
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:allowedLanguages
+allowedLanguages = de=0;en=1;fr=2

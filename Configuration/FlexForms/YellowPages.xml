@@ -1,0 +1,55 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEFAULT>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheetGeneral</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<switchableControllerActions>
+						<TCEforms>
+							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:chooseAction</label>
+							<config>
+								<type>select</type>
+								<items>
+									<numIndex index="0">
+										<numIndex index="0">LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:list</numIndex>
+										<numIndex index="1" />
+									</numIndex>
+									<numIndex index="1">
+										<numIndex index="0">LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:show</numIndex>
+										<numIndex index="1"><![CDATA[Company->show]]></numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</switchableControllerActions>
+					<settings.pidOfDetailPage>
+						<TCEforms>
+							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:pidOfDetailPage</label>
+							<config>
+								<type>input</type>
+								<eval>int</eval>
+								<default>0</default>
+							</config>
+						</TCEforms>
+					</settings.pidOfDetailPage>
+					<settings.pidOfListPage>
+						<TCEforms>
+							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:pidOfListPage</label>
+							<config>
+								<type>input</type>
+								<eval>int</eval>
+								<default>0</default>
+							</config>
+						</TCEforms>
+					</settings.pidOfListPage>
+				</el>
+			</ROOT>
+		</sDEFAULT>
+	</sheets>
+</T3DataStructure>

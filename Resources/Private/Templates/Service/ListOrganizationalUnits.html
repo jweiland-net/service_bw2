@@ -1,0 +1,28 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers">
+
+<f:layout name="Default" />
+
+<f:section name="main">
+<f:if condition="{organizationalUnits}">
+  <f:then>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <f:for each="{organizationalUnits}" as="organizationalUnit">
+        <tr>
+          <td>{organizationalUnit.id}</td>
+          <td>{organizationalUnit.name}</td>
+        </tr>
+      </f:for>
+      </tbody>
+    </table>
+  </f:then>
+  <f:else>Aktuell keine Daten vorhanden. Evtl. im scheduler den Task starten</f:else>
+</f:if>
+</f:section>
+</html>

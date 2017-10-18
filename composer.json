@@ -1,0 +1,34 @@
+{
+  "name": "jweiland/service_bw2",
+  "type": "typo3-cms-extension",
+  "description": "With this extension you can access service BW interface",
+  "version": "0.00.1",
+  "license": "GPL-2.0+",
+  "keywords": ["typo3", "TYPO3 CMS", "service", "bw"],
+  "homepage": "http://www.jweiland.net",
+  "authors": [
+    {
+      "name": "Stefan Froemken",
+      "email": "sfroemken@jweiland.net",
+      "role": "Lead Developer"
+    }
+  ],
+  "support": {
+    "email": "projects@jweiland.net",
+    "issues": "https://github.com/jweiland-net/service_bw2/issues",
+    "source": "https://github.com/jweiland-net/service_bw2"
+  },
+  "require": {
+    "php": ">=5.3.7 <8.0",
+    "typo3/cms-core": ">=6.2.14,<9.0",
+    "guzzlehttp/guzzle": "6.2.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "JWeiland\\ServiceBw2\\": "Classes"
+    }
+  }
+}
