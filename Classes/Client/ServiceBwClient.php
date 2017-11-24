@@ -17,6 +17,8 @@ use GuzzleHttp\Client;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 use JWeiland\ServiceBw2\Request\RequestInterface;
 use JWeiland\ServiceBw2\Request\WsBenutzer\Token;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -44,6 +46,13 @@ class ServiceBwClient
      * @var Client
      */
     protected $client;
+
+    /**
+     * Cache instance
+     *
+     * @var VariableFrontend
+     */
+    protected $cacheInstance;
 
     /**
      * inject objectManager
@@ -77,6 +86,7 @@ class ServiceBwClient
      */
     public function initializeObject()
     {
+        $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
         // set auth token in sys_registry
         if (!$this->registry->get('ServiceBw', 'token', false)) {
             /** @var Token $request */
@@ -96,27 +106,34 @@ class ServiceBwClient
     public function processRequest(RequestInterface $request)
     {
         $body = null;
-        if (!$request->isValidRequest()) {
-            throw new \Exception('Request not valid', 123);
-        }
-        if ($this->client === null) {
-            $this->client = GeneralUtility::makeInstance(Client::class);
-        }
-        //todo: cache requests
-        $response = $this->client->request(
-            $request->getMethod(),
-            $request->getUri(),
-            [
-                'body' => $request->getBody(),
-                'headers' => $this->getHeaders($request)
-            ]
-        );
-        if ($response->getStatusCode() === 200) {
-            $body = (string)$response->getBody();
-            foreach ($request->getPostProcessors() as $postProcessor) {
-                if ($postProcessor instanceof PostProcessorInterface) {
-                    $body = $postProcessor->process($body);
+        $cacheIdentifier = $this->getCacheIdentifier($request);
+        // Check if current request is cached
+        if ($this->cacheInstance->has($cacheIdentifier)) {
+            $body = $this->cacheInstance->get($cacheIdentifier);
+        } else {
+            if (!$request->isValidRequest()) {
+                throw new \Exception('Request not valid', 123);
+            }
+            if ($this->client === null) {
+                $this->client = GeneralUtility::makeInstance(Client::class);
+            }
+            $response = $this->client->request(
+                $request->getMethod(),
+                $request->getUri(),
+                [
+                    'body' => $request->getBody(),
+                    'headers' => $this->getHeaders($request)
+                ]
+            );
+            if ($response->getStatusCode() === 200) {
+                $body = (string)$response->getBody();
+                foreach ($request->getPostProcessors() as $postProcessor) {
+                    if ($postProcessor instanceof PostProcessorInterface) {
+                        $body = $postProcessor->process($body);
+                    }
                 }
+                // todo: add a lifetime?
+                $this->cacheInstance->set($cacheIdentifier, $body);
             }
         }
         return $body;
@@ -126,12 +143,11 @@ class ServiceBwClient
      * Get headers for request
      *
      * @param RequestInterface $request
-     *
      * @return array
      */
-    protected function getHeaders(RequestInterface $request)
+    protected function getHeaders(RequestInterface $request): array
     {
-        $headers = array();
+        $headers = [];
         $headers['X-SP-Mandant'] = $request->getMandant();
         if ($request->getAccept()) {
             $headers['Accept'] = $request->getAccept();
@@ -145,5 +161,22 @@ class ServiceBwClient
         }
 
         return $headers;
+    }
+
+    /**
+     * Get a unique cache identifier for request
+     *
+     * @param RequestInterface $request
+     * @return string
+     */
+    protected function getCacheIdentifier(RequestInterface $request): string
+    {
+        $identifier = $request->getBody();
+        $identifier .= $request->getMethod();
+        $identifier .= $request->getUri();
+        $identifier .= $request->getAccept();
+        $identifier .= $request->getMandant();
+        $identifier .= $request->getParameters();
+        return md5($identifier);
     }
 }

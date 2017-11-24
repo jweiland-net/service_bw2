@@ -1,5 +1,4 @@
 <?php
-
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
 /*
@@ -15,70 +14,13 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use JWeiland\ServiceBw2\Client\ServiceBwClient;
-use JWeiland\ServiceBw2\Domain\Model\OrganisationsEinheit;
-use JWeiland\ServiceBw2\Persistence\Generic\Mapper\DataMapper;
-use JWeiland\ServiceBw2\Property\TypeConverter\ServiceBwObjectConverter;
-use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 use JWeiland\ServiceBw2\Request;
-use TYPO3\CMS\Extbase\Property\PropertyMapper;
-use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
-use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class OrganisationsEinheitRepository extends Repository
+class OrganisationsEinheitRepository extends AbstractRepository
 {
-    /**
-     * @var array
-     */
-    protected $allowedLanguages = [
-        'de' => 0,
-        'en' => 1,
-        'fr' => 2
-    ];
-
-    /**
-     * @var ServiceBwClient
-     */
-    protected $serviceBwClient;
-
-    /**
-     * @var FrontendInterface
-     */
-    protected $requestCache;
-
-    /**
-     * inject serviceBwClient
-     *
-     * @param ServiceBwClient $serviceBwClient
-     *
-     * @return void
-     */
-    public function injectServiceBwClient(ServiceBwClient $serviceBwClient)
-    {
-        $this->serviceBwClient = $serviceBwClient;
-    }
-
-    /**
-     * Initializes this object
-     *
-     * @return void
-     */
-    public function initializeObject()
-    {
-        /** @var CacheManager $cacheManager */
-        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-        $this->requestCache = $cacheManager->getCache('servicebw_request');
-    }
-
     /**
      * Get all organizational units from Service BW
      *
@@ -86,69 +28,14 @@ class OrganisationsEinheitRepository extends Repository
      */
     public function getAll()
     {
-        /** @var PropertyMapper $propertyMapper */
-        $propertyMapper = $this->objectManager->get(PropertyMapper::class);
-
         /** @var Request\OrganisationsEinheiten\Roots $request */
         $request = $this->objectManager->get(Request\OrganisationsEinheiten\Roots::class);
 
         $records = [];
         $this->addChildren($records, $this->serviceBwClient->processRequest($request));
-        $this->requestCache->flushByTag('children');
         // $this->addAnschriften($records);
 
-        $organisationsEinheiten = [];
-
-        foreach ($records as $language => $translatedRecords) {
-            foreach ($translatedRecords as $id => $translatedRecord) {
-                try {
-                    $organisationsEinheit = $propertyMapper->convert(
-                        $translatedRecord,
-                        OrganisationsEinheit::class,
-                        $this->getPropertyMapperConfiguration()
-                    );
-                    if ($organisationsEinheit instanceof OrganisationsEinheit) {
-                        $organisationsEinheiten[$language][$id] = $organisationsEinheit;
-                    }
-                } catch (\Exception $e) {
-                    // @ToDo: Logging or FlashMessage?
-                    continue;
-                }
-            }
-            $this->persistenceManager->clearState();
-        }
-
-        return $organisationsEinheiten;
-    }
-
-    /**
-     * Get PropertyMapper configuration for OrganisationsEinheit
-     *
-     * @return PropertyMappingConfiguration
-     */
-    protected function getPropertyMapperConfiguration()
-    {
-        /** @var ServiceBwObjectConverter $serviceBwObjectConverter */
-        $serviceBwObjectConverter = $this->objectManager->get(ServiceBwObjectConverter::class);
-
-        /** @var $configuration PropertyMappingConfiguration */
-        $configuration = new PropertyMappingConfiguration();
-        $configuration
-            ->allowAllProperties()
-            ->setTypeConverter($serviceBwObjectConverter)
-            ->setTypeConverterOptions(ServiceBwObjectConverter::class, [
-                PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED => true,
-                PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED => true
-            ]);
-        $configuration->forProperty('zugehoerigeBehoerde')
-            ->allowAllProperties()
-            ->setTypeConverter($serviceBwObjectConverter)
-            ->setTypeConverterOptions(ServiceBwObjectConverter::class, [
-                PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED => true,
-                PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED => true
-            ]);
-
-        return $configuration;
+        return $records;
     }
 
     /**
@@ -233,17 +120,9 @@ class OrganisationsEinheitRepository extends Repository
      */
     public function getChildren($id)
     {
-        $cacheIdentifier = 'children_' . (int)$id;
-        if (!$this->requestCache->has($cacheIdentifier)) {
-            /** @var Request\OrganisationsEinheiten\Children $request */
-            $request = $this->objectManager->get(Request\OrganisationsEinheiten\Children::class);
-            $request->addParameter('id', (int)$id);
-            $children = $this->serviceBwClient->processRequest($request);
-
-            $this->requestCache->set($cacheIdentifier, $children, ['children']);
-        } else {
-            $children = $this->requestCache->get($cacheIdentifier);
-        }
-        return $children;
+        /** @var Request\OrganisationsEinheiten\Children $request */
+        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Children::class);
+        $request->addParameter('id', (int)$id);
+        return $this->serviceBwClient->processRequest($request);
     }
 }
