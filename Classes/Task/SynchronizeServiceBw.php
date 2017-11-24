@@ -37,6 +37,8 @@ use JWeiland\ServiceBw2\Request;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @deprecated todo: remove because no longer needed
+
  */
 class SynchronizeServiceBw extends AbstractTask
 {

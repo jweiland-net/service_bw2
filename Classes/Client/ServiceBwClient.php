@@ -100,15 +100,16 @@ class ServiceBwClient
             throw new \Exception('Request not valid', 123);
         }
         if ($this->client === null) {
-            $this->client = GeneralUtility::makeInstance('GuzzleHttp\\Client');
+            $this->client = GeneralUtility::makeInstance(Client::class);
         }
+        //todo: cache requests
         $response = $this->client->request(
             $request->getMethod(),
             $request->getUri(),
-            array(
+            [
                 'body' => $request->getBody(),
                 'headers' => $this->getHeaders($request)
-            )
+            ]
         );
         if ($response->getStatusCode() === 200) {
             $body = (string)$response->getBody();

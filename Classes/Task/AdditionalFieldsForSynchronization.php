@@ -26,6 +26,7 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
 /**
  * Class AdditionalFieldsForSynchronization
  *
+ * @deprecated todo: remove because no longer needed
  * @package JWeiland\Events2\Task
  */
 class AdditionalFieldsForSynchronization implements AdditionalFieldProviderInterface

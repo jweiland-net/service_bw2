@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Controller;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
 use JWeiland\ServiceBw2\Request;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class ServiceController
@@ -47,10 +48,7 @@ class ServiceController extends AbstractController
      */
     public function overviewAction()
     {
-        $connectionPool = new ConnectionPool();
-        $connection = $connectionPool->getConnectionForTable('pages');
-        $rows = $connection->select(['title'], 'pages');
-        $row = $rows->fetch();
+        DebuggerUtility::var_dump($this->organizationalUnitRepository->getAll());
     }
 
     /**
