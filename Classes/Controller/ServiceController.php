@@ -48,7 +48,14 @@ class ServiceController extends AbstractController
      */
     public function overviewAction()
     {
+        // todo: remove !!!1
+        $GLOBALS['DEBUG_KRONOVA']['json_decode'] = 0;
+        $GLOBALS['DEBUG_KRONOVA']['post_processors'] = 0;
+        $GLOBALS['DEBUG_KRONOVA']['kinder_bekommen'] = [];
+        $GLOBALS['DEBUG_KRONOVA']['kinder_bekommen']['TOTAL'] = 0;
+
         DebuggerUtility::var_dump($this->organizationalUnitRepository->getAll());
+        DebuggerUtility::var_dump($GLOBALS['DEBUG_KRONOVA']);
     }
 
     /**
@@ -58,7 +65,7 @@ class ServiceController extends AbstractController
      */
     public function listOrganizationalUnitsAction()
     {
-        $this->view->assign('organizationalUnits', $this->organizationalUnitRepository->findAll());
+        $this->view->assign('organizationalUnits', $this->organizationalUnitRepository->getAll());
     }
 
     public function responsibilityFinderAction()

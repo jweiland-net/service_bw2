@@ -141,6 +141,14 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['method', 'path', 'body', 'accept', 'parameters', 'allowedParameters'];
+    }
+
+    /**
      * Returns the mandant
      *
      * @ToDo: Currently only one mandant can be configured. Maybe we will allow multiple mandants with a configuration record or pageTSconfig

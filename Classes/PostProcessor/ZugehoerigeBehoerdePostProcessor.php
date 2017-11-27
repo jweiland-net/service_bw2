@@ -49,7 +49,7 @@ class ZugehoerigeBehoerdePostProcessor extends AbstractPostProcessor
      * @return mixed
      */
     public function process($response)
-    {
+    { // todo: remove language array
         if (is_array($response) && !empty($response)) {
             foreach ($response as $language => &$records) {
                 foreach ($records as $id => &$record) {

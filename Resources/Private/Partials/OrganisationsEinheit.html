@@ -1,0 +1,10 @@
+<ul>
+  <f:for each="{organisationsEinheiten}" as="organisationsEinheit">
+    <li>
+      {organisationsEinheit.name}
+      <f:if condition="{organisationsEinheit._children}">
+        <f:render partial="OrganisationsEinheit" arguments="{organisationsEinheiten: organisationsEinheit._children}" />
+      </f:if>
+    </li>
+  </f:for>
+</ul>

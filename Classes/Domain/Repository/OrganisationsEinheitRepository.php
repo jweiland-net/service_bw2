@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use function GuzzleHttp\Promise\is_fulfilled;
 use JWeiland\ServiceBw2\Request;
 
 /**
@@ -30,12 +31,30 @@ class OrganisationsEinheitRepository extends AbstractRepository
     {
         /** @var Request\OrganisationsEinheiten\Roots $request */
         $request = $this->objectManager->get(Request\OrganisationsEinheiten\Roots::class);
-
-        $records = [];
-        $this->addChildren($records, $this->serviceBwClient->processRequest($request));
+        $records = $this->serviceBwClient->processRequest($request);
+        $this->addChildren($records);
         // $this->addAnschriften($records);
 
         return $records;
+    }
+
+    /**
+     * Add children recursive to storage
+     *
+     * @param array $records
+     * @return void
+     */
+    protected function addChildren(array &$records)
+    {
+        if (is_array($records)) {
+            foreach ($records as &$organisationsEinheit) {
+                $children = $this->getChildren($organisationsEinheit['id']);
+                if (!empty($children)) {
+                    $this->addChildren($children);
+                    $organisationsEinheit['_children'] = $children;
+                }
+            }
+        }
     }
 
     /**
@@ -46,23 +65,25 @@ class OrganisationsEinheitRepository extends AbstractRepository
      *
      * @return void
      */
-    protected function addChildren(array &$storage = [], $records)
+    protected function _addChildren(array &$storage = [], $records)
     {
         if (is_array($records)) {
-            foreach ($records as $language => $organisationsEinheiten) {
-                foreach ($organisationsEinheiten as $organisationsEinheit) {
-                    // if record is in storage already, continue
-                    if (isset($storage[$language]) && array_key_exists($organisationsEinheit['id'], $storage[$language])) {
-                        continue;
-                    }
+            foreach ($records as $organisationsEinheit) {
+//                // if record is in storage already, continue
+//                if (array_key_exists($organisationsEinheit['id'], $storage)) {
+//                    continue;
+//                }
 
-                    $children = $this->getChildren($organisationsEinheit['id']);
+                $children = $this->getChildren($organisationsEinheit['id']);
+                $storage[$organisationsEinheit['id']] = $organisationsEinheit;
 
-                    if (is_array($children) && !empty($children)) {
-                        $this->addChildren($storage, $children);
-                    } else {
-                        $storage[$language][$organisationsEinheit['id']] = $organisationsEinheit;
+                if (is_array($children) && !empty($children)) {
+                    $childrenWithId = [];
+                    foreach ($children as $child) {
+                        $childrenWithId[$child['id']] = $child;
                     }
+                    $storage[$organisationsEinheit['id']]['_children'] = $childrenWithId;
+                    $this->_addChildren($storage, $children);
                 }
             }
         }
@@ -118,11 +139,18 @@ class OrganisationsEinheitRepository extends AbstractRepository
      *
      * @return array
      */
-    public function getChildren($id)
+    public function getChildren(int $id): array
     {
         /** @var Request\OrganisationsEinheiten\Children $request */
         $request = $this->objectManager->get(Request\OrganisationsEinheiten\Children::class);
         $request->addParameter('id', (int)$id);
-        return $this->serviceBwClient->processRequest($request);
+        $children = $this->serviceBwClient->processRequest($request);
+        $childrenWithId = [];
+        if (is_array($children)) {
+            foreach ($children as $child) {
+                $childrenWithId[$child['id']] = $child;
+            }
+        }
+        return $childrenWithId;
     }
 }

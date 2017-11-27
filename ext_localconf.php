@@ -3,7 +3,7 @@
     'JWeiland.' . $_EXTKEY,
     'ServiceBw',
     [
-        'Service' => '',
+        'OrganisationsEinheit' => 'list',
     ],
     // non-cacheable actions
     []

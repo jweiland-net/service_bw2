@@ -132,7 +132,6 @@ class ServiceBwClient
                         $body = $postProcessor->process($body);
                     }
                 }
-                // todo: add a lifetime?
                 $this->cacheInstance->set($cacheIdentifier, $body);
             }
         }
@@ -171,12 +170,6 @@ class ServiceBwClient
      */
     protected function getCacheIdentifier(RequestInterface $request): string
     {
-        $identifier = $request->getBody();
-        $identifier .= $request->getMethod();
-        $identifier .= $request->getUri();
-        $identifier .= $request->getAccept();
-        $identifier .= $request->getMandant();
-        $identifier .= $request->getParameters();
-        return md5($identifier);
+        return md5(serialize($request));
     }
 }

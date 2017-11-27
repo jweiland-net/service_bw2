@@ -17,6 +17,8 @@ namespace JWeiland\ServiceBw2\Service;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Class TranslationService
@@ -26,50 +28,51 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 class TranslationService implements SingletonInterface
 {
     /**
-     * @var ExtConf
-     */
-    protected $extConf;
-
-    /**
      * @var string
      */
-    protected $defaultLanguage = '';
+    protected $language = '';
 
     /**
-     * inject extConf
-     *
-     * @param ExtConf $extConf
+     * Initialize object
      *
      * @return void
      */
-    public function injectExtConf(ExtConf $extConf)
+    public function initializeObject()
     {
-        $this->extConf = $extConf;
-        $languages = $this->extConf->getAllowedLanguages();
-        reset($languages);
-        $this->defaultLanguage = key($languages);
+        $this->language = $this->getFrontendLanguageIsoCode();
+    }
+
+    /**
+     * Get frontend language iso code
+     *
+     * @return string
+     */
+    protected function getFrontendLanguageIsoCode(): string
+    {
+        /** @var TypoScriptFrontendController $typoScriptFrontendController */
+        $typoScriptFrontendController = $GLOBALS['TSFE'];
+        return $typoScriptFrontendController->sys_language_isocode;
     }
 
     /**
      * Prepare records for TYPO3 translation
      *
      * @param array $records
-     *
+     * @param string $keyForId the value of $record[$keyForId] will be used as key for $records
      * @return array
      */
-    public function translate(array $records)
+    public function translate(array $records, string $keyForId='id'): array
     {
         $records = $this->sanitizeRecords($records);
         $translatedRecords = [];
         foreach ($records as $record) {
-            if ($this->hasTranstations($record)) {
-                foreach ($this->getTranslations($record) as $language => $translatedRecord) {
-                    $this->addTranslatedRecord($translatedRecords, $translatedRecord, $language, 'id');
-                }
+            if ($this->hasTranslations($record)) { // isset $item['id'] USE AS KEY
+                $record = $this->getTranslation($record);
+            }
+            if (array_key_exists($keyForId, $record)) {
+                $translatedRecords[$record[$keyForId]] = $record;
             } else {
-                foreach ($this->extConf->getAllowedLanguages() as $language => $sysLanguageUid) {
-                    $this->addTranslatedRecord($translatedRecords, $record, $language, 'id');
-                }
+                $translatedRecords[] = $record;
             }
         }
         return $translatedRecords;
@@ -82,7 +85,7 @@ class TranslationService implements SingletonInterface
      * @param array $value
      * @param string $language
      * @param string $keyForId
-     *
+     * @deprecated  todo: remove
      * @return void
      */
     protected function addTranslatedRecord(array &$translatedRecords, array $value, $language = '', $keyForId = '')
@@ -99,7 +102,6 @@ class TranslationService implements SingletonInterface
      * Sanitize records
      *
      * @param array $records
-     *
      * @return array
      *
      * @see: allValuesAreArrays
@@ -122,7 +124,6 @@ class TranslationService implements SingletonInterface
      * this method will return false
      *
      * @param array $records
-     *
      * @return bool
      */
     protected function allValuesAreArrays(array $records): bool
@@ -131,68 +132,30 @@ class TranslationService implements SingletonInterface
     }
 
     /**
-     * Get all translations of record
-     *
-     * @param array $record
-     *
-     * @return array
-     */
-    protected function getTranslations($record)
-    {
-        $translatedRecords = [];
-        $translatedRecord = $record;
-
-        // all values of l18n will be added to cleanedRecord, so we can remove that key
-        unset($translatedRecord['i18n']);
-        $recordInDefaultLanguage = $translatedRecord;
-
-        foreach ($this->extConf->getAllowedLanguages() as $allowedLanguage => $sysLanguageUid) {
-            $translatedRecord = $this->overlayRecord($recordInDefaultLanguage, $record, $allowedLanguage);
-            if ($this->defaultLanguage === $allowedLanguage) {
-                $recordInDefaultLanguage = $translatedRecord;
-            }
-            $translatedRecords[$allowedLanguage] = $translatedRecord;
-        }
-
-        return $translatedRecords;
-    }
-
-    /**
-     * Returns, if $record has translations
-     *
-     * @param array $record
-     *
-     * @return bool
-     */
-    protected function hasTranstations(array $record)
-    {
-        return isset($record['i18n']) && is_array($record['i18n']) && !empty($record['i18n']);
-    }
-
-    /**
      * In i18n we find all additional translation fields
      * Use them to translate record with default language
      *
-     * @param array $recordInDefaultLanguage
-     * @param array $recordFromServiceBwApi
-     * @param string $language 2-letters language key like de, en or fr
+     * @param array $record
      * @param string $translationField ArrayKey with translations. Normally i18n
      * @param string $languageField ArrayKey where to find 2 letters language key. Normally sprache
-     *
      * @return array Return overlayed/translated record
      */
-    protected function overlayRecord(array $recordInDefaultLanguage, array $recordFromServiceBwApi, $language = 'de', $translationField = 'i18n', $languageField = 'sprache')
+    protected function getTranslation(
+        array $record,
+        $translationField = 'i18n',
+        $languageField = 'sprache'
+    ): array
     {
         $additionalTranslationFields = [];
-
+        $translatedRecord = $record;
+        unset($translatedRecord['i18n']);
         if (
-            array_key_exists($language, $this->extConf->getAllowedLanguages())
-            && array_key_exists($translationField, $recordFromServiceBwApi)
+            array_key_exists($translationField, $record)
         ) {
             // get and prepare additional translation fields
             $additionalTranslationFields = [];
-            foreach ($recordFromServiceBwApi[$translationField] as $fields) {
-                if ($fields[$languageField] === $language) {
+            foreach ($record[$translationField] as $fields) {
+                if ($fields[$languageField] === $this->language) {
                     $additionalTranslationFields = $fields;
                     break;
                 }
@@ -201,13 +164,18 @@ class TranslationService implements SingletonInterface
         }
 
         // overlay default translation with new translation
-        $translatedRecord = array_merge($recordInDefaultLanguage, $additionalTranslationFields);
-
-        // if translation is empty, do not add _languageUid
-        if (!empty($translatedRecord)) {
-            $translatedRecord['_languageUid'] = $this->extConf->getAllowedLanguages()[$language];
-        }
-
+        $translatedRecord = array_merge($translatedRecord, $additionalTranslationFields);
         return $translatedRecord;
+    }
+
+    /**
+     * Returns, if $record has translations
+     *
+     * @param array $record
+     * @return bool
+     */
+    protected function hasTranslations(array $record)
+    {
+        return isset($record['i18n']) && is_array($record['i18n']) && !empty($record['i18n']);
     }
 }
