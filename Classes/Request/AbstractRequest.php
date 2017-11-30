@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Request;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
+use JWeiland\ServiceBw2\PostProcessor\RenameArrayKeyPostProcessor;
 use JWeiland\ServiceBw2\PostProcessor\TranslatePostProcessor;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -99,14 +100,14 @@ abstract class AbstractRequest implements RequestInterface
     protected $clearDefaultPostProcessorClassNames = false;
 
     /**
-     * Post processor class anmes
+     * Post processor class names
      * Define some post processors to post process the Service BW response
      *
      * @var array
      */
     protected $defaultPostProcessorClassNames = [
         0 => JsonPostProcessor::class,
-        1 => TranslatePostProcessor::class
+        1 => RenameArrayKeyPostProcessor::class
     ];
 
     /**

@@ -16,12 +16,29 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use function GuzzleHttp\Promise\is_fulfilled;
 use JWeiland\ServiceBw2\Request;
+use JWeiland\ServiceBw2\Service\TranslationService;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class OrganisationsEinheitRepository extends AbstractRepository
 {
+    /**
+     * @var TranslationService
+     */
+    protected $translationService;
+
+    /**
+     * inject translationService
+     *
+     * @param TranslationService $translationService
+     * @return void
+     */
+    public function injectTranslationService(TranslationService $translationService)
+    {
+        $this->translationService = $translationService;
+    }
+
     /**
      * Get all organizational units from Service BW
      *
@@ -32,58 +49,31 @@ class OrganisationsEinheitRepository extends AbstractRepository
         /** @var Request\OrganisationsEinheiten\Roots $request */
         $request = $this->objectManager->get(Request\OrganisationsEinheiten\Roots::class);
         $records = $this->serviceBwClient->processRequest($request);
-        $this->addChildren($records);
-        // $this->addAnschriften($records);
+        $this->addChildrenToRecords($records);
+        $this->translationService->translate($records);
 
         return $records;
     }
 
     /**
-     * Add children recursive to storage
+     * Adds children recursive to $records
+     * Will add children into $record[<id>]['_children'] = [];
+     *
+     * Children are from type OrganisationsEinheit BUT doesn´t contain
+     * all fields! Take a look at service_bw API documentation if you
+     * want to know which fields are provided.
      *
      * @param array $records
      * @return void
      */
-    protected function addChildren(array &$records)
+    protected function addChildrenToRecords(array &$records)
     {
         if (is_array($records)) {
             foreach ($records as &$organisationsEinheit) {
                 $children = $this->getChildren($organisationsEinheit['id']);
                 if (!empty($children)) {
-                    $this->addChildren($children);
+                    $this->addChildrenToRecords($children);
                     $organisationsEinheit['_children'] = $children;
-                }
-            }
-        }
-    }
-
-    /**
-     * Add children recursive to storage
-     *
-     * @param array $storage
-     * @param array $records
-     *
-     * @return void
-     */
-    protected function _addChildren(array &$storage = [], $records)
-    {
-        if (is_array($records)) {
-            foreach ($records as $organisationsEinheit) {
-//                // if record is in storage already, continue
-//                if (array_key_exists($organisationsEinheit['id'], $storage)) {
-//                    continue;
-//                }
-
-                $children = $this->getChildren($organisationsEinheit['id']);
-                $storage[$organisationsEinheit['id']] = $organisationsEinheit;
-
-                if (is_array($children) && !empty($children)) {
-                    $childrenWithId = [];
-                    foreach ($children as $child) {
-                        $childrenWithId[$child['id']] = $child;
-                    }
-                    $storage[$organisationsEinheit['id']]['_children'] = $childrenWithId;
-                    $this->_addChildren($storage, $children);
                 }
             }
         }

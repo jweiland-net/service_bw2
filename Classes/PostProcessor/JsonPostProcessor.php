@@ -34,11 +34,7 @@ class JsonPostProcessor extends AbstractPostProcessor
         if (empty($response)) {
             return [];
         }
-
-        $debug_start = microtime(true);
         $decodedResponse = json_decode($response, 1);
-        $debug_end = microtime(true);
-        $GLOBALS['DEBUG_KRONOVA']['json_decode'] += ($debug_end - $debug_start);
         if (!empty($decodedResponse) && is_array($decodedResponse)) {
             if (isset($decodedResponse['items'])) {
                 // sometimes the records are not at array root, they are in array key "items"

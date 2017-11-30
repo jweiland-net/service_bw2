@@ -109,7 +109,7 @@ class ServiceBwClient
         $cacheIdentifier = $this->getCacheIdentifier($request);
         // Check if current request is cached
         if ($this->cacheInstance->has($cacheIdentifier)) {
-            $body = $this->cacheInstance->get($cacheIdentifier);
+            $body = \json_decode($this->cacheInstance->get($cacheIdentifier), 1);
         } else {
             if (!$request->isValidRequest()) {
                 throw new \Exception('Request not valid', 123);
@@ -125,6 +125,7 @@ class ServiceBwClient
                     'headers' => $this->getHeaders($request)
                 ]
             );
+            // todo: remove TranslatePostProcessor, translate at the end of all!
             if ($response->getStatusCode() === 200) {
                 $body = (string)$response->getBody();
                 foreach ($request->getPostProcessors() as $postProcessor) {
@@ -132,7 +133,7 @@ class ServiceBwClient
                         $body = $postProcessor->process($body);
                     }
                 }
-                $this->cacheInstance->set($cacheIdentifier, $body);
+                $this->cacheInstance->set($cacheIdentifier, \json_encode($body));
             }
         }
         return $body;

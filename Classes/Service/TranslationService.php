@@ -28,9 +28,25 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class TranslationService implements SingletonInterface
 {
     /**
+     * @var ExtConf
+     */
+    protected $extConf;
+
+    /**
      * @var string
      */
     protected $language = '';
+
+    /**
+     * inject extConf
+     *
+     * @param ExtConf $extConf
+     * @return void
+     */
+    public function injectExtConf(ExtConf $extConf)
+    {
+        $this->extConf = $extConf;
+    }
 
     /**
      * Initialize object
@@ -45,13 +61,28 @@ class TranslationService implements SingletonInterface
     /**
      * Get frontend language iso code
      *
-     * @return string
+     * Validates if current frontend language is an allowed language (extConf)
+     * If TSFE is not initialized or current frontend language is not allowed,
+     * returns the default language
+     *
+     * @return string current language or default language e.g. en
      */
     protected function getFrontendLanguageIsoCode(): string
     {
         /** @var TypoScriptFrontendController $typoScriptFrontendController */
         $typoScriptFrontendController = $GLOBALS['TSFE'];
-        return $typoScriptFrontendController->sys_language_isocode;
+        $allowedLanguages = $this->extConf->getAllowedLanguages();
+        $language = '';
+        // Set current frontend language if TSFE is initialized
+        if ($typoScriptFrontendController instanceof TypoScriptFrontendController) {
+            $language = $typoScriptFrontendController->sys_language_isocode;
+        }
+        // Set default language if current $language is not in $allowedLanguages
+        if (!array_key_exists($language, $allowedLanguages)) {
+            reset($allowedLanguages);
+            $language = key($allowedLanguages);
+        }
+        return $language;
     }
 
     /**
@@ -59,76 +90,19 @@ class TranslationService implements SingletonInterface
      *
      * @param array $records
      * @param string $keyForId the value of $record[$keyForId] will be used as key for $records
-     * @return array
-     */
-    public function translate(array $records, string $keyForId='id'): array
-    {
-        $records = $this->sanitizeRecords($records);
-        $translatedRecords = [];
-        foreach ($records as $record) {
-            if ($this->hasTranslations($record)) { // isset $item['id'] USE AS KEY
-                $record = $this->getTranslation($record);
-            }
-            if (array_key_exists($keyForId, $record)) {
-                $translatedRecords[$record[$keyForId]] = $record;
-            } else {
-                $translatedRecords[] = $record;
-            }
-        }
-        return $translatedRecords;
-    }
-
-    /**
-     * Add translated record to translations
-     *
-     * @param array $translatedRecords
-     * @param array $value
-     * @param string $language
-     * @param string $keyForId
-     * @deprecated  todo: remove
+     * @param bool $translateChildren translates entries inside _children by default, set false to disable
      * @return void
      */
-    protected function addTranslatedRecord(array &$translatedRecords, array $value, $language = '', $keyForId = '')
+    public function translate(array &$records, string $keyForId='id', bool $translateChildren = true)
     {
-        if (array_key_exists($keyForId, $value)) {
-            $translatedRecords[$language][$value[$keyForId]] = $value;
-        } else {
-            $translatedRecords[$language][] = $value;
+        foreach ($records as &$record) {
+            if ($this->hasTranslations($record)) {
+                $record = $this->getTranslation($record);
+            }
+            if ($translateChildren && array_key_exists('_children', $record)) {
+                $this->translate($record['_children'], $keyForId, true);
+            }
         }
-
-    }
-
-    /**
-     * Sanitize records
-     *
-     * @param array $records
-     * @return array
-     *
-     * @see: allValuesAreArrays
-     */
-    protected function sanitizeRecords(array $records): array
-    {
-        return $this->allValuesAreArrays($records) ? $records: [$records];
-    }
-
-    /**
-     * $this->translate can only work with following arrays
-     * 0 => [id => 1]
-     * 1 => [id => 3]
-     * 2 => [id => 5]
-     *
-     * if we get something like:
-     * id => 123
-     * title => Hello
-     * name => Stefan
-     * this method will return false
-     *
-     * @param array $records
-     * @return bool
-     */
-    protected function allValuesAreArrays(array $records): bool
-    {
-        return MathUtility::canBeInterpretedAsInteger(key($records));
     }
 
     /**
@@ -155,12 +129,12 @@ class TranslationService implements SingletonInterface
             // get and prepare additional translation fields
             $additionalTranslationFields = [];
             foreach ($record[$translationField] as $fields) {
+                $additionalTranslationFields = $fields;
                 if ($fields[$languageField] === $this->language) {
-                    $additionalTranslationFields = $fields;
                     break;
                 }
             }
-            unset($additionalTranslationFields[$languageField], $additionalTranslationFields['uid']);
+            unset($additionalTranslationFields[$languageField], $additionalTranslationFields['id']);
         }
 
         // overlay default translation with new translation
@@ -177,5 +151,30 @@ class TranslationService implements SingletonInterface
     protected function hasTranslations(array $record)
     {
         return isset($record['i18n']) && is_array($record['i18n']) && !empty($record['i18n']);
+    }
+
+    /**
+     * Returns Language
+     *
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * Sets Language
+     *
+     * Only needed if you want to override the current TSFE language!
+     *
+     * Attention: This does not validate $language against allowed languages in
+     * extConf
+     *
+     * @param string $language
+     */
+    public function setLanguage(string $language)
+    {
+        $this->language = $language;
     }
 }
