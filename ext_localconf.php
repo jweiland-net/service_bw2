@@ -1,9 +1,9 @@
 <?php
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'JWeiland.' . $_EXTKEY,
+    'JWeiland.service_bw2',
     'ServiceBw',
     [
-        'OrganisationsEinheit' => 'list',
+        'OrganisationsEinheit' => 'list,show',
     ],
     // non-cacheable actions
     []

@@ -1,0 +1,70 @@
+<T3DataStructure>
+  <meta>
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEFAULT>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheetGeneral</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <switchableControllerActions>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:displayMode</label>
+              <config>
+                <type>select</type>
+                <items>
+                  <numIndex index="0">
+                    <numIndex index="0">
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit.list
+                    </numIndex>
+                    <numIndex index="1">OrganisationsEinheit->list</numIndex>
+                  </numIndex>
+                  <numIndex index="1">
+                    <numIndex index="0">
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit.show
+                    </numIndex>
+                    <numIndex index="1">OrganisationsEinheit->show</numIndex>
+                  </numIndex>
+                </items>
+              </config>
+            </TCEforms>
+          </switchableControllerActions>
+          <settings.organisationsEinheit.listItems>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationsEinheit.listItems</label>
+              <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->list</displayCond>
+              <config>
+                <type>select</type>
+                <renderType>selectMultipleSideBySide</renderType>
+                <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationsEinheitItems->getItems</itemsProcFunc>
+              </config>
+            </TCEforms>
+          </settings.organisationsEinheit.listItems>
+          <settings.pidOfDetailPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:pidOfDetailPage</label>
+              <config>
+                <type>input</type>
+                <eval>int</eval>
+                <default>0</default>
+              </config>
+            </TCEforms>
+          </settings.pidOfDetailPage>
+          <settings.pidOfListPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:pidOfListPage</label>
+              <config>
+                <type>input</type>
+                <eval>int</eval>
+                <default>0</default>
+              </config>
+            </TCEforms>
+          </settings.pidOfListPage>
+        </el>
+      </ROOT>
+    </sDEFAULT>
+  </sheets>
+</T3DataStructure>

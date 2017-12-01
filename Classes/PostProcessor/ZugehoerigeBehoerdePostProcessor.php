@@ -54,7 +54,7 @@ class ZugehoerigeBehoerdePostProcessor extends AbstractPostProcessor
             foreach ($response as $language => &$records) {
                 foreach ($records as $id => &$record) {
                     if (isset($record['zugehoerigeBehoerde'])) {
-                        $translations = $this->translationService->translate($record['zugehoerigeBehoerde']);
+                        $translations = $this->translationService->translateRecords($record['zugehoerigeBehoerde']);
                         $record['zugehoerigeBehoerde'] = current($translations[$language]);
                     }
                 }

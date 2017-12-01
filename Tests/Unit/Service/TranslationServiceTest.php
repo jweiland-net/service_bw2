@@ -67,7 +67,7 @@ class TranslationServiceTest extends UnitTestCase
                     0 => []
                 ],
             ],
-            $this->subject->translate([])
+            $this->subject->translateRecords([])
         );
     }
 
@@ -90,7 +90,7 @@ class TranslationServiceTest extends UnitTestCase
                     123 => ['id' => 123]
                 ],
             ],
-            $this->subject->translate([
+            $this->subject->translateRecords([
                 'id' => 123
             ])
         );
@@ -113,7 +113,7 @@ class TranslationServiceTest extends UnitTestCase
                     0 => []
                 ],
             ],
-            $this->subject->translate([
+            $this->subject->translateRecords([
                 'i18n' => [
                     0 => [
                         'title' => 'category'
@@ -150,7 +150,7 @@ class TranslationServiceTest extends UnitTestCase
                     ]
                 ],
             ],
-            $this->subject->translate([
+            $this->subject->translateRecords([
                 'i18n' => [
                     0 => [
                         'title' => 'category',
@@ -187,7 +187,7 @@ class TranslationServiceTest extends UnitTestCase
                     ]
                 ],
             ],
-            $this->subject->translate([
+            $this->subject->translateRecords([
                 'i18n' => [
                     0 => [
                         'title' => 'Kategorie',
@@ -246,7 +246,7 @@ class TranslationServiceTest extends UnitTestCase
                     ],
                 ],
             ],
-            $this->subject->translate([
+            $this->subject->translateRecords([
                 0 => [
                     'firstName' => 'Stefan',
                     'i18n' => [

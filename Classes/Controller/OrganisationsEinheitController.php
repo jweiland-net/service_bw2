@@ -47,6 +47,18 @@ class OrganisationsEinheitController extends ActionController
      */
     public function listAction()
     {
+        //todo: add user choice (to get children from) e.g. select field using getAll() to display items
         $this->view->assign('organisationsEinheiten', $this->organisationsEinheitRepository->getAll());
+    }
+
+    /**
+     * Show action
+     *
+     * @param int $id
+     * @return void
+     */
+    public function showAction(int $id)
+    {
+        $this->view->assign('organisationsEinheit', $this->organisationsEinheitRepository->getById($id));
     }
 }

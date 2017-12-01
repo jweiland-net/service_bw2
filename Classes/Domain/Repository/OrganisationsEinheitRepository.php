@@ -14,9 +14,9 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use function GuzzleHttp\Promise\is_fulfilled;
 use JWeiland\ServiceBw2\Request;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -41,16 +41,20 @@ class OrganisationsEinheitRepository extends AbstractRepository
 
     /**
      * Get all organizational units from Service BW
+     * Will return an associative array including OrganisationsEinheit instances
+     * Children of OrganisationsEinheit instances are located inside _children of current instance
+     * e.g. $records[12345]['_children'] = [...]
+     * Those OrganisationsEinheit instances doesn´t contain all fields! Take a look at the service_bw
+     * API documentation
      *
      * @return array
      */
     public function getAll()
     {
-        /** @var Request\OrganisationsEinheiten\Roots $request */
         $request = $this->objectManager->get(Request\OrganisationsEinheiten\Roots::class);
         $records = $this->serviceBwClient->processRequest($request);
         $this->addChildrenToRecords($records);
-        $this->translationService->translate($records);
+        $this->translationService->translateRecords($records, true);
 
         return $records;
     }
@@ -80,49 +84,6 @@ class OrganisationsEinheitRepository extends AbstractRepository
     }
 
     /**
-     * Add anschriften to storage
-     *
-     * @param array $records
-     *
-     * @return void
-     */
-    protected function addAnschriften(array &$records = [])
-    {
-        foreach ($records as $language => $organisationsEinheiten) {
-            foreach ($organisationsEinheiten as $id => $organisationsEinheit) {
-                $records[$language][$id]['anschrift'] = $this->getAnschriften($id, $language);
-            }
-        }
-    }
-
-    /**
-     * Get anschriften for a given Organisations Einheit ID
-     *
-     * @param int $id
-     * @param string $language
-     *
-     * @return array
-     */
-    protected function getAnschriften($id, $language = 'de')
-    {
-        if (!$this->requestCache->has('anschriften_' . (int)$id)) {
-            /** @var Request\OrganisationsEinheiten\Anschriften $request */
-            $request = $this->objectManager->get(Request\OrganisationsEinheiten\Anschriften::class);
-            $request->addParameter('id', $id);
-            $this->requestCache->set(
-                'anschriften_' . (int)$id,
-                $this->serviceBwClient->processRequest($request),
-                ['anschriften']
-            );
-        }
-        $anschriften = $this->requestCache->get('anschriften_' . (int)$id);
-        if (isset($anschriften[$language])) {
-            return $anschriften[$language];
-        }
-        return [];
-    }
-
-    /**
      * Get children records of ID
      *
      * @param int $id
@@ -131,16 +92,24 @@ class OrganisationsEinheitRepository extends AbstractRepository
      */
     public function getChildren(int $id): array
     {
-        /** @var Request\OrganisationsEinheiten\Children $request */
         $request = $this->objectManager->get(Request\OrganisationsEinheiten\Children::class);
-        $request->addParameter('id', (int)$id);
-        $children = $this->serviceBwClient->processRequest($request);
-        $childrenWithId = [];
-        if (is_array($children)) {
-            foreach ($children as $child) {
-                $childrenWithId[$child['id']] = $child;
-            }
-        }
-        return $childrenWithId;
+        $request->addParameter('id', $id);
+        return $this->serviceBwClient->processRequest($request);
+    }
+
+    /**
+     * Get a OrganisationsEinheit by id
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getById(int $id): array
+    {
+        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Live::class);
+        $request->addParameter('id', $id);
+        $request->addParameter('lang', $this->translationService->getLanguage());
+        $record = $this->serviceBwClient->processRequest($request);
+        $record = $record[$id];
+        return $record;
     }
 }

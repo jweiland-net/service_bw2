@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -36,6 +34,13 @@ class TranslationService implements SingletonInterface
      * @var string
      */
     protected $language = '';
+
+    /**
+     * Translation field
+     *
+     * @var string
+     */
+    protected $translationField = 'i18n';
 
     /**
      * inject extConf
@@ -86,23 +91,34 @@ class TranslationService implements SingletonInterface
     }
 
     /**
-     * Prepare records for TYPO3 translation
+     * Translate the records array
      *
      * @param array $records
-     * @param string $keyForId the value of $record[$keyForId] will be used as key for $records
-     * @param bool $translateChildren translates entries inside _children by default, set false to disable
+     * @param bool $translateChildren translates entries inside _children by default, set true to enable
      * @return void
      */
-    public function translate(array &$records, string $keyForId='id', bool $translateChildren = true)
+    public function translateRecords(array &$records, bool $translateChildren = false)
     {
         foreach ($records as &$record) {
-            if ($this->hasTranslations($record)) {
-                $record = $this->getTranslation($record);
-            }
+            $record = $this->translate($record);
             if ($translateChildren && array_key_exists('_children', $record)) {
-                $this->translate($record['_children'], $keyForId, true);
+                $this->translateRecords($record['_children'], true);
             }
         }
+    }
+
+    /**
+     * Translate the array $fields
+     *
+     * @param array $fields e.g. ['id' => 123, 'mandant' => 42, $this->translationField => [...]]
+     * @return array
+     */
+    public function translate(array $fields): array
+    {
+        if ($this->hasTranslations($fields)) {
+            $fields = $this->getTranslation($fields);
+        }
+        return $fields;
     }
 
     /**
@@ -110,25 +126,18 @@ class TranslationService implements SingletonInterface
      * Use them to translate record with default language
      *
      * @param array $record
-     * @param string $translationField ArrayKey with translations. Normally i18n
      * @param string $languageField ArrayKey where to find 2 letters language key. Normally sprache
      * @return array Return overlayed/translated record
      */
-    protected function getTranslation(
-        array $record,
-        $translationField = 'i18n',
-        $languageField = 'sprache'
-    ): array
+    protected function getTranslation(array $record, $languageField = 'sprache'): array
     {
         $additionalTranslationFields = [];
         $translatedRecord = $record;
-        unset($translatedRecord['i18n']);
-        if (
-            array_key_exists($translationField, $record)
-        ) {
+        unset($translatedRecord[$this->translationField]);
+        if (array_key_exists($this->translationField, $record)) {
             // get and prepare additional translation fields
             $additionalTranslationFields = [];
-            foreach ($record[$translationField] as $fields) {
+            foreach ($record[$this->translationField] as $fields) {
                 $additionalTranslationFields = $fields;
                 if ($fields[$languageField] === $this->language) {
                     break;
@@ -148,9 +157,11 @@ class TranslationService implements SingletonInterface
      * @param array $record
      * @return bool
      */
-    protected function hasTranslations(array $record)
+    protected function hasTranslations(array $record): bool
     {
-        return isset($record['i18n']) && is_array($record['i18n']) && !empty($record['i18n']);
+        return isset($record[$this->translationField])
+            && is_array($record[$this->translationField])
+            && !empty($record[$this->translationField]);
     }
 
     /**

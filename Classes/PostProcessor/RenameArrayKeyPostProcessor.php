@@ -14,6 +14,8 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 * The TYPO3 project - inspiring people to share!
 */
 
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 /**
  * Class RenameArrayKeyPostProcessor
  *
@@ -31,16 +33,54 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
      */
     public function process($response): array
     {
+        $response = $this->sanitizeRecords($response);
         $itemsById = [];
         $noId = 0;
         foreach ($response as $item) {
-            if (array_key_exists('id', $item)) {
-                $itemsById[$item['id']] = $item;
-            } else {
-                $itemsById['unknown_id_' . $noId] = $item;
-                $noId++;
+            if (!empty($item)) {
+                if (array_key_exists('id', $item)) {
+                    $itemsById[$item['id']] = $item;
+                } else {
+                    $itemsById['unknown_id_' . $noId] = $item;
+                    $noId++;
+                }
             }
         }
         return $itemsById;
+    }
+
+    /**
+     * Sanitize records
+     *
+     * @param array $records
+     *
+     * @return array
+     *
+     * @see: allValuesAreArrays
+     */
+    protected function sanitizeRecords(array $records): array
+    {
+        return $this->allValuesAreArrays($records) ? $records: [$records];
+    }
+
+    /**
+     * $this->translate can only work with following arrays
+     * 0 => [id => 1]
+     * 1 => [id => 3]
+     * 2 => [id => 5]
+     *
+     * if we get something like:
+     * id => 123
+     * title => Hello
+     * name => Stefan
+     * this method will return false
+     *
+     * @param array $records
+     *
+     * @return bool
+     */
+    protected function allValuesAreArrays(array $records): bool
+    {
+        return MathUtility::canBeInterpretedAsInteger(key($records));
     }
 }

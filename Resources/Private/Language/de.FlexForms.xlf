@@ -8,17 +8,9 @@
 				<source>General</source>
 				<target>Allgemein</target>
 			</trans-unit>
-			<trans-unit id="chooseAction" xml:space="preserve">
-				<source>Choose action</source>
+			<trans-unit id="displayMode" xml:space="preserve">
+				<source>Display mode</source>
 				<target>Ansicht wählen</target>
-			</trans-unit>
-			<trans-unit id="list" xml:space="preserve">
-				<source>List view</source>
-				<target>Listenansicht</target>
-			</trans-unit>
-			<trans-unit id="show" xml:space="preserve">
-				<source>Detail view</source>
-				<target>Detailansicht</target>
 			</trans-unit>
 			<trans-unit id="pidOfDetailPage">
 				<source>PID of detail page</source>
