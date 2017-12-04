@@ -15,7 +15,10 @@ namespace JWeiland\ServiceBw2\Controller;
 */
 
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class OrganizationalUnitController
@@ -47,8 +50,14 @@ class OrganisationsEinheitController extends ActionController
      */
     public function listAction()
     {
-        //todo: add user choice (to get children from) e.g. select field using getAll() to display items
-        $this->view->assign('organisationsEinheiten', $this->organisationsEinheitRepository->getAll());
+        $listItems = json_decode('[' . $this->settings['organisationsEinheit']['listItems'] . ']', true);
+        try {
+            $records = $this->organisationsEinheitRepository->getRecordsWithChildren($listItems);
+        } catch (\Exception $exception) {
+            $this->addErrorWhileFetchingRecordsMessage($exception);
+            return;
+        }
+        $this->view->assign('organisationsEinheiten', $records);
     }
 
     /**
@@ -59,6 +68,34 @@ class OrganisationsEinheitController extends ActionController
      */
     public function showAction(int $id)
     {
-        $this->view->assign('organisationsEinheit', $this->organisationsEinheitRepository->getById($id));
+        try {
+            $liveOrganisationsEinheit = $this->organisationsEinheitRepository->getLiveOrganisationsEinheitById($id);
+            $oranigsationsEinheit = $this->organisationsEinheitRepository->getById($id);
+        } catch (\Exception $exception) {
+            $this->addErrorWhileFetchingRecordsMessage($exception);
+            return;
+        }
+        $this->view->assign('beschreibungstext', $liveOrganisationsEinheit);
+        $this->view->assign('organisationsEinheit', $oranigsationsEinheit);
+    }
+
+    /**
+     * Add "error while fetching records" error message
+     *
+     * @param \Exception $exception
+     * @return void
+     */
+    protected function addErrorWhileFetchingRecordsMessage(\Exception $exception)
+    {
+        $this->addFlashMessage(
+            LocalizationUtility::translate('error_message.error_while_fetching_records'),
+            '',
+            AbstractMessage::ERROR
+        );
+        GeneralUtility::sysLog(
+            'Got the following exception while fetching records: ' . $exception->getMessage(),
+            'service_bw2',
+            GeneralUtility::SYSLOG_SEVERITY_ERROR
+        );
     }
 }

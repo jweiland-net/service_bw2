@@ -1,9 +1,14 @@
 <f:debug>{_all}</f:debug>
 <div class="grid_12 marginbottom">
-  <h1>{organisationsEinheit.title}</h1>
+  <h1>{organisationsEinheit.name}</h1>
 </div>
 <div class="grid_6 floatleft">
   <div class="gridright">
-    <f:render partial="Sections" arguments="{sections: organisationsEinheit.sections}" />
+    <f:render partial="OrganisationsEinheit/Sections" arguments="{sections: beschreibungstext.sections}" />
+  </div>
+</div>
+<div class="grid_6 floatleft">
+  <div class="gridleft rulerbefore4">
+    <f:render partial="OrganisationsEinheit/AnschriftUndKommunikation" arguments="{organisationsEinheit: organisationsEinheit}" />
   </div>
 </div>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z" product-name="service_bw2">
-		<header/>
-		<body>
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z"
+        product-name="service_bw2">
+    <header/>
+    <body>
 
-			<trans-unit id="sheetGeneral" xml:space="preserve">
-				<source>General</source>
-			</trans-unit>
-			<trans-unit id="displayMode" xml:space="preserve">
-				<source>Display mode</source>
-			</trans-unit>
+      <trans-unit id="sheetGeneral">
+        <source>General</source>
+      </trans-unit>
+      <trans-unit id="displayMode">
+        <source>Display mode</source>
+      </trans-unit>
       <trans-unit id="organisationsEinheit.list">
         <source>OrganisationsEinheit list</source>
       </trans-unit>
@@ -17,15 +18,18 @@
         <source>OrganisationsEinheit show</source>
       </trans-unit>
       <trans-unit id="settings.organisationsEinheit.listItems">
-        <source>Choose items to display</source>
+        <source>Choose items to display (recursive)</source>
       </trans-unit>
-			<trans-unit id="pidOfDetailPage">
-				<source>PID of detail page</source>
-			</trans-unit>
-			<trans-unit id="pidOfListPage">
-				<source>PID of list page</source>
-			</trans-unit>
+      <trans-unit id="sheetListPages">
+        <source>Pages (list view)</source>
+      </trans-unit>
+      <trans-unit id="sheetDetailPages">
+        <source>Pages (detail view)</source>
+      </trans-unit>
+      <trans-unit id="organisationsEinheit">
+        <source>Organisationseinheit</source>
+      </trans-unit>
 
-		</body>
-	</file>
+    </body>
+  </file>
 </xliff>

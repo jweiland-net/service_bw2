@@ -56,7 +56,12 @@ class OrganisationsEinheitItems
      */
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider)
     {
-        $records = $this->organisationsEinheitRepository->getAll();
+        try {
+            $records = $this->organisationsEinheitRepository->getAll();
+        } catch (\Exception $e) {
+            $processorParameters['items'] = ['Exception: ' . $e->getMessage(), 'exception'];
+            return;
+        }
         $this->translationService->translateRecords($records, true);
         $this->createList($processorParameters['items'], $records);
     }
@@ -66,16 +71,14 @@ class OrganisationsEinheitItems
      *
      * @param array $items
      * @param array $records
-     * @param string $space
      * @return void
      */
-    protected function createList(array &$items, array $records, string $space = '')
+    protected function createList(array &$items, array $records)
     {
         foreach ($records as $record) {
-            $items[] = [$space . $record['name'], ' ' . $record['id']];
+            $items[] = [$record['name'], $record['id']];
             if (array_key_exists('_children', $record)) {
-                $space = $space . '-';
-                $this->createList($items, $record['_children'], $space);
+                $this->createList($items, $record['_children']);
             }
         }
     }

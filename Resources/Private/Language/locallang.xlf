@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="yellowpages2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2">
     <header/>
     <body>
       <trans-unit id="scheduler.pid" xml:space="preserve">
         <source>Storage PID</source>
+      </trans-unit>
+      <trans-unit id="error_message.error_while_fetching_records">
+        <source>There was an error while fetching records. Please try again or contact an admin if the error message
+          appears again!
+        </source>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.home_address">
+        <source>Home address</source>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.mailing_address">
+        <source>Mailing address</source>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.mail">
+        <source>e-mail</source>
       </trans-unit>
     </body>
   </file>

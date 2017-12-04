@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
 /*
@@ -15,8 +15,10 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  */
 
 use JWeiland\ServiceBw2\Request;
+use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Children;
+use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Live;
+use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Roots;
 use JWeiland\ServiceBw2\Service\TranslationService;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -41,21 +43,49 @@ class OrganisationsEinheitRepository extends AbstractRepository
 
     /**
      * Get all organizational units from Service BW
+     *
      * Will return an associative array including OrganisationsEinheit instances
      * Children of OrganisationsEinheit instances are located inside _children of current instance
      * e.g. $records[12345]['_children'] = [...]
+     *
      * Those OrganisationsEinheit instances doesn´t contain all fields! Take a look at the service_bw
      * API documentation
      *
      * @return array
+     * @throws \Exception if request if not valid!
      */
-    public function getAll()
+    public function getAll(): array
     {
-        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Roots::class);
+        $request = $this->objectManager->get(Roots::class);
         $records = $this->serviceBwClient->processRequest($request);
         $this->addChildrenToRecords($records);
         $this->translationService->translateRecords($records, true);
 
+        return $records;
+    }
+
+    /**
+     * Get records and children of that records by passing one or multiple $ids
+     *
+     * Will return an associative array including OrganisationsEinheit instances
+     * Children of OrganisationsEinheit instances are located inside _children of current instance
+     * e.g. $records[12345]['_children'] = [...]
+     *
+     * Those OrganisationsEinheit instances doesn´t contain all fields! Take a look at the service_bw
+     * API documentation
+     *
+     * @param array $ids e.g. [42, 56] or [32]
+     * @return array records with children
+     * @throws \Exception if request is not valid!
+     */
+    public function getRecordsWithChildren(array $ids): array
+    {
+        $records = [];
+        foreach ($ids as $id) {
+            $records[] = $this->getById($id);
+        }
+        $this->addChildrenToRecords($records);
+        $this->translationService->translateRecords($records, true);
         return $records;
     }
 
@@ -69,6 +99,7 @@ class OrganisationsEinheitRepository extends AbstractRepository
      *
      * @param array $records
      * @return void
+     * @throws \Exception if request is not valid!
      */
     protected function addChildrenToRecords(array &$records)
     {
@@ -87,25 +118,50 @@ class OrganisationsEinheitRepository extends AbstractRepository
      * Get children records of ID
      *
      * @param int $id
-     *
      * @return array
+     * @throws \Exception if request is not valid!
      */
     public function getChildren(int $id): array
     {
-        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Children::class);
+        $request = $this->objectManager->get(Children::class);
         $request->addParameter('id', $id);
         return $this->serviceBwClient->processRequest($request);
     }
 
     /**
-     * Get a OrganisationsEinheit by id
+     * Get a OrganisationsEinheit object by id
+     * This is the object without Beschreibungstext if you want the object for
+     * detail view, use getLiveOrganisationsEinheitById()
+     *
+     * @param int $id
+     * @param bool $removeParents set false if you want to get parent objects that
+     *                            are provided by api (longer loading time)
+     * @return array
+     * @throws \Exception if request is not valid!
+     */
+    public function getById(int $id, bool $removeParents = true): array
+    {
+        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Id::class);
+        $request->addParameter('id', $id);
+        $record = $this->serviceBwClient->processRequest($request);
+        if ($removeParents) {
+            unset($record[$id]['uebergeordnet']);
+        }
+        $this->translationService->translateRecords($record, false, true);
+        $record = $record[$id];
+        return $record;
+    }
+
+    /**
+     * Get a live OrganisationsEinheit object by id
      *
      * @param int $id
      * @return array
+     * @throws \Exception if request is not valid!
      */
-    public function getById(int $id): array
+    public function getLiveOrganisationsEinheitById(int $id): array
     {
-        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Live::class);
+        $request = $this->objectManager->get(Live::class);
         $request->addParameter('id', $id);
         $request->addParameter('lang', $this->translationService->getLanguage());
         $record = $this->serviceBwClient->processRequest($request);

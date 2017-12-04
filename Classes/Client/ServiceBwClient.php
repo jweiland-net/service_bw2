@@ -97,11 +97,11 @@ class ServiceBwClient
     }
 
     /**
+     * Process request
+     *
      * @param RequestInterface $request
-     *
      * @return mixed
-     *
-     * @throws \Exception
+     * @throws \Exception if request if not valid!
      */
     public function processRequest(RequestInterface $request)
     {
@@ -125,7 +125,6 @@ class ServiceBwClient
                     'headers' => $this->getHeaders($request)
                 ]
             );
-            // todo: remove TranslatePostProcessor, translate at the end of all!
             if ($response->getStatusCode() === 200) {
                 $body = (string)$response->getBody();
                 foreach ($request->getPostProcessors() as $postProcessor) {

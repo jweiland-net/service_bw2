@@ -13,6 +13,7 @@
           <switchableControllerActions>
             <TCEforms>
               <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:displayMode</label>
+              <onChange>reload</onChange>
               <config>
                 <type>select</type>
                 <items>
@@ -38,33 +39,56 @@
               <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->list</displayCond>
               <config>
                 <type>select</type>
+                <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
                 <renderType>selectMultipleSideBySide</renderType>
                 <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationsEinheitItems->getItems</itemsProcFunc>
               </config>
             </TCEforms>
           </settings.organisationsEinheit.listItems>
-          <settings.pidOfDetailPage>
-            <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:pidOfDetailPage</label>
-              <config>
-                <type>input</type>
-                <eval>int</eval>
-                <default>0</default>
-              </config>
-            </TCEforms>
-          </settings.pidOfDetailPage>
-          <settings.pidOfListPage>
-            <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:pidOfListPage</label>
-              <config>
-                <type>input</type>
-                <eval>int</eval>
-                <default>0</default>
-              </config>
-            </TCEforms>
-          </settings.pidOfListPage>
         </el>
       </ROOT>
     </sDEFAULT>
+    <sPagesList>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheetListPages</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.organisationsEinheit.pidOfListPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.organisationsEinheit.pidOfListPage>
+        </el>
+      </ROOT>
+    </sPagesList>
+    <sPagesDetail>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheetDetailPages</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.organisationsEinheit.pidOfDetailPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.organisationsEinheit.pidOfDetailPage>
+        </el>
+      </ROOT>
+    </sPagesDetail>
   </sheets>
 </T3DataStructure>

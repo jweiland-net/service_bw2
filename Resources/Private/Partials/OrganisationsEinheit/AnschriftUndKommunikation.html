@@ -1,0 +1,23 @@
+<dl class="extdl clearfix ruleafter">
+  <f:if condition="{organisationsEinheit.anschrift.0}">
+    <dt>
+      <f:translate key="organisations_einheit.home_address"/>
+    </dt>
+    <dd class="noborder grid_8 floatleft">
+      <f:render partial="OrganisationsEinheit/Anschrift" arguments="{anschrift: organisationsEinheit.anschrift.0}"/>
+      <f:render partial="OrganisationsEinheit/Kommunikation" arguments="{kommunikation: organisationsEinheit.kommunikation}" />
+    </dd>
+    <f:if condition="{organisationsEinheit.anschrift.2}">
+      <dd class="extdl clearfix">
+      <dt>
+        <f:translate key="organisations_einheit.mailing_address"/>
+      </dt>
+      <dd>
+        <f:render partial="OrganisationsEinheit/Anschrift" arguments="{anschrift: organisationsEinheit.anschrift.2}" />
+      </dd>
+    </f:if>
+    <f:if condition="{organisationsEinheit.infoOeffnungszeitenStrukturiert}">
+      <f:render partial="OrganisationsEinheit/OeffnungszeitenStrukturiert" arguments="{oeffnungszeitenStrukturiert: organisationsEinheit.infoOeffnungszeitenStrukturiert}" />
+    </f:if>
+  </f:if>
+</dl>

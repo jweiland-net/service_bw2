@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -95,12 +96,13 @@ class TranslationService implements SingletonInterface
      *
      * @param array $records
      * @param bool $translateChildren translates entries inside _children by default, set true to enable
+     * @param bool $translateRecursive
      * @return void
      */
-    public function translateRecords(array &$records, bool $translateChildren = false)
+    public function translateRecords(array &$records, bool $translateChildren = false, bool $translateRecursive = false)
     {
         foreach ($records as &$record) {
-            $record = $this->translate($record);
+            $record = $this->translate($record, $translateRecursive);
             if ($translateChildren && array_key_exists('_children', $record)) {
                 $this->translateRecords($record['_children'], true);
             }
@@ -111,12 +113,20 @@ class TranslationService implements SingletonInterface
      * Translate the array $fields
      *
      * @param array $fields e.g. ['id' => 123, 'mandant' => 42, $this->translationField => [...]]
+     * @param bool $translateRecursive set true to translate all arrays inside array $fields
      * @return array
      */
-    public function translate(array $fields): array
+    public function translate(array $fields, bool $translateRecursive = false): array
     {
         if ($this->hasTranslations($fields)) {
             $fields = $this->getTranslation($fields);
+        }
+        if ($translateRecursive) {
+            foreach ($fields as $key => &$field) {
+                if (is_array($field) && $key !== '_children') {
+                    $field = $this->translate($field, true);
+                }
+            }
         }
         return $fields;
     }
