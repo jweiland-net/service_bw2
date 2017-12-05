@@ -88,7 +88,7 @@ class OrganisationsEinheitController extends ActionController
     protected function addErrorWhileFetchingRecordsMessage(\Exception $exception)
     {
         $this->addFlashMessage(
-            LocalizationUtility::translate('error_message.error_while_fetching_records'),
+            LocalizationUtility::translate('error_message.error_while_fetching_records', 'service_bw2'),
             '',
             AbstractMessage::ERROR
         );

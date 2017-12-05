@@ -11,14 +11,17 @@
           appears again!
         </source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.home_address">
+      <trans-unit id="organisations_einheit.anschrift.HAUSANSCHRIFT">
         <source>Home address</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.mailing_address">
+      <trans-unit id="organisations_einheit.anschrift.GROSSEMPFAENGERPOSTFACH">
         <source>Mailing address</source>
       </trans-unit>
       <trans-unit id="organisations_einheit.mail">
         <source>e-mail</source>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.opening_hours">
+        <source>Opening hours</source>
       </trans-unit>
     </body>
   </file>

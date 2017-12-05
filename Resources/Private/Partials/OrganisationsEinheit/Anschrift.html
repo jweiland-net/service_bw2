@@ -1,7 +1,20 @@
-<f:if condition="{anschrift.strasse} && {anschrift.hausnummer}">
-  {anschrift.strasse} {anschrift.hausnummer}
-  <br />
-</f:if>
-<f:if condition="{anschrift.postleitzahl} && {anschrift.ort}">
-  {anschrift.postleitzahl} {anschrift.ort}
-</f:if>
+<f:for each="{anschrift}" as="anschriftItem">
+  <f:if condition="{anschriftItem.type} == {type}">
+    <dt>
+      <f:translate key="organisations_einheit.anschrift.{type}"/>
+    </dt>
+    <dd class="{ddClass}">
+      <f:if condition="{anschriftItem.strasse} && {anschriftItem.hausnummer}">
+        {anschriftItem.strasse} {anschriftItem.hausnummer}
+        <br/>
+      </f:if>
+      <f:if condition="{anschriftItem.postleitzahl} && {anschriftItem.ort}">
+        {anschriftItem.postleitzahl} {anschriftItem.ort}
+      </f:if>
+      <f:if condition="{kommunikation}">
+        <f:render partial="OrganisationsEinheit/Kommunikation"
+                  arguments="{kommunikation: kommunikation}"/>
+      </f:if>
+    </dd>
+  </f:if>
+</f:for>
