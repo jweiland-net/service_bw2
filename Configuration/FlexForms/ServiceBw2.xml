@@ -66,6 +66,17 @@
               </config>
             </TCEforms>
           </settings.organisationsEinheit.pidOfListPage>
+          <settings.leistungen.pidOfListPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.leistungen.pidOfListPage>
         </el>
       </ROOT>
     </sPagesList>
@@ -87,6 +98,17 @@
               </config>
             </TCEforms>
           </settings.organisationsEinheit.pidOfDetailPage>
+          <settings.leistungen.pidOfDetailPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.leistungen.pidOfDetailPage>
         </el>
       </ROOT>
     </sPagesDetail>

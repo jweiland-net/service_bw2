@@ -29,6 +29,9 @@
       <trans-unit id="organisationsEinheit">
         <source>Organisationseinheit</source>
       </trans-unit>
+      <trans-unit id="leistungen">
+        <source>Leistungen</source>
+      </trans-unit>
 
     </body>
   </file>

@@ -2,7 +2,7 @@
   "name": "jweiland/service_bw2",
   "type": "typo3-cms-extension",
   "description": "With this extension you can access service BW interface",
-  "version": "0.00.1",
+  "version": "0.0.1",
   "license": "GPL-2.0+",
   "keywords": ["typo3", "TYPO3 CMS", "service", "bw"],
   "homepage": "http://www.jweiland.net",
@@ -19,8 +19,8 @@
     "source": "https://github.com/jweiland-net/service_bw2"
   },
   "require": {
-    "php": ">=5.3.7 <8.0",
     "typo3/cms-core": ">=6.2.14,<9.0",
+    "jweiland/maps2": "^3",
     "guzzlehttp/guzzle": "6.2.*"
   },
   "require-dev": {

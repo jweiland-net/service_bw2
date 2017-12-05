@@ -39,13 +39,4 @@ class Children extends AbstractRequest
             'required' => true
         ]
     ];
-
-    /**
-     * Add request related PostProcessors
-     *
-     * @var array
-     */
-    protected $additionalPostProcessorClassNames = [
-        0 => ZugehoerigeBehoerdePostProcessor::class
-    ];
 }

@@ -1,9 +1,5 @@
-<dl class="extdl clearfix ruleafter">
-  <f:render partial="OrganisationsEinheit/Anschrift" arguments="{anschrift: organisationsEinheit.anschrift, kommunikation: organisationsEinheit.kommunikation, type: 'HAUSANSCHRIFT'}" />
-</dl>
-<dl class="extdl clearfix">
-  <f:render partial="OrganisationsEinheit/Anschrift" arguments="{anschrift: organisationsEinheit.anschrift, type: 'GROSSEMPFAENGERPOSTFACH'}" />
-</dl>
+<f:render partial="OrganisationsEinheit/Anschrift" arguments="{anschrift: organisationsEinheit.anschrift, kommunikation: organisationsEinheit.kommunikation, type: 'HAUSANSCHRIFT', dlClass: 'extdl clearfix ruleafter'}" />
+<f:render partial="OrganisationsEinheit/Anschrift" arguments="{anschrift: organisationsEinheit.anschrift, type: 'GROSSEMPFAENGERPOSTFACH', dlClass: 'extdl clearfix'}" />
 <f:if condition="{organisationsEinheit.infoOeffnungszeitenText}">
   <dl class="extdl clearfix">
     <dt><f:translate key="organisations_einheit.opening_hours" /></dt>

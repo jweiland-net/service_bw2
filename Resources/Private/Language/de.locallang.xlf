@@ -5,7 +5,35 @@
     <body>
       <trans-unit id="scheduler.pid" xml:space="preserve">
         <source>Storage PID</source>
-        <target>PID</target>
+        <target>Speicherordner</target>
+      </trans-unit>
+      <trans-unit id="error_message.error_while_fetching_records">
+        <source>There was an error while fetching records. Please try again or contact an admin if the error message
+          appears again!
+        </source>
+        <target>Bei der Verbindung mit Service BW ist ein Fehler aufgetreten. Bitte erneut versuchen oder
+        einen Administrator kontaktieren, falls die Fehlermeldung erneut erscheint.
+        </target>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.anschrift.HAUSANSCHRIFT">
+        <source>Home address</source>
+        <target>Hausanschrift</target>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+        <source>Mailing address</source>
+        <target>Postanschrift</target>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.mail">
+        <source>e-mail</source>
+        <target>E-Mail</target>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.opening_hours">
+        <source>Opening hours</source>
+        <target>Öffnungszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.leistungen">
+        <source>Services</source>
+        <target>Betreute Verfahren</target>
       </trans-unit>
     </body>
   </file>

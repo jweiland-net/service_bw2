@@ -14,11 +14,14 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\Maps2\Utility\GeocodeUtility;
 use JWeiland\ServiceBw2\Request;
 use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Children;
+use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Id;
 use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Live;
 use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Roots;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -141,13 +144,15 @@ class OrganisationsEinheitRepository extends AbstractRepository
      */
     public function getById(int $id, bool $removeParents = true): array
     {
-        $request = $this->objectManager->get(Request\OrganisationsEinheiten\Id::class);
+        $request = $this->objectManager->get(Id::class);
         $request->addParameter('id', $id);
         $record = $this->serviceBwClient->processRequest($request);
         if ($removeParents) {
             unset($record[$id]['uebergeordnet']);
         }
         $this->translationService->translateRecords($record, false, true);
+        $leistungenRepository = $this->objectManager->get(LeistungenRepository::class);
+        $info = $leistungenRepository->getByOrganisationsEinheit($id);
         $record = $record[$id];
         return $record;
     }
@@ -167,5 +172,44 @@ class OrganisationsEinheitRepository extends AbstractRepository
         $record = $this->serviceBwClient->processRequest($request);
         $record = $record[$id];
         return $record;
+    }
+
+    /**
+     * todo: add maps2
+     *
+     * @param int $id
+     * @return void
+     * @throws \Exception
+     */
+    public function getMaps2PoiCollection(int $id)
+    {
+        $organisationsEinheit = $this->getById($id);
+        if ($organisationsEinheit && $organisationsEinheit['kommunikation']) {
+            $position = null;
+            foreach ($organisationsEinheit['anschrift'] as $anschrift) {
+                if ($anschrift['type'] === 'HAUSANSCHRIFT') {
+                    if (
+                        $anschrift['strasse'] &&
+                        $anschrift['hausnummer'] &&
+                        $anschrift['postleitzahl'] &&
+                        $anschrift['ort']
+                    ) {
+                        $address = sprintf(
+                            '%s %s %s %s',
+                            $anschrift['strasse'],
+                            $anschrift['hausnummer'],
+                            $anschrift['postleitzahl'],
+                            $anschrift['ort']
+                        );
+                        $geocodeUtility = $this->objectManager->get(GeocodeUtility::class);
+                        $position = $geocodeUtility->findPositionByAddress($address);
+                    }
+                    break;
+                }
+            }
+            if ($position instanceof ObjectStorage) {
+                //DebuggerUtility::var_dump($position);
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Controller;
 * The TYPO3 project - inspiring people to share!
 */
 
+use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -33,6 +34,11 @@ class OrganisationsEinheitController extends ActionController
     protected $organisationsEinheitRepository;
 
     /**
+     * @var LeistungenRepository
+     */
+    protected $leistungenRepository;
+
+    /**
      * inject organisationsEinheitRepository
      *
      * @param OrganisationsEinheitRepository $organisationsEinheitRepository
@@ -41,6 +47,17 @@ class OrganisationsEinheitController extends ActionController
     public function injectOrganisationsEinheitRepository(OrganisationsEinheitRepository $organisationsEinheitRepository)
     {
         $this->organisationsEinheitRepository = $organisationsEinheitRepository;
+    }
+
+    /**
+     * inject leistungenRepository
+     *
+     * @param LeistungenRepository $leistungenRepository
+     * @return void
+     */
+    public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
+    {
+        $this->leistungenRepository = $leistungenRepository;
     }
 
     /**
@@ -71,10 +88,14 @@ class OrganisationsEinheitController extends ActionController
         try {
             $liveOrganisationsEinheit = $this->organisationsEinheitRepository->getLiveOrganisationsEinheitById($id);
             $oranigsationsEinheit = $this->organisationsEinheitRepository->getById($id);
+            $leistungen = $this->leistungenRepository->getByOrganisationsEinheit($id);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
+        // todo: add maps2
+        //$this->organisationsEinheitRepository->getMaps2PoiCollection($id);
+        $this->view->assign('leistungen', $leistungen);
         $this->view->assign('beschreibungstext', $liveOrganisationsEinheit);
         $this->view->assign('organisationsEinheit', $oranigsationsEinheit);
     }

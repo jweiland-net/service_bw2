@@ -31,6 +31,7 @@ $EM_CONF[$_EXTKEY] = array(
     'constraints' => array(
         'depends' => array(
             'typo3' => '6.2.14-8.99.99',
+            'maps2' => '3.0.0-3.99.99'
         ),
         'conflicts' => array(
             'fal_dropbox' => ''

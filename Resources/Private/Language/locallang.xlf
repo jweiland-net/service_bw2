@@ -3,7 +3,7 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2">
     <header/>
     <body>
-      <trans-unit id="scheduler.pid" xml:space="preserve">
+      <trans-unit id="scheduler.pid">
         <source>Storage PID</source>
       </trans-unit>
       <trans-unit id="error_message.error_while_fetching_records">
@@ -22,6 +22,9 @@
       </trans-unit>
       <trans-unit id="organisations_einheit.opening_hours">
         <source>Opening hours</source>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.leistungen">
+        <source>Services</source>
       </trans-unit>
     </body>
   </file>

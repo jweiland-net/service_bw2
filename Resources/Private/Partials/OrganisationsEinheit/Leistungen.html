@@ -1,0 +1,14 @@
+<f:if condition="{leistungen}">
+  <div class="relations">
+    <h3><f:translate key="organisations_einheit.leistungen" /></h3>
+    <ul class="items extul">
+      <f:for each="{leistungen}" as="leistung">
+        <li class="item extli">
+          <f:link.action pageUid="{leistungenDetailPid}" controller="Leistungen" action="show" arguments="{leistung: leistung.leistung.id}">
+            {leistung.leistung.displayName}
+          </f:link.action>
+        </li>
+      </f:for>
+    </ul>
+  </div>
+</f:if>

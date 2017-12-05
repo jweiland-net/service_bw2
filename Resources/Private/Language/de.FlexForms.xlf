@@ -37,6 +37,10 @@
         <source>Organisationseinheit</source>
         <target>Organisationseinheit</target>
       </trans-unit>
+      <trans-unit id="leistungen">
+        <source>Leistungen</source>
+        <target>Leistungen</target>
+      </trans-unit>
 
     </body>
   </file>

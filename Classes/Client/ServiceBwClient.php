@@ -100,10 +100,10 @@ class ServiceBwClient
      * Process request
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return array
      * @throws \Exception if request if not valid!
      */
-    public function processRequest(RequestInterface $request)
+    public function processRequest(RequestInterface $request): array
     {
         $body = null;
         $cacheIdentifier = $this->getCacheIdentifier($request);
