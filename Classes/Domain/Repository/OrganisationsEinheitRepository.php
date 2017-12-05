@@ -29,22 +29,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 class OrganisationsEinheitRepository extends AbstractRepository
 {
     /**
-     * @var TranslationService
-     */
-    protected $translationService;
-
-    /**
-     * inject translationService
-     *
-     * @param TranslationService $translationService
-     * @return void
-     */
-    public function injectTranslationService(TranslationService $translationService)
-    {
-        $this->translationService = $translationService;
-    }
-
-    /**
      * Get all organizational units from Service BW
      *
      * Will return an associative array including OrganisationsEinheit instances
@@ -151,8 +135,6 @@ class OrganisationsEinheitRepository extends AbstractRepository
             unset($record[$id]['uebergeordnet']);
         }
         $this->translationService->translateRecords($record, false, true);
-        $leistungenRepository = $this->objectManager->get(LeistungenRepository::class);
-        $info = $leistungenRepository->getByOrganisationsEinheit($id);
         $record = $record[$id];
         return $record;
     }

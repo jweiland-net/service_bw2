@@ -14,18 +14,47 @@ namespace JWeiland\ServiceBw2\Controller;
 * The TYPO3 project - inspiring people to share!
 */
 
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class LeistungenController
  *
  * @package JWeiland\ServiceBw2\Controller;
  */
-class LeistungenController extends ActionController
+class LeistungenController extends AbstractController
 {
+    /**
+     * @var LeistungenRepository
+     */
+    protected $leistungenRepository;
+
+    /**
+     * inject leistungenRepository
+     *
+     * @param LeistungenRepository $leistungenRepository
+     * @return void
+     */
+    public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
+    {
+        $this->leistungenRepository = $leistungenRepository;
+    }
+
+    /**
+     * Show action
+     *
+     * @param int $id of Leistung
+     * @return void
+     */
     public function showAction(int $id)
     {
-
+        try {
+            $leistung = $this->leistungenRepository->getLiveById($id);
+        } catch (\Exception $exception) {
+            $this->addErrorWhileFetchingRecordsMessage($exception);
+        }
+        $this->view->assign('leistung', $leistung);
+        DebuggerUtility::var_dump($leistung);
     }
 
     public function listAction()

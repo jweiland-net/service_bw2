@@ -15,6 +15,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 */
 
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use JWeiland\ServiceBw2\Service\TranslationService;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -22,7 +23,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  *
  * @package JWeiland\ServiceBw2\Domain\Repository;
  */
-class AbstractRepository
+abstract class AbstractRepository
 {
     /**
      * Object manager
@@ -37,6 +38,11 @@ class AbstractRepository
      * @var ServiceBwClient
      */
     protected $serviceBwClient;
+
+    /**
+     * @var TranslationService
+     */
+    protected $translationService;
 
     /**
      * Allowed languages for service_bw2
@@ -69,5 +75,16 @@ class AbstractRepository
     public function injectServiceBwClient(ServiceBwClient $serviceBwClient)
     {
         $this->serviceBwClient = $serviceBwClient;
+    }
+
+    /**
+     * inject translationService
+     *
+     * @param TranslationService $translationService
+     * @return void
+     */
+    public function injectTranslationService(TranslationService $translationService)
+    {
+        $this->translationService = $translationService;
     }
 }

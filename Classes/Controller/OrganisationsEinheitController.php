@@ -16,17 +16,13 @@ namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class OrganizationalUnitController
  *
  * @package JWeiland\ServiceBw2\Controller;
  */
-class OrganisationsEinheitController extends ActionController
+class OrganisationsEinheitController extends AbstractController
 {
     /**
      * @var OrganisationsEinheitRepository
@@ -98,25 +94,5 @@ class OrganisationsEinheitController extends ActionController
         $this->view->assign('leistungen', $leistungen);
         $this->view->assign('beschreibungstext', $liveOrganisationsEinheit);
         $this->view->assign('organisationsEinheit', $oranigsationsEinheit);
-    }
-
-    /**
-     * Add "error while fetching records" error message
-     *
-     * @param \Exception $exception
-     * @return void
-     */
-    protected function addErrorWhileFetchingRecordsMessage(\Exception $exception)
-    {
-        $this->addFlashMessage(
-            LocalizationUtility::translate('error_message.error_while_fetching_records', 'service_bw2'),
-            '',
-            AbstractMessage::ERROR
-        );
-        GeneralUtility::sysLog(
-            'Got the following exception while fetching records: ' . $exception->getMessage(),
-            'service_bw2',
-            GeneralUtility::SYSLOG_SEVERITY_ERROR
-        );
     }
 }

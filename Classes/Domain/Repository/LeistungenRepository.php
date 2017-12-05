@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 * The TYPO3 project - inspiring people to share!
 */
 
+use JWeiland\ServiceBw2\Request\Leistungen\Live;
 use JWeiland\ServiceBw2\Request\Organisationseinheit;
 
 /**
@@ -35,5 +36,23 @@ class LeistungenRepository extends AbstractRepository
         $request = $this->objectManager->get(Organisationseinheit::class);
         $request->addParameter('organisationseinheitId', $id);
         return $this->serviceBwClient->processRequest($request);
+    }
+
+    /**
+     * Get live Leistung by id
+     * this request contains sections (descriptions)
+     *
+     * @param int $id of Leistung
+     * @return array
+     * @throws \Exception if request is not valid
+     */
+    public function getLiveById(int $id): array
+    {
+        $request = $this->objectManager->get(Live::class);
+        $request->addParameter('id', $id);
+        $request->addParameter('lang', $this->translationService->getLanguage());
+        $record = $this->serviceBwClient->processRequest($request);
+        $record = $record[$id];
+        return $record;
     }
 }
