@@ -42,6 +42,7 @@
                     <numIndex index="1">Leistungen->show</numIndex>
                   </numIndex>
                 </items>
+                <default>OrganisationsEinheit->list</default>
               </config>
             </TCEforms>
           </switchableControllerActions>
