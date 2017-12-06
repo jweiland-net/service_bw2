@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class OrganizationalUnitController
@@ -87,6 +88,7 @@ class OrganisationsEinheitController extends AbstractController
             $leistungen = $this->leistungenRepository->getByOrganisationsEinheit($id);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
+            DebuggerUtility::var_dump($exception);
             return;
         }
         // todo: add maps2
