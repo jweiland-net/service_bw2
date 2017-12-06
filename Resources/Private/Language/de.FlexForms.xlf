@@ -14,11 +14,11 @@
         <target>Ausgabe</target>
       </trans-unit>
       <trans-unit id="organisationsEinheit.list">
-        <source>OrganisationsEinheit list</source>
+        <source>OrganisationsEinheit list view</source>
         <target>Organisationseinheiten Listenansicht</target>
       </trans-unit>
       <trans-unit id="organisationsEinheit.show">
-        <source>OrganisationsEinheit show</source>
+        <source>OrganisationsEinheit show view</source>
         <target>OrganisationsEinheit Detailansicht</target>
       </trans-unit>
       <trans-unit id="settings.organisationsEinheit.listItems">
@@ -40,6 +40,14 @@
       <trans-unit id="leistungen">
         <source>Leistungen</source>
         <target>Leistungen</target>
+      </trans-unit>
+      <trans-unit id="leistungen.list">
+        <source>Leistungen list view</source>
+        <target>Leistungen Listenansicht</target>
+      </trans-unit>
+      <trans-unit id="leistungen.show">
+        <source>Leistungen detail view</source>
+        <target>Leistungen Detailansicht</target>
       </trans-unit>
 
     </body>

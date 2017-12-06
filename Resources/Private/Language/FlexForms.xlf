@@ -12,10 +12,10 @@
         <source>Display mode</source>
       </trans-unit>
       <trans-unit id="organisationsEinheit.list">
-        <source>OrganisationsEinheit list</source>
+        <source>OrganisationsEinheit list view</source>
       </trans-unit>
       <trans-unit id="organisationsEinheit.show">
-        <source>OrganisationsEinheit show</source>
+        <source>OrganisationsEinheit detail view</source>
       </trans-unit>
       <trans-unit id="settings.organisationsEinheit.listItems">
         <source>Choose items to display (recursive)</source>
@@ -31,6 +31,12 @@
       </trans-unit>
       <trans-unit id="leistungen">
         <source>Leistungen</source>
+      </trans-unit>
+      <trans-unit id="leistungen.list">
+        <source>Leistungen list view</source>
+      </trans-unit>
+      <trans-unit id="leistungen.show">
+        <source>Leistungen detail view</source>
       </trans-unit>
 
     </body>

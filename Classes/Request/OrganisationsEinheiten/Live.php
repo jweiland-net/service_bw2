@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Request\OrganisationsEinheiten;
 
 /*

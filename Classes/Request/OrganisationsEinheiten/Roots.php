@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Request\OrganisationsEinheiten;
 
 /*
@@ -27,9 +27,4 @@ class Roots extends AbstractRequest
      * @var string
      */
     protected $path = '/organisationseinheiten/roots';
-
-    /**
-     * @var array
-     */
-    protected $allowedParameters = [];
 }

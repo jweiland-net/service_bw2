@@ -4,7 +4,8 @@
     'ServiceBw',
     [
         'OrganisationsEinheit' => 'list,show',
-        'Lebenslage' => 'list,show'
+        'Lebenslage' => 'list,show',
+        'Leistungen' => 'list,show'
     ],
     // non-cacheable actions
     []

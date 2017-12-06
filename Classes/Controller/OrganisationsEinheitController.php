@@ -84,7 +84,7 @@ class OrganisationsEinheitController extends AbstractController
     {
         try {
             $liveOrganisationsEinheit = $this->organisationsEinheitRepository->getLiveOrganisationsEinheitById($id);
-            $oranigsationsEinheit = $this->organisationsEinheitRepository->getById($id);
+            $organisationsEinheit = $this->organisationsEinheitRepository->getById($id);
             $leistungen = $this->leistungenRepository->getByOrganisationsEinheit($id);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
@@ -95,6 +95,6 @@ class OrganisationsEinheitController extends AbstractController
         //$this->organisationsEinheitRepository->getMaps2PoiCollection($id);
         $this->view->assign('leistungen', $leistungen);
         $this->view->assign('beschreibungstext', $liveOrganisationsEinheit);
-        $this->view->assign('organisationsEinheit', $oranigsationsEinheit);
+        $this->view->assign('organisationsEinheit', $organisationsEinheit);
     }
 }
