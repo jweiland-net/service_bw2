@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2" target-language="de">
 		<header/>
 		<body>
 
 			<trans-unit id="plugin.title">
-				<source>Service BW Interface</source>
-				<target>Service BW Interface</target>
+				<source>Service BW</source>
+				<target>Service BW</target>
 			</trans-unit>
 
 		</body>

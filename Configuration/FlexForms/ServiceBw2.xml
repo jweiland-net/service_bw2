@@ -29,6 +29,18 @@
                     </numIndex>
                     <numIndex index="1">OrganisationsEinheit->show</numIndex>
                   </numIndex>
+                  <numIndex index="2">
+                    <numIndex index="0">
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen.list
+                    </numIndex>
+                    <numIndex index="1">Leistungen->list</numIndex>
+                  </numIndex>
+                  <numIndex index="3">
+                    <numIndex index="0">
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen.show
+                    </numIndex>
+                    <numIndex index="1">Leistungen->show</numIndex>
+                  </numIndex>
                 </items>
               </config>
             </TCEforms>

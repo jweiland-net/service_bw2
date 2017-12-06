@@ -5,7 +5,7 @@
 		<body>
 
 			<trans-unit id="plugin.title">
-				<source>Service BW Interface</source>
+				<source>Service BW</source>
 			</trans-unit>
 
 		</body>

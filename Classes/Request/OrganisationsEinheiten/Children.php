@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Request\OrganisationsEinheiten;
 
 /*
@@ -14,7 +14,6 @@ namespace JWeiland\ServiceBw2\Request\OrganisationsEinheiten;
  * The TYPO3 project - inspiring people to share!
  */
 
-use JWeiland\ServiceBw2\PostProcessor\ZugehoerigeBehoerdePostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
