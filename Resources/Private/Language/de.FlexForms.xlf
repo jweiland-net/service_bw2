@@ -49,6 +49,10 @@
         <source>Leistungen detail view</source>
         <target>Leistungen Detailansicht</target>
       </trans-unit>
+      <trans-unit id="settings.general.region_ids">
+        <source>Region IDs (comma separated list)</source>
+        <target>Region IDs (Kommaseparierte Liste)</target>
+      </trans-unit>
 
     </body>
   </file>

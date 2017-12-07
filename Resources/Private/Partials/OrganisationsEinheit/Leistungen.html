@@ -4,7 +4,7 @@
     <ul class="items extul">
       <f:for each="{leistungen}" as="leistung">
         <li class="item extli">
-          <f:link.action pageUid="{leistungenDetailPid}" controller="Leistungen" action="show" arguments="{leistung: leistung.leistung.id}">
+          <f:link.action pageUid="{leistungenDetailPid}" controller="Leistungen" action="show" arguments="{id: leistung.leistung.id}">
             {leistung.leistung.displayName}
           </f:link.action>
         </li>

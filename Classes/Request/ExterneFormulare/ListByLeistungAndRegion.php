@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace JWeiland\ServiceBw2\Request\Leistungen;
+namespace JWeiland\ServiceBw2\Request\ExterneFormulare;
 
 /*
 * This file is part of the TYPO3 CMS project.
@@ -17,26 +17,26 @@ namespace JWeiland\ServiceBw2\Request\Leistungen;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
- * Class Live
+ * Class ListByLeistungAndRegion
  *
- * @package JWeiland\ServiceBw2\Request\Leistungen;
+ * @package JWeiland\ServiceBw2\Request\ExterneFormulare;
  */
-class Live extends AbstractRequest
+class ListByLeistungAndRegion extends AbstractRequest
 {
     /**
      * @var string
      */
-    protected $path = '/leistungen/{id}/{lang}/live';
+    protected $path = '/externeFormulare/listByLeistungAndRegion?leistungId={leistungId}&regionIds={regionIds}';
 
     /**
      * @var array
      */
     protected $allowedParameters = [
-        'id' => [
+        'leistungId' => [
             'dataType' => 'integer',
             'required' => true
         ],
-        'lang' => [
+        'regionIds' => [
             'dataType' => 'string',
             'required' => true
         ]

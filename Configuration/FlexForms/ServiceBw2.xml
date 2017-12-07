@@ -58,6 +58,17 @@
               </config>
             </TCEforms>
           </settings.organisationsEinheit.listItems>
+          <settings.general.regionIds>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.general.region_ids</label>
+              <displayCond>FIELD:switchableControllerActions:=:Leistungen->show</displayCond>
+              <config>
+                <type>input</type>
+                <placeholder>12345,67890</placeholder>
+                <eval>trim</eval>
+              </config>
+            </TCEforms>
+          </settings.general.regionIds>
         </el>
       </ROOT>
     </sDEFAULT>

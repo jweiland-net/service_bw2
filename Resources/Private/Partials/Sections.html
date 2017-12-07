@@ -1,6 +1,6 @@
 <f:for each="{sections}" as="section">
-  <f:if condition="{section.text} != ''">
-    <h3 class="{section.textblockid}">{section.headline}</h3>
+  <f:if condition="{section.text} != '' && {section.text} != '<p>&nbsp;</p>'">
+    <h2 class="{section.textblockid}">{section.headline}</h2>
     <f:format.html>{section.text}</f:format.html>
   </f:if>
 </f:for>

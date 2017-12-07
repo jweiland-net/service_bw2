@@ -38,6 +38,9 @@
       <trans-unit id="leistungen.show">
         <source>Leistungen detail view</source>
       </trans-unit>
+      <trans-unit id="settings.general.region_ids">
+        <source>Region IDs (comma separated list)</source>
+      </trans-unit>
 
     </body>
   </file>

@@ -35,6 +35,14 @@
         <source>Services</source>
         <target>Betreute Verfahren</target>
       </trans-unit>
+      <trans-unit id="externe_formulare.head">
+        <source>Related forms</source>
+        <target>Formulare dieses Verfahrens</target>
+      </trans-unit>
+      <trans-unit id="organisations_einheit.zugehoerige_behoerde">
+        <source>Related Organisationseinheit</source>
+        <target>Zuständige Verwaltungsstellen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

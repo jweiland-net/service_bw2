@@ -1,0 +1,12 @@
+<f:if condition="{zugehoerigeBehoerde}">
+  <div id="relations">
+    <h3><f:translate key="organisations_einheit.zugehoerige_behoerde" /></h3>
+    <ul class="items extul">
+      <f:for each="{zugehoerigeBehoerde}" as="item">
+        <li class="item extli"><!-- todo: search for references ? -->
+          <f:link.action pageUid="{detailPageUid}" controller="OrganisationsEinheit" action="show" arguments="{id: }" />
+        </li>
+      </f:for>
+    </ul>
+  </div>
+</f:if>

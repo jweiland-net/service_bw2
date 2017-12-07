@@ -15,7 +15,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 */
 
 use JWeiland\ServiceBw2\Request\Leistungen\Live;
-use JWeiland\ServiceBw2\Request\Organisationseinheit;
+use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 
 /**
  * Class LeistungenRepository

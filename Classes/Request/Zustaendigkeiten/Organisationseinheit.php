@@ -1,5 +1,5 @@
 <?php
-namespace JWeiland\ServiceBw2\Request;
+namespace JWeiland\ServiceBw2\Request\Zustaendigkeiten;
 
 /*
 * This file is part of the TYPO3 CMS project.
@@ -14,13 +14,15 @@ namespace JWeiland\ServiceBw2\Request;
 * The TYPO3 project - inspiring people to share!
 */
 
+use JWeiland\ServiceBw2\Request\AbstractRequest;
+
 /**
  * Class Organisationseinheit
  *
  * Description provided by service_bw API documentation:
  * Liefert alle Zuständigkeiten für eine bestimmte Organisationseinheit als paginierte Liste
  *
- * @package JWeiland\ServiceBw2\Request
+ * @package JWeiland\ServiceBw2\Request\Zustaendigkeiten
  */
 class Organisationseinheit extends AbstractRequest
 {
