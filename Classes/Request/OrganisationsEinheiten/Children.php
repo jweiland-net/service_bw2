@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace JWeiland\ServiceBw2\Request\OrganisationsEinheiten;
+namespace JWeiland\ServiceBw2\Request\Organisationseinheiten;
 
 /*
  * This file is part of the service_bw2 project.
@@ -19,7 +19,7 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 /**
  * Class Children
  *
- * @package JWeiland\ServiceBw2\Request\OrganisationsEinheiten
+ * @package JWeiland\ServiceBw2\Request\Organisationseinheiten
  */
 class Children extends AbstractRequest
 {

@@ -15,23 +15,23 @@
         einen Administrator kontaktieren, falls die Fehlermeldung erneut erscheint.
         </target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.anschrift.HAUSANSCHRIFT">
+      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
         <source>Home address</source>
         <target>Hausanschrift</target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
         <source>Mailing address</source>
         <target>Postanschrift</target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.mail">
+      <trans-unit id="organisationseinheit.mail">
         <source>e-mail</source>
         <target>E-Mail</target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.opening_hours">
+      <trans-unit id="organisationseinheit.opening_hours">
         <source>Opening hours</source>
         <target>Öffnungszeiten</target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.leistungen">
+      <trans-unit id="organisationseinheit.leistungen">
         <source>Services</source>
         <target>Betreute Verfahren</target>
       </trans-unit>
@@ -39,11 +39,11 @@
         <source>Related forms</source>
         <target>Formulare dieses Verfahrens</target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.zugehoerige_behoerde">
+      <trans-unit id="organisationseinheit.zugehoerige_behoerde">
         <source>Related Organisationseinheit</source>
         <target>Zuständige Verwaltungsstellen</target>
       </trans-unit>
-      <trans-unit id="organisations_einheit.maps2_detail_view">
+      <trans-unit id="organisationseinheit.maps2_detail_view">
         <source>Show on card</source>
         <target>Auf der Karte anzeigen</target>
       </trans-unit>

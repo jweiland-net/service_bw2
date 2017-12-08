@@ -19,15 +19,15 @@
                 <items>
                   <numIndex index="0">
                     <numIndex index="0">
-                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit.list
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheit.list
                     </numIndex>
-                    <numIndex index="1">OrganisationsEinheit->list</numIndex>
+                    <numIndex index="1">Organisationseinheit->list</numIndex>
                   </numIndex>
                   <numIndex index="1">
                     <numIndex index="0">
-                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit.show
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheit.show
                     </numIndex>
-                    <numIndex index="1">OrganisationsEinheit->show</numIndex>
+                    <numIndex index="1">Organisationseinheit->show</numIndex>
                   </numIndex>
                   <numIndex index="2">
                     <numIndex index="0">
@@ -42,26 +42,26 @@
                     <numIndex index="1">Leistungen->show</numIndex>
                   </numIndex>
                 </items>
-                <default>OrganisationsEinheit->list</default>
+                <default>Organisationseinheit->list</default>
               </config>
             </TCEforms>
           </switchableControllerActions>
-          <settings.organisationsEinheit.listItems>
+          <settings.organisationseinheit.listItems>
             <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationsEinheit.listItems</label>
-              <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->list</displayCond>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheit.listItems</label>
+              <displayCond>FIELD:switchableControllerActions:=:Organisationseinheit->list</displayCond>
               <config>
                 <type>select</type>
                 <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
                 <renderType>selectMultipleSideBySide</renderType>
-                <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationsEinheitItems->getItems</itemsProcFunc>
+                <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitItems->getItems</itemsProcFunc>
               </config>
             </TCEforms>
-          </settings.organisationsEinheit.listItems>
-          <settings.organisationsEinheit.maps2Pid>
+          </settings.organisationseinheit.listItems>
+          <settings.organisationseinheit.maps2Pid>
             <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationsEinheit.maps2Pid</label>
-              <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->show</displayCond>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheit.maps2Pid</label>
+              <displayCond>FIELD:switchableControllerActions:=:Organisationseinheit->show</displayCond>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -69,11 +69,11 @@
                 <size>1</size>
               </config>
             </TCEforms>
-          </settings.organisationsEinheit.maps2Pid>
-          <settings.organisationsEinheit.maps2DetailPage>
+          </settings.organisationseinheit.maps2Pid>
+          <settings.organisationseinheit.maps2DetailPage>
             <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationsEinheit.maps2DetailPage</label>
-              <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->show</displayCond>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheit.maps2DetailPage</label>
+              <displayCond>FIELD:switchableControllerActions:=:Organisationseinheit->show</displayCond>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -81,7 +81,7 @@
                 <size>1</size>
               </config>
             </TCEforms>
-          </settings.organisationsEinheit.maps2DetailPage>
+          </settings.organisationseinheit.maps2DetailPage>
           <settings.general.regionIds>
             <TCEforms>
               <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.general.region_ids</label>
@@ -103,9 +103,9 @@
         </TCEforms>
         <type>array</type>
         <el>
-          <settings.organisationsEinheit.pidOfListPage>
+          <settings.organisationseinheit.pidOfListPage>
             <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit</label>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheit</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -113,7 +113,7 @@
                 <size>1</size>
               </config>
             </TCEforms>
-          </settings.organisationsEinheit.pidOfListPage>
+          </settings.organisationseinheit.pidOfListPage>
           <settings.leistungen.pidOfListPage>
             <TCEforms>
               <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
@@ -135,9 +135,9 @@
         </TCEforms>
         <type>array</type>
         <el>
-          <settings.organisationsEinheit.pidOfDetailPage>
+          <settings.organisationseinheit.pidOfDetailPage>
             <TCEforms>
-              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationsEinheit</label>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheit</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -145,7 +145,7 @@
                 <size>1</size>
               </config>
             </TCEforms>
-          </settings.organisationsEinheit.pidOfDetailPage>
+          </settings.organisationseinheit.pidOfDetailPage>
           <settings.leistungen.pidOfDetailPage>
             <TCEforms>
               <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>

@@ -17,8 +17,8 @@ namespace JWeiland\ServiceBw2\ViewHelpers;
 use JWeiland\Maps2\Domain\Model\Location;
 use JWeiland\Maps2\Domain\Model\RadiusResult;
 use JWeiland\Maps2\Utility\GeocodeUtility;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
-use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Id;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitRepository;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
@@ -46,7 +46,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static $configurationManager;
 
     /**
-     * @var OrganisationsEinheitRepository
+     * @var OrganisationseinheitRepository
      */
     protected static $organisationseinheitRepository;
 
@@ -83,11 +83,11 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-        self::$organisationseinheitRepository = $objectManager->get(OrganisationsEinheitRepository::class);
+        self::$organisationseinheitRepository = $objectManager->get(OrganisationseinheitRepository::class);
         self::$geocodeUtility = $objectManager->get(GeocodeUtility::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK
-        )['settings']['organisationsEinheit']['maps2Pid'];
+        )['settings']['organisationseinheit']['maps2Pid'];
         self::$id = $organisationseinheitId;
     }
 

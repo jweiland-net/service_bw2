@@ -25,13 +25,13 @@ use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 class LeistungenRepository extends AbstractRepository
 {
     /**
-     * Get Leistungen that are related to OrganisationsEinheit ($id)
+     * Get Leistungen that are related to Organisationseinheit ($id)
      *
      * @param int $id of the Organisationseinheit
      * @return array
      * @throws \Exception if request is not valid
      */
-    public function getByOrganisationsEinheit(int $id): array
+    public function getByOrganisationseinheit(int $id): array
     {
         $request = $this->objectManager->get(Organisationseinheit::class);
         $request->addParameter('organisationseinheitId', $id);

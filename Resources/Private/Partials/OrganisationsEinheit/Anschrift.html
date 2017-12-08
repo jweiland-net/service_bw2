@@ -3,7 +3,7 @@
   <f:if condition="{anschriftItem.type} == {type}">
     <dl class="{dlClass}">
       <dt>
-        <f:translate key="organisations_einheit.anschrift.{type}"/>
+        <f:translate key="organisationseinheit.anschrift.{type}"/>
       </dt>
       <dd class="{f:if(condition: '{anschriftItem.type} == \'HAUSANSCHRIFT\'', then: 'noborder grid_8 floatleft')}">
         <f:if condition="{anschriftItem.strasse} && {anschriftItem.hausnummer}">
@@ -14,16 +14,16 @@
           {anschriftItem.postleitzahl} {anschriftItem.ort}
         </f:if>
         <f:if condition="{kommunikation}">
-          <f:render partial="OrganisationsEinheit/Kommunikation"
+          <f:render partial="Organisationseinheit/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'TELEFON'}"/>
-          <f:render partial="OrganisationsEinheit/Kommunikation"
+          <f:render partial="Organisationseinheit/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'FAX'}"/>
-          <f:render partial="OrganisationsEinheit/Kommunikation"
+          <f:render partial="Organisationseinheit/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'EMAIL'}"/>
         </f:if>
       </dd>
       <f:if condition="{anschriftItem.type} == 'HAUSANSCHRIFT'">
-          <f:render partial="OrganisationsEinheit/Maps2Poi"
+          <f:render partial="Organisationseinheit/Maps2Poi"
                     arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(id: \'{organisationseinheitId}\')}', detailPageUid: maps2DetailPageUid}"
           />
       </f:if>
