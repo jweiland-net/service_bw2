@@ -1,0 +1,12 @@
+<f:if condition="{poiUid}">
+  <dd class="grid_4 floatleft noborder">
+    <figure>
+      <f:link.action pageUid="{detailPageUid}" extensionName="maps2" controller="PoiCollection" action="show"
+                     pluginName="maps2" arguments="{poiCollection: poiUid}">
+        <f:image class="floatright" src="EXT:service_bw2/Resources/Public/Images/thumbmaps.png"
+                 title="{f:translate(key: 'organisations_einheit.maps2_detail_view')}"
+                 alt="{f:translate(key: 'organisations_einheit.maps2_detail_view')}"/>
+      </f:link.action>
+    </figure>
+  </dd>
+</f:if>

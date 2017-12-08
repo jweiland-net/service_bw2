@@ -89,8 +89,6 @@ class OrganisationsEinheitController extends AbstractController
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
-        // todo: add maps2
-        //$this->organisationsEinheitRepository->getMaps2PoiCollection($id);
         $this->view->assign('leistungen', $leistungen);
         $this->view->assign('beschreibungstext', $liveOrganisationsEinheit);
         $this->view->assign('organisationsEinheit', $organisationsEinheit);

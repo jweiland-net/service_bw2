@@ -118,6 +118,14 @@ abstract class AbstractRequest implements RequestInterface
     protected $additionalPostProcessorClassNames = [];
 
     /**
+     * Cache tags to be used with cache frontend
+     * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
+     *
+     * @var array
+     */
+    protected $cacheTags = [];
+
+    /**
      * inject extConf
      *
      * @param ExtConf $extConf
@@ -425,5 +433,53 @@ abstract class AbstractRequest implements RequestInterface
         }
 
         return $isValid;
+    }
+
+    /**
+     * Returns CacheTags
+     *
+     * @return array
+     */
+    public function getCacheTags(): array
+    {
+        return $this->cacheTags;
+    }
+
+    /**
+     * Sets CacheTags
+     * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
+     *
+     * @param array $cacheTags
+     */
+    public function setCacheTags(array $cacheTags)
+    {
+        $this->cacheTags = $cacheTags;
+    }
+
+    /**
+     * Adds a cache tag
+     * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
+     *
+     * @param string $cacheTag
+     * @return void
+     */
+    public function addCacheTag(string $cacheTag)
+    {
+        $this->cacheTags[] = $cacheTag;
+    }
+
+    /**
+     * Removes a cache tag
+     *
+     * @param string $cacheTag
+     * @return bool true on success otherwise false
+     */
+    public function removeCacheTag(string $cacheTag): bool
+    {
+        if (in_array($cacheTag, $this->cacheTags)) {
+            unset($this->cacheTags[array_search($cacheTag, $this->cacheTags, true)]);
+            return true;
+        }
+        return false;
     }
 }

@@ -32,6 +32,9 @@
       <trans-unit id="organisations_einheit.zugehoerige_behoerde">
         <source>Related Organisationseinheit</source>
       </trans-unit>
+      <trans-unit id="organisations_einheit.maps2_detail_view">
+        <source>Show on card</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

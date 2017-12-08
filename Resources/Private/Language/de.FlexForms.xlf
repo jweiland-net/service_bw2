@@ -53,6 +53,14 @@
         <source>Region IDs (comma separated list)</source>
         <target>Region IDs (Kommaseparierte Liste)</target>
       </trans-unit>
+      <trans-unit id="settings.organisationsEinheit.maps2Pid">
+        <source>Where to store maps2 records of Organisationseinheit items?</source>
+        <target>Speicherort für maps2 Datensätze von Organisationseinheiten</target>
+      </trans-unit>
+      <trans-unit id="settings.organisationsEinheit.maps2DetailPage">
+        <source>Detail page for maps2 poi collection</source>
+        <target>Seite für die maps2 Detailansicht </target>
+      </trans-unit>
 
     </body>
   </file>

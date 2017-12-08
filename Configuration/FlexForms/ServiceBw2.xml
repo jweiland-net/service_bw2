@@ -58,6 +58,30 @@
               </config>
             </TCEforms>
           </settings.organisationsEinheit.listItems>
+          <settings.organisationsEinheit.maps2Pid>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationsEinheit.maps2Pid</label>
+              <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->show</displayCond>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.organisationsEinheit.maps2Pid>
+          <settings.organisationsEinheit.maps2DetailPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationsEinheit.maps2DetailPage</label>
+              <displayCond>FIELD:switchableControllerActions:=:OrganisationsEinheit->show</displayCond>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.organisationsEinheit.maps2DetailPage>
           <settings.general.regionIds>
             <TCEforms>
               <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.general.region_ids</label>

@@ -41,6 +41,12 @@
       <trans-unit id="settings.general.region_ids">
         <source>Region IDs (comma separated list)</source>
       </trans-unit>
+      <trans-unit id="settings.organisationsEinheit.maps2Pid">
+        <source>Where to store maps2 records of Organisationseinheit items?</source>
+      </trans-unit>
+      <trans-unit id="settings.organisationsEinheit.maps2DetailPage">
+        <source>Detail page for maps2 poi collection</source>
+      </trans-unit>
 
     </body>
   </file>

@@ -21,6 +21,8 @@ use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Id;
 use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Live;
 use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Roots;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -154,44 +156,5 @@ class OrganisationsEinheitRepository extends AbstractRepository
         $record = $this->serviceBwClient->processRequest($request);
         $record = $record[$id];
         return $record;
-    }
-
-    /**
-     * todo: add maps2
-     *
-     * @param int $id
-     * @return void
-     * @throws \Exception
-     */
-    public function getMaps2PoiCollection(int $id)
-    {
-        $organisationsEinheit = $this->getById($id);
-        if ($organisationsEinheit && $organisationsEinheit['kommunikation']) {
-            $position = null;
-            foreach ($organisationsEinheit['anschrift'] as $anschrift) {
-                if ($anschrift['type'] === 'HAUSANSCHRIFT') {
-                    if (
-                        $anschrift['strasse'] &&
-                        $anschrift['hausnummer'] &&
-                        $anschrift['postleitzahl'] &&
-                        $anschrift['ort']
-                    ) {
-                        $address = sprintf(
-                            '%s %s %s %s',
-                            $anschrift['strasse'],
-                            $anschrift['hausnummer'],
-                            $anschrift['postleitzahl'],
-                            $anschrift['ort']
-                        );
-                        $geocodeUtility = $this->objectManager->get(GeocodeUtility::class);
-                        $position = $geocodeUtility->findPositionByAddress($address);
-                    }
-                    break;
-                }
-            }
-            if ($position instanceof ObjectStorage) {
-                //DebuggerUtility::var_dump($position);
-            }
-        }
     }
 }
