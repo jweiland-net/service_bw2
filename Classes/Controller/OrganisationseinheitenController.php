@@ -15,19 +15,19 @@ namespace JWeiland\ServiceBw2\Controller;
 */
 
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitRepository;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 
 /**
- * Class OrganizationalUnitController
+ * Class OrganisationseinheitenController
  *
  * @package JWeiland\ServiceBw2\Controller;
  */
-class OrganisationseinheitController extends AbstractController
+class OrganisationseinheitenController extends AbstractController
 {
     /**
-     * @var OrganisationseinheitRepository
+     * @var OrganisationseinheitenRepository
      */
-    protected $organisationseinheitRepository;
+    protected $organisationseinheitenRepository;
 
     /**
      * @var LeistungenRepository
@@ -35,14 +35,16 @@ class OrganisationseinheitController extends AbstractController
     protected $leistungenRepository;
 
     /**
-     * inject organisationseinheitRepository
+     * inject organisationseinheitenRepository
      *
-     * @param OrganisationseinheitRepository $organisationseinheitRepository
+     * @param OrganisationseinheitenRepository $organisationseinheitenRepository
      * @return void
      */
-    public function injectOrganisationseinheitRepository(OrganisationseinheitRepository $organisationseinheitRepository)
+    public function injectOrganisationseinheitRepository(
+        OrganisationseinheitenRepository $organisationseinheitenRepository
+    )
     {
-        $this->organisationseinheitRepository = $organisationseinheitRepository;
+        $this->organisationseinheitenRepository = $organisationseinheitenRepository;
     }
 
     /**
@@ -65,7 +67,7 @@ class OrganisationseinheitController extends AbstractController
     {
         $listItems = json_decode('[' . $this->settings['organisationseinheit']['listItems'] . ']', true);
         try {
-            $records = $this->organisationseinheitRepository->getRecordsWithChildren($listItems);
+            $records = $this->organisationseinheitenRepository->getRecordsWithChildren($listItems);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
@@ -82,8 +84,8 @@ class OrganisationseinheitController extends AbstractController
     public function showAction(int $id)
     {
         try {
-            $liveOrganisationseinheit = $this->organisationseinheitRepository->getLiveOrganisationseinheitById($id);
-            $organisationseinheit = $this->organisationseinheitRepository->getById($id);
+            $liveOrganisationseinheit = $this->organisationseinheitenRepository->getLiveOrganisationseinheitById($id);
+            $organisationseinheit = $this->organisationseinheitenRepository->getById($id);
             $leistungen = $this->leistungenRepository->getByOrganisationseinheit($id);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);

@@ -17,7 +17,7 @@ namespace JWeiland\ServiceBw2\ViewHelpers;
 use JWeiland\Maps2\Domain\Model\Location;
 use JWeiland\Maps2\Domain\Model\RadiusResult;
 use JWeiland\Maps2\Utility\GeocodeUtility;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitRepository;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -46,9 +46,9 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static $configurationManager;
 
     /**
-     * @var OrganisationseinheitRepository
+     * @var OrganisationseinheitenRepository
      */
-    protected static $organisationseinheitRepository;
+    protected static $organisationseinheitenRepository;
 
     /**
      * @var GeocodeUtility
@@ -83,7 +83,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-        self::$organisationseinheitRepository = $objectManager->get(OrganisationseinheitRepository::class);
+        self::$organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
         self::$geocodeUtility = $objectManager->get(GeocodeUtility::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK
@@ -106,7 +106,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     ) {
         self::init($arguments['id']);
         try {
-            $organisationseinheit = self::$organisationseinheitRepository->getById($arguments['id']);
+            $organisationseinheit = self::$organisationseinheitenRepository->getById($arguments['id']);
         } catch (\Exception $exception) {
             GeneralUtility::sysLog(
                 'Exception inside ' . __CLASS__ . ': ' . $exception->getMessage(),

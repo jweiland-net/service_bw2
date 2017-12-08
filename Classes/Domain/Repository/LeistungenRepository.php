@@ -25,9 +25,9 @@ use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 class LeistungenRepository extends AbstractRepository
 {
     /**
-     * Get Leistungen that are related to Organisationseinheit ($id)
+     * Get Leistungen that are related to Organisationseinheiten ($id)
      *
-     * @param int $id of the Organisationseinheit
+     * @param int $id of the Organisationseinheiten
      * @return array
      * @throws \Exception if request is not valid
      */

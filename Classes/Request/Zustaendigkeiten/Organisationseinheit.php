@@ -17,10 +17,10 @@ namespace JWeiland\ServiceBw2\Request\Zustaendigkeiten;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
- * Class Organisationseinheit
+ * Class Organisationseinheiten
  *
  * Description provided by service_bw API documentation:
- * Liefert alle Zuständigkeiten für eine bestimmte Organisationseinheit als paginierte Liste
+ * Liefert alle Zuständigkeiten für eine bestimmte Organisationseinheiten als paginierte Liste
  *
  * @package JWeiland\ServiceBw2\Request\Zustaendigkeiten
  */

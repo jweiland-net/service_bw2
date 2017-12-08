@@ -28,16 +28,16 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class OrganisationseinheitRepository extends AbstractRepository
+class OrganisationseinheitenRepository extends AbstractRepository
 {
     /**
      * Get all organizational units from Service BW
      *
-     * Will return an associative array including Organisationseinheit instances
-     * Children of Organisationseinheit instances are located inside _children of current instance
+     * Will return an associative array including Organisationseinheiten instances
+     * Children of Organisationseinheiten instances are located inside _children of current instance
      * e.g. $records[12345]['_children'] = [...]
      *
-     * Those Organisationseinheit instances doesn´t contain all fields! Take a look at the service_bw
+     * Those Organisationseinheiten instances doesn´t contain all fields! Take a look at the service_bw
      * API documentation
      *
      * @return array
@@ -56,11 +56,11 @@ class OrganisationseinheitRepository extends AbstractRepository
     /**
      * Get records and children of that records by passing one or multiple $ids
      *
-     * Will return an associative array including Organisationseinheit instances
-     * Children of Organisationseinheit instances are located inside _children of current instance
+     * Will return an associative array including Organisationseinheiten instances
+     * Children of Organisationseinheiten instances are located inside _children of current instance
      * e.g. $records[12345]['_children'] = [...]
      *
-     * Those Organisationseinheit instances doesn´t contain all fields! Take a look at the service_bw
+     * Those Organisationseinheiten instances doesn´t contain all fields! Take a look at the service_bw
      * API documentation
      *
      * @param array $ids e.g. [42, 56] or [32]
@@ -82,7 +82,7 @@ class OrganisationseinheitRepository extends AbstractRepository
      * Adds children recursive to $records
      * Will add children into $record[<id>]['_children'] = [];
      *
-     * Children are from type Organisationseinheit BUT doesn´t contain
+     * Children are from type Organisationseinheiten BUT doesn´t contain
      * all fields! Take a look at service_bw API documentation if you
      * want to know which fields are provided.
      *
@@ -118,7 +118,7 @@ class OrganisationseinheitRepository extends AbstractRepository
     }
 
     /**
-     * Get a Organisationseinheit object by id
+     * Get a Organisationseinheiten object by id
      * This is the object without Beschreibungstext if you want the object for
      * detail view, use getLiveOrganisationseinheitById()
      *
@@ -142,7 +142,7 @@ class OrganisationseinheitRepository extends AbstractRepository
     }
 
     /**
-     * Get a live Organisationseinheit object by id
+     * Get a live Organisationseinheiten object by id
      *
      * @param int $id
      * @return array

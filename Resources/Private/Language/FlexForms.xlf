@@ -11,13 +11,13 @@
       <trans-unit id="displayMode">
         <source>Display mode</source>
       </trans-unit>
-      <trans-unit id="organisationseinheit.list">
-        <source>Organisationseinheit list view</source>
+      <trans-unit id="organisationseinheiten.list">
+        <source>Organisationseinheiten list view</source>
       </trans-unit>
-      <trans-unit id="organisationseinheit.show">
-        <source>Organisationseinheit detail view</source>
+      <trans-unit id="organisationseinheiten.show">
+        <source>Organisationseinheiten detail view</source>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheit.listItems">
+      <trans-unit id="settings.organisationseinheiten.listItems">
         <source>Choose items to display (recursive)</source>
       </trans-unit>
       <trans-unit id="sheetListPages">
@@ -26,8 +26,8 @@
       <trans-unit id="sheetDetailPages">
         <source>Pages (detail view)</source>
       </trans-unit>
-      <trans-unit id="organisationseinheit">
-        <source>Organisationseinheit</source>
+      <trans-unit id="organisationseinheiten">
+        <source>Organisationseinheiten</source>
       </trans-unit>
       <trans-unit id="leistungen">
         <source>Leistungen</source>
@@ -41,12 +41,12 @@
       <trans-unit id="settings.general.region_ids">
         <source>Region IDs (comma separated list)</source>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheit.maps2Pid">
+      <trans-unit id="settings.organisationseinheiten.maps2Pid">
         <source>Where to store maps2 records of Organisationseinheit items?</source>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheit.maps2DetailPage">
-        <source>Detail page for maps2 poi collection</source>
-      </trans-unit>
+      <trans-unit id="settings.organisationseinheiten.maps2DetailPage">
+      <source>Detail page for maps2 poi collection</source>
+    </trans-unit>
 
     </body>
   </file>

@@ -9,12 +9,12 @@
         <f:format.html>{organisationseinheit.preamble}</f:format.html>
       </f:if>
       <f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
-      <f:render partial="Organisationseinheit/Leistungen" arguments="{leistungen: leistungen, leistungenDetailPid: settings.leistungen.pidOfDetailPage}" />
+      <f:render partial="Organisationseinheiten/Leistungen" arguments="{leistungen: leistungen, leistungenDetailPid: settings.leistungen.pidOfDetailPage}" />
     </div>
   </div>
   <aside class="grid_6 floatleft">
     <div class="gridleft rulerbefore4">
-      <f:render partial="Organisationseinheit/AnschriftUndKommunikation" arguments="{organisationseinheit: organisationseinheit, maps2DetailPageUid: settings.organisationseinheit.maps2DetailPage}" />
+      <f:render partial="Organisationseinheiten/AnschriftUndKommunikation" arguments="{organisationseinheit: organisationseinheit, maps2DetailPageUid: settings.organisationseinheit.maps2DetailPage}" />
     </div>
   </aside>
 </f:section>

@@ -3,7 +3,7 @@
     'JWeiland.service_bw2',
     'ServiceBw',
     [
-        'Organisationseinheit' => 'list,show',
+        'Organisationseinheiten' => 'list,show',
         'Leistungen' => 'list,show'
     ],
     // non-cacheable actions

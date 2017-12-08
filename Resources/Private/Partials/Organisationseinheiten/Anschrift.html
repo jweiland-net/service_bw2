@@ -14,16 +14,16 @@
           {anschriftItem.postleitzahl} {anschriftItem.ort}
         </f:if>
         <f:if condition="{kommunikation}">
-          <f:render partial="Organisationseinheit/Kommunikation"
+          <f:render partial="Organisationseinheiten/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'TELEFON'}"/>
-          <f:render partial="Organisationseinheit/Kommunikation"
+          <f:render partial="Organisationseinheiten/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'FAX'}"/>
-          <f:render partial="Organisationseinheit/Kommunikation"
+          <f:render partial="Organisationseinheiten/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'EMAIL'}"/>
         </f:if>
       </dd>
       <f:if condition="{anschriftItem.type} == 'HAUSANSCHRIFT'">
-          <f:render partial="Organisationseinheit/Maps2Poi"
+          <f:render partial="Organisationseinheiten/Maps2Poi"
                     arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(id: \'{organisationseinheitId}\')}', detailPageUid: maps2DetailPageUid}"
           />
       </f:if>
