@@ -11,28 +11,28 @@
           appears again!
         </source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.anschrift.HAUSANSCHRIFT">
+      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
         <source>Home address</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
         <source>Mailing address</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.mail">
+      <trans-unit id="organisationseinheit.mail">
         <source>e-mail</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.opening_hours">
+      <trans-unit id="organisationseinheit.opening_hours">
         <source>Opening hours</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.leistungen">
+      <trans-unit id="organisationseinheit.leistungen">
         <source>Services</source>
       </trans-unit>
       <trans-unit id="externe_formulare.head">
         <source>Related forms</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.zugehoerige_behoerde">
+      <trans-unit id="organisationseinheit.zugehoerige_behoerde">
         <source>Related Organisationseinheit</source>
       </trans-unit>
-      <trans-unit id="organisations_einheit.maps2_detail_view">
+      <trans-unit id="organisationseinheit.maps2_detail_view">
         <source>Show on card</source>
       </trans-unit>
     </body>

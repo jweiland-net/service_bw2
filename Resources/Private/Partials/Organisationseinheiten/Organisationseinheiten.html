@@ -1,0 +1,10 @@
+<f:for each="{organisationseinheiten}" as="organisationseinheit">
+  <li>
+    <f:link.action pageUid="{pageUid}" arguments="{id: organisationseinheit.id}" action="show">{organisationseinheit.name}</f:link.action>
+    <f:if condition="{organisationseinheit._children}">
+      <ul class="content_list items extul gridleft">
+        <f:render partial="Organisationseinheiten/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit._children, pageUid: pageUid}"/>
+      </ul>
+    </f:if>
+  </li>
+</f:for>

@@ -14,23 +14,23 @@ namespace JWeiland\ServiceBw2\Tca;
 * The TYPO3 project - inspiring people to share!
 */
 
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationsEinheitRepository;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Service\TranslationService;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
- * Class OrganisationsEinheitItems
+ * Class OrganisationseinheitenItems
  *
  * @package JWeiland\ServiceBw2\Tca
  */
-class OrganisationsEinheitItems
+class OrganisationseinheitenItems
 {
     /**
-     * @var OrganisationsEinheitRepository
+     * @var OrganisationseinheitenRepository
      */
-    protected $organisationsEinheitRepository;
+    protected $organisationseinheitenRepository;
 
     /**
      * @var TranslationService
@@ -38,12 +38,12 @@ class OrganisationsEinheitItems
     protected $translationService;
 
     /**
-     * OrganisationsEinheitItems constructor.
+     * OrganisationseinheitenItems constructor.
      */
     public function __construct()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->organisationsEinheitRepository = $objectManager->get(OrganisationsEinheitRepository::class);
+        $this->organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
         $this->translationService = $objectManager->get(TranslationService::class);
     }
 
@@ -57,7 +57,7 @@ class OrganisationsEinheitItems
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider)
     {
         try {
-            $records = $this->organisationsEinheitRepository->getAll();
+            $records = $this->organisationseinheitenRepository->getAll();
         } catch (\Exception $e) {
             $processorParameters['items'] = ['Exception: ' . $e->getMessage(), 'exception'];
             return;
