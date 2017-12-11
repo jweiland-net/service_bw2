@@ -10,6 +10,7 @@
       </f:if>
       <f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
       <f:render partial="Organisationseinheiten/Leistungen" arguments="{leistungen: leistungen, leistungenDetailPid: settings.leistungen.pidOfDetailPage}" />
+      <f:render partial="Organisationseinheiten/Children" arguments="{children: children, detailPageUid: settings.organisationseinheiten.pidOfDetailPage}" />
     </div>
   </div>
   <aside class="grid_6 floatleft">

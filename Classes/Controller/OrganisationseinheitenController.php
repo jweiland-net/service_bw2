@@ -86,13 +86,15 @@ class OrganisationseinheitenController extends AbstractController
         try {
             $liveOrganisationseinheit = $this->organisationseinheitenRepository->getLiveOrganisationseinheitById($id);
             $organisationseinheit = $this->organisationseinheitenRepository->getById($id);
+            $children = $this->organisationseinheitenRepository->getChildren($id);
             $leistungen = $this->leistungenRepository->getByOrganisationseinheit($id);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
-        $this->view->assign('leistungen', $leistungen);
         $this->view->assign('beschreibungstext', $liveOrganisationseinheit);
         $this->view->assign('organisationseinheit', $organisationseinheit);
+        $this->view->assign('children', $children);
+        $this->view->assign('leistungen', $leistungen);
     }
 }

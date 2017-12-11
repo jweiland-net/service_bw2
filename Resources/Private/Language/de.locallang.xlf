@@ -47,6 +47,10 @@
         <source>Show on card</source>
         <target>Auf der Karte anzeigen</target>
       </trans-unit>
+      <trans-unit id="organisationseinheit.children">
+        <source>Subordinate Organisationseinheiten</source>
+        <target>Untergeordnete Stellen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
