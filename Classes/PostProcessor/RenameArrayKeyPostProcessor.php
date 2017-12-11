@@ -36,14 +36,19 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
         $response = $this->sanitizeRecords($response);
         $itemsById = [];
         $noId = 0;
-        foreach ($response as $item) {
-            if (!empty($item)) {
+        foreach ($response as $key => $item) {
+            // only process items that are not empty and does not begin with '_' (underline)
+            if (!empty($item) && $key[0] !== '_') {
                 if (array_key_exists('id', $item)) {
                     $itemsById[$item['id']] = $item;
                 } else {
                     $itemsById['unknown_id_' . $noId] = $item;
                     $noId++;
                 }
+            } elseif($key[0] === '_') {
+                // if array key begins with '_' (underline), we´ll add it without modifying
+                // the array key
+                $itemsById[$key] = $item;
             }
         }
         return $itemsById;
