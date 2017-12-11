@@ -35,6 +35,15 @@
         <source>Services</source>
         <target>Betreute Verfahren</target>
       </trans-unit>
+
+      <trans-unit id="lebenslage.inferior_lebenslagen">
+        <source>Inferior Circumstance</source>
+        <target>Untergeordnete Lebenslagen</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.related_verfahren">
+        <source>Related Procedure</source>
+        <target>Verwandte Verfahren</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

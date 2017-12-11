@@ -38,6 +38,15 @@
       <trans-unit id="leistungen.show">
         <source>Leistungen detail view</source>
       </trans-unit>
+      <trans-unit id="lebenslagen">
+        <source>Lebenslagen</source>
+      </trans-unit>
+      <trans-unit id="lebenslagen.list">
+        <source>Lebenslagen list view</source>
+      </trans-unit>
+      <trans-unit id="lebenslagen.show">
+        <source>Lebenslagen detail view</source>
+      </trans-unit>
 
     </body>
   </file>
