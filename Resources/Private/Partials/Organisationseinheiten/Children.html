@@ -1,0 +1,16 @@
+<f:if condition="{children}">
+  <div class="relations">
+    <h3>
+      <f:translate key="organisationseinheit.children"/>
+    </h3>
+    <ul class="items extul">
+      <f:for each="{children}" as="child">
+        <li class="item extli">
+          <f:link.action class="icon icon_recordcard" pageUid="{detailPageUid}" arguments="{id: child.id}">
+            {child.name}
+          </f:link.action>
+        </li>
+      </f:for>
+    </ul>
+  </div>
+</f:if>

@@ -188,7 +188,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      */
     protected static function getAddress(array $organisationseinheit): string
     {
-        if ($organisationseinheit['kommunikation']) {
+        if ($organisationseinheit['anschrift']) {
             foreach ($organisationseinheit['anschrift'] as $anschrift) {
                 if ($anschrift['type'] === 'HAUSANSCHRIFT') {
                     if (

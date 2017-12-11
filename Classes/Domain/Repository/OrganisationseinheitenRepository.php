@@ -48,7 +48,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
         $request = $this->objectManager->get(Roots::class);
         $records = $this->serviceBwClient->processRequest($request);
         $this->addChildrenToRecords($records);
-        $this->translationService->translateRecords($records, true);
+        $this->translationService->translateRecords($records);
 
         return $records;
     }
@@ -73,8 +73,8 @@ class OrganisationseinheitenRepository extends AbstractRepository
         foreach ($ids as $id) {
             $records[] = $this->getById($id);
         }
+        $this->translationService->translateRecords($records);
         $this->addChildrenToRecords($records);
-        $this->translationService->translateRecords($records, true);
         return $records;
     }
 
@@ -114,7 +114,9 @@ class OrganisationseinheitenRepository extends AbstractRepository
     {
         $request = $this->objectManager->get(Children::class);
         $request->addParameter('id', $id);
-        return $this->serviceBwClient->processRequest($request);
+        $records = $this->serviceBwClient->processRequest($request);
+        $this->translationService->translateRecords($records, false, true);
+        return $records;
     }
 
     /**
