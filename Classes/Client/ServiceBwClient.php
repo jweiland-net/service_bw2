@@ -132,7 +132,7 @@ class ServiceBwClient
                         $body = $postProcessor->process($body);
                     }
                 }
-                $this->cacheInstance->set($cacheIdentifier, \json_encode($body));
+                $this->cacheInstance->set($cacheIdentifier, \json_encode($body), $request->getCacheTags());
             }
         }
         return $body;

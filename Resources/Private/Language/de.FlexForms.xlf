@@ -13,15 +13,15 @@
         <source>Display mode</source>
         <target>Ausgabe</target>
       </trans-unit>
-      <trans-unit id="organisationsEinheit.list">
-        <source>OrganisationsEinheit list view</source>
+      <trans-unit id="organisationseinheiten.list">
+        <source>Organisationseinheiten list view</source>
         <target>Organisationseinheiten Listenansicht</target>
       </trans-unit>
-      <trans-unit id="organisationsEinheit.show">
-        <source>OrganisationsEinheit show view</source>
-        <target>OrganisationsEinheit Detailansicht</target>
+      <trans-unit id="organisationseinheiten.show">
+        <source>Organisationseinheiten show view</source>
+        <target>Organisationseinheiten Detailansicht</target>
       </trans-unit>
-      <trans-unit id="settings.organisationsEinheit.listItems">
+      <trans-unit id="settings.organisationseinheiten.listItems">
         <source>Choose items to display (recursive)</source>
         <target>Zeige folgende Organisationseinheiten davon an (rekursiv)</target>
       </trans-unit>
@@ -33,9 +33,9 @@
         <source>Pages (detail view)</source>
         <target>Seiten (Detailansicht)</target>
       </trans-unit>
-      <trans-unit id="organisationsEinheit">
-        <source>Organisationseinheit</source>
-        <target>Organisationseinheit</target>
+      <trans-unit id="organisationseinheiten">
+        <source>Organisationseinheiten</source>
+        <target>Organisationseinheiten</target>
       </trans-unit>
       <trans-unit id="leistungen">
         <source>Leistungen</source>
@@ -48,6 +48,18 @@
       <trans-unit id="leistungen.show">
         <source>Leistungen detail view</source>
         <target>Leistungen Detailansicht</target>
+      </trans-unit>
+      <trans-unit id="settings.general.region_ids">
+        <source>Region IDs (comma separated list)</source>
+        <target>Region IDs (Kommaseparierte Liste)</target>
+      </trans-unit>
+      <trans-unit id="settings.organisationseinheiten.maps2Pid">
+        <source>Where to store maps2 records of Organisationseinheit items?</source>
+        <target>Speicherort für maps2 Datensätze von Organisationseinheiten</target>
+      </trans-unit>
+      <trans-unit id="settings.organisationseinheiten.maps2DetailPage">
+        <source>Detail page for maps2 poi collection</source>
+        <target>Seite für die maps2 Detailansicht </target>
       </trans-unit>
 
     </body>

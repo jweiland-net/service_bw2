@@ -1,10 +1,11 @@
+{namespace jw=JWeiland\ServiceBw2\ViewHelpers}
 <f:for each="{anschrift}" as="anschriftItem">
   <f:if condition="{anschriftItem.type} == {type}">
     <dl class="{dlClass}">
       <dt>
-        <f:translate key="organisations_einheit.anschrift.{type}"/>
+        <f:translate key="organisationseinheit.anschrift.{type}"/>
       </dt>
-      <dd>
+      <dd class="{f:if(condition: '{anschriftItem.type} == \'HAUSANSCHRIFT\'', then: 'noborder grid_8 floatleft')}">
         <f:if condition="{anschriftItem.strasse} && {anschriftItem.hausnummer}">
           {anschriftItem.strasse} {anschriftItem.hausnummer}
           <br/>
@@ -13,14 +14,19 @@
           {anschriftItem.postleitzahl} {anschriftItem.ort}
         </f:if>
         <f:if condition="{kommunikation}">
-          <f:render partial="OrganisationsEinheit/Kommunikation"
+          <f:render partial="Organisationseinheiten/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'TELEFON'}"/>
-          <f:render partial="OrganisationsEinheit/Kommunikation"
+          <f:render partial="Organisationseinheiten/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'FAX'}"/>
-          <f:render partial="OrganisationsEinheit/Kommunikation"
+          <f:render partial="Organisationseinheiten/Kommunikation"
                     arguments="{kommunikation: kommunikation, kanal: 'EMAIL'}"/>
         </f:if>
       </dd>
+      <f:if condition="{anschriftItem.type} == 'HAUSANSCHRIFT'">
+          <f:render partial="Organisationseinheiten/Maps2Poi"
+                    arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(id: \'{organisationseinheitId}\')}', detailPageUid: maps2DetailPageUid}"
+          />
+      </f:if>
     </dl>
   </f:if>
 </f:for>

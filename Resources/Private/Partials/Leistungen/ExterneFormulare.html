@@ -1,0 +1,14 @@
+<f:if condition="{externeFormulare}">
+  <div class="relations">
+    <h3><f:translate key="externe_formulare.head" /></h3>
+    <ul class="items extul">
+      <f:for each="{externeFormulare}" as="externesFormular">
+        <li class="item extli">
+          <f:link.external class="icon icon_download" title="{externesFormular.titel}" target="_blank" uri="{externesFormular.uri}">
+            {externesFormular.titel}
+          </f:link.external>
+        </li>
+      </f:for>
+    </ul>
+  </div>
+</f:if>

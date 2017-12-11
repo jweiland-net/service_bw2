@@ -16,26 +16,28 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use JWeiland\Maps2\Utility\GeocodeUtility;
 use JWeiland\ServiceBw2\Request;
-use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Children;
-use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Id;
-use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Live;
-use JWeiland\ServiceBw2\Request\OrganisationsEinheiten\Roots;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class OrganisationsEinheitRepository extends AbstractRepository
+class OrganisationseinheitenRepository extends AbstractRepository
 {
     /**
      * Get all organizational units from Service BW
      *
-     * Will return an associative array including OrganisationsEinheit instances
-     * Children of OrganisationsEinheit instances are located inside _children of current instance
+     * Will return an associative array including Organisationseinheiten instances
+     * Children of Organisationseinheiten instances are located inside _children of current instance
      * e.g. $records[12345]['_children'] = [...]
      *
-     * Those OrganisationsEinheit instances doesn´t contain all fields! Take a look at the service_bw
+     * Those Organisationseinheiten instances doesn´t contain all fields! Take a look at the service_bw
      * API documentation
      *
      * @return array
@@ -46,7 +48,7 @@ class OrganisationsEinheitRepository extends AbstractRepository
         $request = $this->objectManager->get(Roots::class);
         $records = $this->serviceBwClient->processRequest($request);
         $this->addChildrenToRecords($records);
-        $this->translationService->translateRecords($records, true);
+        $this->translationService->translateRecords($records);
 
         return $records;
     }
@@ -54,11 +56,11 @@ class OrganisationsEinheitRepository extends AbstractRepository
     /**
      * Get records and children of that records by passing one or multiple $ids
      *
-     * Will return an associative array including OrganisationsEinheit instances
-     * Children of OrganisationsEinheit instances are located inside _children of current instance
+     * Will return an associative array including Organisationseinheiten instances
+     * Children of Organisationseinheiten instances are located inside _children of current instance
      * e.g. $records[12345]['_children'] = [...]
      *
-     * Those OrganisationsEinheit instances doesn´t contain all fields! Take a look at the service_bw
+     * Those Organisationseinheiten instances doesn´t contain all fields! Take a look at the service_bw
      * API documentation
      *
      * @param array $ids e.g. [42, 56] or [32]
@@ -71,8 +73,8 @@ class OrganisationsEinheitRepository extends AbstractRepository
         foreach ($ids as $id) {
             $records[] = $this->getById($id);
         }
+        $this->translationService->translateRecords($records);
         $this->addChildrenToRecords($records);
-        $this->translationService->translateRecords($records, true);
         return $records;
     }
 
@@ -80,7 +82,7 @@ class OrganisationsEinheitRepository extends AbstractRepository
      * Adds children recursive to $records
      * Will add children into $record[<id>]['_children'] = [];
      *
-     * Children are from type OrganisationsEinheit BUT doesn´t contain
+     * Children are from type Organisationseinheiten BUT doesn´t contain
      * all fields! Take a look at service_bw API documentation if you
      * want to know which fields are provided.
      *
@@ -91,11 +93,11 @@ class OrganisationsEinheitRepository extends AbstractRepository
     protected function addChildrenToRecords(array &$records)
     {
         if (is_array($records)) {
-            foreach ($records as &$organisationsEinheit) {
-                $children = $this->getChildren($organisationsEinheit['id']);
+            foreach ($records as &$organisationseinheit) {
+                $children = $this->getChildren($organisationseinheit['id']);
                 if (!empty($children)) {
                     $this->addChildrenToRecords($children);
-                    $organisationsEinheit['_children'] = $children;
+                    $organisationseinheit['_children'] = $children;
                 }
             }
         }
@@ -112,13 +114,15 @@ class OrganisationsEinheitRepository extends AbstractRepository
     {
         $request = $this->objectManager->get(Children::class);
         $request->addParameter('id', $id);
-        return $this->serviceBwClient->processRequest($request);
+        $records = $this->serviceBwClient->processRequest($request);
+        $this->translationService->translateRecords($records, false, true);
+        return $records;
     }
 
     /**
-     * Get a OrganisationsEinheit object by id
+     * Get a Organisationseinheiten object by id
      * This is the object without Beschreibungstext if you want the object for
-     * detail view, use getLiveOrganisationsEinheitById()
+     * detail view, use getLiveOrganisationseinheitById()
      *
      * @param int $id
      * @param bool $removeParents set false if you want to get parent objects that
@@ -140,13 +144,13 @@ class OrganisationsEinheitRepository extends AbstractRepository
     }
 
     /**
-     * Get a live OrganisationsEinheit object by id
+     * Get a live Organisationseinheiten object by id
      *
      * @param int $id
      * @return array
      * @throws \Exception if request is not valid!
      */
-    public function getLiveOrganisationsEinheitById(int $id): array
+    public function getLiveOrganisationseinheitById(int $id): array
     {
         $request = $this->objectManager->get(Live::class);
         $request->addParameter('id', $id);
@@ -154,44 +158,5 @@ class OrganisationsEinheitRepository extends AbstractRepository
         $record = $this->serviceBwClient->processRequest($request);
         $record = $record[$id];
         return $record;
-    }
-
-    /**
-     * todo: add maps2
-     *
-     * @param int $id
-     * @return void
-     * @throws \Exception
-     */
-    public function getMaps2PoiCollection(int $id)
-    {
-        $organisationsEinheit = $this->getById($id);
-        if ($organisationsEinheit && $organisationsEinheit['kommunikation']) {
-            $position = null;
-            foreach ($organisationsEinheit['anschrift'] as $anschrift) {
-                if ($anschrift['type'] === 'HAUSANSCHRIFT') {
-                    if (
-                        $anschrift['strasse'] &&
-                        $anschrift['hausnummer'] &&
-                        $anschrift['postleitzahl'] &&
-                        $anschrift['ort']
-                    ) {
-                        $address = sprintf(
-                            '%s %s %s %s',
-                            $anschrift['strasse'],
-                            $anschrift['hausnummer'],
-                            $anschrift['postleitzahl'],
-                            $anschrift['ort']
-                        );
-                        $geocodeUtility = $this->objectManager->get(GeocodeUtility::class);
-                        $position = $geocodeUtility->findPositionByAddress($address);
-                    }
-                    break;
-                }
-            }
-            if ($position instanceof ObjectStorage) {
-                //DebuggerUtility::var_dump($position);
-            }
-        }
     }
 }

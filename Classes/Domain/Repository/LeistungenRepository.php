@@ -15,7 +15,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 */
 
 use JWeiland\ServiceBw2\Request\Leistungen\Live;
-use JWeiland\ServiceBw2\Request\Organisationseinheit;
+use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 
 /**
  * Class LeistungenRepository
@@ -25,13 +25,13 @@ use JWeiland\ServiceBw2\Request\Organisationseinheit;
 class LeistungenRepository extends AbstractRepository
 {
     /**
-     * Get Leistungen that are related to OrganisationsEinheit ($id)
+     * Get Leistungen that are related to Organisationseinheiten ($id)
      *
-     * @param int $id of the Organisationseinheit
+     * @param int $id of the Organisationseinheiten
      * @return array
      * @throws \Exception if request is not valid
      */
-    public function getByOrganisationsEinheit(int $id): array
+    public function getByOrganisationseinheit(int $id): array
     {
         $request = $this->objectManager->get(Organisationseinheit::class);
         $request->addParameter('organisationseinheitId', $id);

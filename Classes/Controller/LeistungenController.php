@@ -14,8 +14,8 @@ namespace JWeiland\ServiceBw2\Controller;
 * The TYPO3 project - inspiring people to share!
 */
 
+use JWeiland\ServiceBw2\Domain\Repository\ExterneFormulareRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class LeistungenController
@@ -30,6 +30,11 @@ class LeistungenController extends AbstractController
     protected $leistungenRepository;
 
     /**
+     * @var ExterneFormulareRepository
+     */
+    protected $externeFormulareRepository;
+
+    /**
      * inject leistungenRepository
      *
      * @param LeistungenRepository $leistungenRepository
@@ -41,6 +46,17 @@ class LeistungenController extends AbstractController
     }
 
     /**
+     * inject externeFormulareRepository
+     *
+     * @param ExterneFormulareRepository $externeFormulareRepository
+     * @return void
+     */
+    public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository)
+    {
+        $this->externeFormulareRepository = $externeFormulareRepository;
+    }
+
+    /**
      * Show action
      *
      * @param int $id of Leistung
@@ -48,13 +64,16 @@ class LeistungenController extends AbstractController
      */
     public function showAction(int $id)
     {
+        $regionIds = $this->settings['general']['regionIds'];
         try {
             $leistung = $this->leistungenRepository->getLiveById($id);
+            $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
+            return;
         }
         $this->view->assign('leistung', $leistung);
-        DebuggerUtility::var_dump($leistung);
+        $this->view->assign('externeFormulare', $externeFormulare);
     }
 
     public function listAction()

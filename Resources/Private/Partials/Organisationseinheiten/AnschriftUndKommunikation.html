@@ -1,0 +1,8 @@
+<f:render partial="Organisationseinheiten/Anschrift" arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'HAUSANSCHRIFT', dlClass: 'extdl clearfix ruleafter', organisationseinheitId: organisationseinheit.id, maps2DetailPageUid: maps2DetailPageUid}" />
+<f:render partial="Organisationseinheiten/Anschrift" arguments="{anschrift: organisationseinheit.anschrift, type: 'GROSSEMPFAENGERPOSTFACH', dlClass: 'extdl clearfix'}" />
+<f:if condition="{organisationseinheit.infoOeffnungszeitenText}">
+  <dl class="extdl clearfix">
+    <dt><f:translate key="organisationseinheit.opening_hours" /></dt>
+    <dd class="opening-hours"><f:format.html>{organisationseinheit.infoOeffnungszeitenText}</f:format.html></dd>
+  </dl>
+</f:if>

@@ -85,4 +85,36 @@ interface RequestInterface
      * @return bool
      */
     public function isValidRequest();
+
+    /**
+     * Returns CacheTags
+     *
+     * @return array
+     */
+    public function getCacheTags(): array;
+
+    /**
+     * Sets CacheTags
+     * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
+     *
+     * @param array $cacheTags
+     */
+    public function setCacheTags(array $cacheTags);
+
+    /**
+     * Adds a cache tag
+     * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
+     *
+     * @param string $cacheTag
+     * @return void
+     */
+    public function addCacheTag(string $cacheTag);
+
+    /**
+     * Removes a cache tag
+     *
+     * @param string $cacheTag
+     * @return bool true on success otherwise false
+     */
+    public function removeCacheTag(string $cacheTag): bool;
 }
