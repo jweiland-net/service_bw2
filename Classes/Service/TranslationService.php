@@ -16,7 +16,6 @@ namespace JWeiland\ServiceBw2\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
