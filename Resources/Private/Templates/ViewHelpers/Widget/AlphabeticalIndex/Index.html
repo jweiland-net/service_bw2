@@ -3,7 +3,9 @@
     <f:for each="{alphabeticalNavigation}" key="letter" as="occur">
       <li>
         <f:if condition="{occur}">
-          <f:then><f:link.page section="initial_{letter}">{letter}</f:link.page></f:then>
+          <f:then>
+            <f:link.page section="initial_{letter}">{letter}</f:link.page>
+          </f:then>
           <f:else><span>{letter}</span></f:else>
         </f:if>
       </li>
@@ -18,9 +20,16 @@
     <ul class="items extul">
       <f:for each="{records}" as="record">
         <li class="item extli">
-          <f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}" arguments="{id: record.id}">{record.{titleField}}</f:link.action>
+          <f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}"
+                         arguments="{id: record.id}">{record.{titleField}}
+          </f:link.action>
         </li>
       </f:for>
     </ul>
+    <p class="csc-linkToTop">
+      <f:link.page section="top" title="{f:translate(key: 'alphabetical_index.to_top')}">
+        <f:translate key="alphabetical_index.to_top"/>
+      </f:link.page>
+    </p>
   </f:for>
 </div>

@@ -38,6 +38,9 @@
       <trans-unit id="organisationseinheit.children">
         <source>Subordinate Organisationseinheiten</source>
       </trans-unit>
+      <trans-unit id="alphabetical_index.to_top">
+        <source>To top</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

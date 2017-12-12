@@ -51,6 +51,10 @@
         <source>Subordinate Organisationseinheiten</source>
         <target>Untergeordnete Stellen</target>
       </trans-unit>
+      <trans-unit id="alphabetical_index.to_top">
+        <source>To top</source>
+        <target>Nach oben</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
