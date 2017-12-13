@@ -17,7 +17,6 @@ namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Request\Lebenslagen\References;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class LebenslageController
