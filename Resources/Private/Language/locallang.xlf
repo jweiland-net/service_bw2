@@ -26,6 +26,14 @@
       <trans-unit id="organisationseinheit.leistungen">
         <source>Services</source>
       </trans-unit>
+
+      <trans-unit id="lebenslage.inferior_lebenslagen">
+        <source>Inferior Circumstance</source>
+      </trans-unit>
+      <trans-unit id="lebenslage.related_verfahren">
+        <source>Related Procedure</source>
+      </trans-unit>
+
       <trans-unit id="externe_formulare.head">
         <source>Related forms</source>
       </trans-unit>

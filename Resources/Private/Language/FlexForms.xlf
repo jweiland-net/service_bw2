@@ -38,6 +38,17 @@
       <trans-unit id="leistungen.show">
         <source>Leistungen detail view</source>
       </trans-unit>
+
+      <trans-unit id="lebenslagen">
+        <source>Lebenslagen</source>
+      </trans-unit>
+      <trans-unit id="lebenslagen.list">
+        <source>Lebenslagen list view</source>
+      </trans-unit>
+      <trans-unit id="lebenslagen.show">
+        <source>Lebenslagen detail view</source>
+      </trans-unit>
+
       <trans-unit id="settings.general.region_ids">
         <source>Region IDs (comma separated list)</source>
       </trans-unit>
@@ -45,8 +56,8 @@
         <source>Where to store maps2 records of Organisationseinheit items?</source>
       </trans-unit>
       <trans-unit id="settings.organisationseinheiten.maps2DetailPage">
-      <source>Detail page for maps2 poi collection</source>
-    </trans-unit>
+        <source>Detail page for maps2 poi collection</source>
+      </trans-unit>
 
     </body>
   </file>

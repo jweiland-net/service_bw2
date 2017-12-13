@@ -41,6 +41,18 @@
                     </numIndex>
                     <numIndex index="1">Leistungen->show</numIndex>
                   </numIndex>
+                  <numIndex index="4">
+                    <numIndex index="0">
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen.list
+                    </numIndex>
+                    <numIndex index="1">Lebenslagen->list</numIndex>
+                  </numIndex>
+                  <numIndex index="5">
+                    <numIndex index="0">
+                      LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen.show
+                    </numIndex>
+                    <numIndex index="1">Lebenslagen->show</numIndex>
+                  </numIndex>
                 </items>
                 <default>Organisationseinheiten->list</default>
               </config>
@@ -125,6 +137,17 @@
               </config>
             </TCEforms>
           </settings.leistungen.pidOfListPage>
+          <settings.lebenslagen.pidOfListPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.lebenslagen.pidOfListPage>
         </el>
       </ROOT>
     </sPagesList>
@@ -157,6 +180,17 @@
               </config>
             </TCEforms>
           </settings.leistungen.pidOfDetailPage>
+          <settings.lebenslagen.pidOfDetailPage>
+            <TCEforms>
+              <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </settings.lebenslagen.pidOfDetailPage>
         </el>
       </ROOT>
     </sPagesDetail>
