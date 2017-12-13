@@ -30,6 +30,9 @@ class ModelUtility
      * Returns an array with organisationseinheiten
      * This can be used in the getter of your extensions model e.g.
      *
+     * Important: define as string, so property mapper will fill that property with the ids e.g. 1245,565
+     * protected $organisationseinheiten = '';
+     *
      * public function getOrganisationseinheiten(): array
      * {
      *     return ModelUtility::getOrganisationseinheiten($this->organisationseinheiten);
