@@ -55,7 +55,7 @@ class ModelUtility
                     $record = $organisationseinheitenRepository->getById((int)$id);
                 } catch (\Exception $exception) {
                     GeneralUtility::sysLog(
-                        'Exception in OrganisationseinheitenTypeConverter while executing getById() with id' . $id
+                        'Exception in ModelUtility while executing getById() with id' . $id
                         . ': ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' Code: '
                         . $exception->getCode(),
                         'service_bw2',
