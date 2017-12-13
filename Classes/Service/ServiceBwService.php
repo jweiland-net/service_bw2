@@ -13,8 +13,6 @@ namespace JWeiland\ServiceBw2\Service;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use JWeiland\ServiceBw2\Client\ServiceBwClient;
-use JWeiland\ServiceBw2\Request;
 
 /**
  * Class ServiceBwService

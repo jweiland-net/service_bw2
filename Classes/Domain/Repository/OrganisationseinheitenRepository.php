@@ -14,16 +14,10 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use JWeiland\Maps2\Utility\GeocodeUtility;
-use JWeiland\ServiceBw2\Request;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
-use JWeiland\ServiceBw2\Service\TranslationService;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later

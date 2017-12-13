@@ -17,7 +17,6 @@ use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 use JWeiland\ServiceBw2\PostProcessor\RenameArrayKeyPostProcessor;
-use JWeiland\ServiceBw2\PostProcessor\TranslatePostProcessor;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
