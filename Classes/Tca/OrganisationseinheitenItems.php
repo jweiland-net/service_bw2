@@ -17,6 +17,7 @@ namespace JWeiland\ServiceBw2\Tca;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Service\TranslationService;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -25,7 +26,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  *
  * @package JWeiland\ServiceBw2\Tca
  */
-class OrganisationseinheitenItems
+class OrganisationseinheitenItems implements SingletonInterface
 {
     /**
      * @var OrganisationseinheitenRepository

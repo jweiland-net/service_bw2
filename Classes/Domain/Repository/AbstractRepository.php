@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -23,7 +24,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  *
  * @package JWeiland\ServiceBw2\Domain\Repository;
  */
-abstract class AbstractRepository
+abstract class AbstractRepository implements SingletonInterface
 {
     /**
      * Object manager
