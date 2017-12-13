@@ -18,7 +18,6 @@ use JWeiland\Maps2\Domain\Model\Location;
 use JWeiland\Maps2\Domain\Model\RadiusResult;
 use JWeiland\Maps2\Utility\GeocodeUtility;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
-use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;

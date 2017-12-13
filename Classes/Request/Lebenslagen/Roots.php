@@ -1,5 +1,6 @@
 <?php
-namespace JWeiland\ServiceBw2\Service;
+declare(strict_types = 1);
+namespace JWeiland\ServiceBw2\Request\Lebenslagen;
 
 /*
  * This file is part of the service_bw2 project.
@@ -14,11 +15,17 @@ namespace JWeiland\ServiceBw2\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Request\AbstractRequest;
+
 /**
- * Class ServiceBwService
+ * Class Roots
  *
- * @package JWeiland\ServiceBw2\Service
+ * @package JWeiland\ServiceBw2\Request\Lebenslagen
  */
-class ServiceBwService
+class Roots extends AbstractRequest
 {
+    /**
+     * @var string
+     */
+    protected $path = '/lebenslagen/roots';
 }

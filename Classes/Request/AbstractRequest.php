@@ -17,7 +17,6 @@ use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 use JWeiland\ServiceBw2\PostProcessor\RenameArrayKeyPostProcessor;
-use JWeiland\ServiceBw2\PostProcessor\TranslatePostProcessor;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -190,7 +189,7 @@ abstract class AbstractRequest implements RequestInterface
     {
         $method = trim(strtoupper((string)$method));
         $allowedMethods = array('GET', 'POST', 'PUT');
-        if (in_array($method, $allowedMethods)) {
+        if (in_array($method, $allowedMethods, true)) {
             $this->method = $method;
         }
     }
@@ -476,7 +475,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function removeCacheTag(string $cacheTag): bool
     {
-        if (in_array($cacheTag, $this->cacheTags)) {
+        if (in_array($cacheTag, $this->cacheTags, true)) {
             unset($this->cacheTags[array_search($cacheTag, $this->cacheTags, true)]);
             return true;
         }

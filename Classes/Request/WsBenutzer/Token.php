@@ -13,9 +13,8 @@ namespace JWeiland\ServiceBw2\Request\WsBenutzer;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
+
 use JWeiland\ServiceBw2\Request\AbstractRequest;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class Token

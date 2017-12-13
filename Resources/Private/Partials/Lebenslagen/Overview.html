@@ -1,0 +1,10 @@
+<f:for each="{lebenslagen}" as="lebenslage">
+	<li class="item extli">
+		<f:link.action pageUid="{pageUid}" arguments="{id: lebenslage.id}" action="show">{lebenslage.displayName}</f:link.action>
+		<f:if condition="{lebenslage._children}">
+			<ul class="items extul">
+				<f:render partial="Lebenslagen/Overview" arguments="{lebenslagen: lebenslagen._children, pageUid: pageUid}"/>
+			</ul>
+		</f:if>
+	</li>
+</f:for>

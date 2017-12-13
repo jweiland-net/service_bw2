@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types = 1);
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
 /*
- * This file is part of the service_bw2 project.
+ * This file is part of the TYPO3 CMS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,25 +15,21 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
-use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
-use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
-use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
+use JWeiland\ServiceBw2\Request\Lebenslagen\Children;
+use JWeiland\ServiceBw2\Request\Lebenslagen\Id;
+use JWeiland\ServiceBw2\Request\Lebenslagen\Live;
+use JWeiland\ServiceBw2\Request\Lebenslagen\References;
+use JWeiland\ServiceBw2\Request\Lebenslagen\Roots;
 
 /**
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * Class LebenslageRepository
+ *
+ * @package JWeiland\ServiceBw2\Domain\Repository
  */
-class OrganisationseinheitenRepository extends AbstractRepository
+class LebenslagenRepository extends AbstractRepository
 {
     /**
-     * Get all organizational units from Service BW
-     *
-     * Will return an associative array including Organisationseinheiten instances
-     * Children of Organisationseinheiten instances are located inside _children of current instance
-     * e.g. $records[12345]['_children'] = [...]
-     *
-     * Those Organisationseinheiten instances doesn´t contain all fields! Take a look at the service_bw
-     * API documentation
+     * Get all lebenslagen units from Service BW
      *
      * @return array
      * @throws \Exception if request if not valid!
@@ -42,43 +39,14 @@ class OrganisationseinheitenRepository extends AbstractRepository
         $request = $this->objectManager->get(Roots::class);
         $records = $this->serviceBwClient->processRequest($request);
         $this->addChildrenToRecords($records);
-        $this->translationService->translateRecords($records);
+        $this->translationService->translateRecords($records, true);
 
-        return $records;
-    }
-
-    /**
-     * Get records and children of that records by passing one or multiple $ids
-     *
-     * Will return an associative array including Organisationseinheiten instances
-     * Children of Organisationseinheiten instances are located inside _children of current instance
-     * e.g. $records[12345]['_children'] = [...]
-     *
-     * Those Organisationseinheiten instances doesn´t contain all fields! Take a look at the service_bw
-     * API documentation
-     *
-     * @param array $ids e.g. [42, 56] or [32]
-     * @return array records with children
-     * @throws \Exception if request is not valid!
-     */
-    public function getRecordsWithChildren(array $ids): array
-    {
-        $records = [];
-        foreach ($ids as $id) {
-            $records[] = $this->getById($id);
-        }
-        $this->translationService->translateRecords($records);
-        $this->addChildrenToRecords($records);
         return $records;
     }
 
     /**
      * Adds children recursive to $records
      * Will add children into $record[<id>]['_children'] = [];
-     *
-     * Children are from type Organisationseinheiten BUT doesn´t contain
-     * all fields! Take a look at service_bw API documentation if you
-     * want to know which fields are provided.
      *
      * @param array $records
      * @return void
@@ -87,11 +55,11 @@ class OrganisationseinheitenRepository extends AbstractRepository
     protected function addChildrenToRecords(array &$records)
     {
         if (is_array($records)) {
-            foreach ($records as &$organisationseinheit) {
-                $children = $this->getChildren($organisationseinheit['id']);
+            foreach ($records as &$record) {
+                $children = $this->getChildren($record['id']);
                 if (!empty($children)) {
                     $this->addChildrenToRecords($children);
-                    $organisationseinheit['_children'] = $children;
+                    $record['_children'] = $children;
                 }
             }
         }
@@ -108,15 +76,35 @@ class OrganisationseinheitenRepository extends AbstractRepository
     {
         $request = $this->objectManager->get(Children::class);
         $request->addParameter('id', $id);
+        return $this->serviceBwClient->processRequest($request);
+    }
+
+    /**
+     * Get related Verfahren for given Lebenslagen id
+     *
+     * @param int $id
+     * @param string $type
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getReferences(int $id, string $type)
+    {
+        $request = $this->objectManager->get(References::class);
+
+        $request->addParameter('id', $id);
+        $request->addParameter('type', $type);
+
         $records = $this->serviceBwClient->processRequest($request);
-        $this->translationService->translateRecords($records, false, true);
+        $this->translationService->translateRecords($records);
+
         return $records;
     }
 
     /**
-     * Get a Organisationseinheiten object by id
+     * Get a Lebenslage object by id
      * This is the object without Beschreibungstext if you want the object for
-     * detail view, use getLiveOrganisationseinheitById()
+     * detail view, use getLiveOrganisationsEinheitById()
      *
      * @param int $id
      * @param bool $removeParents set false if you want to get parent objects that
@@ -138,13 +126,13 @@ class OrganisationseinheitenRepository extends AbstractRepository
     }
 
     /**
-     * Get a live Organisationseinheiten object by id
+     * Get a live Lebenslagen object by id
      *
      * @param int $id
      * @return array
      * @throws \Exception if request is not valid!
      */
-    public function getLiveOrganisationseinheitById(int $id): array
+    public function getLiveLebenslagen(int $id): array
     {
         $request = $this->objectManager->get(Live::class);
         $request->addParameter('id', $id);
