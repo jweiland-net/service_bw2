@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 * The TYPO3 project - inspiring people to share!
 */
 
+use JWeiland\ServiceBw2\Request\Leistungen\Leistungen;
 use JWeiland\ServiceBw2\Request\Leistungen\Live;
 use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 
@@ -24,6 +25,29 @@ use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
  */
 class LeistungenRepository extends AbstractRepository
 {
+    /**
+     * Get all Leistungen
+     *
+     * @return array
+     * @throws \Exception if request is not valid
+     */
+    public function getAll(): array
+    {
+        $records = [];
+        $page = 0;
+        $pageSize = 500;
+        do {
+            $request = $this->objectManager->get(Leistungen::class);
+            $request->addParameter('page', $page);
+            $request->addParameter('pageSize', $pageSize);
+            $records += $this->serviceBwClient->processRequest($request);
+            $itemsLeft = $records['_root']['total'] - ($pageSize * ($page + 1));
+            $page++;
+            unset($records['_root']);
+        } while ($itemsLeft > 0);
+        return $records;
+    }
+
     /**
      * Get Leistungen that are related to Organisationseinheiten ($id)
      *

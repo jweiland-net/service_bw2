@@ -78,6 +78,6 @@ class LeistungenController extends AbstractController
 
     public function listAction()
     {
-
+        $this->view->assign('leistungen', $this->leistungenRepository->getAll());
     }
 }

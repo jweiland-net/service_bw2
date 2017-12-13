@@ -37,7 +37,13 @@ class JsonPostProcessor extends AbstractPostProcessor
         $decodedResponse = json_decode($response, 1);
         if (!empty($decodedResponse) && is_array($decodedResponse) && isset($decodedResponse['items'])) {
                 // sometimes the records are not at array root, they are in array key "items"
-                return $decodedResponse['items'];
+                // if so then the array inside items will used as root and all other properties
+                // will be copied into $arr['_root']
+                $processedResponse = $decodedResponse['items'];
+                unset($decodedResponse['items']);
+                $processedResponse['_root'] = $decodedResponse;
+                return $processedResponse;
+            }
         }
         return $decodedResponse;
     }
