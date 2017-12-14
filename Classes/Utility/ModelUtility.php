@@ -63,7 +63,7 @@ class ModelUtility
                     );
                     continue;
                 }
-                $organisationseinheiten += $record;
+                $organisationseinheiten[$id] = $record;
             }
         }
         return $organisationseinheiten;
