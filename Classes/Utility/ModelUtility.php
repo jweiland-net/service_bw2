@@ -35,7 +35,7 @@ class ModelUtility
      *
      * public function getOrganisationseinheiten(): array
      * {
-     *     return ModelUtility::getOrganisationseinheiten($this->organisationseinheiten);
+     *     return $this->organisationseinheiten = ModelUtility::getOrganisationseinheiten($this->organisationseinheiten);
      * }
      *
      * @param string|int|array comma separated list to get multiple records,
