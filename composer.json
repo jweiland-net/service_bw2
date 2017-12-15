@@ -30,7 +30,7 @@
   },
   "require": {
     "typo3/cms-core": "~8.7",
-    "jweiland/maps2": "~3.0",
+    "jweiland/maps2": "~3.0"
   },
   "autoload": {
     "psr-4": {
