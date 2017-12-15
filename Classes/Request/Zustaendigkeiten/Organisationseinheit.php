@@ -29,7 +29,8 @@ class Organisationseinheit extends AbstractRequest
     /**
      * @var string
      */
-    protected $path = '/zustaendigkeiten/organisationseinheit/{organisationseinheitId}';
+    protected $path = '/zustaendigkeiten/organisationseinheit/{organisationseinheitId}?page={page}&pageSize={pageSize}'
+    . '&sortProperty={sortProperty}&sortDirection={sortDirection}';
 
     /**
      * @var array
@@ -41,23 +42,21 @@ class Organisationseinheit extends AbstractRequest
         ],
         'page' => [
             'dataType' => 'integer',
-            'required' => false,
+            'required' => true,
             'default' => 0
         ],
         'pageSize' => [
             'dataType' => 'integer',
-            'required' => false,
+            'required' => true,
             'default' => 1000
-        ],
-        'sortDirection' => [
-            'dataType' => 'string',
-            'required' => false,
-            'default' => 'ASC'
         ],
         'sortProperty' => [
             'dataType' => 'string',
-            'required' => false,
-            'default' => 'createDate'
+            'required' => true,
+        ],
+        'sortDirection' => [
+            'dataType' => 'string',
+            'required' => true
         ]
     ];
 }

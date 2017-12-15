@@ -26,6 +26,12 @@ use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 class LeistungenRepository extends AbstractRepository
 {
     /**
+     * Sort property to be used by requests
+     */
+    const SORT_PROPERTY = 'displayName';
+    const SORT_DIRECTION = 'asc';
+
+    /**
      * Get all Leistungen
      *
      * @return array
@@ -35,11 +41,13 @@ class LeistungenRepository extends AbstractRepository
     {
         $records = [];
         $page = 0;
-        $pageSize = 500;
+        $pageSize = 1000;
         do {
             $request = $this->objectManager->get(Leistungen::class);
             $request->addParameter('page', $page);
             $request->addParameter('pageSize', $pageSize);
+            $request->addParameter('sortProperty', self::SORT_PROPERTY);
+            $request->addParameter('sortDirection', self::SORT_DIRECTION);
             $records += $this->serviceBwClient->processRequest($request);
             $itemsLeft = $records['_root']['total'] - ($pageSize * ($page + 1));
             $page++;
@@ -57,9 +65,22 @@ class LeistungenRepository extends AbstractRepository
      */
     public function getByOrganisationseinheit(int $id): array
     {
-        $request = $this->objectManager->get(Organisationseinheit::class);
-        $request->addParameter('organisationseinheitId', $id);
-        return $this->serviceBwClient->processRequest($request);
+        $records = [];
+        $page = 0;
+        $pageSize = 1000;
+        do {
+            $request = $this->objectManager->get(Organisationseinheit::class);
+            $request->addParameter('organisationseinheitId', $id);
+            $request->addParameter('page', $page);
+            $request->addParameter('pageSize', $pageSize);
+            $request->addParameter('sortProperty', self::SORT_PROPERTY);
+            $request->addParameter('sortDirection', self::SORT_DIRECTION);
+            $records += $this->serviceBwClient->processRequest($request);
+            $itemsLeft = $records['_root']['total'] - ($pageSize * ($page + 1));
+            $page++;
+            unset($records['_root']);
+        } while ($itemsLeft > 0);
+        return $records;
     }
 
     /**

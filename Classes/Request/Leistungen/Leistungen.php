@@ -28,7 +28,8 @@ class Leistungen extends AbstractRequest
     /**
      * @var string
      */
-    protected $path = '/leistungen?page={page}&pageSize={pageSize}';
+    protected $path = '/leistungen?page={page}&pageSize={pageSize}&sortProperty={sortProperty}'
+    . '&sortDirection={sortDirection}';
 
     /**
      * @var array
@@ -43,6 +44,14 @@ class Leistungen extends AbstractRequest
             'dataType' => 'integer',
             'required' => true,
             'default' => 1000
+        ],
+        'sortProperty' => [
+            'dataType' => 'string',
+            'required' => true,
+        ],
+        'sortDirection' => [
+            'dataType' => 'string',
+            'required' => true
         ]
     ];
 }
