@@ -29,20 +29,16 @@ class AlphabeticalIndexController extends AbstractWidgetController
      */
     public function indexAction()
     {
-        $this->view->assign(
-            'alphabeticalNavigation',
-            AlphabeticalIndexUtility::getNavigationHeader(
-                $this->widgetConfiguration['records'],
-                $this->widgetConfiguration['titleField']
-            )
+        $alphabeticalNavigation = [];
+        $recordList = [];
+        AlphabeticalIndexUtility::createAlphabeticalIndex(
+            $this->widgetConfiguration['records'],
+            $this->widgetConfiguration['titleField'],
+            $alphabeticalNavigation,
+            $recordList
         );
-        $this->view->assign(
-            'recordList',
-            AlphabeticalIndexUtility::getSortedRecordList(
-                $this->widgetConfiguration['records'],
-                $this->widgetConfiguration['titleField']
-            )
-        );
+        $this->view->assign('alphabeticalNavigation', $alphabeticalNavigation);
+        $this->view->assign('recordList', $recordList);
         $this->view->assign('detailPageUid', $this->widgetConfiguration['detailPageUid']);
         $this->view->assign('controller', $this->widgetConfiguration['controller']);
         $this->view->assign('action', $this->widgetConfiguration['action']);

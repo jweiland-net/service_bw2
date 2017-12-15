@@ -62,51 +62,37 @@ class AlphabeticalIndexUtility
     const TRIM_CHAR_LIST = ' "\'';
 
     /**
-     * Get navigation array header for $records
-     * will return an array with alphabetic letters
-     * from passed alphabet (german by default) and
-     * sets entries true if a record begins with that
-     * letter
+     * The $sortedLetterList is an array with alphabetic letters
+     * from passed alphabet (german by default).
+     * Entries are (bool) true if $records contains a record that begins with that letter
      * e.g. ['A' => true, 'B' => false, 'C' => true, ...]
      *
-     * @param array $records from your request
-     * @param string $titleField as structure from your record
-     * @param array $alphabet array with letters as key and boolean values as value
-     * @return array
-     */
-    public static function getNavigationHeader(
-        array $records,
-        string $titleField,
-        array $alphabet = self::GERMAN_ALPHABET
-    ): array
-    {
-        foreach ($records as $record) {
-            $alphabet[self::getFirstLetterOfRecordTitle($record[$titleField])] = true;
-        }
-        return $alphabet;
-    }
-
-    /**
-     * Get a list of passed (maybe unsorted) records, sorted by their first
-     * letter. Will return an array like
-     * ['A' => [], 'B' => [], ...]
+     * The $sortedRecordList is a list of passed (maybe unsorted) records, sorted by their first
+     * letter.
+     * e.g. ['A' => [], 'B' => [], ...]
      * An array key will only exist if their is at least one record inside of it!
      *
      * @param array $records from your request
      * @param string $titleField as structure from your record
-     * @return array
+     * @param array $sortedLetterList reference for letter list (navigation part)
+     * @param array $sortedRecordList reference for record list (list part)
+     * @param array $alphabet array with letters as key and boolean value as value (default letters)
+     * @return void
      */
-    public static function getSortedRecordList(
+    public static function createAlphabeticalIndex(
         array $records,
-        string $titleField
-    ): array
+        string $titleField,
+        array &$sortedLetterList,
+        array &$sortedRecordList,
+        array $alphabet = self::GERMAN_ALPHABET
+    )
     {
-        $sortedRecords = [];
+        $sortedLetterList = $alphabet;
         foreach ($records as $record) {
-            $sortedRecords[self::getFirstLetterOfRecordTitle($record[$titleField])][] = $record;
+            $sortedLetterList[self::getFirstLetterOfRecordTitle($record[$titleField])] = true;
+            $sortedRecordList[self::getFirstLetterOfRecordTitle($record[$titleField])][] = $record;
         }
-        ksort($sortedRecords);
-        return $sortedRecords;
+        ksort($sortedRecordList);
     }
 
     /**
