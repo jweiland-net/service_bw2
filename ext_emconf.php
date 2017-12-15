@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array(
     'title' => 'Interface for Service BW',
     'description' => 'With this extension you can access interface of service BW',
     'category' => 'plugin',
-    'author' => 'Stefan Froemken',
+    'author' => 'Stefan Froemken, Markus Kugler, Pascal Rinker',
     'author_email' => 'projects@jweiland.net',
     'author_company' => 'jweiland.net',
     'shy' => '',
@@ -30,7 +30,7 @@ $EM_CONF[$_EXTKEY] = array(
     'version' => '0.0.1',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '6.2.14-8.99.99',
+            'typo3' => '8.7.0-8.7.99',
             'maps2' => '3.0.0-3.99.99'
         ),
         'conflicts' => array(
