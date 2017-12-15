@@ -14,8 +14,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 * The TYPO3 project - inspiring people to share!
 */
 
-use TYPO3\CMS\Core\Utility\MathUtility;
-
 /**
  * Class RenameArrayKeyPostProcessor
  *
@@ -69,16 +67,16 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
     }
 
     /**
-     * $this->translate can only work with following arrays
-     * 0 => [id => 1]
-     * 1 => [id => 3]
-     * 2 => [id => 5]
+     * We need an array like:
+     * [
+     *   0 => [],
+     *   1 => [],
+     *   2 => [],
+     * ]
+     * Optionally there can be keys that begin with '_' (underline), these keys are
+     * for items that are edited e.g. by a post processor.
      *
-     * if we get something like:
-     * id => 123
-     * title => Hello
-     * name => Stefan
-     * this method will return false
+     * All array entries that does not have a key beginning with '_' have to be arrays!
      *
      * @param array $records
      *
@@ -86,6 +84,11 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
      */
     protected function allValuesAreArrays(array $records): bool
     {
-        return MathUtility::canBeInterpretedAsInteger(key($records));
+        foreach ($records as $key =>$record) {
+            if (!is_array($record) && $key[0] !== '_') {
+                return false;
+            }
+        }
+        return true;
     }
 }
