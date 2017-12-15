@@ -65,7 +65,7 @@ class OrganisationseinheitenController extends AbstractController
      */
     public function listAction()
     {
-        $listItems = json_decode('[' . $this->settings['organisationseinheit']['listItems'] . ']', true);
+        $listItems = json_decode('[' . $this->settings['organisationseinheiten']['listItems'] . ']', true);
         try {
             $records = $this->organisationseinheitenRepository->getRecordsWithChildren($listItems);
         } catch (\Exception $exception) {
