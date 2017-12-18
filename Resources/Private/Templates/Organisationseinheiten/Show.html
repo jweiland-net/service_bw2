@@ -5,8 +5,8 @@
   </div>
   <div class="grid_6 floatleft">
     <div class="gridright">
-      <f:if condition="{organisationseinheit.preamble}">
-        <f:format.html>{organisationseinheit.preamble}</f:format.html>
+      <f:if condition="{beschreibungstext.preamble}">
+        <f:format.html>{beschreibungstext.preamble}</f:format.html>
       </f:if>
       <f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
       <f:render partial="Organisationseinheiten/Leistungen" arguments="{leistungen: leistungen, leistungenDetailPid: settings.leistungen.pidOfDetailPage}" />
