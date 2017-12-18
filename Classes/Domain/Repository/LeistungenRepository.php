@@ -25,10 +25,6 @@ use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
  */
 class LeistungenRepository extends AbstractRepository
 {
-    /**
-     * Sort property to be used by requests
-     */
-    const SORT_PROPERTY = 'displayName';
     const SORT_DIRECTION = 'asc';
 
     /**
@@ -46,7 +42,7 @@ class LeistungenRepository extends AbstractRepository
             $request = $this->objectManager->get(Leistungen::class);
             $request->addParameter('page', $page);
             $request->addParameter('pageSize', $pageSize);
-            $request->addParameter('sortProperty', self::SORT_PROPERTY);
+            $request->addParameter('sortProperty', 'displayName');
             $request->addParameter('sortDirection', self::SORT_DIRECTION);
             $records += $this->serviceBwClient->processRequest($request);
             $itemsLeft = $records['_root']['total'] - ($pageSize * ($page + 1));
@@ -73,7 +69,7 @@ class LeistungenRepository extends AbstractRepository
             $request->addParameter('organisationseinheitId', $id);
             $request->addParameter('page', $page);
             $request->addParameter('pageSize', $pageSize);
-            $request->addParameter('sortProperty', self::SORT_PROPERTY);
+            $request->addParameter('sortProperty', 'leistung.displayName');
             $request->addParameter('sortDirection', self::SORT_DIRECTION);
             $records += $this->serviceBwClient->processRequest($request);
             $itemsLeft = $records['_root']['total'] - ($pageSize * ($page + 1));

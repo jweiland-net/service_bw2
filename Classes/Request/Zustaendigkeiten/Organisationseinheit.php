@@ -29,7 +29,7 @@ class Organisationseinheit extends AbstractRequest
     /**
      * @var string
      */
-    protected $path = '/zustaendigkeiten/organisationseinheit/{organisationseinheitId}?page={page}&pageSize={pageSize}'
+    protected $path = '/zustaendigkeiten/organisationseinheit/{organisationseinheitId}/?page={page}&pageSize={pageSize}'
     . '&sortProperty={sortProperty}&sortDirection={sortDirection}';
 
     /**
