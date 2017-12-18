@@ -49,7 +49,7 @@ class LebenslagenController extends AbstractController
     public function listAction()
     {
         try {
-            $records = $this->lebenslagenRepository->getAll();
+            $records = $this->lebenslagenRepository->getRoots();
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
