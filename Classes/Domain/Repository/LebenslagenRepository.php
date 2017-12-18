@@ -29,10 +29,25 @@ use JWeiland\ServiceBw2\Request\Lebenslagen\Roots;
 class LebenslagenRepository extends AbstractRepository
 {
     /**
+     * Gets all Lebenslagen roots
+     *
+     * @return array
+     * @throws \Exception if request is not valid
+     */
+    public function getRoots(): array
+    {
+        $request = $this->objectManager->get(Roots::class);
+        $records = $this->serviceBwClient->processRequest($request);
+        $this->translationService->translateRecords($records, true);
+
+        return $records;
+    }
+
+    /**
      * Get all lebenslagen units from Service BW
      *
      * @return array
-     * @throws \Exception if request if not valid!
+     * @throws \Exception if request is not valid!
      */
     public function getAll(): array
     {

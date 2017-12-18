@@ -1,10 +1,6 @@
+{namespace jw=JWeiland\ServiceBw2\ViewHelpers}
 <f:layout name="default" />
 <f:section name="main">
-	<div class="list category_list">
-		<div class="category">
-			<ul>
-				<f:render partial="Lebenslagen/Overview" arguments="{lebenslagen: lebenslagen, pageUid: settings.lebenslagen.pidOfDetailPage}" />
-			</ul>
-		</div>
-	</div>
+  <jw:widget.alphabeticalIndex detailPageUid="{settings.lebenslagen.pidOfDetailPage}" records="{lebenslagen}"
+                               controller="lebenslagen" action="show"/>
 </f:section>
