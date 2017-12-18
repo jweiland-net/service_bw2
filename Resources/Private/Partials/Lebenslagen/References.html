@@ -1,7 +1,7 @@
 <ul class="items extul">
   <f:for each="{references}" as="reference" iteration="iterator">
     <li class="items extli">
-      <f:link.action pageUid="{pageUid}" controller="Leistungen" arguments="{id: reference.id}" action="show">
+      <f:link.action pageUid="{settings.leistungen.pidOfDetailPage}" controller="Leistungen" arguments="{id: reference.id}" action="show">
         {reference.description}
       </f:link.action>
     </li>
