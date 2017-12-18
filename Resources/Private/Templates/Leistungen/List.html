@@ -1,3 +1,6 @@
 {namespace jw=JWeiland\ServiceBw2\ViewHelpers}
-<jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}" records="{leistungen}"
-                             controller="Leistungen" action="show"/>
+<f:layout name="default"/>
+<f:section name="main">
+  <jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}" records="{leistungen}"
+                               controller="Leistungen" action="show"/>
+</f:section>
