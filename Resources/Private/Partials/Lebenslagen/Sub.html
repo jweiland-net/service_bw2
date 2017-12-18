@@ -1,8 +1,8 @@
 <ul class="items extul">
-  <f:for each="{childLebenslagen}" as="lebenslage" iteration="iterator">
+  <f:for each="{childLebenslagen}" as="lebenslage">
     <li class="items extli">
       <f:link.action pageUid="{pageUid}" arguments="{id: lebenslage.id}" action="show">
-        {iterator.cycle}. {lebenslage.displayName}
+        {lebenslage.displayName}
       </f:link.action>
     </li>
   </f:for>
