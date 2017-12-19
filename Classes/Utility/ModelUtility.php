@@ -68,4 +68,40 @@ class ModelUtility
         }
         return $organisationseinheiten;
     }
+
+    /**
+     * Returns an array with fields of a organisationseinheit
+     * This can be used in the getter of your extensions model e.g.
+     *
+     * Important: define as string or int, so property mapper will fill that property with the ids e.g. 1245
+     * protected $organisationseinheit = '';
+     *
+     * public function getOrganisationseinheit(): array
+     * {
+     *     return $this->organisationseinheit = ModelUtility::getOrganisationseinheit($this->organisationseinheit);
+     * }
+     *
+     * @param string|int id of a single organisationseinheit
+     * @return array of organisationseinheit e.g. ['id' => 1234, ...]
+     */
+    public static function getOrganisationseinheit($organisationseinheit): array
+    {
+        if (!is_array($organisationseinheit)) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
+            try {
+                $organisationseinheit = $organisationseinheitenRepository->getById((int)$organisationseinheit);
+            } catch (\Exception $exception) {
+                GeneralUtility::sysLog(
+                    'Exception in ModelUtility while executing getById() with id' . $organisationseinheit
+                    . ': ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' Code: '
+                    . $exception->getCode(),
+                    'service_bw2',
+                    GeneralUtility::SYSLOG_SEVERITY_ERROR
+                );
+                $organisationseinheit = [];
+            }
+        }
+        return $organisationseinheit;
+    }
 }
