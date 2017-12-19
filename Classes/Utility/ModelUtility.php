@@ -82,7 +82,7 @@ class ModelUtility
      * }
      *
      * @param string|int id of a single organisationseinheit
-     * @return array of organisationseinheit e.g. ['id' => 1234,
+     * @return array of organisationseinheit e.g. ['id' => 1234, ...]
      */
     public static function getOrganisationseinheit($organisationseinheit): array
     {
