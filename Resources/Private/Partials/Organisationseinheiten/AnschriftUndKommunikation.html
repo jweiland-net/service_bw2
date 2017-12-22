@@ -1,8 +1,32 @@
-<f:render partial="Organisationseinheiten/Anschrift" arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'HAUSANSCHRIFT', dlClass: 'extdl clearfix rulerafter', organisationseinheitId: organisationseinheit.id, maps2DetailPageUid: maps2DetailPageUid}" />
-<f:render partial="Organisationseinheiten/Anschrift" arguments="{anschrift: organisationseinheit.anschrift, type: 'GROSSEMPFAENGERPOSTFACH', dlClass: 'extdl clearfix'}" />
-<f:if condition="{organisationseinheit.infoOeffnungszeitenText}">
-  <dl class="extdl clearfix">
-    <dt><f:translate key="organisationseinheit.opening_hours" /></dt>
-    <dd class="opening-hours"><f:format.html>{organisationseinheit.infoOeffnungszeitenText}</f:format.html></dd>
-  </dl>
+{namespace jw=JWeiland\ServiceBw2\ViewHelpers}
+<f:render partial="Organisationseinheiten/Anschrift"
+          arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'HAUSANSCHRIFT', dlClass: 'extdl clearfix rulerafter', organisationseinheitId: organisationseinheit.id, maps2DetailPageUid: maps2DetailPageUid}"/>
+<f:render partial="Organisationseinheiten/Anschrift"
+          arguments="{anschrift: organisationseinheit.anschrift, type: 'GROSSEMPFAENGERPOSTFACH', dlClass: 'extdl clearfix'}"/>
+<f:if
+condition="{beschreibungstext.organisationseinheit.structuredOpeningHours} || {organisationseinheit.infoOeffnungszeitenText}">
+
+  <f:comment>
+    This is a very weird system! Sometimes there is just the old "migrated" openingHours HTML field,
+    then we use this with an unknown HTML structure. In other cases the new structuredOpeningHours field is
+    available and can be used.
+    In later versions of Service BW API this will be changed!
+  </f:comment>
+  <f:if condition="{beschreibungstext.organisationseinheit.structuredOpeningHours}">
+    <f:then>
+      <jw:openingHours structuredOpeningHours="{beschreibungstext.organisationseinheit.structuredOpeningHours}"/>
+    </f:then>
+    <f:else>
+      <f:if condition="{beschreibungstext.organisationseinheit.openingHours}">
+        <dl class="extdl clearfix">
+          <dt>
+            <f:translate key="organisationseinheit.opening_hours"/>
+          </dt>
+          <dd class="opening-hours">
+            <f:format.html>{beschreibungstext.organisationseinheit.openingHours}</f:format.html>
+          </dd>
+        </dl>
+      </f:if>
+    </f:else>
+  </f:if>
 </f:if>
