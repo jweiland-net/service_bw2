@@ -112,7 +112,7 @@ class ServiceBwClient
             $body = \json_decode($this->cacheInstance->get($cacheIdentifier), 1);
         } else {
             if (!$request->isValidRequest()) {
-                throw new \HttpRequestException('Request not valid', 123);
+                throw new \HttpRequestException('Request not valid', 1513940893);
             }
             if ($this->client === null) {
                 $this->client = GeneralUtility::makeInstance(Client::class);
