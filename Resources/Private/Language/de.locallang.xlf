@@ -65,6 +65,26 @@
         <source>To top</source>
         <target>Nach oben</target>
       </trans-unit>
+      <trans-unit id="opening_hours.short-form.MONTAG">
+        <source>Mon</source>
+        <target>Mo</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DIENSTAG">
+        <source>Tues</source>
+        <target>Di</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MITTWOCH">
+        <source>Weds</source>
+        <target>Mi</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DONNERSTAG">
+        <source>Thurs</source>
+        <target>Do</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.FREITAG">
+        <source>Fri</source>
+        <target>Fr</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
