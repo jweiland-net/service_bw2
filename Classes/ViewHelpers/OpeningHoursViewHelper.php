@@ -32,7 +32,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  *   <dd>Mon 08-12</dd>
  *   <dd>Tues 08-12</dd>
  *     ...
- * </ul>
+ * </dl>
  *
  * Displays all opening hours using 24 hours system
  *
@@ -57,6 +57,8 @@ class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Initializes the arguments
+     *
+     * @return void
      */
     public function initializeArguments()
     {
@@ -75,7 +77,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): string {
         $html = [];
         // This array inlcudes an array from type ALLGEMEINE_OEFFNUNGSZEIT
         foreach ($arguments['structuredOpeningHours'] as $structuredOpeningHours) {
@@ -94,7 +96,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * @param array $structuredOpeningHours
      * @return string
      */
-    protected static function getAllgemeineOeffnungszeit(array $structuredOpeningHours)
+    protected static function getAllgemeineOeffnungszeit(array $structuredOpeningHours): string
     {
         $html = [];
         if (isset($structuredOpeningHours['regulaereZeiten']) && is_array($structuredOpeningHours['regulaereZeiten'])) {
@@ -176,7 +178,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * @param array $regulaereZeiten
      * @return array
      */
-    protected static function getRegulaereZeitenHours(array $regulaereZeiten)
+    protected static function getRegulaereZeitenHours(array $regulaereZeiten): array
     {
         return [
             'from' => date(
