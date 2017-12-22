@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Request\Organisationseinheiten;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\PostProcessor\PublishStatusPostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
@@ -27,4 +28,13 @@ class Roots extends AbstractRequest
      * @var string
      */
     protected $path = '/organisationseinheiten/roots';
+
+    /**
+     * Add request related PostProcessors
+     *
+     * @var array
+     */
+    protected $additionalPostProcessorClassNames = [
+        PublishStatusPostProcessor::class
+    ];
 }
