@@ -29,7 +29,7 @@ class PublishStatusPostProcessor extends AbstractPostProcessor
      * @param array $response
      * @return array
      */
-    public function process($response): array
+    public function process($response)
     {
         if (is_array($response)) {
             foreach ($response as $key => $item) {
