@@ -122,10 +122,10 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                         $html[] = ' ' . $forenoonOpeningHours['from'] . ' - ' . $forenoonOpeningHours['to'];
                     }
                     if ($forenoon && $afternoon) {
-                        $html[] = ', ';
+                        $html[] = ',';
                     }
                     if ($afternoon) {
-                        $html[] = $afternoonOpeningHours[$dayInGerman]['from'] . ' - '
+                        $html[] = ' ' . $afternoonOpeningHours[$dayInGerman]['from'] . ' - '
                             . $afternoonOpeningHours[$dayInGerman]['to'];
                     }
                     $html[] = '</dd>';
