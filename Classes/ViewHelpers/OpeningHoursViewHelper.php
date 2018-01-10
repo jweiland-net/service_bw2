@@ -25,7 +25,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  * organisationseinheit.openingHours (HTML opening hours) if you
  * don´t get structuredOpeningHours (this weird array) from the
  * API
- *
  * Will return the following structure (multi language):
  * <dl class="extdl clearfix">
  *   <dt>Opening hours</dt>
@@ -33,7 +32,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  *   <dd>Tues 08-12</dd>
  *     ...
  * </dl>
- *
  * Displays all opening hours using 24 hours system
  *
  * @package JWeiland\ServiceBw2\ViewHelpers;
@@ -101,7 +99,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
         $html = [];
         if (isset($structuredOpeningHours['regulaereZeiten']) && is_array($structuredOpeningHours['regulaereZeiten'])) {
             // Forenoon opening hours
-            $forenoonOpeningHours = [];
+            $forenoonOpeningHours = '';
             // Afternoon opening hours
             $afternoonOpeningHours = [];
 
@@ -115,20 +113,19 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             $html[] = '<dt>' . LocalizationUtility::translate('organisationseinheit.opening_hours', 'service_bw2')
                 . '</dt>';
             foreach (self::DAYS as $dayInGerman) {
-                $forenoon = !empty($forenoonOpeningHours);
-                $afternoon = isset($afternoonOpeningHours[$dayInGerman]);
-                if ($forenoon || $afternoon) {
+                $afternoon = isset($afternoonOpeningHours[$dayInGerman]) && count($afternoonOpeningHours[$dayInGerman]);
+                if ($forenoonOpeningHours || $afternoon) {
                     $html[] = '<dd class="structured-opening-hours">';
                     $html[] = LocalizationUtility::translate('opening_hours.short-form.' . $dayInGerman, 'service_bw2');
-                    if ($forenoon) {
-                        $html[] = ' ' . $forenoonOpeningHours['from'] . ' - ' . $forenoonOpeningHours['to'];
+                    if ($forenoonOpeningHours) {
+                        $html[] = ' ' . $forenoonOpeningHours;
                     }
-                    if ($forenoon && $afternoon) {
+                    if ($forenoonOpeningHours && $afternoon) {
                         $html[] = ',';
                     }
                     if ($afternoon) {
-                        $html[] = ' ' . $afternoonOpeningHours[$dayInGerman]['from'] . ' - '
-                            . $afternoonOpeningHours[$dayInGerman]['to'];
+                        $html[] = ' ';
+                        $html[] = implode(', ', $afternoonOpeningHours[$dayInGerman]);
                     }
                     $html[] = '</dd>';
                 }
@@ -142,13 +139,13 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * Process opening hours using $structuredOpeningHours['regulaereZeiten'] array
      *
      * @param array $regulaereZeiten
-     * @param array $forenoonOpeningHours reference!
+     * @param string $forenoonOpeningHours reference!
      * @param array $afternoonOpeningHours reference!
      * @return void
      */
     protected static function processOpeningHours(
         array $regulaereZeiten,
-        array &$forenoonOpeningHours,
+        string &$forenoonOpeningHours,
         array &$afternoonOpeningHours
     ) {
         foreach ($regulaereZeiten as $regulaereZeitenDay) {
@@ -163,32 +160,22 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                     $forenoonOpeningHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
                     // Opening hours individual day afternoon
                 } else {
-                    $afternoonOpeningHours[$regulaereZeitenDay['tagestyp']] = self::getRegulaereZeitenHours(
-                        $regulaereZeitenDay
-                    );
+                    $regulaereZeitenHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
+                    $afternoonOpeningHours[$regulaereZeitenDay['tagestyp']][(int)substr($regulaereZeitenHours, 0, 2)]
+                        = $regulaereZeitenHours;
                 }
             }
         }
     }
 
     /**
-     * Get an array with opening hours like
-     * [from => '06:00', to => '12:00']
+     * Get the opening hours as string e.g. 07:00 - 12:00
      *
      * @param array $regulaereZeiten
-     * @return array
+     * @return string
      */
-    protected static function getRegulaereZeitenHours(array $regulaereZeiten): array
+    protected static function getRegulaereZeitenHours(array $regulaereZeiten): string
     {
-        return [
-            'from' => date(
-                'H:i',
-                $regulaereZeiten['start'] / 1000
-            ),
-            'to' => date(
-                'H:i',
-                $regulaereZeiten['end'] / 1000
-            )
-        ];
+        return date('H:i', $regulaereZeiten['start'] / 1000) . ' - ' . date('H:i', $regulaereZeiten['end'] / 1000);
     }
 }
