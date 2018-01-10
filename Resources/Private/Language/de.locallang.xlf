@@ -59,7 +59,7 @@
       </trans-unit>
       <trans-unit id="organisationseinheit.children">
         <source>Subordinate Organisationseinheiten</source>
-        <target>Untergeordnete Stellen</target>
+        <target>Zugeordnete Stellen</target>
       </trans-unit>
       <trans-unit id="alphabetical_index.to_top">
         <source>To top</source>
