@@ -38,7 +38,7 @@
 
       <trans-unit id="lebenslage.inferior_lebenslagen">
         <source>Inferior Circumstance</source>
-        <target>Untergeordnete Lebenslagen</target>
+        <target>Zugeordnete Lebenslagen</target>
       </trans-unit>
       <trans-unit id="lebenslage.related_verfahren">
         <source>Related Procedure</source>
