@@ -77,11 +77,12 @@ class OpeningHoursViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ): string {
         $html = [];
+        $allowedTypes = ['ALLGEMEINE_OEFFNUNGSZEIT', 'BESUCHSZEIT', 'TELEFONISCHE_ERREICHBARKEIT'];
         // This array inlcudes an array from type ALLGEMEINE_OEFFNUNGSZEIT
         foreach ($arguments['structuredOpeningHours'] as $structuredOpeningHours) {
             if (isset($structuredOpeningHours['type'])) {
-                if ($structuredOpeningHours['type'] === 'ALLGEMEINE_OEFFNUNGSZEIT') {
-                    $html[] = self::getAllgemeineOeffnungszeit($structuredOpeningHours);
+                if (in_array($structuredOpeningHours['type'], $allowedTypes, true)) {
+                    $html[] = self::getStructuredOpeningHoursHTML($structuredOpeningHours);
                 }
             }
         }
@@ -89,12 +90,12 @@ class OpeningHoursViewHelper extends AbstractViewHelper
     }
 
     /**
-     * Get HTML for an allgemeineOeffnungszeit array
+     * Get HTML for an structuredOpeningHours array
      *
      * @param array $structuredOpeningHours
      * @return string
      */
-    protected static function getAllgemeineOeffnungszeit(array $structuredOpeningHours): string
+    protected static function getStructuredOpeningHoursHTML(array $structuredOpeningHours): string
     {
         $html = [];
         if (isset($structuredOpeningHours['regulaereZeiten']) && is_array($structuredOpeningHours['regulaereZeiten'])) {
@@ -110,8 +111,12 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             );
 
             $html[] = '<dl class="extdl clearfix">';
-            $html[] = '<dt>' . LocalizationUtility::translate('organisationseinheit.opening_hours', 'service_bw2')
-                . '</dt>';
+            $html[] = '<dt>';
+            $html[] = LocalizationUtility::translate(
+                'organisationseinheit.opening_hours.' . $structuredOpeningHours['type'],
+                'service_bw2'
+            );
+            $html[] = '</dt>';
             foreach (self::DAYS as $dayInGerman) {
                 $afternoon = isset($afternoonOpeningHours[$dayInGerman]) && count($afternoonOpeningHours[$dayInGerman]);
                 if ($forenoonOpeningHours || $afternoon) {
@@ -124,6 +129,8 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                         $html[] = ',';
                     }
                     if ($afternoon) {
+                        // sort by key because the key should be the start time
+                        ksort($afternoonOpeningHours[$dayInGerman]);
                         $html[] = ' ';
                         $html[] = implode(', ', $afternoonOpeningHours[$dayInGerman]);
                     }

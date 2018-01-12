@@ -19,6 +19,10 @@
         <source>Home address</source>
         <target>Hausanschrift</target>
       </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
+        <source>Visitor address</source>
+        <target>Besucheranschrift</target>
+      </trans-unit>
       <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
         <source>Mailing address</source>
         <target>Postanschrift</target>
@@ -27,9 +31,17 @@
         <source>e-mail</source>
         <target>E-Mail</target>
       </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours">
+      <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
         <source>Opening hours</source>
         <target>Öffnungszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
+        <source>Visiting hours</source>
+        <target>Besuchszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
+        <source>Accessibility by phone</source>
+        <target>Telefonische Erreichbarkeit</target>
       </trans-unit>
       <trans-unit id="organisationseinheit.leistungen">
         <source>Services</source>
