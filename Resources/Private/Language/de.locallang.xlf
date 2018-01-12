@@ -85,6 +85,10 @@
         <source>Fri</source>
         <target>Fr</target>
       </trans-unit>
+      <trans-unit id="leistungen.organisationseinheiten.head">
+        <source>Competent Organisationseinheiten</source>
+        <target>Zuständige Verwaltungsstellen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
