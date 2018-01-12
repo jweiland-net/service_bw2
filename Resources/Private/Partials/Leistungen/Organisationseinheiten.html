@@ -1,0 +1,12 @@
+<f:if condition="{organisationseinheiten}">
+  <div class="relations">
+    <h3><f:translate key="leistungen.organisationseinheiten.head" /></h3>
+    <ul class="items extul">
+      <f:for each="{organisationseinheiten}" as="organisationseinheit">
+        <li class="items extli">
+          <f:link.action pageUid="{settings.organisationseinheiten.pidOfDetailPage}" arguments="{id: organisationseinheit.id}" controller="Organisationseinheiten" action="show">{organisationseinheit.title}</f:link.action>
+        </li>
+      </f:for>
+    </ul>
+  </div>
+</f:if>

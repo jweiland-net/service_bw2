@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\ExterneFormulareRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 
 /**
  * Class LeistungenController
@@ -33,6 +34,11 @@ class LeistungenController extends AbstractController
      * @var ExterneFormulareRepository
      */
     protected $externeFormulareRepository;
+
+    /**
+     * @var OrganisationseinheitenRepository
+     */
+    protected $organisationseinheitenRepository;
 
     /**
      * inject leistungenRepository
@@ -57,6 +63,17 @@ class LeistungenController extends AbstractController
     }
 
     /**
+     * inject OrganisationseinheitenRepository
+     *
+     * @param OrganisationseinheitenRepository $organisationseinheitenRepository
+     * @return void
+     */
+    public function injectOrganisationseinheitenRepository(OrganisationseinheitenRepository $organisationseinheitenRepository)
+    {
+        $this->organisationseinheitenRepository = $organisationseinheitenRepository;
+    }
+
+    /**
      * Show action
      *
      * @param int $id of Leistung
@@ -68,12 +85,17 @@ class LeistungenController extends AbstractController
         try {
             $leistung = $this->leistungenRepository->getLiveById($id);
             $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
+            $organisationseinheiten = $this->organisationseinheitenRepository->getRecordsByLeistungAndRegionId(
+                $id,
+                $regionIds
+            );
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
         $this->view->assign('leistung', $leistung);
         $this->view->assign('externeFormulare', $externeFormulare);
+        $this->view->assign('organisationseinheiten', $organisationseinheiten);
     }
 
     public function listAction()

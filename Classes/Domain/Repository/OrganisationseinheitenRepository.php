@@ -18,6 +18,7 @@ use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
+use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Leistung;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -152,5 +153,40 @@ class OrganisationseinheitenRepository extends AbstractRepository
         $record = $this->serviceBwClient->processRequest($request);
         $record = $record[$id];
         return $record;
+    }
+
+    /**
+     * Get Organisationseinheiten by a leistung id and at least one region id
+     *
+     * @param int $leistungId
+     * @param string $regionIds
+     * @return array
+     * @throws \Exception
+     */
+    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds)
+    {
+        $regionIdArray = explode(',', $regionIds);
+        $records = [];
+        $page = 0;
+        $pageSize = 1000;
+        do {
+            $request = $this->objectManager->get(Leistung::class);
+            $request->addParameter('leistungId', $leistungId);
+            $request->addParameter('page', $page);
+            $request->addParameter('pageSize', $pageSize);
+            $records += $this->serviceBwClient->processRequest($request);
+            $itemsLeft = $records['_root']['total'] - ($pageSize * ($page + 1));
+            $page++;
+            unset($records['_root']);
+        } while ($itemsLeft > 0);
+
+        $organisationseinheiten = [];
+        foreach ($records as $key => $record) {
+            if (in_array((string)$record['regionId'], $regionIdArray, true)) {
+                $organisationseinheiten[(int)$record['organisationseinheitId']] =
+                    $this->getLiveOrganisationseinheitById((int)$record['organisationseinheitId']);
+            }
+        }
+        return $organisationseinheiten;
     }
 }

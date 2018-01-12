@@ -64,6 +64,9 @@
       <trans-unit id="opening_hours.short-form.FREITAG">
         <source>Fri</source>
       </trans-unit>
+      <trans-unit id="leistungen.organisationseinheiten.head">
+        <source>Competent Organisationseinheiten</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
