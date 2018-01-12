@@ -117,6 +117,10 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                 'service_bw2'
             );
             $html[] = '</dt>';
+            // show note if set
+            if ($structuredOpeningHours['hinweisText']) {
+                $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
+            }
             foreach (self::DAYS as $dayInGerman) {
                 $afternoon = isset($afternoonOpeningHours[$dayInGerman]) && count($afternoonOpeningHours[$dayInGerman]);
                 if ($forenoonOpeningHours || $afternoon) {
