@@ -35,9 +35,25 @@
         <source>Opening hours</source>
         <target>Öffnungszeiten</target>
       </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
+        <source>Registration time</source>
+        <target>Anmeldezeiten</target>
+      </trans-unit>
       <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
         <source>Visiting hours</source>
         <target>Besuchszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
+        <source>Operational time</source>
+        <target>Funktionszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
+        <source>Core hours</source>
+        <target>Kernzeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
+        <source>Engineering time</source>
+        <target>Servicezeiten</target>
       </trans-unit>
       <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
         <source>Accessibility by phone</source>

@@ -77,7 +77,15 @@ class OpeningHoursViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ): string {
         $html = [];
-        $allowedTypes = ['ALLGEMEINE_OEFFNUNGSZEIT', 'BESUCHSZEIT', 'TELEFONISCHE_ERREICHBARKEIT'];
+        $allowedTypes = [
+            'ALLGEMEINE_OEFFNUNGSZEIT',
+            'ANMELDEZEIT',
+            'BESUCHSZEIT',
+            'FUNKTIONSZEIT',
+            'KERNZEITEN',
+            'SERVICEZEIT',
+            'TELEFONISCHE_ERREICHBARKEIT',
+        ];
         // This array inlcudes an array from type ALLGEMEINE_OEFFNUNGSZEIT
         foreach ($arguments['structuredOpeningHours'] as $structuredOpeningHours) {
             if (isset($structuredOpeningHours['type'])) {

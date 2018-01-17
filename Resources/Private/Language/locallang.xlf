@@ -26,8 +26,20 @@
       <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
         <source>Opening hours</source>
       </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
+        <source>Registration time</source>
+      </trans-unit>
       <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
         <source>Visiting hours</source>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
+        <source>Operational time</source>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
+        <source>Core hours</source>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
+        <source>Engineering time</source>
       </trans-unit>
       <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
         <source>Accessibility by phone</source>
