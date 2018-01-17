@@ -17,6 +17,8 @@ namespace JWeiland\ServiceBw2\Controller;
 use JWeiland\ServiceBw2\Domain\Repository\ExterneFormulareRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class LeistungenController
@@ -93,6 +95,10 @@ class LeistungenController extends AbstractController
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
+        $organisationseinheiten = ServiceBwUtility::removeItemsFromArray(
+            $organisationseinheiten,
+            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'])
+        );
         $this->view->assign('leistung', $leistung);
         $this->view->assign('externeFormulare', $externeFormulare);
         $this->view->assign('organisationseinheiten', $organisationseinheiten);

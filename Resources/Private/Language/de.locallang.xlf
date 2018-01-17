@@ -48,8 +48,8 @@
         <target>Betreute Verfahren</target>
       </trans-unit>
 
-      <trans-unit id="lebenslage.inferior_lebenslagen">
-        <source>Inferior Circumstance</source>
+      <trans-unit id="lebenslage.assigned_life_situations">
+        <source>Assigned life situations</source>
         <target>Zugeordnete Lebenslagen</target>
       </trans-unit>
       <trans-unit id="lebenslage.related_verfahren">

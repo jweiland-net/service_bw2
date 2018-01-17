@@ -5,10 +5,10 @@
     <header/>
     <body>
 
-      <trans-unit id="sheetGeneral">
+      <trans-unit id="sheet_general">
         <source>General</source>
       </trans-unit>
-      <trans-unit id="displayMode">
+      <trans-unit id="display_mode">
         <source>Display mode</source>
       </trans-unit>
       <trans-unit id="organisationseinheiten.list">
@@ -17,13 +17,13 @@
       <trans-unit id="organisationseinheiten.show">
         <source>Organisationseinheiten detail view</source>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.listItems">
+      <trans-unit id="settings.organisationseinheiten.list_items">
         <source>Choose items to display (recursive)</source>
       </trans-unit>
-      <trans-unit id="sheetListPages">
+      <trans-unit id="sheet_list_pages">
         <source>Pages (list view)</source>
       </trans-unit>
-      <trans-unit id="sheetDetailPages">
+      <trans-unit id="sheet_detail_pages">
         <source>Pages (detail view)</source>
       </trans-unit>
       <trans-unit id="organisationseinheiten">
@@ -52,11 +52,14 @@
       <trans-unit id="settings.general.region_ids">
         <source>Region IDs (comma separated list)</source>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.maps2Pid">
+      <trans-unit id="settings.organisationseinheiten.maps2_pid">
         <source>Where to store maps2 records of Organisationseinheit items?</source>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.maps2DetailPage">
+      <trans-unit id="settings.organisationseinheiten.maps2_detail_page">
         <source>Detail page for maps2 poi collection</source>
+      </trans-unit>
+      <trans-unit id="settings.leistungen.hide_assigned_life_situations">
+        <source>Hide selected assigned life situations</source>
       </trans-unit>
 
     </body>

@@ -5,11 +5,11 @@
     <header/>
     <body>
 
-      <trans-unit id="sheetGeneral">
+      <trans-unit id="sheet_general">
         <source>General</source>
         <target>Allgemein</target>
       </trans-unit>
-      <trans-unit id="displayMode">
+      <trans-unit id="display_mode">
         <source>Display mode</source>
         <target>Ausgabe</target>
       </trans-unit>
@@ -21,15 +21,15 @@
         <source>Organisationseinheiten show view</source>
         <target>Organisationseinheiten Detailansicht</target>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.listItems">
+      <trans-unit id="settings.organisationseinheiten.list_items">
         <source>Choose items to display (recursive)</source>
         <target>Zeige folgende Organisationseinheiten davon an (rekursiv)</target>
       </trans-unit>
-      <trans-unit id="sheetListPages">
+      <trans-unit id="sheet_list_pages">
         <source>Pages (list view)</source>
         <target>Seiten (Listenansicht)</target>
       </trans-unit>
-      <trans-unit id="sheetDetailPages">
+      <trans-unit id="sheet_detail_pages">
         <source>Pages (detail view)</source>
         <target>Seiten (Detailansicht)</target>
       </trans-unit>
@@ -53,13 +53,17 @@
         <source>Region IDs (comma separated list)</source>
         <target>Region IDs (Kommaseparierte Liste)</target>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.maps2Pid">
+      <trans-unit id="settings.organisationseinheiten.maps2_pid">
         <source>Where to store maps2 records of Organisationseinheit items?</source>
         <target>Speicherort für maps2 Datensätze von Organisationseinheiten</target>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.maps2DetailPage">
+      <trans-unit id="settings.organisationseinheiten.maps2_detail_page">
         <source>Detail page for maps2 poi collection</source>
         <target>Seite für die maps2 Detailansicht </target>
+      </trans-unit>
+      <trans-unit id="settings.leistungen.hide_assigned_life_situations">
+        <source>Hide selected assigned life situations</source>
+        <target>Verstecke ausgewählte Zugeordnete Lebenslagen im Frontend</target>
       </trans-unit>
 
     </body>
