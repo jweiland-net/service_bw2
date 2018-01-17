@@ -82,7 +82,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             'ANMELDEZEIT',
             'BESUCHSZEIT',
             'FUNKTIONSZEIT',
-            'KERNZEITEN',
+            'KERNZEIT',
             'SERVICEZEIT',
             'TELEFONISCHE_ERREICHBARKEIT',
         ];
