@@ -14,60 +14,30 @@ namespace JWeiland\ServiceBw2\IndexQueue;
  * The TYPO3 project - inspiring people to share!
  */
 
-use ApacheSolrForTypo3\Solr\Domain\Variants\IdBuilder;
-use ApacheSolrForTypo3\Solr\IndexQueue\Indexer;
 use ApacheSolrForTypo3\Solr\IndexQueue\Item;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class OrganisationsEinheitenIndexer
  *
  * @package JWeiland\ServiceBw2\IndexQueue
  */
-class OrganisationsEinheitenIndexer extends Indexer
+class OrganisationsEinheitenIndexer extends AbstractIndexer
 {
     /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var OrganisationseinheitenRepository
-     */
-    protected $organisationsEinheitenRepository;
-
-    /**
-     * OrganisationsEinheitenIndexer constructor.
+     * Index OrganisationsEinheit
      *
-     * @param array $options
-     * @param IdBuilder|null $idBuilder
-     * @throws \InvalidArgumentException
+     * @param Item $item
+     * @return bool|void
+     * @throws \Exception
      */
-    public function __construct(array $options = [], IdBuilder $idBuilder = null)
-    {
-        parent::__construct($options, $idBuilder);
-
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->organisationsEinheitenRepository = $this->objectManager->get(OrganisationseinheitenRepository::class);
-    }
-
     public function index(Item $item)
     {
-        $organisationsEinheit = $this->organisationsEinheitenRepository->getById($item->getRecordUid());
-        $allowedProperties = explode(',', $this->options['allowedProperties']);
+        $organisationsEinheitenRepository = $this->objectManager->get(OrganisationseinheitenRepository::class);
 
-        $record = $item->getRecord();
-        $record['pid'] = $this->options['detailPage'];
+        $organisationsEinheit = $organisationsEinheitenRepository->getById($item->getRecordUid());
 
-        foreach($organisationsEinheit as $property => $value) {
-            if (in_array($property, $allowedProperties, true)) {
-                $record[$property] = $value;
-            }
-        }
-
-        $item->setRecord($record);
+        $item->setRecord($this->resolveRecordProperties($organisationsEinheit, $item->getRecord()));
 
         parent::index($item);
     }

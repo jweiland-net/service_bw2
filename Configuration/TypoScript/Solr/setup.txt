@@ -5,7 +5,37 @@ plugin.tx_solr.index.queue {
 
     indexer = JWeiland\ServiceBw2\IndexQueue\OrganisationsEinheitenIndexer
     indexer {
-      detailPage = 33
+      detailPage = {$plugin.tx_servicebw2.solr.organisationsEinheiten.detailPage}
+      allowedProperties = name
+    }
+
+    fields {
+      title = name
+    }
+  }
+
+  servicebw2_lebenslagen = 1
+  servicebw2_lebenslagen {
+    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\LebenslagenInitializer
+
+    indexer = JWeiland\ServiceBw2\IndexQueue\LebenslagenIndexer
+    indexer {
+      detailPage = {$plugin.tx_servicebw2.solr.lebenslagen.detailPage}
+      allowedProperties = name
+    }
+
+    fields {
+      title = name
+    }
+  }
+
+  servicebw2_leistungen = 1
+  servicebw2_leistungen {
+    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\LeistungenInitializer
+
+    indexer = JWeiland\ServiceBw2\IndexQueue\LeistungenIndexer
+    indexer {
+      detailPage = {$plugin.tx_servicebw2.solr.leistungen.detailPage}
       allowedProperties = name
     }
 
@@ -16,3 +46,5 @@ plugin.tx_solr.index.queue {
 }
 
 plugin.tx_solr.logging.indexing.queue.servicebw2_organisationsEinheiten = 1
+plugin.tx_solr.logging.indexing.queue.servicebw2_lebenslagen = 1
+plugin.tx_solr.logging.indexing.queue.servicebw2_leistungen = 1
