@@ -1,0 +1,18 @@
+plugin.tx_solr.index.queue {
+  servicebw2_organisationsEinheiten = 1
+  servicebw2_organisationsEinheiten {
+    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\OrganisationsEinheitenInitializer
+
+    indexer = JWeiland\ServiceBw2\IndexQueue\OrganisationsEinheitenIndexer
+    indexer {
+      detailPage = 33
+      allowedProperties = name
+    }
+
+    fields {
+      title = name
+    }
+  }
+}
+
+plugin.tx_solr.logging.indexing.queue.servicebw2_organisationsEinheiten = 1

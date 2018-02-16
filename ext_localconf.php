@@ -19,3 +19,7 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
         'groups' => []
     ];
 }
+
+// Solr queue hook
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr']['postProcessFetchRecordsForIndexQueueItem']['servicebw'] =
+    \JWeiland\ServiceBw2\Hook\SolrQueueHook::class . '->addRecordsAfterFetching';
