@@ -1,0 +1,80 @@
+plugin.tx_solr.index.queue {
+  servicebw2_organisationsEinheiten = 1
+  servicebw2_organisationsEinheiten {
+    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\OrganisationsEinheitenInitializer
+    initialization {
+      listItems = 6021524,6021526,6021528,6021530
+    }
+
+    indexer = JWeiland\ServiceBw2\IndexQueue\OrganisationsEinheitenIndexer
+    indexer {
+      detailPage = {$plugin.tx_servicebw2.solr.organisationsEinheiten.detailPage}
+      allowedProperties = name
+    }
+
+    fields {
+      title = name
+
+      url = TEXT
+      url {
+        typolink.parameter = {$plugin.tx_servicebw2.solr.organisationsEinheiten.detailPage}
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=OrganisationsEinheiten
+        typolink.additionalParams.insertData = 1
+        typolink.useCacheHash = 1
+        typolink.returnLast = url
+      }
+    }
+  }
+
+  servicebw2_lebenslagen = 1
+  servicebw2_lebenslagen {
+    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\LebenslagenInitializer
+
+    indexer = JWeiland\ServiceBw2\IndexQueue\LebenslagenIndexer
+    indexer {
+      detailPage = {$plugin.tx_servicebw2.solr.lebenslagen.detailPage}
+      allowedProperties = name
+    }
+
+    fields {
+      title = name
+
+      url = TEXT
+      url {
+        typolink.parameter = {$plugin.tx_servicebw2.solr.lebenslagen.detailPage}
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=Lebenslagen
+        typolink.additionalParams.insertData = 1
+        typolink.useCacheHash = 1
+        typolink.returnLast = url
+      }
+    }
+  }
+
+  servicebw2_leistungen = 1
+  servicebw2_leistungen {
+    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\LeistungenInitializer
+
+    indexer = JWeiland\ServiceBw2\IndexQueue\LeistungenIndexer
+    indexer {
+      detailPage = {$plugin.tx_servicebw2.solr.leistungen.detailPage}
+      allowedProperties = name
+    }
+
+    fields {
+      title = name
+
+      url = TEXT
+      url {
+        typolink.parameter = {$plugin.tx_servicebw2.solr.leistungen.detailPage}
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=Leistungen
+        typolink.additionalParams.insertData = 1
+        typolink.useCacheHash = 1
+        typolink.returnLast = url
+      }
+    }
+  }
+}
+
+plugin.tx_solr.logging.indexing.queue.servicebw2_organisationsEinheiten = 1
+plugin.tx_solr.logging.indexing.queue.servicebw2_lebenslagen = 1
+plugin.tx_solr.logging.indexing.queue.servicebw2_leistungen = 1

@@ -4,3 +4,4 @@
     'ServiceBw',
     'LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.title'
 );
+

@@ -66,7 +66,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
     {
         $records = [];
         foreach ($ids as $id) {
-            $records[] = $this->getById($id);
+            $records[] = $this->getById((int)$id);
         }
         $this->translationService->translateRecords($records);
         $this->addChildrenToRecords($records);
