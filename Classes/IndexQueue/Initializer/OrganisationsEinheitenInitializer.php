@@ -17,6 +17,7 @@ namespace JWeiland\ServiceBw2\IndexQueue\Initializer;
 
 use Doctrine\DBAL\DBALException;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * Class ServiceBw2OrganisationsEinheitenInitializer
@@ -35,7 +36,9 @@ class OrganisationsEinheitenInitializer extends AbstractInitializer
     {
         $organisationseinheitenRepository = $this->objectManager->get(OrganisationseinheitenRepository::class);
 
-        $organisationsEinheiten = $organisationseinheitenRepository->getAll();
+        $listItems = explode(',', $this->indexingConfiguration['initialization.']['listItems']);
+
+        $organisationsEinheiten = $organisationseinheitenRepository->getRecordsWithChildren($listItems);
 
         $initializationQuery = 'INSERT INTO tx_solr_indexqueue_item '
             . '(root, item_type, item_uid, indexing_configuration, indexing_priority, changed, errors) '

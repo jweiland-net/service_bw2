@@ -31,6 +31,11 @@ class AbstractInitializer extends \ApacheSolrForTypo3\Solr\IndexQueue\Initialize
     protected $objectManager;
 
     /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * AbstractInitializer constructor.
      *
      * @return void

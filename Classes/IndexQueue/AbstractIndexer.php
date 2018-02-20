@@ -17,6 +17,7 @@ namespace JWeiland\ServiceBw2\IndexQueue;
 use ApacheSolrForTypo3\Solr\Domain\Variants\IdBuilder;
 use ApacheSolrForTypo3\Solr\IndexQueue\Indexer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
