@@ -61,14 +61,17 @@ class IndexItemsTask extends AbstractTask
     protected $classMapping = [
         OrganisationseinheitenRepository::class => [
             'method' => 'getRecordsWithChildren',
+            'methodLiveById' => 'getLiveOrganisationseinheitById',
             'initialRecordsSettings' => 'settings.organisationseinheiten.listItems',
             'useInitialRecords' => true
         ],
         LeistungenRepository::class => [
-            'method' => 'getAll'
+            'method' => 'getAll',
+            'methodLiveById' => 'getLiveById'
         ],
         LebenslagenRepository::class => [
-            'method' => 'getAll'
+            'method' => 'getAll',
+            'methodLiveById' => 'getLiveLebenslagen'
         ]
     ];
 
@@ -87,9 +90,15 @@ class IndexItemsTask extends AbstractTask
 
         if ($mapping['useInitialRecords']) {
             $initialRecords = $this->getInitialRecords($mapping['initialRecordsSettings']);
-            $recordsToIndex = call_user_func([$repository, $mapping['method']], $initialRecords);
+            $recordList = call_user_func([$repository, $mapping['method']], $initialRecords);
         } else {
-            $recordsToIndex = call_user_func([$repository, $mapping['method']]);
+            $recordList = call_user_func([$repository, $mapping['method']]);
+        }
+
+        $recordsToIndex = [];
+        foreach ($recordList as $recordToIndex) {
+            $record = call_user_func([$repository, $mapping['methodLiveById']], $recordToIndex['id']);
+            $recordsToIndex[] = $record;
         }
 
         $solrIndexService = $this->objectManager->get(SolrIndexService::class);
