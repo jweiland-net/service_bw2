@@ -21,6 +21,7 @@ use JWeiland\ServiceBw2\Service\SolrIndexService;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
@@ -56,6 +57,11 @@ class IndexItemsTask extends AbstractTask
     protected $objectManager;
 
     /**
+     * @var Repository
+     */
+    protected $repository;
+
+    /**
      * @var array
      */
     protected $classMapping = [
@@ -85,25 +91,18 @@ class IndexItemsTask extends AbstractTask
     public function execute(): bool
     {
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $repository = $this->objectManager->get($this->typeToIndex);
-        $mapping = $this->classMapping[$this->typeToIndex];
+        $this->repository = $this->objectManager->get($this->typeToIndex);
 
-        if ($mapping['useInitialRecords']) {
-            $initialRecords = $this->getInitialRecords($mapping['initialRecordsSettings']);
-            $recordList = call_user_func([$repository, $mapping['method']], $initialRecords);
+        if ($this->classMapping[$this->typeToIndex]['useInitialRecords']) {
+            $initialRecords = $this->getInitialRecords($this->classMapping[$this->typeToIndex]['initialRecordsSettings']);
+            $recordList = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['method']], $initialRecords);
         } else {
-            $recordList = call_user_func([$repository, $mapping['method']]);
-        }
-
-        $recordsToIndex = [];
-        foreach ($recordList as $recordToIndex) {
-            $record = call_user_func([$repository, $mapping['methodLiveById']], $recordToIndex['id']);
-            $recordsToIndex[] = $record;
+            $recordList = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['method']]);
         }
 
         $solrIndexService = $this->objectManager->get(SolrIndexService::class);
         $solrIndexService->indexerDeleteByType($this->solrConfig, $this->rootPage);
-        $solrIndexService->indexRecords($recordsToIndex, $this->solrConfig, $this->rootPage);
+        $solrIndexService->indexRecords($this->getLiveDataForRecords($recordList), $this->solrConfig, $this->rootPage);
 
         return true;
     }
@@ -140,5 +139,20 @@ class IndexItemsTask extends AbstractTask
             )->fetch();
         $flexform = GeneralUtility::xml2array($resultRows['pi_flexform']);
         return explode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF']);
+    }
+
+    protected function getLiveDataForRecords(array $records)
+    {
+        $recordsToIndex = [];
+
+        foreach ($records as $recordToIndex) {
+            $record = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['methodLiveById']], $recordToIndex['id']);
+            $recordsToIndex[] = $record;
+            if ($recordToIndex['_children']) {
+                $recordsToIndex = array_merge($recordsToIndex, $this->getLiveDataForRecords($recordToIndex['_children']));
+            }
+        }
+
+        return $recordsToIndex;
     }
 }
