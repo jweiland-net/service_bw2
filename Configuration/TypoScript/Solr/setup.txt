@@ -10,7 +10,7 @@ plugin.tx_solr.index.queue {
       url = TEXT
       url {
         typolink.parameter = {$plugin.tx_servicebw2.solr.organisationsEinheiten.detailPage}
-        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=OrganisationsEinheiten
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=Organisationseinheiten
         typolink.additionalParams.insertData = 1
         typolink.useCacheHash = 1
         typolink.returnLast = url
