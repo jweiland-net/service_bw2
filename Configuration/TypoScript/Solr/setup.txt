@@ -1,6 +1,5 @@
 plugin.tx_solr.index.queue {
-  servicebw2_organisationsEinheiten {
-    indexer = JWeiland\ServiceBw2\IndexQueue\OrganisationsEinheitenIndexer
+  tx_servicebw2_organisationsEinheiten {
     indexer {
       detailPage = {$plugin.tx_servicebw2.solr.organisationsEinheiten.detailPage}
     }
@@ -19,10 +18,7 @@ plugin.tx_solr.index.queue {
     }
   }
 
-  servicebw2_lebenslagen {
-    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\LebenslagenInitializer
-
-    indexer = JWeiland\ServiceBw2\IndexQueue\LebenslagenIndexer
+  tx_servicebw2_lebenslagen {
     indexer {
       detailPage = {$plugin.tx_servicebw2.solr.lebenslagen.detailPage}
     }
@@ -41,10 +37,7 @@ plugin.tx_solr.index.queue {
     }
   }
 
-  servicebw2_leistungen {
-    initialization = JWeiland\ServiceBw2\IndexQueue\Initializer\LeistungenInitializer
-
-    indexer = JWeiland\ServiceBw2\IndexQueue\LeistungenIndexer
+  tx_servicebw2_leistungen {
     indexer {
       detailPage = {$plugin.tx_servicebw2.solr.leistungen.detailPage}
     }
@@ -64,6 +57,6 @@ plugin.tx_solr.index.queue {
   }
 }
 
-plugin.tx_solr.logging.indexing.queue.servicebw2_organisationsEinheiten = 1
-plugin.tx_solr.logging.indexing.queue.servicebw2_lebenslagen = 1
-plugin.tx_solr.logging.indexing.queue.servicebw2_leistungen = 1
+plugin.tx_solr.logging.indexing.queue.tx_servicebw2_organisationsEinheiten = 1
+plugin.tx_solr.logging.indexing.queue.tx_servicebw2_lebenslagen = 1
+plugin.tx_solr.logging.indexing.queue.tx_servicebw2_leistungen = 1
