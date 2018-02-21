@@ -106,7 +106,7 @@ class IndexItemsTask extends AbstractTask
      *
      * @return string Information to display
      */
-    public function getAdditionalInformation()
+    public function getAdditionalInformation(): string
     {
         return parent::getAdditionalInformation();
     }
@@ -119,7 +119,7 @@ class IndexItemsTask extends AbstractTask
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      */
-    protected function getInitialRecords(string $settings)
+    protected function getInitialRecords(string $settings): array
     {
         $resultRows = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tt_content')
