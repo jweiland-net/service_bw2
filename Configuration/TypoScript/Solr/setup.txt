@@ -24,7 +24,7 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = name
+      title = displayName
 
       url = TEXT
       url {
@@ -43,7 +43,7 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = displayName
+      title = title
 
       url = TEXT
       url {
