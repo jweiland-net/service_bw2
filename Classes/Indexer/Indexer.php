@@ -64,4 +64,17 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
 
         return $itemIndexed;
     }
+
+    /**
+     * Deletes items by type
+     *
+     * @param string $type
+     * @param int $rootPageId
+     * @return void
+     */
+    public function deleteItemsByType(string $type, int $rootPageId)
+    {
+        $this->solr = $this->connectionManager->getConnectionByRootPageId($rootPageId);
+        $this->solr->deleteByType($type);
+    }
 }

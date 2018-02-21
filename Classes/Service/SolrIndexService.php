@@ -86,14 +86,40 @@ class SolrIndexService
             'indexing_configuration' => $type
         ], $record);
 
-        $tsfe = $GLOBALS['TSFE'];
         $indexed = $this->indexer->index($item);
-        $GLOBALS['TSFE'] = $tsfe;
 
         if ($record['_children']) {
             $this->indexRecords($record['_children'], $type, $rootPageUid);
         }
 
         return $indexed;
+    }
+
+    /**
+     * Wrapper for index
+     *
+     * @param Item $item
+     * @return bool
+     */
+    protected function indexerIndex(Item $item): bool
+    {
+        $tsfe = $GLOBALS['TSFE'];
+        $indexed = $this->indexer->index($item);
+        $GLOBALS['TSFE'] = $tsfe;
+        return $indexed;
+    }
+
+    /**
+     * Wrapper for delete by type
+     *
+     * @param string $type
+     * @param int $rootPage
+     * @return void
+     */
+    public function indexerDeleteByType(string $type, $rootPage)
+    {
+        $tsfe = $GLOBALS['TSFE'];
+        $this->indexer->deleteItemsByType($type, $rootPage);
+        $GLOBALS['TSFE'] = $tsfe;
     }
 }

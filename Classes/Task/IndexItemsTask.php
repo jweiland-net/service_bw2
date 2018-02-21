@@ -93,6 +93,7 @@ class IndexItemsTask extends AbstractTask
         }
 
         $solrIndexService = $this->objectManager->get(SolrIndexService::class);
+        $solrIndexService->indexerDeleteByType($this->solrConfig, $this->rootPage);
         $solrIndexService->indexRecords($recordsToIndex, $this->solrConfig, $this->rootPage);
 
         return true;
