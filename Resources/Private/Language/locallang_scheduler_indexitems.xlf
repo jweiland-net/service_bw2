@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" product-name="service_bw2">
+    <header/>
+    <body>
+      <trans-unit id="typeToIndex">
+        <source>Type to index</source>
+      </trans-unit>
+      <trans-unit id="solrConfig">
+        <source>Solr type</source>
+      </trans-unit>
+      <trans-unit id="pluginTtContentUid">
+        <source>Uid of plugin tt_content</source>
+      </trans-unit>
+      <trans-unit id="rootPage">
+        <source>Root page uid</source>
+      </trans-unit>
+      <trans-unit id="initialRecordIds">
+        <source>Intial record ids</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

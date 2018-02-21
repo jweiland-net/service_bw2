@@ -14,14 +14,11 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use ApacheSolrForTypo3\Solr\IndexQueue\Item;
-use JWeiland\ServiceBw2\Indexer\Indexer;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
 use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Leistung;
-use JWeiland\ServiceBw2\Service\SolrIndexService;
 
 /**
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -69,14 +66,10 @@ class OrganisationseinheitenRepository extends AbstractRepository
     {
         $records = [];
         foreach ($ids as $id) {
-            $records[] = $this->getById($id);
+            $records[] = $this->getById((int)$id);
         }
         $this->translationService->translateRecords($records);
         $this->addChildrenToRecords($records);
-
-        $solrIndexService = $this->objectManager->get(SolrIndexService::class);
-        $solrIndexService->indexRecords($records, 'servicebw2_organisationsEinheiten');
-
         return $records;
     }
 

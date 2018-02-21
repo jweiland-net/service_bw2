@@ -21,6 +21,8 @@ use JWeiland\ServiceBw2\Indexer\Indexer;
 /**
  * Class SolrIndexService
  *
+ * TODO: Clear existing records
+ *
  * @package JWeiland\ServiceBw2\Service
  */
 class SolrIndexService
@@ -29,6 +31,11 @@ class SolrIndexService
      * @var Indexer
      */
     protected $indexer;
+
+    /**
+     * @var array
+     */
+    protected $alreadyIndexed = [];
 
     /**
      * injects indexer
@@ -46,12 +53,15 @@ class SolrIndexService
      *
      * @param array $records
      * @param string $type
+     * @param int $rootPageUid
      * @return void
      */
-    public function indexRecords(array $records, string $type)
+    public function indexRecords(array $records, string $type, int $rootPageUid)
     {
         foreach ($records as $record) {
-            $this->indexRecord($record, $type);
+            if (!$this->alreadyIndexed[$record['id']] && $this->indexRecord($record, $type, $rootPageUid)) {
+                $this->alreadyIndexed[] = $record['id'];
+            }
         }
     }
 
@@ -60,17 +70,18 @@ class SolrIndexService
      *
      * @param array $record
      * @param string $type equals the name of index config in TypoScript
+     * @param int $rootPageUid
      * @return bool
      */
-    public function indexRecord(array $record, string $type): bool
+    public function indexRecord(array $record, string $type, int $rootPageUid): bool
     {
-        $record['pid'] = $GLOBALS['TSFE']->rootLine[0]['uid'];
+        $record['pid'] = $rootPageUid;
         $record['uid'] = $record['id'];
 
         $item = new Item([
             'uid' => $record['id'],
             'item_uid' => $record['id'],
-            'root' => $GLOBALS['TSFE']->rootLine[0]['uid'],
+            'root' => $rootPageUid,
             'item_type' => $type,
             'indexing_configuration' => $type
         ], $record);
@@ -80,7 +91,7 @@ class SolrIndexService
         $GLOBALS['TSFE'] = $tsfe;
 
         if ($record['_children']) {
-            $this->indexRecords($record['_children'], $type);
+            $this->indexRecords($record['_children'], $type, $rootPageUid);
         }
 
         return $indexed;
