@@ -5,7 +5,12 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = name
+      title = title
+      abstract = preamble
+      description = preamble
+      content = processed_sections
+
+      organisationseinheit_textM = processed_organisationseinheit
 
       url = TEXT
       url {
@@ -25,6 +30,9 @@ plugin.tx_solr.index.queue {
 
     fields {
       title = displayName
+      abstract = preamble
+      description = preamble
+      content = processed_sections
 
       url = TEXT
       url {
@@ -44,6 +52,9 @@ plugin.tx_solr.index.queue {
 
     fields {
       title = displayName
+      abstract = preamble
+      description = preamble
+      content = processed_sections
 
       url = TEXT
       url {

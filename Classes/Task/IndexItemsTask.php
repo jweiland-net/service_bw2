@@ -141,12 +141,27 @@ class IndexItemsTask extends AbstractTask
         return explode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF']);
     }
 
-    protected function getLiveDataForRecords(array $records)
+    /**
+     * Gets live data of given records
+     *
+     * @param array $records
+     * @return array
+     */
+    protected function getLiveDataForRecords(array $records): array
     {
         $recordsToIndex = [];
 
         foreach ($records as $recordToIndex) {
             $record = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['methodLiveById']], $recordToIndex['id']);
+
+            // TODO: Search can be optimized by imploding for sub arrays in sections like address
+            if ($record['sections']) {
+                $record['processed_sections'] = $this->multi_implode($record['sections'], ',');
+            }
+            if ($record['organisationseinheit']) {
+                $record['processed_organisationseinheit'] = $this->multi_implode($record['organisationseinheit'], ',');
+            }
+
             $recordsToIndex[] = $record;
             if ($recordToIndex['_children']) {
                 $recordsToIndex = array_merge($recordsToIndex, $this->getLiveDataForRecords($recordToIndex['_children']));
@@ -154,5 +169,28 @@ class IndexItemsTask extends AbstractTask
         }
 
         return $recordsToIndex;
+    }
+
+    /**
+     * Multi implode
+     *
+     * @param $array
+     * @param $glue
+     * @return bool|string
+     */
+    protected function multi_implode($array, $glue) {
+        $ret = '';
+
+        foreach ($array as $item) {
+            if (is_array($item)) {
+                $ret .= $this->multi_implode($item, $glue) . $glue;
+            } else {
+                $ret .= $item . $glue;
+            }
+        }
+
+        $ret = substr($ret, 0, 0 - strlen($glue));
+
+        return strip_tags($ret);
     }
 }
