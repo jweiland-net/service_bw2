@@ -5,7 +5,7 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = name
+      title = title
       abstract = preamble
       description = preamble
       content = processed_sections
@@ -29,7 +29,7 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = displayName
+      title = title
       abstract = preamble
       description = preamble
       content = processed_sections
