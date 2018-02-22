@@ -161,6 +161,9 @@ class IndexItemsTask extends AbstractTask
             if ($record['organisationseinheit']) {
                 $record['processed_organisationseinheit'] = $this->multi_implode($record['organisationseinheit'], ',');
             }
+            if ($record['preamble']) {
+                $record['preamble'] = strip_tags($record['preamble']);
+            }
 
             $recordsToIndex[] = $record;
             if ($recordToIndex['_children']) {
