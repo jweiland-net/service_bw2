@@ -189,7 +189,7 @@ class IndexItemsTask extends AbstractTask
             }
         }
 
-        return rtrim($result, ',');
+        return strip_tags(rtrim($result, ','));
     }
 
     /**
