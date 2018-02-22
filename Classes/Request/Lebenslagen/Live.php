@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Request\Lebenslagen;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\PostProcessor\PublishStatusPostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
@@ -27,6 +28,15 @@ class Live extends AbstractRequest
      * @var string
      */
     protected $path = '/lebenslagen/{id}/{lang}/live';
+
+    /**
+     * Add request related PostProcessors
+     *
+     * @var array
+     */
+    protected $additionalPostProcessorClassNames = [
+        PublishStatusPostProcessor::class
+    ];
 
     /**
      * @var array
