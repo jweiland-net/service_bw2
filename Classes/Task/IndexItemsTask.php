@@ -156,7 +156,7 @@ class IndexItemsTask extends AbstractTask
 
             // TODO: Search can be optimized by imploding for sub arrays in sections like address
             if ($record['sections']) {
-                $record['processed_sections'] = $this->multi_implode($record['sections'], ',');
+                $record['processed_sections'] = $this->resolveSectionsText($record['sections']);
             }
             if ($record['organisationseinheit']) {
                 $record['processed_organisationseinheit'] = $this->multi_implode($record['organisationseinheit'], ',');
@@ -175,13 +175,32 @@ class IndexItemsTask extends AbstractTask
     }
 
     /**
+     * Resolve sections text
+     *
+     * @param array $sections
+     * @return string
+     */
+    protected function resolveSectionsText(array $sections): string
+    {
+        $result = '';
+        foreach ($sections as $section) {
+            if ($section['text']) {
+                $result .= $section['text'] . ',';
+            }
+        }
+
+        return rtrim($result, ',');
+    }
+
+    /**
      * Multi implode
      *
      * @param $array
      * @param $glue
      * @return bool|string
      */
-    protected function multi_implode($array, $glue) {
+    protected function multi_implode($array, $glue): string
+    {
         $ret = '';
 
         foreach ($array as $item) {
