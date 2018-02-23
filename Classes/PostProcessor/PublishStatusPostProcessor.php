@@ -33,9 +33,9 @@ class PublishStatusPostProcessor extends AbstractPostProcessor
     {
         if (is_array($response)) {
             foreach ($response as $key => $item) {
+                $statusValues = ['NONE', 'IN_DELETE', 'IN_PROGRESS'];
                 // Remove non published items from array
-                if (array_key_exists('publishStatus', $item)
-                    && ($item['publishStatus'] === 'NONE' || $item['publishStatus'] === 'IN_DELETE')) {
+                if (array_key_exists('publishStatus', $item) && in_array($item['publishStatus'], $statusValues, true)) {
                     unset($response[$key]);
                 }
             }
