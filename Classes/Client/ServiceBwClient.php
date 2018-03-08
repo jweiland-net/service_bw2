@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Client;
  * The TYPO3 project - inspiring people to share!
  */
 use GuzzleHttp\Client;
+use JWeiland\ServiceBw2\Exception\HttpRequestException;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 use JWeiland\ServiceBw2\Request\RequestInterface;
 use JWeiland\ServiceBw2\Request\WsBenutzer\Token;
@@ -112,7 +113,7 @@ class ServiceBwClient
             $body = \json_decode($this->cacheInstance->get($cacheIdentifier), 1);
         } else {
             if (!$request->isValidRequest()) {
-                throw new \HttpRequestException('Request not valid', 1513940893);
+                throw new HttpRequestException('Request not valid', 1513940893);
             }
             if ($this->client === null) {
                 $this->client = GeneralUtility::makeInstance(Client::class);
