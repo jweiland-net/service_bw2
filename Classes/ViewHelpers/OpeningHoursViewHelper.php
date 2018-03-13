@@ -51,7 +51,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * Days provided by Service BW API
      * Yes in german -_-
      */
-    const DAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG'];
+    const DAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG', 'SAMSTAG', 'SONNTAG'];
 
     /**
      * Initializes the arguments
