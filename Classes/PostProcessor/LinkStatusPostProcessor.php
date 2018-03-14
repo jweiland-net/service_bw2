@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -24,7 +25,7 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 class LinkStatusPostProcessor extends AbstractPostProcessor
 {
     /**
-     * Check for unpublished entries
+     * Check for unused or broken links
      *
      * @param array $response
      * @return array
@@ -33,7 +34,7 @@ class LinkStatusPostProcessor extends AbstractPostProcessor
     {
         if (is_array($response)) {
             foreach ($response as $key => $item) {
-                // Remove non published items from array
+                // Remove unused or broken links
                 if (
                     !isset($item['unused'], $item['broken'])
                     || $item['unused'] !== false
