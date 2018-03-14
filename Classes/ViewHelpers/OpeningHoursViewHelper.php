@@ -138,7 +138,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             }
             //todo: use StandaloneView to use a fluid template instead of manual rendering.
             foreach (self::DAYS as $dayInGerman) {
-                $afternoon = isset($afternoonOpeningHours[$dayInGerman]) && count($afternoonOpeningHours[$dayInGerman]);
+                $afternoon = !empty($afternoonOpeningHours[$dayInGerman]);
                 $isWorkday = in_array($dayInGerman, self::WORKDAYS, true);
                 if (($isWorkday && $forenoonOpeningHoursWorkdays) || $afternoon) {
                     $html[] = '<dd class="structured-opening-hours">';
@@ -186,8 +186,8 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                 // Opening hours monday to friday forenoon
                 if ($regulaereZeitenDay['tagestyp'] === 'ARBEITSTAG_MO_FR') {
                     $forenoonOpeningHoursWorkdays = self::getRegulaereZeitenHours($regulaereZeitenDay);
-                    // Opening hours individual day afternoon
                 } else {
+                    // Opening hours individual day afternoon
                     $regulaereZeitenHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
                     $afternoonOpeningHours[$regulaereZeitenDay['tagestyp']][(int)substr($regulaereZeitenHours, 0, 2)]
                         = $regulaereZeitenHours;
