@@ -95,6 +95,9 @@
 			<trans-unit id="leistungen.organisationseinheiten.head">
 				<source>Competent Organisationseinheiten</source>
 			</trans-unit>
+			<trans-unit id="organisationseinheit.internetadressen">
+				<source>Related URLs</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

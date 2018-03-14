@@ -86,6 +86,7 @@ class OrganisationseinheitenController extends AbstractController
         try {
             $liveOrganisationseinheit = $this->organisationseinheitenRepository->getLiveOrganisationseinheitById($id);
             $organisationseinheit = $this->organisationseinheitenRepository->getById($id);
+            $internetadressen = $this->organisationseinheitenRepository->getInternetadressen($id);
             $children = $this->organisationseinheitenRepository->getChildren($id);
             $leistungen = $this->leistungenRepository->getByOrganisationseinheit($id);
         } catch (\Exception $exception) {
@@ -94,6 +95,7 @@ class OrganisationseinheitenController extends AbstractController
         }
         $this->view->assign('beschreibungstext', $liveOrganisationseinheit);
         $this->view->assign('organisationseinheit', $organisationseinheit);
+        $this->view->assign('internetadressen', $internetadressen);
         $this->view->assign('children', $children);
         $this->view->assign('leistungen', $leistungen);
     }

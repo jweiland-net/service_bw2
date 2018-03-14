@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Internetadressen;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
 use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Leistung;
@@ -163,7 +164,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
      * @return array
      * @throws \Exception
      */
-    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds)
+    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds): array
     {
         $regionIdArray = explode(',', $regionIds);
         $records = [];
@@ -188,5 +189,21 @@ class OrganisationseinheitenRepository extends AbstractRepository
             }
         }
         return $organisationseinheiten;
+    }
+
+    /**
+     * Get web urls of an organisationseinheit.
+     *
+     * @param int $id Organisationseinheit ID
+     * @return array
+     * @throws \Exception if request fails
+     */
+    public function getInternetadressen(int $id): array
+    {
+        $request = $this->objectManager->get(Internetadressen::class);
+        $request->addParameter('id', $id);
+        $records = $this->serviceBwClient->processRequest($request);
+        $this->translationService->translateRecords($records, false, true);
+        return $records;
     }
 }

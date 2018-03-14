@@ -17,6 +17,20 @@
     </f:if>
   </dd>
 </dl>
+
+<f:if condition="{internetadressen}">
+  <dl class="extdl clearfix">
+    <dt><f:translate key="organisationseinheit.internetadressen" /></dt>
+    <f:for each="{internetadressen}" as="internetadresse">
+      <dd>
+        <span aria-hidden="true" class="icon-earth"></span>
+        <a href="{internetadresse.uri}" title="{internetadresse.titel}"{f:if(condition: '{internetadresse.kennzeichenAnzeigeNeuesFenster}', then: ' target="_blank"', else: '')}>
+        {internetadresse.titel}
+        </a></dd>
+    </f:for>
+  </dl>
+</f:if>
+
 <f:if
 condition="{beschreibungstext.organisationseinheit.structuredOpeningHours} || {organisationseinheit.infoOeffnungszeitenText}">
 

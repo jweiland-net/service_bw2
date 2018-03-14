@@ -126,6 +126,10 @@
 				<source>Competent Organisationseinheiten</source>
 				<target>Zuständige Verwaltungsstellen</target>
 			</trans-unit>
+			<trans-unit id="organisationseinheit.internetadressen">
+				<source>Related URLs</source>
+				<target>Internetadressen</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
