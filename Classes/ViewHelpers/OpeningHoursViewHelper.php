@@ -136,6 +136,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             if ($structuredOpeningHours['hinweisText']) {
                 $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
             }
+            //todo: use StandaloneView to use a fluid template instead of manual rendering.
             foreach (self::DAYS as $dayInGerman) {
                 $afternoon = isset($afternoonOpeningHours[$dayInGerman]) && count($afternoonOpeningHours[$dayInGerman]);
                 $isWorkday = in_array($dayInGerman, self::WORKDAYS, true);
