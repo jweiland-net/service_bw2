@@ -198,7 +198,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
      * @return array
      * @throws \Exception if request fails
      */
-    public function getInternetadressen(int $id): array
+    public function getInternetadressenById(int $id): array
     {
         $request = $this->objectManager->get(Internetadressen::class);
         $request->addParameter('id', $id);
