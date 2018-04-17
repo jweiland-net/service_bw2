@@ -24,7 +24,6 @@ Because of that behaviour you have to set the detail and list pages in every Ser
 .. figure:: ../Images/UserManual/PagesExample.jpg
    :width: 500px
    :alt: Example settings
-
    Example configuration
 
 
