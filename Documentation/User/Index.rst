@@ -14,7 +14,8 @@ Users Manual
 The extension adds a plugin called "Service BW". This plugin is well configurable thanks to flex forms.
 
 .. figure:: ../Images/UserManual/PluginSettings.jpg
-  :alt: Service BW plugin settings
+   :width: 250px
+   :alt: Service BW plugin settings
 
 There are three types of items right now. The important thing is that some of them are connected to other types.
 For example a department (Organisationseinheit) can have some Services (Leistungen).
@@ -39,10 +40,10 @@ List view
 *********
 
 Choose items to display (recursive)
-  Most time it´s not necessary to display all departments with all child in one list.
+  Most time it´s not necessary to display all departments with all children in one list.
   You can define one or more start points with this setting. For example: Your city is a department and all city related
-  departments are child of the city department. In this case you select the city department as starting point to get a
-  cleaner list.
+  departments are children of the city department. In this case you select the city department as starting point to
+  get a cleaner list.
 
 Detail view
 ***********
@@ -59,8 +60,7 @@ Detail page for maps2 poi collection
 .. figure:: ../Images/UserManual/OrganisationseinheitDetailViewSettings.jpg
    :width: 500px
    :alt: Example settings
-
-     Example configuration
+   Example configuration
 
 Services (Leistungen)
 ~~~~~~~~~~~~~~~~~~~~~

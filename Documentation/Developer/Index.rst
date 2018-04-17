@@ -13,6 +13,11 @@ Developer Corner
 
 .. _developer-api:
 
+Important notes
+---------------
+
+We are using the german method names of the Service BW API in our extension to make it easier to extend/understand the extension.
+
 API
 ---
 

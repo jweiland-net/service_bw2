@@ -30,7 +30,7 @@ TYPO3 extension manager
 Composer
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Add service_bw2 to your composer json e.g. using :php:`composer install jweiland/service-bw2`
+1. Add service_bw2 to your composer.json e.g. using :php:`composer install jweiland/service-bw2`
 
 2. Activate the extension inside the TYPO3 extension manager
 
@@ -59,4 +59,4 @@ Allowed languages
   This is important if your website is multi language. Format: [2 letters language ISO code]=[sys_language_uid].
   Assign multiple languages with ";". Example: de=2;en=5. First value will be used as default language.
 
-If not already done then you need to configure maps2, because of the service_bw2 maps2 integration for departments. Take a look into the maps2 documentation for that.
+If not already done then you need to configure maps2, because service_bw2 has a maps2 integration for departments. Take a look into the maps2 documentation for that.
