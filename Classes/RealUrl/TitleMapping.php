@@ -68,7 +68,7 @@ class TitleMapping
      *
      * @param array $parameters
      * @param EncodeDecoderBase $encodeDecoderBase
-     * @return string|int|bool string or int if found, otherwise false
+     * @return string
      */
     public function main(array $parameters, EncodeDecoderBase $encodeDecoderBase): string
     {
