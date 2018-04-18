@@ -74,7 +74,7 @@ class LebenslagenController extends AbstractController
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
-
+        $this->setPageTitle($lebenslage['displayName']);
         $this->view->assign('lebenslage', $lebenslage);
         $this->view->assign('childLebenslagen', $childLebenslagen);
         $this->view->assign('beschreibungstext', $liveLebenslage);

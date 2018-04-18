@@ -1,0 +1,11 @@
+plugin.tx_servicebw2_servicebw {
+  view {
+    templateRootPath = {$plugin.tx_servicebw2_servicebw.view.templateRootPath}
+    partialRootPath = {$plugin.tx_servicebw2_servicebw.view.partialRootPath}
+    layoutRootPath = {$plugin.tx_servicebw2_servicebw.view.layoutRootPath}
+  }
+
+  settings {
+    overridePageTitle = {$plugin.tx_servicebw2_servicebw.settings.overridePageTitle}
+  }
+}

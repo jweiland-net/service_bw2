@@ -6,7 +6,7 @@
     <ul class="items extul">
       <f:for each="{children}" as="child">
         <li class="item extli">
-          <f:link.action class="icon icon_recordcard" pageUid="{detailPageUid}" arguments="{id: child.id}">
+          <f:link.action class="icon icon_recordcard" action="show" pageUid="{detailPageUid}" arguments="{id: child.id}">
             {child.name}
           </f:link.action>
         </li>

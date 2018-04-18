@@ -98,6 +98,7 @@ class LeistungenController extends AbstractController
             $organisationseinheiten,
             explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'])
         );
+        $this->setPageTitle($leistung['title']);
         $this->view->assign('leistung', $leistung);
         $this->view->assign('externeFormulare', $externeFormulare);
         $this->view->assign('organisationseinheiten', $organisationseinheiten);

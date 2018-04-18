@@ -15,6 +15,7 @@ namespace JWeiland\ServiceBw2\Controller;
  */
 
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -44,5 +45,19 @@ abstract class AbstractController extends ActionController
             'service_bw2',
             GeneralUtility::SYSLOG_SEVERITY_ERROR
         );
+    }
+
+    /**
+     * Sets the page title if the setting
+     * overridePageTitle equals 1
+     *
+     * @param string $title
+     * @return void
+     */
+    protected function setPageTitle(string $title)
+    {
+        if ($this->settings['overridePageTitle'] === '1') {
+            $this->objectManager->get(PageRenderer::class)->setTitle($title);
+        }
     }
 }
