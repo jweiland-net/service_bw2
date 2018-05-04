@@ -19,8 +19,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class References
- *
- * @package JWeiland\ServiceBw2\Request\Lebenslagen
  */
 class References extends AbstractRequest
 {

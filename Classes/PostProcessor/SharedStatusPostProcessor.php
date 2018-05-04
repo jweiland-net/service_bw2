@@ -17,8 +17,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 /**
  * PostProcessor to check if items are allowed to be displayed
  * e.g. to check if forms are allowed to be displayed
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class SharedStatusPostProcessor extends AbstractPostProcessor
 {

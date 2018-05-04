@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\Request;
 
 /**
  * Class Search
- *
- * @package JWeiland\ServiceBw2\Request
  */
 class Search extends AbstractRequest
 {

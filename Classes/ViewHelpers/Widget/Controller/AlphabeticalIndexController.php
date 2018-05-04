@@ -19,8 +19,6 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
 
 /**
  * Class AlphabeticalIndexController
- *
- * @package JWeiland\ServiceBw2\ViewHelpers\Widget\Controller;
  */
 class AlphabeticalIndexController extends AbstractWidgetController
 {

@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Request\Lebenslagen\References;
 
 /**
  * Class LebenslageController
- *
- * @package JWeiland\ServiceBw2\Controller
  */
 class LebenslagenController extends AbstractController
 {

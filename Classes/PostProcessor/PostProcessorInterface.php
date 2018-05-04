@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * Interface PostProcessorInterface
- *
- * @package JWeiland\ServiceBw2\PostProcessor
  */
 interface PostProcessorInterface
 {

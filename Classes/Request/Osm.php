@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\Request;
 
 /**
  * Class Osm
- *
- * @package JWeiland\ServiceBw2\Request
  */
 class Osm extends AbstractRequest
 {

@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 
 /**
  * Class OrganisationseinheitenController
- *
- * @package JWeiland\ServiceBw2\Controller;
  */
 class OrganisationseinheitenController extends AbstractController
 {

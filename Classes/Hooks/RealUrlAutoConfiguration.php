@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\RealUrl\TitleMapping;
 
 /**
  * Class RealUrlAutoConfiguration
- *
- * @package JWeiland\ServiceBw2\Hooks
  */
 class RealUrlAutoConfiguration
 {

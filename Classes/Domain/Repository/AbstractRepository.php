@@ -21,8 +21,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Repository for use of service_bw2
- *
- * @package JWeiland\ServiceBw2\Domain\Repository;
  */
 abstract class AbstractRepository implements SingletonInterface
 {

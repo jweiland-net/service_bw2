@@ -21,8 +21,6 @@ use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 
 /**
  * Class LeistungenController
- *
- * @package JWeiland\ServiceBw2\Controller;
  */
 class LeistungenController extends AbstractController
 {

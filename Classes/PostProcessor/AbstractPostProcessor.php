@@ -18,8 +18,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class AbstractPostProcessor
- *
- * @package JWeiland\ServiceBw2\PostProcessor
  */
 abstract class AbstractPostProcessor implements PostProcessorInterface
 {

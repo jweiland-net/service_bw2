@@ -20,8 +20,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Class TranslationService
- *
- * @package JWeiland\ServiceBw2\Service
  */
 class TranslationService implements SingletonInterface
 {

@@ -19,8 +19,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class ListByLeistungAndRegion
- *
- * @package JWeiland\ServiceBw2\Request\ExterneFormulare;
  */
 class ListByLeistungAndRegion extends AbstractRequest
 {

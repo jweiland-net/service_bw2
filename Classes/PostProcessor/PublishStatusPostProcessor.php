@@ -18,8 +18,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
  * PostProcessor to check the publishStatus of items.
  * Unpublished items (publishStatus: NONE) will be removed
  * from $response array
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class PublishStatusPostProcessor extends AbstractPostProcessor
 {

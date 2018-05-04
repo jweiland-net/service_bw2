@@ -26,8 +26,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class ServiceBwClient
- *
- * @package JWeiland\ServiceBw2\Client
  */
 class ServiceBwClient
 {

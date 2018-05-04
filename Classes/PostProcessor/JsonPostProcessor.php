@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * Class JsonPostProcessor
- *
- * @package JWeiland\ServiceBw2\PostProcessor
  */
 class JsonPostProcessor extends AbstractPostProcessor
 {

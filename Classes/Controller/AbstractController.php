@@ -22,8 +22,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class AbstractController
- *
- * @package JWeiland\ServiceBw2\Controller
  */
 abstract class AbstractController extends ActionController
 {

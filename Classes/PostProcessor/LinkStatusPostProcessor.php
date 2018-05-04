@@ -19,8 +19,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
  * PostProcessor to check if the response array contains
  * links that has been defined as "unused" or "broken".
  * This PostProcessor removes those links from array.
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class LinkStatusPostProcessor extends AbstractPostProcessor
 {

@@ -29,8 +29,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class TitleMapping
- *
- * @package JWeiland\ServiceBw2\RealUrl
  */
 class TitleMapping
 {

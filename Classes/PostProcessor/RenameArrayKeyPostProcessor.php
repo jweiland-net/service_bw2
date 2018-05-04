@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * Class RenameArrayKeyPostProcessor
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class RenameArrayKeyPostProcessor extends AbstractPostProcessor
 {

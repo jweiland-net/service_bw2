@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Organisationseinheit;
 
 /**
  * Class LeistungenRepository
- *
- * @package JWeiland\ServiceBw2\Domain\Repository;
  */
 class LeistungenRepository extends AbstractRepository
 {

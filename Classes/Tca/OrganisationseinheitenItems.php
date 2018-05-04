@@ -24,7 +24,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 /**
  * Class OrganisationseinheitenItems
  *
- * @package JWeiland\ServiceBw2\Tca
+
  */
 class OrganisationseinheitenItems implements SingletonInterface
 {
