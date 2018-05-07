@@ -1,8 +1,8 @@
 plugin.tx_servicebw2_servicebw {
   view {
-    templateRootPath = {$plugin.tx_servicebw2_servicebw.view.templateRootPath}
-    partialRootPath = {$plugin.tx_servicebw2_servicebw.view.partialRootPath}
-    layoutRootPath = {$plugin.tx_servicebw2_servicebw.view.layoutRootPath}
+    templateRootPaths.10 = {$plugin.tx_servicebw2_servicebw.view.templateRootPath}
+    partialRootPaths.10 = {$plugin.tx_servicebw2_servicebw.view.partialRootPath}
+    layoutRootPaths.10 = {$plugin.tx_servicebw2_servicebw.view.layoutRootPath}
   }
 
   settings {

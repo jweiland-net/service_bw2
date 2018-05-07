@@ -17,6 +17,7 @@ namespace JWeiland\ServiceBw2\Hooks;
 
 use DmitryDulepov\Realurl\Configuration\AutomaticConfigurator;
 use JWeiland\ServiceBw2\RealUrl\TitleMapping;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
  * Class RealUrlAutoConfiguration
@@ -33,32 +34,35 @@ class RealUrlAutoConfiguration
      */
     public function addConfig(array $parameters, AutomaticConfigurator $parentObject): array
     {
-        return array_merge_recursive($parameters['config'], [
-            'fileName' => [
-                'defaultToHTMLsuffixOnPrev' => true,
-            ],
-            'postVarSets' => [
-                '_DEFAULT' => [
-                    'service-bw' => [
-                        0 => [
-                            'GETvar' => 'tx_servicebw2_servicebw[controller]',
-                            'valueMap' => [
-                                'lebenslagen' => 'Lebenslagen',
-                                'leistungen' => 'Leistungen',
-                                'organisationseinheiten' => 'Organisationseinheiten'
+        ArrayUtility::mergeRecursiveWithOverrule(
+            $parameters['config'],
+            [
+                'fileName' => [
+                    'defaultToHTMLsuffixOnPrev' => true,
+                ],
+                'postVarSets' => [
+                    '_DEFAULT' => [
+                        'service-bw' => [
+                            0 => [
+                                'GETvar' => 'tx_servicebw2_servicebw[controller]',
+                                'valueMap' => [
+                                    'lebenslagen' => 'Lebenslagen',
+                                    'leistungen' => 'Leistungen',
+                                    'organisationseinheiten' => 'Organisationseinheiten'
+                                ],
+                                'noMatch' => 'null'
                             ],
-                            'noMatch' => 'null'
+                            1 => [
+                                'GETvar' => 'tx_servicebw2_servicebw[action]'
+                            ],
+                            2 => [
+                                'GETvar' => 'tx_servicebw2_servicebw[id]',
+                                'userFunc' => TitleMapping::class . '->main'
+                            ]
                         ],
-                        1 => [
-                            'GETvar' => 'tx_servicebw2_servicebw[action]'
-                        ],
-                        2 => [
-                            'GETvar' => 'tx_servicebw2_servicebw[id]',
-                            'userFunc' => TitleMapping::class  . '->main'
-                        ]
                     ],
                 ],
-            ],
-        ]);
+            ]);
+        return $parameters['config'];
     }
 }
