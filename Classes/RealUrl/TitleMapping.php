@@ -17,15 +17,16 @@ namespace JWeiland\ServiceBw2\RealUrl;
 
 use DmitryDulepov\Realurl\Decoder\UrlDecoder;
 use DmitryDulepov\Realurl\EncodeDecoderBase;
-use DmitryDulepov\Realurl\Encoder\UrlEncoder;
 use DmitryDulepov\Realurl\Utility;
 use JWeiland\ServiceBw2\Domain\Repository\AbstractRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Domain\Repository\SearchRepository;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
  * Class TitleMapping
@@ -38,16 +39,8 @@ class TitleMapping
     protected $objectManager;
 
     /**
-     * @var UrlEncoder
-     */
-    protected $urlEncoder;
-
-    /**
-     * @var UrlDecoder
-     */
-    protected $urlDecoder;
-
-    /**
+     * Utility from RealURL
+     *
      * @var Utility
      */
     protected $utility;
@@ -71,41 +64,37 @@ class TitleMapping
     public function main(array $parameters, EncodeDecoderBase $encodeDecoderBase): string
     {
         if ($parameters['decodeAlias']) {
-            $this->urlDecoder = $encodeDecoderBase;
-            $this->utility = $this->getUtilityFromDecoder();
-            $id = $this->decodeTitleToId((string)$parameters['value']);
-            return $id !== -1 ? (string)$id : (string)$parameters['value'];
+            $this->utility = $this->getUtilityFromDecoder($encodeDecoderBase);
+            $id = $this->decodeTitleToId((string)$parameters['value'], $encodeDecoderBase);
+            $result = $id !== -1 ? (string)$id : (string)$parameters['value'];
         } else {
-            $this->urlEncoder = $encodeDecoderBase;
-            $this->utility = $this->urlEncoder->getUtility();
-            return $this->encodeIdToTitle((int)$parameters['value'], $parameters['pathParts'][0]);
+            $this->utility = $encodeDecoderBase->getUtility();
+            $result = $this->encodeIdToTitle((int)$parameters['value'], $parameters['pathParts'][0]);
         }
+        return $result;
     }
 
     /**
      * Returns the utility class from url decoder
      *
+     * @param UrlDecoder $urlDecoder
      * @return Utility
-     * @throws \ReflectionException
      */
-    protected function getUtilityFromDecoder(): Utility
+    protected function getUtilityFromDecoder(UrlDecoder $urlDecoder): Utility
     {
-        $urlDecoderReflection = new \ReflectionClass($this->urlDecoder);
-        $reflectionProperty = $urlDecoderReflection->getProperty('utility');
-        $reflectionProperty->setAccessible(true);
-        return $reflectionProperty->getValue($this->urlDecoder);
+        return ObjectAccess::getProperty($urlDecoder, 'utility', true);
     }
 
     /**
-     * Get repository for requested controller
+     * Get repository for requested controller type
      *
-     * @param string $controller
+     * @param string $controllerType
      * @return AbstractRepository
      * @throws \Exception if controller name is invalid
      */
-    protected function getRepositoryForController(string $controller): AbstractRepository
+    protected function getRepositoryForController(string $controllerType): AbstractRepository
     {
-        switch($controller) {
+        switch ($controllerType) {
             case 'lebenslagen':
                 $repository = $this->objectManager->get(LebenslagenRepository::class);
                 break;
@@ -117,7 +106,7 @@ class TitleMapping
                 break;
             default:
                 throw new \InvalidArgumentException(
-                    'Could not find repository for selected controller "' . $controller . '"!',
+                    'Could not find repository for selected controller type "' . $controllerType . '"!',
                     1523960421
                 );
                 break;
@@ -129,13 +118,13 @@ class TitleMapping
      * Returns the title as url friendly string or $id if no title could be found
      *
      * @param int $id
-     * @param string $controller
+     * @param string $controllerType
      * @return string
      */
-    protected function encodeIdToTitle(int $id, string $controller): string
+    protected function encodeIdToTitle(int $id, string $controllerType): string
     {
-        $repository = $this->getRepositoryForController($controller);
-        switch($controller) {
+        $repository = $this->getRepositoryForController($controllerType);
+        switch ($controllerType) {
             case 'lebenslagen':
                 $title = $repository->getById($id)['displayName'];
                 break;
@@ -157,75 +146,44 @@ class TitleMapping
      * Decode title to id
      *
      * @param string $title
-     * @return int id or -1 if no id was found!
+     * @param UrlDecoder $urlDecoder
+     * @return int id
+     * @throws InvalidPathException
      */
-    protected function decodeTitleToId(string $title): int
+    protected function decodeTitleToId(string $title, UrlDecoder $urlDecoder): int
     {
-        $controller = $this->getControllerAliasFromUrlDecoder();
-        $repository = $this->getRepositoryForController($controller);
-        switch ($controller) {
-            case 'lebenslagen':
-                /** @var LebenslagenRepository $repository */
-                $id = $this->findIdRecursively($title, 'name', $repository->getAll());
-                break;
-            case 'leistungen':
-                /** @var LeistungenRepository $repository */
-                $id = $this->findIdRecursively($title, 'displayName', $repository->getAll());
-                break;
-            case 'organisationseinheiten':
-                /** @var OrganisationseinheitenRepository $repository */
-                $id = $this->findIdRecursively($title, 'name', $repository->getAll());
-                break;
-            default:
-                $id = -1;
-                break;
+        $searchRepository = $this->objectManager->get(SearchRepository::class);
+        $controller = $this->getControllerAliasFromUrlDecoder($urlDecoder);
+        $filterAlias = [
+            'organisationseinheiten' => 'organisationseinheit',
+            'lebenslagen' => 'lebenslage',
+            'leistungen' => 'leistung'
+        ];
+        $result = $searchRepository->search($title, $filterAlias[$controller]);
+        if (isset($result['primaryResult']['hits'])) {
+            $record = array_shift($result['primaryResult']['hits']);
+            $id = (int)$record['id'];
+        } else {
+            throw new InvalidPathException('Could not find id by path for service_bw2 RealURL mapping!', 1525782342);
         }
         return $id;
     }
 
     /**
-     * Find id of a Service BW item recursively
-     *
-     * @param string $search name of the item e.g. Stadtverwaltung
-     * @param string $key where the name is stored
-     * @param array $items e.g. from $repository->getAll() may includes _children items
-     * @return int the id or -1 if no id was found!
-     */
-    protected function findIdRecursively(string $search, string $key, array $items): int
-    {
-        foreach ($items as $item) {
-            if (array_key_exists($key, $item) && $this->utility->convertToSafeString($item[$key]) === $search) {
-                return (int)$item['id'];
-            }
-            // loop recursively if current item has children
-            if (array_key_exists('_children', $item)) {
-                $id = $this->findIdRecursively($search, $key, $item['_children']);
-                if ($id !== -1) {
-                    return $id;
-                }
-            }
-        }
-        return -1;
-    }
-
-    /**
      * Extracts the controller alias from url decoders original path
      *
+     * @param UrlDecoder $urlDecoder
      * @return string
+     * @throws \InvalidArgumentException
      * @throws InvalidPathException
-     * @throws \ReflectionException
      */
-    protected function getControllerAliasFromUrlDecoder(): string
+    protected function getControllerAliasFromUrlDecoder(UrlDecoder $urlDecoder): string
     {
-        $urlDecoderReflection = new \ReflectionClass($this->urlDecoder);
-        $reflectionProperty = $urlDecoderReflection->getProperty('originalPath');
-        $reflectionProperty->setAccessible(true);
-        $originalPath = $reflectionProperty->getValue($this->urlDecoder);
-        preg_match('/\/service\-bw\/([a-zA-Z0-9\-]+)\//', $originalPath, $matches);
-        if (\count($matches) === 2) {
-            return $matches[1];
+        $originalPath = ObjectAccess::getProperty($urlDecoder, 'originalPath', true);
+        preg_match('@/service\-bw/(?<controller>[[:alnum:]\-]+)/@', $originalPath, $matches);
+        if (array_key_exists('controller', $matches)) {
+            return $matches['controller'];
         }
         throw new InvalidPathException('Could not decode given path for service_bw2 RealURL mapping!', 1524033384);
     }
-
 }

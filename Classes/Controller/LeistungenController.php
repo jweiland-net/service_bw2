@@ -80,7 +80,7 @@ class LeistungenController extends AbstractController
      */
     public function showAction(int $id)
     {
-        $regionIds = $this->settings['general']['regionIds'];
+        $regionIds = (string)$this->extensionConfiguration['regionIds']['value'];
         try {
             $leistung = $this->leistungenRepository->getLiveById($id);
             $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
