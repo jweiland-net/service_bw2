@@ -23,8 +23,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class OrganisationseinheitenItems
- *
-
  */
 class OrganisationseinheitenItems implements SingletonInterface
 {
