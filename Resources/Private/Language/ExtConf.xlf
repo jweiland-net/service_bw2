@@ -6,7 +6,7 @@
 		<body>
 
 			<trans-unit id="username" xml:space="preserve">
-				<source>Username: The username to get a token. Start with ws_ normally.</source>
+				<source>Username: The username to get a token. Normally starts with ws_.</source>
 			</trans-unit>
 			<trans-unit id="password" xml:space="preserve">
 				<source>Password: Password to receive an auth token over the API.</source>

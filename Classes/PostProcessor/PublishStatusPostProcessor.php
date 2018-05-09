@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -27,14 +28,13 @@ class PublishStatusPostProcessor extends AbstractPostProcessor
      * @param array $response
      * @return array
      */
-    public function process($response)
+    public function process($response): array
     {
-        if (is_array($response)) {
-            foreach ($response as $key => $item) {
-                // Remove non published items from array
-                if (array_key_exists('publishStatus', $item) && $item['publishStatus'] === 'NONE') {
-                    unset($response[$key]);
-                }
+        $response = (array)$response;
+        foreach ($response as $key => $item) {
+            // Remove non published items from array
+            if (array_key_exists('publishStatus', $item) && $item['publishStatus'] === 'NONE') {
+                unset($response[$key]);
             }
         }
         return $response;

@@ -99,16 +99,22 @@ class ServiceBwClient
      * Process request
      *
      * @param RequestInterface $request
-     * @return mixed
-     * @throws \Exception if request if not valid!
+     * @return array
+     * @throws \Exception if request if not valid or could not be decoded!
      */
-    public function processRequest(RequestInterface $request)
+    public function processRequest(RequestInterface $request): array
     {
         $body = null;
         $cacheIdentifier = $this->getCacheIdentifier($request);
         // Check if current request is cached
         if ($this->cacheInstance->has($cacheIdentifier)) {
-            $body = \json_decode($this->cacheInstance->get($cacheIdentifier), 1);
+            $body = \json_decode($this->cacheInstance->get($cacheIdentifier), true);
+            if ($body === null) {
+                throw new \HttpResponseException(
+                    'Could not decode the JSON from HTTP response!',
+                    1525852462
+                );
+            }
         } else {
             if (!$request->isValidRequest()) {
                 throw new HttpRequestException('Request not valid', 1513940893);

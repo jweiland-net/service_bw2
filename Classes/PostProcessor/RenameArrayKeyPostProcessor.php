@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -29,6 +30,7 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
      */
     public function process($response): array
     {
+        $response = (array)$response;
         $response = $this->sanitizeRecords($response);
         $itemsById = [];
         $noId = 0;

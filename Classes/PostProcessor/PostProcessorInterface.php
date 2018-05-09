@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -22,9 +23,8 @@ interface PostProcessorInterface
     /**
      * Post process bearer response
      *
-     * @param string $response
-     *
-     * @return mixed
+     * @param mixed $response
+     * @return array
      */
-    public function process($response);
+    public function process($response): array;
 }

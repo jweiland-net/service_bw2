@@ -28,18 +28,15 @@ class SharedStatusPostProcessor extends AbstractPostProcessor
      */
     public function process($response): array
     {
-        $checkedResponse = [];
-        if (is_array($response)) {
-            foreach ($response as $key => $item) {
-                if (array_key_exists('shared', $item)) {
-                    // Remove unshared items
-                    if ($item['shared'] === false || $item['shared'] === 'false') {
-                        unset($response[$key]);
-                    }
+        $response = (array)$response;
+        foreach ($response as $key => $item) {
+            if (array_key_exists('shared', $item)) {
+                // Remove unshared items
+                if ($item['shared'] === false || $item['shared'] === 'false') {
+                    unset($response[$key]);
                 }
             }
-            $checkedResponse = $response;
         }
-        return $checkedResponse;
+        return $response;
     }
 }

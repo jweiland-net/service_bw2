@@ -28,18 +28,17 @@ class LinkStatusPostProcessor extends AbstractPostProcessor
      * @param array $response
      * @return array
      */
-    public function process($response)
+    public function process($response): array
     {
-        if (is_array($response)) {
-            foreach ($response as $key => $item) {
-                // Remove unused or broken links
-                if (
-                    !isset($item['unused'], $item['broken'])
-                    || $item['unused'] !== false
-                    || $item['broken'] !== false
-                ) {
-                    unset($response[$key]);
-                }
+        $response = (array)$response;
+        foreach ($response as $key => $item) {
+            // Remove unused or broken links
+            if (
+                !isset($item['unused'], $item['broken'])
+                || $item['unused'] !== false
+                || $item['broken'] !== false
+            ) {
+                unset($response[$key]);
             }
         }
         return $response;
