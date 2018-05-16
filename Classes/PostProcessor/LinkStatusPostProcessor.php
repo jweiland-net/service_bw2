@@ -25,7 +25,7 @@ class LinkStatusPostProcessor extends AbstractPostProcessor
     /**
      * Check for unused or broken links
      *
-     * @param array $response
+     * @param mixed $response
      * @return array
      */
     public function process($response): array

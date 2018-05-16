@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z"
-				target-language="de" product-name="service_bw2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z" target-language="de" product-name="service_bw2">
 		<header/>
 		<body>
-
 			<trans-unit id="sheet_general">
 				<source>General</source>
 				<target>Allgemein</target>
@@ -61,7 +59,6 @@
 				<source>Hide selected assigned life situations</source>
 				<target>Verstecke ausgewählte Zugeordnete Lebenslagen im Frontend</target>
 			</trans-unit>
-
 		</body>
 	</file>
 </xliff>

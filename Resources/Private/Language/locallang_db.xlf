@@ -3,11 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2">
 		<header/>
 		<body>
-
 			<trans-unit id="plugin.title">
 				<source>Service BW</source>
 			</trans-unit>
-
 		</body>
 	</file>
 </xliff>

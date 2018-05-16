@@ -100,7 +100,7 @@ class ServiceBwClient
      *
      * @param RequestInterface $request
      * @return array
-     * @throws \Exception if request if not valid or could not be decoded!
+     * @throws \Exception if request is not valid or could not be decoded!
      */
     public function processRequest(RequestInterface $request): array
     {

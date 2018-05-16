@@ -23,7 +23,7 @@ class SharedStatusPostProcessor extends AbstractPostProcessor
     /**
      * Check if given items are allowed to be displayed
      *
-     * @param array $response
+     * @param mixed $response
      * @return array
      */
     public function process($response): array

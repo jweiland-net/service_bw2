@@ -25,7 +25,7 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
      * Will return an array with items from response where the array key
      * equals the item id or if no item id isset an key like unknown_id_<n>
      *
-     * @param array $response after JsonPostProcessor
+     * @param mixed $response after JsonPostProcessor
      * @return array
      */
     public function process($response): array

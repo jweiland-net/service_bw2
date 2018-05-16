@@ -22,7 +22,7 @@ class JsonPostProcessor extends AbstractPostProcessor
     /**
      * Post process json response
      *
-     * @param string $response
+     * @param mixed $response
      * @return array
      * @throws \HttpResponseException if JSON decode fails
      */

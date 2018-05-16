@@ -25,7 +25,7 @@ class PublishStatusPostProcessor extends AbstractPostProcessor
     /**
      * Check for unpublished entries
      *
-     * @param array $response
+     * @param mixed $response
      * @return array
      */
     public function process($response): array
