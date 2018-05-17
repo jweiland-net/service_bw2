@@ -19,8 +19,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class Roots
- *
- * @package JWeiland\ServiceBw2\Request\Organisationseinheiten
  */
 class Roots extends AbstractRequest
 {

@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -18,25 +19,22 @@ namespace JWeiland\ServiceBw2\PostProcessor;
  * PostProcessor to check the publishStatus of items.
  * Unpublished items (publishStatus: NONE) will be removed
  * from $response array
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class PublishStatusPostProcessor extends AbstractPostProcessor
 {
     /**
      * Check for unpublished entries
      *
-     * @param array $response
+     * @param mixed $response
      * @return array
      */
-    public function process($response)
+    public function process($response): array
     {
-        if (is_array($response)) {
-            foreach ($response as $key => $item) {
-                // Remove non published items from array
-                if (array_key_exists('publishStatus', $item) && $item['publishStatus'] === 'NONE') {
-                    unset($response[$key]);
-                }
+        $response = (array)$response;
+        foreach ($response as $key => $item) {
+            // Remove non published items from array
+            if (array_key_exists('publishStatus', $item) && $item['publishStatus'] === 'NONE') {
+                unset($response[$key]);
             }
         }
         return $response;

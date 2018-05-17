@@ -23,8 +23,6 @@ use JWeiland\ServiceBw2\Request\Lebenslagen\Roots;
 
 /**
  * Class LebenslageRepository
- *
- * @package JWeiland\ServiceBw2\Domain\Repository
  */
 class LebenslagenRepository extends AbstractRepository
 {

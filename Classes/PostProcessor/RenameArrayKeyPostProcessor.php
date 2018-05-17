@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -16,8 +17,6 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * Class RenameArrayKeyPostProcessor
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class RenameArrayKeyPostProcessor extends AbstractPostProcessor
 {
@@ -26,11 +25,12 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
      * Will return an array with items from response where the array key
      * equals the item id or if no item id isset an key like unknown_id_<n>
      *
-     * @param array $response after JsonPostProcessor
+     * @param mixed $response after JsonPostProcessor
      * @return array
      */
     public function process($response): array
     {
+        $response = (array)$response;
         $response = $this->sanitizeRecords($response);
         $itemsById = [];
         $noId = 0;

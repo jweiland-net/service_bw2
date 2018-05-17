@@ -18,8 +18,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class Token
- *
- * @package JWeiland\ServiceBw2\Request\WsBenutzer
  */
 class Token extends AbstractRequest
 {

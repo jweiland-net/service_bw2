@@ -19,8 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class ExtConf
- *
- * @package JWeiland\ServiceBw2\Configuration
  */
 class ExtConf implements SingletonInterface
 {

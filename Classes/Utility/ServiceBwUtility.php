@@ -17,8 +17,6 @@ namespace JWeiland\ServiceBw2\Utility;
 /**
  * Class ServiceBwUtility
  * Utility for general static methods
- *
- * @package JWeiland\ServiceBw2\Utility;
  */
 class ServiceBwUtility
 {

@@ -18,8 +18,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class Live
- *
- * @package JWeiland\ServiceBw2\Request\Organisationseinheiten
  */
 class Live extends AbstractRequest
 {

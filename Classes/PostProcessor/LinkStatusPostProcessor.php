@@ -19,29 +19,26 @@ namespace JWeiland\ServiceBw2\PostProcessor;
  * PostProcessor to check if the response array contains
  * links that has been defined as "unused" or "broken".
  * This PostProcessor removes those links from array.
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class LinkStatusPostProcessor extends AbstractPostProcessor
 {
     /**
      * Check for unused or broken links
      *
-     * @param array $response
+     * @param mixed $response
      * @return array
      */
-    public function process($response)
+    public function process($response): array
     {
-        if (is_array($response)) {
-            foreach ($response as $key => $item) {
-                // Remove unused or broken links
-                if (
-                    !isset($item['unused'], $item['broken'])
-                    || $item['unused'] !== false
-                    || $item['broken'] !== false
-                ) {
-                    unset($response[$key]);
-                }
+        $response = (array)$response;
+        foreach ($response as $key => $item) {
+            // Remove unused or broken links
+            if (
+                !isset($item['unused'], $item['broken'])
+                || $item['unused'] !== false
+                || $item['broken'] !== false
+            ) {
+                unset($response[$key]);
             }
         }
         return $response;

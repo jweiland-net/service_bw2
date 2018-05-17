@@ -21,8 +21,6 @@ use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 
 /**
  * Class LeistungenController
- *
- * @package JWeiland\ServiceBw2\Controller;
  */
 class LeistungenController extends AbstractController
 {
@@ -82,7 +80,7 @@ class LeistungenController extends AbstractController
      */
     public function showAction(int $id)
     {
-        $regionIds = $this->settings['general']['regionIds'];
+        $regionIds = (string)$this->extensionConfiguration['regionIds']['value'];
         try {
             $leistung = $this->leistungenRepository->getLiveById($id);
             $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
@@ -98,6 +96,7 @@ class LeistungenController extends AbstractController
             $organisationseinheiten,
             explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'])
         );
+        $this->setPageTitle($leistung['title']);
         $this->view->assign('leistung', $leistung);
         $this->view->assign('externeFormulare', $externeFormulare);
         $this->view->assign('organisationseinheiten', $organisationseinheiten);

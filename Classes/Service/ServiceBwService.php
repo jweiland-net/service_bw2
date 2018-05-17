@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\Service;
 
 /**
  * Class ServiceBwService
- *
- * @package JWeiland\ServiceBw2\Service
  */
 class ServiceBwService
 {

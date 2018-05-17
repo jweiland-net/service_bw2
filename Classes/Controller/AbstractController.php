@@ -15,17 +15,41 @@ namespace JWeiland\ServiceBw2\Controller;
  */
 
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 
 /**
  * Class AbstractController
- *
- * @package JWeiland\ServiceBw2\Controller
  */
 abstract class AbstractController extends ActionController
 {
+    /**
+     * @var ConfigurationUtility
+     */
+    protected $configurationUtility;
+
+    /**
+     * Extension configuration for service_bw2
+     *
+     * @var array
+     */
+    protected $extensionConfiguration = [];
+
+    /**
+     * inject configurationUtility and get service_bw2 configuration
+     *
+     * @param ConfigurationUtility $configurationUtility
+     * @return void
+     */
+    public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)
+    {
+        $this->configurationUtility = $configurationUtility;
+        $this->extensionConfiguration = $configurationUtility->getCurrentConfiguration('service_bw2');
+    }
+
     /**
      * Add "error while fetching records" error message
      *
@@ -44,5 +68,59 @@ abstract class AbstractController extends ActionController
             'service_bw2',
             GeneralUtility::SYSLOG_SEVERITY_ERROR
         );
+    }
+
+    /**
+     * Sets the page title if the setting
+     * overridePageTitle equals 1
+     *
+     * @param string $title
+     * @return void
+     */
+    protected function setPageTitle(string $title)
+    {
+        if ($this->settings['overridePageTitle'] === '1') {
+            $this->objectManager->get(PageRenderer::class)->setTitle($title);
+        }
+    }
+
+    /**
+     * Initialize action
+     * USE parent::initializeAction() IN CHILD CONTROLLERS
+     * IF YOU ARE OVERRIDING THIS METHOD
+     *
+     * @return void
+     */
+    public function initializeAction()
+    {
+        $this->validateExtensionConfiguration();
+    }
+
+    /**
+     * Validates the given extension configuration by checking
+     * if the setting is filled or empty. Throws an exception in case of a
+     * misconfiguration.
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function validateExtensionConfiguration()
+    {
+        $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages', 'regionIds'];
+        $missingSettings = [];
+        foreach ($requiredSettings as $requiredSetting) {
+            if (empty($this->extensionConfiguration[$requiredSetting]['value'])) {
+                $missingSettings[] = $requiredSetting;
+            }
+        }
+        if ($missingSettings) {
+            throw new \InvalidArgumentException(
+                'The extension service_bw2 requires the following settings: "'
+                . implode(', ', $requiredSettings) . '". The following settings are missing: "'
+                . implode(', ', $missingSettings) . '"! Please check your configuration in TYPO3'
+                . ' backend > Extensions > service_bw2 > Configure.',
+                1525787713
+            );
+        }
     }
 }

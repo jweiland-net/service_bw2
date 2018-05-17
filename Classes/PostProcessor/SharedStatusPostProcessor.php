@@ -17,31 +17,26 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 /**
  * PostProcessor to check if items are allowed to be displayed
  * e.g. to check if forms are allowed to be displayed
- *
- * @package JWeiland\ServiceBw2\PostProcessor;
  */
 class SharedStatusPostProcessor extends AbstractPostProcessor
 {
     /**
      * Check if given items are allowed to be displayed
      *
-     * @param array $response
+     * @param mixed $response
      * @return array
      */
     public function process($response): array
     {
-        $checkedResponse = [];
-        if (is_array($response)) {
-            foreach ($response as $key => $item) {
-                if (array_key_exists('shared', $item)) {
-                    // Remove unshared items
-                    if ($item['shared'] === false || $item['shared'] === 'false') {
-                        unset($response[$key]);
-                    }
+        $response = (array)$response;
+        foreach ($response as $key => $item) {
+            if (array_key_exists('shared', $item)) {
+                // Remove unshared items
+                if ($item['shared'] === false || $item['shared'] === 'false') {
+                    unset($response[$key]);
                 }
             }
-            $checkedResponse = $response;
         }
-        return $checkedResponse;
+        return $response;
     }
 }

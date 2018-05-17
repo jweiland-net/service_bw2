@@ -34,8 +34,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  *     ...
  * </dl>
  * Displays all opening hours using 24 hours system
- *
- * @package JWeiland\ServiceBw2\ViewHelpers;
  */
 class OpeningHoursViewHelper extends AbstractViewHelper
 {

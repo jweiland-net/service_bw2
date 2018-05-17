@@ -32,8 +32,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  * This ViewHelper will automatically create a new poi collection if there is no relation
  * while calling the ViewHelper or if the related record has another address than current
  * organisationseinheit item.
- *
- * @package JWeiland\ServiceBw2\ViewHelpers;
  */
 class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 {

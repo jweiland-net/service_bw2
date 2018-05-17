@@ -21,8 +21,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
  *
  * Description provided by service_bw API documentation:
  * Liefert alle Zuständigkeiten für eine bestimmte Leistung als paginierte Liste.
- *
- * @package JWeiland\ServiceBw2\Request\Zustaendigkeiten;
  */
 class Leistung extends AbstractRequest
 {

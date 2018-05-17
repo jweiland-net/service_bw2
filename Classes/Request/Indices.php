@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\Request;
 
 /**
  * Class Indices
- *
- * @package JWeiland\ServiceBw2\Request
  */
 class Indices extends AbstractRequest
 {

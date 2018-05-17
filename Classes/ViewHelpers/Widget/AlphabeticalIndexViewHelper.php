@@ -27,8 +27,6 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
  * {namespace jw=JWeiland\ServiceBw2\ViewHelpers}
  * <jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}" records="{leistungen}"
  *                              controller="Leistungen" action="show"/>
- *
- * @package JWeiland\ServiceBw2\ViewHelpers\Widget;
  */
 class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
 {

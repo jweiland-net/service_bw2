@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Request;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,54 +14,69 @@ namespace JWeiland\ServiceBw2\Request;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
+
 /**
  * Class Search
- *
- * @package JWeiland\ServiceBw2\Request
  */
 class Search extends AbstractRequest
 {
     /**
      * @var string
      */
-    protected $path = 'search';
-    
+    protected $path = 'search/{lang}?q={q}&f={f}&s={s}&position={position}';
+
     /**
      * @var string
      */
     protected $method = RequestInterface::METHOD_GET;
-    
+
     /**
      * @var string
      */
     protected $accept = RequestInterface::ACCEPT_JSON;
-    
+
+    /**
+     * @var bool
+     */
+    protected $clearDefaultPostProcessorClassNames = true;
+
     /**
      * @var array
      */
-    protected $allowedParameters = array(
-        'lang' => array(
+    protected $additionalPostProcessorClassNames = [
+        JsonPostProcessor::class
+    ];
+
+    /**
+     * @var array
+     */
+    protected $allowedParameters = [
+        'lang' => [
             'dataType' => 'string',
             'default' => 'de',
             'required' => true
-        ),
-        'primaryIndex' => array(
+        ],
+        'primaryIndex' => [
             'dataType' => 'string',
-        ),
-        'q' => array(
+        ],
+        'q' => [
             'dataType' => 'string',
             'required' => true
-        ),
-        'f' => array(
+        ],
+        'f' => [
             'dataType' => 'string',
             'default' => 'all'
-        ),
-        's' => array(
+        ],
+        's' => [
             'dataType' => 'string',
             'default' => 'relevance'
-        ),
-        'secondaryIndices' => array(
+        ],
+        'secondaryIndices' => [
             'dataType' => 'array'
-        )
-    );
+        ],
+        'position' => [
+            'dataType' => 'string'
+        ]
+    ];
 }

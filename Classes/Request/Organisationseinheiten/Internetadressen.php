@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class Internetadressen
- *
- * @package JWeiland\ServiceBw2\Request\Organisationseinheiten
  */
 class Internetadressen extends AbstractRequest
 {

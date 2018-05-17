@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 
 /**
  * Class OrganisationseinheitenController
- *
- * @package JWeiland\ServiceBw2\Controller;
  */
 class OrganisationseinheitenController extends AbstractController
 {
@@ -94,6 +92,7 @@ class OrganisationseinheitenController extends AbstractController
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
+        $this->setPageTitle($organisationseinheit['name']);
         $this->view->assign('beschreibungstext', $liveOrganisationseinheit);
         $this->view->assign('organisationseinheit', $organisationseinheit);
         $this->view->assign('internetadressen', $internetadressen);

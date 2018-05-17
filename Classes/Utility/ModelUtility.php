@@ -20,8 +20,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * This utility can be used inside domain models.
- *
- * @package JWeiland\ServiceBw2\Utility;
  * @api
  */
 class ModelUtility
