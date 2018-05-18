@@ -17,13 +17,13 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * PostProcessor to check the publishStatus of items.
- * Unpublished items (publishStatus: NONE) will be removed
- * from $response array
+ * Items without a publishStatus or where publishStatus
+ * does not equal DONE will be removed from $response array
  */
 class PublishStatusPostProcessor extends AbstractPostProcessor
 {
     /**
-     * Check for unpublished entries
+     * Remove items without publishStatus DONE
      *
      * @param mixed $response
      * @return array
@@ -33,7 +33,7 @@ class PublishStatusPostProcessor extends AbstractPostProcessor
         $response = (array)$response;
         foreach ($response as $key => $item) {
             // Remove non published items from array
-            if (array_key_exists('publishStatus', $item) && $item['publishStatus'] === 'NONE') {
+            if (!array_key_exists('publishStatus', $item) || $item['publishStatus'] !== 'DONE') {
                 unset($response[$key]);
             }
         }

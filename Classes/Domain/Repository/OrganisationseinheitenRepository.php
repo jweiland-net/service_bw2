@@ -161,10 +161,11 @@ class OrganisationseinheitenRepository extends AbstractRepository
      *
      * @param int $leistungId
      * @param string $regionIds
+     * @param string $mandantId (you can get it from ext_conf_template)
      * @return array
      * @throws \Exception
      */
-    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds): array
+    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds, string $mandantId): array
     {
         $regionIdArray = explode(',', $regionIds);
         $records = [];
@@ -183,7 +184,10 @@ class OrganisationseinheitenRepository extends AbstractRepository
 
         $organisationseinheiten = [];
         foreach ($records as $key => $record) {
-            if (in_array((string)$record['regionId'], $regionIdArray, true)) {
+            if (
+                in_array((string)$record['regionId'], $regionIdArray, true)
+                && (string)$record['mandant'] === $mandantId
+            ) {
                 $organisationseinheiten[(int)$record['organisationseinheitId']] =
                     $this->getLiveOrganisationseinheitById((int)$record['organisationseinheitId']);
             }
