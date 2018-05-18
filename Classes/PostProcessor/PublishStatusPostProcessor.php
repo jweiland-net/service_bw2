@@ -17,7 +17,7 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * PostProcessor to check the publishStatus of items.
- * Items without an publishStatus or where publishStatus
+ * Items without a publishStatus or where publishStatus
  * does not equal DONE will be removed from $response array
  */
 class PublishStatusPostProcessor extends AbstractPostProcessor
