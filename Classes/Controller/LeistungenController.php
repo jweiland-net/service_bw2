@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Controller;
 
 /*
-* This file is part of the TYPO3 CMS project.
+* This file is part of the service_bw2 project.
 *
 * It is free software; you can redistribute it and/or modify it under
 * the terms of the GNU General Public License, either version 2
@@ -67,8 +67,9 @@ class LeistungenController extends AbstractController
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
      * @return void
      */
-    public function injectOrganisationseinheitenRepository(OrganisationseinheitenRepository $organisationseinheitenRepository)
-    {
+    public function injectOrganisationseinheitenRepository(
+        OrganisationseinheitenRepository $organisationseinheitenRepository
+    ) {
         $this->organisationseinheitenRepository = $organisationseinheitenRepository;
     }
 
@@ -87,7 +88,8 @@ class LeistungenController extends AbstractController
             $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
             $organisationseinheiten = $this->organisationseinheitenRepository->getRecordsByLeistungAndRegionId(
                 $id,
-                $regionIds
+                $regionIds,
+                $mandantId
             );
         } catch (\Exception $exception) {
             $this->addErrorWhileFetchingRecordsMessage($exception);
@@ -103,8 +105,17 @@ class LeistungenController extends AbstractController
         $this->view->assign('organisationseinheiten', $organisationseinheiten);
     }
 
+    /**
+     * List action
+     *
+     * @return void
+     */
     public function listAction()
     {
-        $this->view->assign('leistungen', $this->leistungenRepository->getAll());
+        try {
+            $this->view->assign('leistungen', $this->leistungenRepository->getAll());
+        } catch (\Exception $exception) {
+            $this->addErrorWhileFetchingRecordsMessage($exception);
+        }
     }
 }
