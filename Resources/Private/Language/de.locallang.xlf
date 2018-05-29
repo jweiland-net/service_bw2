@@ -1,122 +1,134 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="yellowpages2">
-    <header/>
-    <body>
-      <trans-unit id="scheduler.pid" xml:space="preserve">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2">
+		<header/>
+		<body>
+			<trans-unit id="scheduler.pid" xml:space="preserve">
         <source>Storage PID</source>
         <target>Speicherordner</target>
       </trans-unit>
-      <trans-unit id="error_message.error_while_fetching_records">
-        <source>There was an error while fetching records. Please try again or contact an admin if the error message
-          appears again!
-        </source>
-        <target>Bei der Verbindung mit Service BW ist ein Fehler aufgetreten. Bitte erneut versuchen oder
-        einen Administrator kontaktieren, falls die Fehlermeldung erneut erscheint.
-        </target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
-        <source>Home address</source>
-        <target>Hausanschrift</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
-        <source>Visitor address</source>
-        <target>Besucheranschrift</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
-        <source>Mailing address</source>
-        <target>Postanschrift</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.mail">
-        <source>e-mail</source>
-        <target>E-Mail</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
-        <source>Opening hours</source>
-        <target>Öffnungszeiten</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
-        <source>Registration time</source>
-        <target>Anmeldezeiten</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
-        <source>Visiting hours</source>
-        <target>Besuchszeiten</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
-        <source>Operational time</source>
-        <target>Funktionszeiten</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
-        <source>Core hours</source>
-        <target>Kernzeiten</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
-        <source>Engineering time</source>
-        <target>Servicezeiten</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
-        <source>Accessibility by phone</source>
-        <target>Telefonische Erreichbarkeit</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.leistungen">
-        <source>Services</source>
-        <target>Betreute Verfahren</target>
-      </trans-unit>
+			<trans-unit id="error_message.error_while_fetching_records">
+				<source>There was an error while fetching records. Please try again or contact an admin if the error message
+					appears again!
+				</source>
+				<target>Bei der Verbindung mit Service BW ist ein Fehler aufgetreten. Bitte erneut versuchen oder
+					einen Administrator kontaktieren, falls die Fehlermeldung erneut erscheint.
+				</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
+				<source>Home address</source>
+				<target>Hausanschrift</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
+				<source>Visitor address</source>
+				<target>Besucheranschrift</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+				<source>Mailing address</source>
+				<target>Postanschrift</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.mail">
+				<source>e-mail</source>
+				<target>E-Mail</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
+				<source>Opening hours</source>
+				<target>Öffnungszeiten</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
+				<source>Registration time</source>
+				<target>Anmeldezeiten</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
+				<source>Visiting hours</source>
+				<target>Besuchszeiten</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
+				<source>Operational time</source>
+				<target>Funktionszeiten</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
+				<source>Core hours</source>
+				<target>Kernzeiten</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
+				<source>Engineering time</source>
+				<target>Servicezeiten</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
+				<source>Accessibility by phone</source>
+				<target>Telefonische Erreichbarkeit</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.leistungen">
+				<source>Services</source>
+				<target>Betreute Verfahren</target>
+			</trans-unit>
 
-      <trans-unit id="lebenslage.assigned_life_situations">
-        <source>Assigned life situations</source>
-        <target>Zugeordnete Lebenslagen</target>
-      </trans-unit>
-      <trans-unit id="lebenslage.related_verfahren">
-        <source>Related Procedure</source>
-        <target>Verwandte Verfahren</target>
-      </trans-unit>
+			<trans-unit id="lebenslage.assigned_life_situations">
+				<source>Assigned life situations</source>
+				<target>Zugeordnete Lebenslagen</target>
+			</trans-unit>
+			<trans-unit id="lebenslage.related_verfahren">
+				<source>Related Procedure</source>
+				<target>Verwandte Verfahren</target>
+			</trans-unit>
 
-      <trans-unit id="externe_formulare.head">
-        <source>Related forms</source>
-        <target>Formulare dieses Verfahrens</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.zugehoerige_behoerde">
-        <source>Related Organisationseinheit</source>
-        <target>Zuständige Verwaltungsstellen</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.maps2_detail_view">
-        <source>Show on card</source>
-        <target>Auf der Karte anzeigen</target>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.children">
-        <source>Subordinate Organisationseinheiten</source>
-        <target>Zugeordnete Stellen</target>
-      </trans-unit>
-      <trans-unit id="alphabetical_index.to_top">
-        <source>To top</source>
-        <target>Nach oben</target>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.MONTAG">
-        <source>Mon</source>
-        <target>Mo</target>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.DIENSTAG">
-        <source>Tues</source>
-        <target>Di</target>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.MITTWOCH">
-        <source>Weds</source>
-        <target>Mi</target>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.DONNERSTAG">
-        <source>Thurs</source>
-        <target>Do</target>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.FREITAG">
-        <source>Fri</source>
-        <target>Fr</target>
-      </trans-unit>
-      <trans-unit id="leistungen.organisationseinheiten.head">
-        <source>Competent Organisationseinheiten</source>
-        <target>Zuständige Verwaltungsstellen</target>
-      </trans-unit>
-    </body>
-  </file>
+			<trans-unit id="externe_formulare.head">
+				<source>Related forms</source>
+				<target>Formulare dieses Verfahrens</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
+				<source>Related Organisationseinheit</source>
+				<target>Zuständige Verwaltungsstellen</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.maps2_detail_view">
+				<source>Show on card</source>
+				<target>Auf der Karte anzeigen</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.children">
+				<source>Subordinate Organisationseinheiten</source>
+				<target>Zugeordnete Stellen</target>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.to_top">
+				<source>To top</source>
+				<target>Nach oben</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.MONTAG">
+				<source>Mon</source>
+				<target>Mo</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.DIENSTAG">
+				<source>Tues</source>
+				<target>Di</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.MITTWOCH">
+				<source>Weds</source>
+				<target>Mi</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.DONNERSTAG">
+				<source>Thurs</source>
+				<target>Do</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.FREITAG">
+				<source>Fri</source>
+				<target>Fr</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.SAMSTAG">
+				<source>Sat</source>
+				<target>Sa</target>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.SONNTAG">
+				<source>Sun</source>
+				<target>So</target>
+			</trans-unit>
+			<trans-unit id="leistungen.organisationseinheiten.head">
+				<source>Competent Organisationseinheiten</source>
+				<target>Zuständige Verwaltungsstellen</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.internetadressen">
+				<source>Related URLs</source>
+				<target>Internetadressen</target>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
  * Class Children
- *
- * @package JWeiland\ServiceBw2\Request\Lebenslagen
  */
 class Children extends AbstractRequest
 {

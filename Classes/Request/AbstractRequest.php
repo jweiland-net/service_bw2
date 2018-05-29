@@ -21,8 +21,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class AbstractRequest
- *
- * @package JWeiland\ServiceBw2\Request
  */
 abstract class AbstractRequest implements RequestInterface
 {

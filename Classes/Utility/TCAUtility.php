@@ -21,8 +21,6 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  * Utility to be used in TCA files
  *
  * This utility will simplify the way how to configure TCA fields for service_bw2 items in other extensions.
- *
- * @package JWeiland\ServiceBw2\Utility;
  * @api feel free to use this utility on your own extension that depends on service_bw2
  */
 class TCAUtility

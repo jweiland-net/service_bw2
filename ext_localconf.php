@@ -20,6 +20,11 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
     ];
 }
 
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
+    // RealUrl auto configuration
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['service_bw2'] = \JWeiland\ServiceBw2\Hooks\RealUrlAutoConfiguration::class . '->addConfig';
+}
+
 // create scheduler to create/update solr index for service_bw2
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\JWeiland\ServiceBw2\Task\IndexItemsTask::class] = [
     'extension' => 'service_bw2',

@@ -16,6 +16,7 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Children;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Id;
+use JWeiland\ServiceBw2\Request\Organisationseinheiten\Internetadressen;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Live;
 use JWeiland\ServiceBw2\Request\Organisationseinheiten\Roots;
 use JWeiland\ServiceBw2\Request\Zustaendigkeiten\Leistung;
@@ -160,10 +161,11 @@ class OrganisationseinheitenRepository extends AbstractRepository
      *
      * @param int $leistungId
      * @param string $regionIds
+     * @param string $mandantId (you can get it from ext_conf_template)
      * @return array
      * @throws \Exception
      */
-    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds)
+    public function getRecordsByLeistungAndRegionId(int $leistungId, string $regionIds, string $mandantId): array
     {
         $regionIdArray = explode(',', $regionIds);
         $records = [];
@@ -182,11 +184,30 @@ class OrganisationseinheitenRepository extends AbstractRepository
 
         $organisationseinheiten = [];
         foreach ($records as $key => $record) {
-            if (in_array((string)$record['regionId'], $regionIdArray, true)) {
+            if (
+                in_array((string)$record['regionId'], $regionIdArray, true)
+                && (string)$record['mandant'] === $mandantId
+            ) {
                 $organisationseinheiten[(int)$record['organisationseinheitId']] =
                     $this->getLiveOrganisationseinheitById((int)$record['organisationseinheitId']);
             }
         }
         return $organisationseinheiten;
+    }
+
+    /**
+     * Get web urls of an organisationseinheit.
+     *
+     * @param int $id Organisationseinheit ID
+     * @return array
+     * @throws \Exception if request fails
+     */
+    public function getInternetadressenById(int $id): array
+    {
+        $request = $this->objectManager->get(Internetadressen::class);
+        $request->addParameter('id', $id);
+        $records = $this->serviceBwClient->processRequest($request);
+        $this->translationService->translateRecords($records, false, true);
+        return $records;
     }
 }

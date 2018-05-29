@@ -17,8 +17,6 @@ use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 
 /**
  * Interface RequestInterface
- *
- * @package JWeiland\ServiceBw2\Request
  */
 interface RequestInterface
 {

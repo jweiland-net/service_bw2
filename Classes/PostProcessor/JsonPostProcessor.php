@@ -16,32 +16,37 @@ namespace JWeiland\ServiceBw2\PostProcessor;
 
 /**
  * Class JsonPostProcessor
- *
- * @package JWeiland\ServiceBw2\PostProcessor
  */
 class JsonPostProcessor extends AbstractPostProcessor
 {
     /**
      * Post process json response
      *
-     * @param string $response
-     * @return array|null
+     * @param mixed $response
+     * @return array
+     * @throws \HttpResponseException if JSON decode fails
      */
-    public function process($response)
+    public function process($response): array
     {
         $response = trim((string)$response);
         if (empty($response)) {
             return [];
         }
-        $decodedResponse = json_decode($response, 1);
-        if (!empty($decodedResponse) && is_array($decodedResponse) && isset($decodedResponse['items'])) {
+        $decodedResponse = json_decode($response, true);
+        if (!empty($decodedResponse) && \is_array($decodedResponse) && isset($decodedResponse['items'])) {
             // sometimes the records are not at array root, they are in array key "items"
             // if so then the array inside items will used as root and all other properties
             // will be copied into $arr['_root']
             $processedResponse = $decodedResponse['items'];
             unset($decodedResponse['items']);
             $processedResponse['_root'] = $decodedResponse;
-            return $processedResponse;
+            $decodedResponse = $processedResponse;
+        } elseif ($decodedResponse === null) {
+            // throw exception if json could not be decoded!
+            throw new \HttpResponseException(
+                'Could not decode the JSON from HTTP response!',
+                1525850941
+            );
         }
         return $decodedResponse;
     }

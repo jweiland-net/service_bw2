@@ -16,8 +16,6 @@ namespace JWeiland\ServiceBw2\Utility;
 
 /**
  * Class AlphabeticalIndexUtility
- *
- * @package JWeiland\ServiceBw2\Utility;
  */
 class AlphabeticalIndexUtility
 {

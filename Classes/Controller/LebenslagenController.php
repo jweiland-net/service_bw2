@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Request\Lebenslagen\References;
 
 /**
  * Class LebenslageController
- *
- * @package JWeiland\ServiceBw2\Controller
  */
 class LebenslagenController extends AbstractController
 {
@@ -74,7 +72,7 @@ class LebenslagenController extends AbstractController
             $this->addErrorWhileFetchingRecordsMessage($exception);
             return;
         }
-
+        $this->setPageTitle($lebenslage['displayName']);
         $this->view->assign('lebenslage', $lebenslage);
         $this->view->assign('childLebenslagen', $childLebenslagen);
         $this->view->assign('beschreibungstext', $liveLebenslage);

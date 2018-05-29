@@ -1,18 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\ViewHelpers;
 
 /*
-* This file is part of the TYPO3 CMS project.
-*
-* It is free software; you can redistribute it and/or modify it under
-* the terms of the GNU General Public License, either version 2
-* of the License, or any later version.
-*
-* For the full copyright and license information, please read the
-* LICENSE.txt file that was distributed with this source code.
-*
-* The TYPO3 project - inspiring people to share!
-*/
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -33,8 +34,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  *     ...
  * </dl>
  * Displays all opening hours using 24 hours system
- *
- * @package JWeiland\ServiceBw2\ViewHelpers;
  */
 class OpeningHoursViewHelper extends AbstractViewHelper
 {
@@ -51,7 +50,13 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * Days provided by Service BW API
      * Yes in german -_-
      */
-    const DAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG'];
+    const DAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG', 'SAMSTAG', 'SONNTAG'];
+
+    /**
+     * Workdays
+     * For tagestyp "ARBEITSTAG_MO_FR" from API
+     */
+    const WORKDAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG'];
 
     /**
      * Initializes the arguments
@@ -107,14 +112,14 @@ class OpeningHoursViewHelper extends AbstractViewHelper
     {
         $html = [];
         if (isset($structuredOpeningHours['regulaereZeiten']) && is_array($structuredOpeningHours['regulaereZeiten'])) {
-            // Forenoon opening hours
-            $forenoonOpeningHours = '';
+            // Forenoon opening hours mon - fri
+            $forenoonOpeningHoursWorkdays = '';
             // Afternoon opening hours
             $afternoonOpeningHours = [];
 
             self::processOpeningHours(
                 $structuredOpeningHours['regulaereZeiten'],
-                $forenoonOpeningHours,
+                $forenoonOpeningHoursWorkdays,
                 $afternoonOpeningHours
             );
 
@@ -129,15 +134,17 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             if ($structuredOpeningHours['hinweisText']) {
                 $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
             }
+            //todo: use StandaloneView to use a fluid template instead of manual rendering.
             foreach (self::DAYS as $dayInGerman) {
-                $afternoon = isset($afternoonOpeningHours[$dayInGerman]) && count($afternoonOpeningHours[$dayInGerman]);
-                if ($forenoonOpeningHours || $afternoon) {
+                $afternoon = !empty($afternoonOpeningHours[$dayInGerman]);
+                $isWorkday = in_array($dayInGerman, self::WORKDAYS, true);
+                if (($isWorkday && $forenoonOpeningHoursWorkdays) || $afternoon) {
                     $html[] = '<dd class="structured-opening-hours">';
                     $html[] = LocalizationUtility::translate('opening_hours.short-form.' . $dayInGerman, 'service_bw2');
-                    if ($forenoonOpeningHours) {
-                        $html[] = ' ' . $forenoonOpeningHours;
+                    if ($isWorkday && $forenoonOpeningHoursWorkdays) {
+                        $html[] = ' ' . $forenoonOpeningHoursWorkdays;
                     }
-                    if ($forenoonOpeningHours && $afternoon) {
+                    if ($isWorkday && $forenoonOpeningHoursWorkdays && $afternoon) {
                         $html[] = ',';
                     }
                     if ($afternoon) {
@@ -158,13 +165,13 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * Process opening hours using $structuredOpeningHours['regulaereZeiten'] array
      *
      * @param array $regulaereZeiten
-     * @param string $forenoonOpeningHours reference!
+     * @param string $forenoonOpeningHoursWorkdays reference!
      * @param array $afternoonOpeningHours reference!
      * @return void
      */
     protected static function processOpeningHours(
         array $regulaereZeiten,
-        string &$forenoonOpeningHours,
+        string &$forenoonOpeningHoursWorkdays,
         array &$afternoonOpeningHours
     ) {
         foreach ($regulaereZeiten as $regulaereZeitenDay) {
@@ -176,9 +183,9 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             ) {
                 // Opening hours monday to friday forenoon
                 if ($regulaereZeitenDay['tagestyp'] === 'ARBEITSTAG_MO_FR') {
-                    $forenoonOpeningHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
-                    // Opening hours individual day afternoon
+                    $forenoonOpeningHoursWorkdays = self::getRegulaereZeitenHours($regulaereZeitenDay);
                 } else {
+                    // Opening hours individual day afternoon
                     $regulaereZeitenHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
                     $afternoonOpeningHours[$regulaereZeitenDay['tagestyp']][(int)substr($regulaereZeitenHours, 0, 2)]
                         = $regulaereZeitenHours;

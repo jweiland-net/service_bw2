@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Request\Organisationseinheiten;
 
 /*
@@ -14,20 +15,18 @@ namespace JWeiland\ServiceBw2\Request\Organisationseinheiten;
  * The TYPO3 project - inspiring people to share!
  */
 
-use JWeiland\ServiceBw2\PostProcessor\PublishStatusPostProcessor;
+use JWeiland\ServiceBw2\PostProcessor\LinkStatusPostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
- * Class Children
- *
- * @package JWeiland\ServiceBw2\Request\Organisationseinheiten
+ * Class Internetadressen
  */
-class Children extends AbstractRequest
+class Internetadressen extends AbstractRequest
 {
     /**
      * @var string
      */
-    protected $path = '/organisationseinheiten/{id}/children';
+    protected $path = '/organisationseinheiten/{id}/internetadressen';
 
     /**
      * Add request related PostProcessors
@@ -35,7 +34,7 @@ class Children extends AbstractRequest
      * @var array
      */
     protected $additionalPostProcessorClassNames = [
-        PublishStatusPostProcessor::class
+        LinkStatusPostProcessor::class
     ];
 
     /**
@@ -44,7 +43,6 @@ class Children extends AbstractRequest
     protected $allowedParameters = [
         'id' => [
             'dataType' => 'integer',
-            'default' => 0,
             'required' => true
         ]
     ];

@@ -1,0 +1,15 @@
+plugin.tx_servicebw2_servicebw {
+  view {
+    # cat=plugin.tx_servicebw2_servicebw/file; type=string; label=Path to template root (FE)
+    templateRootPath = EXT:service_bw2/Resources/Private/Templates/
+    # cat=plugin.tx_servicebw2_servicebw/file; type=string; label=Path to template partials (FE)
+    partialRootPath = EXT:service_bw2/Resources/Private/Partials/
+    # cat=plugin.tx_servicebw2_servicebw/file; type=string; label=Path to template layouts (FE)
+    layoutRootPath = EXT:service_bw2/Resources/Private/Layouts/
+  }
+
+  settings {
+    # cat=plugin.tx_servicebw2_servicebw/enable/a; type=boolean; label=Override the page title in show actions with item name.
+    overridePageTitle = 0
+  }
+}

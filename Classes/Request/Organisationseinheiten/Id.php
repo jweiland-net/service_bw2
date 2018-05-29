@@ -14,19 +14,27 @@ namespace JWeiland\ServiceBw2\Request\Organisationseinheiten;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\PostProcessor\PublishStatusPostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
- * Class Live
- *
- * @package JWeiland\ServiceBw2\Request\Organisationseinheiten
+ * Class Id
  */
-class Live extends AbstractRequest
+class Id extends AbstractRequest
 {
     /**
      * @var string
      */
-    protected $path = '/organisationseinheiten/{id}/{lang}/live';
+    protected $path = '/organisationseinheiten/{id}';
+
+    /**
+     * Add request related PostProcessors
+     *
+     * @var array
+     */
+    protected $additionalPostProcessorClassNames = [
+        PublishStatusPostProcessor::class
+    ];
 
     /**
      * @var array
@@ -34,10 +42,6 @@ class Live extends AbstractRequest
     protected $allowedParameters = [
         'id' => [
             'dataType' => 'integer',
-            'required' => true
-        ],
-        'lang' => [
-            'dataType' => 'string',
             'required' => true
         ]
     ];

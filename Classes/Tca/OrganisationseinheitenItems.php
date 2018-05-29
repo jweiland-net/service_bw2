@@ -23,8 +23,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class OrganisationseinheitenItems
- *
- * @package JWeiland\ServiceBw2\Tca
  */
 class OrganisationseinheitenItems implements SingletonInterface
 {
@@ -61,6 +59,11 @@ class OrganisationseinheitenItems implements SingletonInterface
             $records = $this->organisationseinheitenRepository->getAll();
         } catch (\Exception $e) {
             $processorParameters['items'] = ['Exception: ' . $e->getMessage(), 'exception'];
+            GeneralUtility::sysLog(
+                'Could not get organisationseinheiten: ' . $e->getMessage(),
+                'service_bw2',
+                GeneralUtility::SYSLOG_SEVERITY_ERROR
+            );
             return;
         }
         $this->translationService->translateRecords($records, true);

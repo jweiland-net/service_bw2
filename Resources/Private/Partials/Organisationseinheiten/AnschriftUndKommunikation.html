@@ -1,46 +1,60 @@
 {namespace jw=JWeiland\ServiceBw2\ViewHelpers}
 <dl class="clearfix rulerafter">
-  <f:render partial="Organisationseinheiten/Anschrift"
-            arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'HAUSANSCHRIFT', organisationseinheitId: organisationseinheit.id, maps2DetailPageUid: maps2DetailPageUid}"/>
-  <f:render partial="Organisationseinheiten/Anschrift"
-            arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'BESUCHERANSCHRIFT'}"/>
-  <f:render partial="Organisationseinheiten/Anschrift"
-            arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'GROSSEMPFAENGERPOSTFACH'}"/>
-  <dd>
-    <f:if condition="{organisationseinheit.kommunikation}">
-      <f:render partial="Organisationseinheiten/Kommunikation"
-                arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'TELEFON'}"/>
-      <f:render partial="Organisationseinheiten/Kommunikation"
-                arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'FAX'}"/>
-      <f:render partial="Organisationseinheiten/Kommunikation"
-                arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'EMAIL'}"/>
-    </f:if>
-  </dd>
+	<f:render partial="Organisationseinheiten/Anschrift"
+						arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'HAUSANSCHRIFT', organisationseinheitId: organisationseinheit.id, maps2DetailPageUid: maps2DetailPageUid}"/>
+	<f:render partial="Organisationseinheiten/Anschrift"
+						arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'BESUCHERANSCHRIFT'}"/>
+	<f:render partial="Organisationseinheiten/Anschrift"
+						arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'GROSSEMPFAENGERPOSTFACH'}"/>
+	<dd>
+		<f:if condition="{organisationseinheit.kommunikation}">
+			<f:render partial="Organisationseinheiten/Kommunikation"
+								arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'TELEFON'}"/>
+			<f:render partial="Organisationseinheiten/Kommunikation"
+								arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'FAX'}"/>
+			<f:render partial="Organisationseinheiten/Kommunikation"
+								arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'EMAIL'}"/>
+		</f:if>
+	</dd>
 </dl>
+
+<f:if condition="{internetadressen}">
+	<dl class="extdl clearfix">
+		<dt><f:translate key="organisationseinheit.internetadressen" /></dt>
+		<f:for each="{internetadressen}" as="internetadresse">
+			<dd>
+				<span aria-hidden="true" class="icon-earth"></span>
+				<a href="{internetadresse.uri}" title="{internetadresse.titel}"{f:if(condition: internetadresse.kennzeichenAnzeigeNeuesFenster, then: ' target="_blank"', else: '')}>
+				{internetadresse.titel}
+				</a></dd>
+		</f:for>
+	</dl>
+</f:if>
+
 <f:if
 condition="{beschreibungstext.organisationseinheit.structuredOpeningHours} || {organisationseinheit.infoOeffnungszeitenText}">
 
-  <f:comment>
-    This is a very weird system! Sometimes there is just the old "migrated" openingHours HTML field,
-    then we use this with an unknown HTML structure. In other cases the new structuredOpeningHours field is
-    available and can be used.
-    In later versions of Service BW API this will be changed!
-  </f:comment>
-  <f:if condition="{beschreibungstext.organisationseinheit.structuredOpeningHours}">
-    <f:then>
-      <jw:openingHours structuredOpeningHours="{beschreibungstext.organisationseinheit.structuredOpeningHours}"/>
-    </f:then>
-    <f:else>
-      <f:if condition="{beschreibungstext.organisationseinheit.openingHours}">
-        <dl class="extdl clearfix">
-          <dt>
-            <f:translate key="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT"/>
-          </dt>
-          <dd class="opening-hours">
-            <f:format.html>{beschreibungstext.organisationseinheit.openingHours}</f:format.html>
-          </dd>
-        </dl>
-      </f:if>
-    </f:else>
-  </f:if>
+	<f:comment>
+		This is a very weird system! Sometimes there is just the old "migrated" openingHours HTML field,
+		then we use this with an unknown HTML structure. In other cases the new structuredOpeningHours field is
+		available and can be used.
+		In later versions of Service BW API this will be changed!
+	</f:comment>
+	<f:if condition="{beschreibungstext.organisationseinheit.structuredOpeningHours}">
+		<f:then>
+			<jw:openingHours structuredOpeningHours="{beschreibungstext.organisationseinheit.structuredOpeningHours}"/>
+		</f:then>
+		<f:else>
+			<f:if condition="{beschreibungstext.organisationseinheit.openingHours}">
+				<dl class="extdl clearfix">
+					<dt>
+						<f:translate key="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT"/>
+					</dt>
+					<dd class="opening-hours">
+						<f:format.html>{beschreibungstext.organisationseinheit.openingHours}</f:format.html>
+					</dd>
+				</dl>
+			</f:if>
+		</f:else>
+	</f:if>
 </f:if>

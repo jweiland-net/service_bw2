@@ -1,93 +1,102 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2">
-    <header/>
-    <body>
-      <trans-unit id="scheduler.pid">
-        <source>Storage PID</source>
-      </trans-unit>
-      <trans-unit id="error_message.error_while_fetching_records">
-        <source>There was an error while fetching records. Please try again or contact an admin if the error message
-          appears again!
-        </source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
-        <source>Home address</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
-        <source>Visitor address</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
-        <source>Mailing address</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.mail">
-        <source>e-mail</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
-        <source>Opening hours</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
-        <source>Registration time</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
-        <source>Visiting hours</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
-        <source>Operational time</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
-        <source>Core hours</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
-        <source>Engineering time</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
-        <source>Accessibility by phone</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.leistungen">
-        <source>Services</source>
-      </trans-unit>
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2">
+		<header/>
+		<body>
+			<trans-unit id="scheduler.pid">
+				<source>Storage PID</source>
+			</trans-unit>
+			<trans-unit id="error_message.error_while_fetching_records">
+				<source>There was an error while fetching records. Please try again or contact an admin if the error message
+					appears again!
+				</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
+				<source>Home address</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
+				<source>Visitor address</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+				<source>Mailing address</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.mail">
+				<source>e-mail</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
+				<source>Opening hours</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
+				<source>Registration time</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
+				<source>Visiting hours</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
+				<source>Operational time</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
+				<source>Core hours</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
+				<source>Engineering time</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
+				<source>Accessibility by phone</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.leistungen">
+				<source>Services</source>
+			</trans-unit>
 
-      <trans-unit id="lebenslage.assigned_life_situations">
-        <source>Assigned life situations</source>
-      </trans-unit>
-      <trans-unit id="lebenslage.related_verfahren">
-        <source>Related Procedure</source>
-      </trans-unit>
+			<trans-unit id="lebenslage.assigned_life_situations">
+				<source>Assigned life situations</source>
+			</trans-unit>
+			<trans-unit id="lebenslage.related_verfahren">
+				<source>Related Procedure</source>
+			</trans-unit>
 
-      <trans-unit id="externe_formulare.head">
-        <source>Related forms</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.zugehoerige_behoerde">
-        <source>Related Organisationseinheit</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.maps2_detail_view">
-        <source>Show on card</source>
-      </trans-unit>
-      <trans-unit id="organisationseinheit.children">
-        <source>Subordinate Organisationseinheiten</source>
-      </trans-unit>
-      <trans-unit id="alphabetical_index.to_top">
-        <source>To top</source>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.MONTAG">
-        <source>Mon</source>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.DIENSTAG">
-        <source>Tues</source>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.MITTWOCH">
-        <source>Weds</source>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.DONNERSTAG">
-        <source>Thurs</source>
-      </trans-unit>
-      <trans-unit id="opening_hours.short-form.FREITAG">
-        <source>Fri</source>
-      </trans-unit>
-      <trans-unit id="leistungen.organisationseinheiten.head">
-        <source>Competent Organisationseinheiten</source>
-      </trans-unit>
-    </body>
-  </file>
+			<trans-unit id="externe_formulare.head">
+				<source>Related forms</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
+				<source>Related Organisationseinheit</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.maps2_detail_view">
+				<source>Show on card</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.children">
+				<source>Subordinate Organisationseinheiten</source>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.to_top">
+				<source>To top</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.MONTAG">
+				<source>Mon</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.DIENSTAG">
+				<source>Tues</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.MITTWOCH">
+				<source>Weds</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.DONNERSTAG">
+				<source>Thurs</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.FREITAG">
+				<source>Fri</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.SAMSTAG">
+				<source>Sat</source>
+			</trans-unit>
+			<trans-unit id="opening_hours.short-form.SONNTAG">
+				<source>Sun</source>
+			</trans-unit>
+			<trans-unit id="leistungen.organisationseinheiten.head">
+				<source>Competent Organisationseinheiten</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit.internetadressen">
+				<source>Related URLs</source>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>
