@@ -58,8 +58,8 @@ class SolrIndexService
      */
     public function indexRecords(array $records, string $type, int $rootPageUid)
     {
-        foreach ($records as $record) {
-            if (!$this->alreadyIndexed[$record['id']] && $this->indexRecord($record, $type, $rootPageUid)) {
+        foreach ($records as $key => $record) {
+            if ($record && !$this->alreadyIndexed[$record['id']] && $this->indexRecord($record, $type, $rootPageUid)) {
                 $this->alreadyIndexed[] = $record['id'];
             }
         }

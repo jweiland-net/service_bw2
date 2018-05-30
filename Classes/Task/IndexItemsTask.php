@@ -14,6 +14,7 @@ namespace JWeiland\ServiceBw2\Task;
  * The TYPO3 project - inspiring people to share!
  */
 
+use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
@@ -152,7 +153,14 @@ class IndexItemsTask extends AbstractTask
         $recordsToIndex = [];
 
         foreach ($records as $recordToIndex) {
-            $record = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['methodLiveById']], $recordToIndex['id']);
+            try {
+                $record = call_user_func(
+                    [$this->repository, $this->classMapping[$this->typeToIndex]['methodLiveById']],
+                    $recordToIndex['id']
+                );
+            } catch (ClientException $exception) {
+
+            }
 
             // TODO: Search can be optimized by imploding for sub arrays in sections like address
             if ($record['sections']) {

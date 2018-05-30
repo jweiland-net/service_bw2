@@ -32,9 +32,7 @@ class Live extends AbstractRequest
      *
      * @var array
      */
-    protected $additionalPostProcessorClassNames = [
-        PublishStatusPostProcessor::class
-    ];
+    protected $additionalPostProcessorClassNames = [];
 
     /**
      * @var array

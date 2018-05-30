@@ -34,13 +34,13 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
      * @throws \RuntimeException
      * @throws \UnexpectedValueException
      */
-    protected function indexItem(Item $item, $language = 0)
+    protected function indexItem(Item $item, $language = 0): bool
     {
         $itemIndexed = false;
         $documents = [];
 
         $itemDocument = $this->itemToDocument($item, $language);
-        if (is_null($itemDocument)) {
+        if ($itemDocument === null) {
             /*
              * If there is no itemDocument, this means there was no translation
              * for this record. This should not stop the current item to count as
@@ -56,7 +56,7 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
         $documents = $this->preAddModifyDocuments($item, $language, $documents);
 
         $response = $this->solr->addDocuments($documents);
-        if ($response->getHttpStatus() == 200) {
+        if ($response->getHttpStatus() === 200) {
             $itemIndexed = true;
         }
 
