@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Indexer;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -18,8 +18,6 @@ use ApacheSolrForTypo3\Solr\IndexQueue\Item;
 
 /**
  * Class Indexer
- *
- * @package JWeiland\ServiceBw2\Indexer
  */
 class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
 {

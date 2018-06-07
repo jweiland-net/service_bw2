@@ -6,8 +6,6 @@ plugin.tx_solr.index.queue {
 
     fields {
       title = title
-      abstract = preamble
-      description = preamble
       content = processed_sections
 
       organisationseinheit_textM = processed_organisationseinheit
@@ -30,8 +28,6 @@ plugin.tx_solr.index.queue {
 
     fields {
       title = title
-      abstract = preamble
-      description = preamble
       content = processed_sections
 
       url = TEXT
@@ -52,8 +48,6 @@ plugin.tx_solr.index.queue {
 
     fields {
       title = title
-      abstract = preamble
-      description = preamble
       content = processed_sections
 
       url = TEXT

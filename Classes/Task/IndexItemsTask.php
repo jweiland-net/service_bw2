@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Task;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -27,8 +27,6 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
  * Class IndexItemsTask
- *
- * @package JWeiland\ServiceBw2\Task
  */
 class IndexItemsTask extends AbstractTask
 {
@@ -139,7 +137,7 @@ class IndexItemsTask extends AbstractTask
                 ['uid' => $this->pluginTtContentUid]
             )->fetch();
         $flexform = GeneralUtility::xml2array($resultRows['pi_flexform']);
-        return explode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF']);
+        return GeneralUtility::trimExplode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF']);
     }
 
     /**
@@ -209,18 +207,18 @@ class IndexItemsTask extends AbstractTask
      */
     protected function multi_implode($array, $glue): string
     {
-        $ret = '';
+        $result = '';
 
         foreach ($array as $item) {
             if (is_array($item)) {
-                $ret .= $this->multi_implode($item, $glue) . $glue;
+                $result .= $this->multi_implode($item, $glue) . $glue;
             } else {
-                $ret .= $item . $glue;
+                $result .= $item . $glue;
             }
         }
 
-        $ret = substr($ret, 0, 0 - strlen($glue));
+        $result = substr($result, 0, 0 - strlen($glue));
 
-        return strip_tags($ret);
+        return strip_tags($result);
     }
 }

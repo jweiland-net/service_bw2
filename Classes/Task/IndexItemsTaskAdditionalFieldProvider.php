@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Task;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -33,24 +33,24 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
      *
      * @var array
      */
-    protected $requiredFields = array(
+    protected $requiredFields = [
         'typeToIndex',
         'solrConfig',
         'pluginTtContentUid',
         'rootPage'
-    );
+    ];
 
     /**
      * Fields to insert from task if empty
      *
      * @var array
      */
-    protected $insertFields = array(
+    protected $insertFields = [
         'typeToIndex',
         'solrConfig',
         'pluginTtContentUid',
         'rootPage'
-    );
+    ];
 
     /**
      * Gets the additional fields
@@ -75,31 +75,31 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
 
         $fieldID = 'typeToIndex';
         $fieldCode = '<select name="tx_scheduler[' . $fieldID . ']" class="form-control">' . $this->getTypeToIndexOptions($taskInfo[$fieldID]) . '</select>';
-        $additionalFields[$fieldID] = array(
+        $additionalFields[$fieldID] = [
             'code' => $fieldCode,
             'label' => 'LLL:EXT:service_bw2/Resources/Private/Language/locallang_scheduler_indexitems.xlf:' . $fieldID
-        );
+        ];
 
         $fieldID = 'solrConfig';
         $fieldCode = '<input type="text" class="form-control" name="tx_scheduler[' . $fieldID . ']" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo[$fieldID]) . '" size="30" placeholder="type that is defined in solr index queue"/>';
-        $additionalFields[$fieldID] = array(
+        $additionalFields[$fieldID] = [
             'code' => $fieldCode,
             'label' => 'LLL:EXT:service_bw2/Resources/Private/Language/locallang_scheduler_indexitems.xlf:' . $fieldID
-        );
+        ];
 
         $fieldID = 'pluginTtContentUid';
         $fieldCode = '<input type="text" class="form-control" name="tx_scheduler[' . $fieldID . ']" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo[$fieldID]) . '" size="30" placeholder="plugin tt_content uid"/>';
-        $additionalFields[$fieldID] = array(
+        $additionalFields[$fieldID] = [
             'code' => $fieldCode,
             'label' => 'LLL:EXT:service_bw2/Resources/Private/Language/locallang_scheduler_indexitems.xlf:' . $fieldID
-        );
+        ];
 
         $fieldID = 'rootPage';
         $fieldCode = '<input type="text" class="form-control" name="tx_scheduler[' . $fieldID . ']" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo[$fieldID]) . '" size="30" placeholder="root page uid"/>';
-        $additionalFields[$fieldID] = array(
+        $additionalFields[$fieldID] = [
             'code' => $fieldCode,
             'label' => 'LLL:EXT:service_bw2/Resources/Private/Language/locallang_scheduler_indexitems.xlf:' . $fieldID
-        );
+        ];
 
         return $additionalFields;
     }

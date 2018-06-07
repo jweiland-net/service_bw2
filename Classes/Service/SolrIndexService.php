@@ -1,9 +1,9 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace JWeiland\ServiceBw2\Service;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -20,10 +20,6 @@ use JWeiland\ServiceBw2\Indexer\Indexer;
 
 /**
  * Class SolrIndexService
- *
- * TODO: Clear existing records
- *
- * @package JWeiland\ServiceBw2\Service
  */
 class SolrIndexService
 {
@@ -59,7 +55,7 @@ class SolrIndexService
     public function indexRecords(array $records, string $type, int $rootPageUid)
     {
         foreach ($records as $key => $record) {
-            if ($record && !$this->alreadyIndexed[$record['id']] && $this->indexRecord($record, $type, $rootPageUid)) {
+            if ($record && !in_array($record['id'], $this->alreadyIndexed, true) && $this->indexRecord($record, $type, $rootPageUid)) {
                 $this->alreadyIndexed[] = $record['id'];
             }
         }
