@@ -152,6 +152,7 @@ class LebenslagenRepository extends AbstractRepository
         $request->addParameter('lang', $this->translationService->getLanguage());
         $record = $this->serviceBwClient->processRequest($request);
         $record = $record[$id];
+
         return $record;
     }
 }
