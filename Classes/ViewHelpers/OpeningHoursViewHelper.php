@@ -113,7 +113,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
         $html = [];
         if (isset($structuredOpeningHours['regulaereZeiten']) && is_array($structuredOpeningHours['regulaereZeiten'])) {
             // Forenoon opening hours mon - fri
-            $forenoonOpeningHoursWorkdays = '';
+            $forenoonOpeningHoursWorkdays = [];
             // Afternoon opening hours
             $afternoonOpeningHours = [];
 
@@ -142,7 +142,8 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                     $html[] = '<dd class="structured-opening-hours">';
                     $html[] = LocalizationUtility::translate('opening_hours.short-form.' . $dayInGerman, 'service_bw2');
                     if ($isWorkday && $forenoonOpeningHoursWorkdays) {
-                        $html[] = ' ' . $forenoonOpeningHoursWorkdays;
+                        ksort($forenoonOpeningHoursWorkdays);
+                        $html[] = ' ' . implode(', ', $forenoonOpeningHoursWorkdays);
                     }
                     if ($isWorkday && $forenoonOpeningHoursWorkdays && $afternoon) {
                         $html[] = ',';
@@ -165,13 +166,13 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * Process opening hours using $structuredOpeningHours['regulaereZeiten'] array
      *
      * @param array $regulaereZeiten
-     * @param string $forenoonOpeningHoursWorkdays reference!
+     * @param array $forenoonOpeningHoursWorkdays reference!
      * @param array $afternoonOpeningHours reference!
      * @return void
      */
     protected static function processOpeningHours(
         array $regulaereZeiten,
-        string &$forenoonOpeningHoursWorkdays,
+        array &$forenoonOpeningHoursWorkdays,
         array &$afternoonOpeningHours
     ) {
         foreach ($regulaereZeiten as $regulaereZeitenDay) {
@@ -183,7 +184,8 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             ) {
                 // Opening hours monday to friday forenoon
                 if ($regulaereZeitenDay['tagestyp'] === 'ARBEITSTAG_MO_FR') {
-                    $forenoonOpeningHoursWorkdays = self::getRegulaereZeitenHours($regulaereZeitenDay);
+                    $regulaereZeitenHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
+                    $forenoonOpeningHoursWorkdays[(int)substr($regulaereZeitenHours, 0, 2)] = $regulaereZeitenHours;
                 } else {
                     // Opening hours individual day afternoon
                     $regulaereZeitenHours = self::getRegulaereZeitenHours($regulaereZeitenDay);
