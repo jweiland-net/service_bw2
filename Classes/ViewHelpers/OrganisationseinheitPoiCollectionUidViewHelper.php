@@ -16,7 +16,7 @@ namespace JWeiland\ServiceBw2\ViewHelpers;
 
 use JWeiland\Maps2\Domain\Model\Location;
 use JWeiland\Maps2\Domain\Model\RadiusResult;
-use JWeiland\Maps2\Utility\GeocodeUtility;
+use JWeiland\Maps2\Service\GoogleMapsService;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -48,9 +48,9 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static $organisationseinheitenRepository;
 
     /**
-     * @var GeocodeUtility
+     * @var GoogleMapsService
      */
-    protected static $geocodeUtility;
+    protected static $googleMapsService;
 
     /**
      * Storage page id of maps2 records
@@ -81,7 +81,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         self::$organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
-        self::$geocodeUtility = $objectManager->get(GeocodeUtility::class);
+        self::$googleMapsService = $objectManager->get(GoogleMapsService::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK
         )['settings']['organisationseinheiten']['maps2Pid'];
@@ -219,12 +219,10 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static function getUidOfNewPoiCollectionForAddress(string $address, string $poiTitle): int
     {
         $poiUid = 0;
-        $response = self::$geocodeUtility->findPositionByAddress($address);
-        if ($response instanceof ObjectStorage && $response->count()) {
-            /** @var RadiusResult $firstResult */
-            $firstResult = $response->current();
-            $location = $firstResult->getGeometry()->getLocation();
-            $address = $firstResult->getFormattedAddress();
+        $radiusResult = self::$googleMapsService->getFirstFoundPositionByAddress($address);
+        if ($radiusResult instanceof RadiusResult) {
+            $location = $radiusResult->getGeometry()->getLocation();
+            $address = $radiusResult->getFormattedAddress();
             $poiUid = self::createNewPoiCollection($location, $address, $poiTitle);
         }
         return $poiUid;
