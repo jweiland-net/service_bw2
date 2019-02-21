@@ -16,11 +16,10 @@ namespace JWeiland\ServiceBw2\PostProcessor;
  */
 
 /**
- * Post processor to replace default "Leistungen" items by supplement items.
+ * Post processor to remove default "Leistungen" items if they have supplements.
  */
 class SupplementItemPostProcessor extends AbstractPostProcessor
 {
-
     /**
      * @param mixed $response
      * @return array
@@ -34,7 +33,7 @@ class SupplementItemPostProcessor extends AbstractPostProcessor
                 && $value['type'] === 'ERGAENZUNG'
                 && array_key_exists($value['landesLeistungId'], $response)
             ) {
-                 unset($response[$value['landesLeistungId']]);
+                unset($response[$value['landesLeistungId']]);
             }
         }
         return $response;
