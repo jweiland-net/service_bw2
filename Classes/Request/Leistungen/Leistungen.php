@@ -15,6 +15,7 @@ namespace JWeiland\ServiceBw2\Request\Leistungen;
 */
 
 use JWeiland\ServiceBw2\PostProcessor\PublishStatusPostProcessor;
+use JWeiland\ServiceBw2\PostProcessor\SupplementItemPostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
@@ -36,7 +37,8 @@ class Leistungen extends AbstractRequest
      * @var array
      */
     protected $additionalPostProcessorClassNames = [
-        PublishStatusPostProcessor::class
+        PublishStatusPostProcessor::class,
+        SupplementItemPostProcessor::class
     ];
 
     /**
