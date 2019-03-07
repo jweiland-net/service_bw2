@@ -31,17 +31,18 @@ class SupplementItemPostProcessor extends AbstractPostProcessor
             // Check if leistung is a leistung or a zustaendigkeit with a leistung as array item
             if (array_key_exists('leistung', $item) && is_array($item['leistung'])) {
                 $leistung = $item['leistung'];
-                $originalId = $leistung['landesZustaendigkeitId'];
+                $originalId = $leistung['landesZustaendigkeitId'] ?? null;
             } else {
                 $leistung = $item;
-                $originalId = $leistung['landesLeistungId'];
+                $originalId = $leistung['landesLeistungId'] ?? null;
             }
 
-            // Unset original items if current item is a replacement of it
+            // Unset original items if current item is a replacement of it and original id has been detected
             if (
-                array_key_exists('type', $leistung)
+                $originalId !== null
+                && array_key_exists('type', $leistung)
                 && array_key_exists($originalId, $response)
-                && $leistung['type'] === 'ERGAENZUNG'
+                && strtoupper($leistung['type']) === 'ERGAENZUNG'
             ) {
                 unset($response[$originalId]);
             }

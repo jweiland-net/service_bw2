@@ -45,7 +45,7 @@ class PublishStatusPostProcessor extends AbstractPostProcessor
             }
 
             // Remove non published items from array
-            if (!array_key_exists('publishStatus', $leistung) || $leistung['publishStatus'] !== 'DONE') {
+            if (!array_key_exists('publishStatus', $leistung) || strtoupper($leistung['publishStatus']) !== 'DONE') {
                 unset($response[$key]);
             }
         }
