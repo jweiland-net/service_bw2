@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace JWeiland\ServiceBw2\PostProcessor;
 
 /*
@@ -27,13 +27,24 @@ class SupplementItemPostProcessor extends AbstractPostProcessor
     public function process($response): array
     {
         $response = (array)$response;
-        foreach ($response as $key => $value) {
+        foreach ($response as $key => $item) {
+            // Check if leistung is a leistung or a zustaendigkeit with a leistung as array item
+            if (array_key_exists('leistung', $item) && is_array($item['leistung'])) {
+                $leistung = $item['leistung'];
+                $originalId = $leistung['landesZustaendigkeitId'] ?? null;
+            } else {
+                $leistung = $item;
+                $originalId = $leistung['landesLeistungId'] ?? null;
+            }
+
+            // Unset original items if current item is a replacement of it and original id has been detected
             if (
-                array_key_exists('type', $value)
-                && $value['type'] === 'ERGAENZUNG'
-                && array_key_exists($value['landesLeistungId'], $response)
+                $originalId !== null
+                && array_key_exists('type', $leistung)
+                && array_key_exists($originalId, $response)
+                && strtoupper($leistung['type']) === 'ERGAENZUNG'
             ) {
-                unset($response[$value['landesLeistungId']]);
+                unset($response[$originalId]);
             }
         }
         return $response;

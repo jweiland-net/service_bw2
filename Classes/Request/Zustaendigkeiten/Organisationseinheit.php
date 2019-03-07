@@ -1,8 +1,9 @@
 <?php
+declare(strict_types = 1);
 namespace JWeiland\ServiceBw2\Request\Zustaendigkeiten;
 
 /*
-* This file is part of the TYPO3 CMS project.
+* This file is part of the service_bw2 project.
 *
 * It is free software; you can redistribute it and/or modify it under
 * the terms of the GNU General Public License, either version 2
@@ -14,6 +15,8 @@ namespace JWeiland\ServiceBw2\Request\Zustaendigkeiten;
 * The TYPO3 project - inspiring people to share!
 */
 
+use JWeiland\ServiceBw2\PostProcessor\PublishStatusPostProcessor;
+use JWeiland\ServiceBw2\PostProcessor\SupplementItemPostProcessor;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
 /**
@@ -29,6 +32,14 @@ class Organisationseinheit extends AbstractRequest
      */
     protected $path = '/zustaendigkeiten/organisationseinheit/{organisationseinheitId}/?page={page}&pageSize={pageSize}'
     . '&sortProperty={sortProperty}&sortDirection={sortDirection}';
+
+    /**
+     * @var array
+     */
+    protected $additionalPostProcessorClassNames = [
+        PublishStatusPostProcessor::class,
+        SupplementItemPostProcessor::class
+    ];
 
     /**
      * @var array
