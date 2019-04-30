@@ -150,7 +150,7 @@ class TitleMapping
      */
     protected function decodeTitleToId(string $title): int
     {
-        if (preg_match('(?<id>\d+)-.*', $title, $matches)) {
+        if (preg_match('/(?<id>\d+)-.*/', $title, $matches)) {
             $id = (int)$matches['id'];
         } else {
             throw new InvalidPathException('Could not find id by path for service_bw2 RealURL mapping!', 1525782342);
