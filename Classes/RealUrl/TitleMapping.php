@@ -22,7 +22,6 @@ use JWeiland\ServiceBw2\Domain\Repository\AbstractRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\SearchRepository;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -65,7 +64,7 @@ class TitleMapping
     {
         if ($parameters['decodeAlias']) {
             $this->utility = $this->getUtilityFromDecoder($encodeDecoderBase);
-            $id = $this->decodeTitleToId((string)$parameters['value'], $encodeDecoderBase);
+            $id = $this->decodeTitleToId((string)$parameters['value']);
             $result = $id !== -1 ? (string)$id : (string)$parameters['value'];
         } else {
             $this->utility = $encodeDecoderBase->getUtility();
@@ -139,51 +138,23 @@ class TitleMapping
                 break;
         }
         // make it url friendly
-        return $this->utility->convertToSafeString($title ?: (string)$id);
+        return $this->utility->convertToSafeString(sprintf('%d-%s', $id, $title));
     }
 
     /**
      * Decode title to id
      *
      * @param string $title
-     * @param UrlDecoder $urlDecoder
      * @return int id
      * @throws InvalidPathException
      */
-    protected function decodeTitleToId(string $title, UrlDecoder $urlDecoder): int
+    protected function decodeTitleToId(string $title): int
     {
-        $searchRepository = $this->objectManager->get(SearchRepository::class);
-        $controller = $this->getControllerAliasFromUrlDecoder($urlDecoder);
-        $filterAlias = [
-            'organisationseinheiten' => 'organisationseinheit',
-            'lebenslagen' => 'lebenslage',
-            'leistungen' => 'leistung'
-        ];
-        $result = $searchRepository->search($title, $filterAlias[$controller]);
-        if (isset($result['primaryResult']['hits'])) {
-            $record = array_shift($result['primaryResult']['hits']);
-            $id = (int)$record['id'];
+        if (preg_match('/(?<id>\d+)-.*/', $title, $matches)) {
+            $id = (int)$matches['id'];
         } else {
             throw new InvalidPathException('Could not find id by path for service_bw2 RealURL mapping!', 1525782342);
         }
         return $id;
-    }
-
-    /**
-     * Extracts the controller alias from url decoders original path
-     *
-     * @param UrlDecoder $urlDecoder
-     * @return string
-     * @throws \InvalidArgumentException
-     * @throws InvalidPathException
-     */
-    protected function getControllerAliasFromUrlDecoder(UrlDecoder $urlDecoder): string
-    {
-        $originalPath = ObjectAccess::getProperty($urlDecoder, 'originalPath', true);
-        preg_match('@/service\-bw/(?<controller>[[:alnum:]\-]+)/@', $originalPath, $matches);
-        if (array_key_exists('controller', $matches)) {
-            return $matches['controller'];
-        }
-        throw new InvalidPathException('Could not decode given path for service_bw2 RealURL mapping!', 1524033384);
     }
 }
