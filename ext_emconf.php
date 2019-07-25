@@ -20,8 +20,8 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '1.7.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-8.7.99',
-            'maps2' => '4.1.0-4.99.99'
+		    'typo3/cms-core': '^8.7 || ^9.5',
+		    'jweiland/maps2': '^5.0'
         ],
         'conflicts' => [
             'fal_dropbox' => ''
