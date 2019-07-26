@@ -58,17 +58,19 @@ class ExtConf implements SingletonInterface
 
     public function __construct()
     {
-        // get global configuration
-        $extConf = unserialize(
-            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2'],
-            ['allowed_classes' => false]
-        );
-        if (is_array($extConf) && count($extConf)) {
-            // call setter method foreach configuration entry
-            foreach ($extConf as $key => $value) {
-                $methodName = 'set' . ucfirst($key);
-                if (method_exists($this, $methodName)) {
-                    $this->$methodName($value);
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2'])) {
+            // get global configuration
+            $extConf = unserialize(
+                $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2'],
+                ['allowed_classes' => false]
+            );
+            if (is_array($extConf) && count($extConf)) {
+                // call setter method foreach configuration entry
+                foreach ($extConf as $key => $value) {
+                    $methodName = 'set' . ucfirst($key);
+                    if (method_exists($this, $methodName)) {
+                        $this->$methodName($value);
+                    }
                 }
             }
         }
