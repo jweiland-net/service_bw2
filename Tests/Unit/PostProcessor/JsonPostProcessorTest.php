@@ -15,6 +15,7 @@ namespace JWeiland\ServiceBw2\Tests\Unit\PostProcessor;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Exception\HttpResponseException;
 use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 
@@ -91,11 +92,10 @@ class JsonPostProcessorTest extends UnitTestCase
     /**
      * @test
      */
-    public function processWithInvalidJsonResultsInNull()
+    public function processWithInvalidJsonThrowsException()
     {
-        $this->assertNull(
-            $this->subject->process('123{ab;}')
-        );
+        $this->expectException(HttpResponseException::class);
+        $this->subject->process('123{ab;}');
     }
 
     /**
