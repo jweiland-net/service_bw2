@@ -53,7 +53,9 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function emptyArrayResultsInEmptyArraysForEachLanguage()
     {
-        $emptyArray = [];
+        $data = [];
+        $this->subject->translateRecords($data);
+
         $this->assertSame(
             [
                 'de' => [
@@ -66,7 +68,7 @@ class TranslationServiceTest extends UnitTestCase
                     0 => []
                 ],
             ],
-            $this->subject->translateRecords($emptyArray)
+            $data
         );
     }
 
@@ -80,6 +82,8 @@ class TranslationServiceTest extends UnitTestCase
         $data = [
             'id' => 123
         ];
+        $this->subject->translateRecords($data);
+
         $this->assertSame(
             [
                 'de' => [
@@ -92,7 +96,7 @@ class TranslationServiceTest extends UnitTestCase
                     123 => ['id' => 123]
                 ],
             ],
-            $this->subject->translateRecords($data)
+            $data
         );
     }
 
@@ -108,6 +112,7 @@ class TranslationServiceTest extends UnitTestCase
                 ]
             ]
         ];
+        $this->subject->translateRecords($data);
 
         $this->assertSame(
             [
@@ -121,7 +126,7 @@ class TranslationServiceTest extends UnitTestCase
                     0 => []
                 ],
             ],
-            $this->subject->translateRecords($data)
+            $data
         );
     }
 
@@ -138,6 +143,8 @@ class TranslationServiceTest extends UnitTestCase
                 ]
             ]
         ];
+        $this->subject->translateRecords($data);
+
         $this->assertSame(
             [
                 'de' => [
@@ -159,7 +166,7 @@ class TranslationServiceTest extends UnitTestCase
                     ]
                 ],
             ],
-            $this->subject->translateRecords($data)
+            $data
         );
     }
 
@@ -180,6 +187,8 @@ class TranslationServiceTest extends UnitTestCase
                 ]
             ]
         ];
+        $this->subject->translateRecords($data);
+
         $this->assertSame(
             [
                 'de' => [
@@ -201,7 +210,7 @@ class TranslationServiceTest extends UnitTestCase
                     ]
                 ],
             ],
-            $this->subject->translateRecords($data)
+            $data
         );
     }
 
@@ -238,6 +247,8 @@ class TranslationServiceTest extends UnitTestCase
                 ]
             ]
         ];
+        $this->subject->translateRecords($data);
+
         $this->assertSame(
             [
                 'de' => [
@@ -277,7 +288,7 @@ class TranslationServiceTest extends UnitTestCase
                     ],
                 ],
             ],
-            $this->subject->translateRecords($data)
+            $data
         );
     }
 }
