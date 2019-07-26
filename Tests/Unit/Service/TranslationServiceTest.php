@@ -38,6 +38,7 @@ class TranslationServiceTest extends UnitTestCase
 
         $this->subject = new TranslationService();
         $this->subject->injectExtConf($extConf);
+        $this->subject->initializeObject();
     }
 
     /**
@@ -51,51 +52,13 @@ class TranslationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function emptyArrayResultsInEmptyArraysForEachLanguage()
+    public function translateRecordsWithEmptyRecordsWillResultInEmptyTranslations()
     {
         $data = [];
         $this->subject->translateRecords($data);
 
         $this->assertSame(
-            [
-                'de' => [
-                    0 => []
-                ],
-                'en' => [
-                    0 => []
-                ],
-                'fr' => [
-                    0 => []
-                ],
-            ],
-            $data
-        );
-    }
-
-    /**
-     * This test will also test, if single array will be sanitized to multi array
-     *
-     * @test
-     */
-    public function arrayWithIdAndNoTranslationResultsInArraysForEachLanguage()
-    {
-        $data = [
-            'id' => 123
-        ];
-        $this->subject->translateRecords($data);
-
-        $this->assertSame(
-            [
-                'de' => [
-                    123 => ['id' => 123]
-                ],
-                'en' => [
-                    123 => ['id' => 123]
-                ],
-                'fr' => [
-                    123 => ['id' => 123]
-                ],
-            ],
+            [],
             $data
         );
     }
@@ -103,112 +66,29 @@ class TranslationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function translateWithoutSpracheCreatesThreeEmptyArrayEntries()
+    public function translateRecordsWithTwoLanguagesWillReturnGermanLanguage()
     {
         $data = [
-            'i18n' => [
-                0 => [
-                    'title' => 'category'
-                ]
-            ]
-        ];
-        $this->subject->translateRecords($data);
-
-        $this->assertSame(
-            [
-                'de' => [
-                    0 => []
-                ],
-                'en' => [
-                    0 => []
-                ],
-                'fr' => [
-                    0 => []
-                ],
-            ],
-            $data
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function translateWithOneTranslationCreatesThreeArrayEntries()
-    {
-        $data = [
-            'i18n' => [
-                0 => [
-                    'title' => 'category',
-                    'sprache' => 'de'
-                ]
-            ]
-        ];
-        $this->subject->translateRecords($data);
-
-        $this->assertSame(
-            [
-                'de' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 0
-                    ]
-                ],
-                'en' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 1
-                    ]
-                ],
-                'fr' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 2
-                    ]
-                ],
-            ],
-            $data
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function translateWithTwoLanguagesCreatesThreeArrayEntries()
-    {
-        $data = [
-            'i18n' => [
-                0 => [
-                    'title' => 'Kategorie',
-                    'sprache' => 'de'
-                ],
-                1 => [
-                    'title' => 'category',
-                    'sprache' => 'en'
-                ]
-            ]
-        ];
-        $this->subject->translateRecords($data);
-
-        $this->assertSame(
-            [
-                'de' => [
+            0 => [
+                'i18n' => [
                     0 => [
                         'title' => 'Kategorie',
-                        '_languageUid' => 0
+                        'sprache' => 'de'
+                    ],
+                    1 => [
+                        'title' => 'Category',
+                        'sprache' => 'en'
                     ]
-                ],
-                'en' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 1
-                    ]
-                ],
-                'fr' => [
-                    0 => [
-                        'title' => 'Kategorie',
-                        '_languageUid' => 2
-                    ]
-                ],
+                ]
+            ]
+        ];
+        $this->subject->translateRecords($data);
+
+        $this->assertSame(
+            [
+                0 => [
+                    'title' => 'Kategorie'
+                ]
             ],
             $data
         );
@@ -217,7 +97,7 @@ class TranslationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function mergeRecordWithTranslationsCreatesThreeArrayEntries()
+    public function translateRecordsWillMergeParentKeysWithGermanTranslation()
     {
         $data = [
             0 => [
@@ -251,41 +131,13 @@ class TranslationServiceTest extends UnitTestCase
 
         $this->assertSame(
             [
-                'de' => [
-                    0 => [
-                        'firstName' => 'Stefan',
-                        'gender' => 'Mann',
-                        '_languageUid' => 0
-                    ],
-                    1 => [
-                        'firstName' => 'Petra',
-                        'gender' => 'Frau',
-                        '_languageUid' => 0
-                    ],
+                0 => [
+                    'firstName' => 'Stefan',
+                    'gender' => 'Mann',
                 ],
-                'en' => [
-                    0 => [
-                        'firstName' => 'Stefan',
-                        'gender' => 'man',
-                        '_languageUid' => 1
-                    ],
-                    1 => [
-                        'firstName' => 'Petra',
-                        'gender' => 'woman',
-                        '_languageUid' => 1
-                    ],
-                ],
-                'fr' => [
-                    0 => [
-                        'firstName' => 'Stefan',
-                        'gender' => 'Mann',
-                        '_languageUid' => 2
-                    ],
-                    1 => [
-                        'firstName' => 'Petra',
-                        'gender' => 'Frau',
-                        '_languageUid' => 2
-                    ],
+                1 => [
+                    'firstName' => 'Petra',
+                    'gender' => 'Frau',
                 ],
             ],
             $data
