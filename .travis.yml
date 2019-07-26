@@ -26,6 +26,7 @@ addons:
     packages:
       - parallel
       - libgnutls28-dev
+      - libgcrypt20-dev
 
 cache:
   directories:
