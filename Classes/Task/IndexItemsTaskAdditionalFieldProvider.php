@@ -23,8 +23,6 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
  * Class IndexItemsTaskAdditionalFieldProvider
- *
- * @package JWeiland\ServiceBw2\Task
  */
 class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderInterface
 {
