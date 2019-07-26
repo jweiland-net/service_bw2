@@ -51,6 +51,11 @@ class ExtConf implements SingletonInterface
      */
     protected $allowedLanguages = [];
 
+    /**
+     * @var string
+     */
+    protected $regionIds = '';
+
     public function __construct()
     {
         // get global configuration
@@ -154,5 +159,21 @@ class ExtConf implements SingletonInterface
                 $this->allowedLanguages[$language] = (int)$sysLanguageUid;
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegionIds(): string
+    {
+        return $this->regionIds;
+    }
+
+    /**
+     * @param string $regionIds
+     */
+    public function setRegionIds(string $regionIds)
+    {
+        $this->regionIds = trim($regionIds);
     }
 }

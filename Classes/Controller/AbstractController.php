@@ -14,12 +14,12 @@ namespace JWeiland\ServiceBw2\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 
 /**
  * Class AbstractController
@@ -27,24 +27,16 @@ use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 abstract class AbstractController extends ActionController
 {
     /**
-     * @var ConfigurationUtility
+     * @var ExtConf
      */
-    protected $configurationUtility;
+    protected $extConf;
 
     /**
-     * Extension configuration for service_bw2
-     *
-     * @var array
+     * @param ExtConf $extConf
      */
-    protected $extensionConfiguration = [];
-
-    /**
-     * @param ConfigurationUtility $configurationUtility
-     */
-    public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)
+    public function injectExtConf(ExtConf $extConf)
     {
-        $this->configurationUtility = $configurationUtility;
-        $this->extensionConfiguration = $configurationUtility->getCurrentConfiguration('service_bw2');
+        $this->extConf = $extConf;
     }
 
     /**
@@ -80,28 +72,27 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * Initialize action
-     * USE parent::initializeAction() IN CHILD CONTROLLERS
-     * IF YOU ARE OVERRIDING THIS METHOD
+     * Initializes the controller before invoking an action method.
      */
     public function initializeAction()
     {
-        $this->validateExtensionConfiguration();
+        $this->validateExtConf();
     }
 
     /**
-     * Validates the given extension configuration by checking
+     * Validates the given ext_emconf by checking
      * if the setting is filled or empty. Throws an exception in case of a
      * misconfiguration.
      *
      * @throws \InvalidArgumentException
      */
-    protected function validateExtensionConfiguration()
+    protected function validateExtConf()
     {
         $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages', 'regionIds'];
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
-            if (empty($this->extensionConfiguration[$requiredSetting]['value'])) {
+            $getterMethodName = 'get' . ucfirst($requiredSetting);
+            if (empty($this->extConf->{$getterMethodName}())) {
                 $missingSettings[] = $requiredSetting;
             }
         }

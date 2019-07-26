@@ -15,8 +15,8 @@ namespace JWeiland\ServiceBw2\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Request\Search;
-use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 
 /**
  * Class SearchRepository
@@ -24,24 +24,16 @@ use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 class SearchRepository extends AbstractRepository
 {
     /**
-     * @var ConfigurationUtility
+     * @var ExtConf
      */
-    protected $configurationUtility;
+    protected $extConf;
 
     /**
-     * Extension configuration for service_bw2
-     *
-     * @var array
+     * @param ExtConf $extConf
      */
-    protected $extensionConfiguration = [];
-
-    /**
-     * @param ConfigurationUtility $configurationUtility
-     */
-    public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)
+    public function injectExtConf(ExtConf $extConf)
     {
-        $this->configurationUtility = $configurationUtility;
-        $this->extensionConfiguration = $configurationUtility->getCurrentConfiguration('service_bw2');
+        $this->extConf = $extConf;
     }
 
     /**
@@ -60,7 +52,7 @@ class SearchRepository extends AbstractRepository
         $request->addParameter('f', $filter);
         $request->addParameter('s', $sortBy);
         $request->addParameter('lang', $lang);
-        $request->addParameter('position', (string)$this->extensionConfiguration['regionIds']['value']);
+        $request->addParameter('position', $this->extConf->getRegionIds());
         return $this->serviceBwClient->processRequest($request);
     }
 }
