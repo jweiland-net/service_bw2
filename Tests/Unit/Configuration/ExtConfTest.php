@@ -82,7 +82,7 @@ class ExtConfTest extends UnitTestCase
      */
     public function setUsernameWithBooleanResultsInString()
     {
-        $this->subject->setUsername(TRUE);
+        $this->subject->setUsername(true);
         $this->assertSame('1', $this->subject->getUsername());
     }
 
@@ -124,7 +124,7 @@ class ExtConfTest extends UnitTestCase
      */
     public function setPasswordWithBooleanResultsInString()
     {
-        $this->subject->setPassword(TRUE);
+        $this->subject->setPassword(true);
         $this->assertSame('1', $this->subject->getPassword());
     }
 
@@ -166,7 +166,7 @@ class ExtConfTest extends UnitTestCase
      */
     public function setMandantWithBooleanResultsInString()
     {
-        $this->subject->setMandant(TRUE);
+        $this->subject->setMandant(true);
         $this->assertSame('1', $this->subject->getMandant());
     }
 
@@ -208,7 +208,7 @@ class ExtConfTest extends UnitTestCase
      */
     public function setBaseUrlWithBooleanResultsInString()
     {
-        $this->subject->setBaseUrl(TRUE);
+        $this->subject->setBaseUrl(true);
         $this->assertSame('1', $this->subject->getBaseUrl());
     }
 
