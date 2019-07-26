@@ -14,6 +14,8 @@ namespace JWeiland\ServiceBw2\PostProcessor;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Exception\HttpResponseException;
+
 /**
  * Class JsonPostProcessor
  */
@@ -24,7 +26,7 @@ class JsonPostProcessor extends AbstractPostProcessor
      *
      * @param mixed $response
      * @return array
-     * @throws \HttpResponseException if JSON decode fails
+     * @throws HttpResponseException if JSON decode fails
      */
     public function process($response): array
     {
@@ -43,7 +45,7 @@ class JsonPostProcessor extends AbstractPostProcessor
             $decodedResponse = $processedResponse;
         } elseif ($decodedResponse === null) {
             // throw exception if json could not be decoded!
-            throw new \HttpResponseException(
+            throw new HttpResponseException(
                 'Could not decode the JSON from HTTP response!',
                 1525850941
             );

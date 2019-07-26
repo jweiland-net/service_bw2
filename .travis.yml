@@ -25,8 +25,6 @@ addons:
   apt:
     packages:
       - parallel
-      - libgnutls28-dev
-      - libgcrypt20-dev
 
 cache:
   directories:
@@ -40,8 +38,6 @@ notifications:
       - secure: "lPv75y2sm3uQ1vW3ov5t0wT3yKhfe1WV6ktiNxPX8wnGN7DwL5X7DzsE+sO2+qHsI4rm9ziPEa4CqLZnc+8QdJsD6d0FBd2x7gAnWwTnSVauWBowpMx6+Jqy8IY7NF5FlberwruNNLC8BmG+mIzEnPBvVtE0VXpmbQrsq5hp0bjspShmGplMo2zdzXgi/faq5zkDLCfNKpRF1a2NRlZSIn1yltNlwFE5B2gWiLEU4RQDz3Cj33UEE++p/6w8O8Dd5aCv7tQ8oHXB9UVpCJeka5OHMX9yylwO0riaNn9dzx2gsPj+6gMv+8lRzdcbrw10T7g0eyipnNYoILgTj6/NK54x/Znr87NZ+3oEdV34t739vvCvhA0GxKv3QDabF611rZtewQJFbm9e1j5lFtSOFnGxXMXyvZk29PSiXmVE5femsHztzuoZuFodnfFRfCMdiGrIK2/FCD2zwrQWAo4UQgo25kQ40Kl/KE879qwH5rVEkBdZaud+dP/Mt2vD40YKIxq7GY62NiAG7ir1r4Rljx+v9HrZKWC5LFks9v5sWdn5S0sh+cGUhyC5ijNHhIGm4UfRr4H63nmwxNpKEb7v5eFVCnQ25b2m3Lmz8oBqC+ba2mlWrfzQR9vEuCNFSkLt0wAKtFqDlZsnLgZzVsA1xcLEYSfHOFyLsdN7SrpHMo4="
 
 before_install:
-  - which pecl && echo yes | pecl install pecl_http || true
-  #- echo "extension = http.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - composer self-update
 
