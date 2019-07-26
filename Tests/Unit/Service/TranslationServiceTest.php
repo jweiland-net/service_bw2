@@ -55,6 +55,7 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function emptyArrayResultsInEmptyArraysForEachLanguage()
     {
+        $emptyArray = [];
         $this->assertSame(
             [
                 'de' => [
@@ -67,7 +68,7 @@ class TranslationServiceTest extends UnitTestCase
                     0 => []
                 ],
             ],
-            $this->subject->translateRecords([])
+            $this->subject->translateRecords($emptyArray)
         );
     }
 
@@ -78,6 +79,9 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function arrayWithIdAndNoTranslationResultsInArraysForEachLanguage()
     {
+        $data = [
+            'id' => 123
+        ];
         $this->assertSame(
             [
                 'de' => [
@@ -90,9 +94,7 @@ class TranslationServiceTest extends UnitTestCase
                     123 => ['id' => 123]
                 ],
             ],
-            $this->subject->translateRecords([
-                'id' => 123
-            ])
+            $this->subject->translateRecords($data)
         );
     }
 
@@ -101,6 +103,14 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function translateWithoutSpracheCreatesThreeEmptyArrayEntries()
     {
+        $data = [
+            'i18n' => [
+                0 => [
+                    'title' => 'category'
+                ]
+            ]
+        ];
+
         $this->assertSame(
             [
                 'de' => [
@@ -113,13 +123,7 @@ class TranslationServiceTest extends UnitTestCase
                     0 => []
                 ],
             ],
-            $this->subject->translateRecords([
-                'i18n' => [
-                    0 => [
-                        'title' => 'category'
-                    ]
-                ]
-            ])
+            $this->subject->translateRecords($data)
         );
     }
 
@@ -129,6 +133,14 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function translateWithOneTranslationCreatesThreeArrayEntries()
     {
+        $data = [
+            'i18n' => [
+                0 => [
+                    'title' => 'category',
+                    'sprache' => 'de'
+                ]
+            ]
+        ];
         $this->assertSame(
             [
                 'de' => [
@@ -150,14 +162,7 @@ class TranslationServiceTest extends UnitTestCase
                     ]
                 ],
             ],
-            $this->subject->translateRecords([
-                'i18n' => [
-                    0 => [
-                        'title' => 'category',
-                        'sprache' => 'de'
-                    ]
-                ]
-            ])
+            $this->subject->translateRecords($data)
         );
     }
 
@@ -166,6 +171,18 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function translateWithTwoLanguagesCreatesThreeArrayEntries()
     {
+        $data = [
+            'i18n' => [
+                0 => [
+                    'title' => 'Kategorie',
+                    'sprache' => 'de'
+                ],
+                1 => [
+                    'title' => 'category',
+                    'sprache' => 'en'
+                ]
+            ]
+        ];
         $this->assertSame(
             [
                 'de' => [
@@ -187,18 +204,7 @@ class TranslationServiceTest extends UnitTestCase
                     ]
                 ],
             ],
-            $this->subject->translateRecords([
-                'i18n' => [
-                    0 => [
-                        'title' => 'Kategorie',
-                        'sprache' => 'de'
-                    ],
-                    1 => [
-                        'title' => 'category',
-                        'sprache' => 'en'
-                    ]
-                ]
-            ])
+            $this->subject->translateRecords($data)
         );
     }
 
@@ -207,6 +213,34 @@ class TranslationServiceTest extends UnitTestCase
      */
     public function mergeRecordWithTranslationsCreatesThreeArrayEntries()
     {
+        $data = [
+            0 => [
+                'firstName' => 'Stefan',
+                'i18n' => [
+                    0 => [
+                        'gender' => 'Mann',
+                        'sprache' => 'de'
+                    ],
+                    1 => [
+                        'gender' => 'man',
+                        'sprache' => 'en'
+                    ]
+                ]
+            ],
+            1 => [
+                'firstName' => 'Petra',
+                'i18n' => [
+                    0 => [
+                        'gender' => 'Frau',
+                        'sprache' => 'de'
+                    ],
+                    1 => [
+                        'gender' => 'woman',
+                        'sprache' => 'en'
+                    ]
+                ]
+            ]
+        ];
         $this->assertSame(
             [
                 'de' => [
@@ -246,34 +280,7 @@ class TranslationServiceTest extends UnitTestCase
                     ],
                 ],
             ],
-            $this->subject->translateRecords([
-                0 => [
-                    'firstName' => 'Stefan',
-                    'i18n' => [
-                        0 => [
-                            'gender' => 'Mann',
-                            'sprache' => 'de'
-                        ],
-                        1 => [
-                            'gender' => 'man',
-                            'sprache' => 'en'
-                        ]
-                    ]
-                ],
-                1 => [
-                    'firstName' => 'Petra',
-                    'i18n' => [
-                        0 => [
-                            'gender' => 'Frau',
-                            'sprache' => 'de'
-                        ],
-                        1 => [
-                            'gender' => 'woman',
-                            'sprache' => 'en'
-                        ]
-                    ]
-                ]
-            ])
+            $this->subject->translateRecords($data)
         );
     }
 }
