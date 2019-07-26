@@ -125,7 +125,6 @@ class TranslationServiceTest extends UnitTestCase
         );
     }
 
-
     /**
      * @test
      */

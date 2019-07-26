@@ -23,12 +23,12 @@ class Indices extends AbstractRequest
      * @var string
      */
     protected $path = 'indices';
-    
+
     /**
      * @var string
      */
     protected $method = RequestInterface::METHOD_GET;
-    
+
     /**
      * @var string
      */

@@ -62,7 +62,8 @@ class RealUrlAutoConfiguration
                         ],
                     ],
                 ],
-            ]);
+            ]
+        );
         return $parameters['config'];
     }
 }

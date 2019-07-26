@@ -176,7 +176,7 @@ abstract class AbstractRequest implements RequestInterface
     public function setMethod($method)
     {
         $method = trim(strtoupper((string)$method));
-        $allowedMethods = array('GET', 'POST', 'PUT');
+        $allowedMethods = ['GET', 'POST', 'PUT'];
         if (in_array($method, $allowedMethods, true)) {
             $this->method = $method;
         }
@@ -228,7 +228,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function setParameters(array $parameters)
     {
-        $this->parameters = array();
+        $this->parameters = [];
         foreach ($parameters as $parameter => $value) {
             $this->addParameter($parameter, $value);
         }

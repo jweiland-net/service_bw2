@@ -38,8 +38,7 @@ class OrganisationseinheitenController extends AbstractController
      */
     public function injectOrganisationseinheitRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
-    )
-    {
+    ) {
         $this->organisationseinheitenRepository = $organisationseinheitenRepository;
     }
 

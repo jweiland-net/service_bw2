@@ -82,8 +82,7 @@ class AlphabeticalIndexUtility
         array &$sortedLetterList,
         array &$sortedRecordList,
         array $alphabet = self::GERMAN_ALPHABET
-    )
-    {
+    ) {
         $sortedLetterList = $alphabet;
         foreach ($records as $record) {
             $sortedLetterList[self::getFirstLetterOfRecordTitle($record[$titleField])] = true;

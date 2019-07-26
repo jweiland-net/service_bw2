@@ -23,12 +23,12 @@ class Osm extends AbstractRequest
      * @var string
      */
     protected $path = 'osm';
-    
+
     /**
      * @var string
      */
     protected $method = RequestInterface::METHOD_GET;
-    
+
     /**
      * @var string
      */

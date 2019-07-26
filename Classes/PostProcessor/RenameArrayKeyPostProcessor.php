@@ -43,7 +43,7 @@ class RenameArrayKeyPostProcessor extends AbstractPostProcessor
                     $itemsById['unknown_id_' . $noId] = $item;
                     $noId++;
                 }
-            } elseif($key[0] === '_') {
+            } elseif ($key[0] === '_') {
                 // if array key begins with '_' (underline), we´ll add it without modifying
                 // the array key
                 $itemsById[$key] = $item;
