@@ -21,8 +21,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\PostProcessor\TranslatePostProcessor
- *
- * @author Stefan Froemken <projects@jweiland.net>
  */
 class TranslatePostProcessorTest extends UnitTestCase
 {

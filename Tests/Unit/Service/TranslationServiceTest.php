@@ -20,8 +20,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Service\TranslationService
- *
- * @author Stefan Froemken <projects@jweiland.net>
  */
 class TranslationServiceTest extends UnitTestCase
 {

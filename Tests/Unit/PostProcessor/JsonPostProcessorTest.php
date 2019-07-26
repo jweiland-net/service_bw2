@@ -20,8 +20,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor
- *
- * @author Stefan Froemken <projects@jweiland.net>
  */
 class JsonPostProcessorTest extends UnitTestCase
 {

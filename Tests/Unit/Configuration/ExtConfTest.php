@@ -20,8 +20,6 @@ use JWeiland\ServiceBw2\Configuration\ExtConf;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Configuration\ExtConf
- *
- * @author Stefan Froemken <projects@jweiland.net>
  */
 class ExtConfTest extends UnitTestCase
 {
