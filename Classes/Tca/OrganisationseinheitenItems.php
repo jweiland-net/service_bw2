@@ -51,7 +51,6 @@ class OrganisationseinheitenItems implements SingletonInterface
      *
      * @param array $processorParameters
      * @param AbstractItemProvider $itemProvider
-     * @return void
      */
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider)
     {
@@ -75,7 +74,6 @@ class OrganisationseinheitenItems implements SingletonInterface
      *
      * @param array $items
      * @param array $records
-     * @return void
      */
     protected function createList(array &$items, array $records)
     {

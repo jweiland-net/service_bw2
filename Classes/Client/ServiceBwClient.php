@@ -57,8 +57,6 @@ class ServiceBwClient
      * inject objectManager
      *
      * @param ObjectManager $objectManager
-     *
-     * @return void
      */
     public function injectObjectManager(ObjectManager $objectManager)
     {
@@ -69,8 +67,6 @@ class ServiceBwClient
      * inject registry
      *
      * @param Registry $registry
-     *
-     * @return void
      */
     public function injectRegistry(Registry $registry)
     {
@@ -80,8 +76,6 @@ class ServiceBwClient
     /**
      * Initializes this object
      * It starts a first call to Service BW and authenticate
-     *
-     * @return void
      */
     public function initializeObject()
     {

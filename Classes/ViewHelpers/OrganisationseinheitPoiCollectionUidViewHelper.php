@@ -74,7 +74,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 
     /**
      * @param int $organisationseinheitId
-     * @return void
      */
     public static function init(int $organisationseinheitId)
     {
@@ -152,7 +151,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      *
      * @param string $hashedAddress
      * @param int $txMaps2Poi
-     * @return void
      */
     protected static function updatePoiRelation(string $hashedAddress, int $txMaps2Poi)
     {
@@ -167,7 +165,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      *
      * @param string $hashedAddress
      * @param int $txMaps2Poi
-     * @return void
      */
     protected static function createPoiRelation(string $hashedAddress, int $txMaps2Poi)
     {

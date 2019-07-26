@@ -32,7 +32,6 @@ class LebenslagenController extends AbstractController
      * injects lebenslagenRepository
      *
      * @param LebenslagenRepository $lebenslagenRepository
-     * @return void
      */
     public function injectLebenslagenRepository(LebenslagenRepository $lebenslagenRepository)
     {
@@ -41,8 +40,6 @@ class LebenslagenController extends AbstractController
 
     /**
      * List action
-     *
-     * @return void
      */
     public function listAction()
     {
@@ -59,7 +56,6 @@ class LebenslagenController extends AbstractController
      * Show action
      *
      * @param int $id
-     * @return void
      */
     public function showAction(int $id)
     {

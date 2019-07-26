@@ -75,7 +75,6 @@ class AlphabeticalIndexUtility
      * @param array $sortedLetterList reference for letter list (navigation part)
      * @param array $sortedRecordList reference for record list (list part)
      * @param array $alphabet array with letters as key and boolean value as value (default letters)
-     * @return void
      */
     public static function createAlphabeticalIndex(
         array $records,

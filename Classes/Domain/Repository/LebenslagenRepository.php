@@ -62,7 +62,6 @@ class LebenslagenRepository extends AbstractRepository
      * Will add children into $record[<id>]['_children'] = [];
      *
      * @param array $records
-     * @return void
      * @throws \Exception if request is not valid!
      */
     protected function addChildrenToRecords(array &$records)

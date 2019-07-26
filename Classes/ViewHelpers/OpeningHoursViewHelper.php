@@ -60,8 +60,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Initializes the arguments
-     *
-     * @return void
      */
     public function initializeArguments()
     {
@@ -168,7 +166,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * @param array $regulaereZeiten
      * @param array $forenoonOpeningHoursWorkdays reference!
      * @param array $afternoonOpeningHours reference!
-     * @return void
      */
     protected static function processOpeningHours(
         array $regulaereZeiten,

@@ -43,7 +43,6 @@ class LeistungenController extends AbstractController
      * inject leistungenRepository
      *
      * @param LeistungenRepository $leistungenRepository
-     * @return void
      */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
     {
@@ -54,7 +53,6 @@ class LeistungenController extends AbstractController
      * inject externeFormulareRepository
      *
      * @param ExterneFormulareRepository $externeFormulareRepository
-     * @return void
      */
     public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository)
     {
@@ -65,7 +63,6 @@ class LeistungenController extends AbstractController
      * inject OrganisationseinheitenRepository
      *
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
-     * @return void
      */
     public function injectOrganisationseinheitenRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
@@ -77,7 +74,6 @@ class LeistungenController extends AbstractController
      * Show action
      *
      * @param int $id of Leistung
-     * @return void
      */
     public function showAction(int $id)
     {
@@ -107,8 +103,6 @@ class LeistungenController extends AbstractController
 
     /**
      * List action
-     *
-     * @return void
      */
     public function listAction()
     {

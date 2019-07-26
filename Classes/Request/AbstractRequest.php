@@ -126,8 +126,6 @@ abstract class AbstractRequest implements RequestInterface
      * inject extConf
      *
      * @param ExtConf $extConf
-     *
-     * @return void
      */
     public function injectExtConf(ExtConf $extConf)
     {
@@ -138,8 +136,6 @@ abstract class AbstractRequest implements RequestInterface
      * inject ObjectManager
      *
      * @param ObjectManager $objectManager
-     *
-     * @return void
      */
     public function injectObjectManager(ObjectManager $objectManager)
     {
@@ -180,8 +176,6 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the method
      *
      * @param string $method
-     *
-     * @return void
      */
     public function setMethod($method)
     {
@@ -206,8 +200,6 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the path
      *
      * @param string $path
-     *
-     * @return void
      */
     public function setPath($path)
     {
@@ -237,8 +229,6 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the parameters
      *
      * @param array $parameters
-     *
-     * @return void
      */
     public function setParameters(array $parameters)
     {
@@ -253,8 +243,6 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $parameter
      * @param string|int $value
-     *
-     * @return void
      */
     public function addParameter($parameter, $value)
     {
@@ -293,8 +281,6 @@ abstract class AbstractRequest implements RequestInterface
      * Remove parameter
      *
      * @param string $parameter
-     *
-     * @return void
      */
     public function removeParameter($parameter)
     {
@@ -353,8 +339,6 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the accept
      *
      * @param string $accept
-     *
-     * @return void
      */
     public function setAccept($accept)
     {
@@ -458,7 +442,6 @@ abstract class AbstractRequest implements RequestInterface
      * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
      *
      * @param string $cacheTag
-     * @return void
      */
     public function addCacheTag(string $cacheTag)
     {

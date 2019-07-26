@@ -37,7 +37,6 @@ class OrganisationseinheitenController extends AbstractController
      * inject organisationseinheitenRepository
      *
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
-     * @return void
      */
     public function injectOrganisationseinheitRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
@@ -50,7 +49,6 @@ class OrganisationseinheitenController extends AbstractController
      * inject leistungenRepository
      *
      * @param LeistungenRepository $leistungenRepository
-     * @return void
      */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
     {
@@ -59,8 +57,6 @@ class OrganisationseinheitenController extends AbstractController
 
     /**
      * List action
-     *
-     * @return void
      */
     public function listAction()
     {
@@ -78,7 +74,6 @@ class OrganisationseinheitenController extends AbstractController
      * Show action
      *
      * @param int $id
-     * @return void
      */
     public function showAction(int $id)
     {

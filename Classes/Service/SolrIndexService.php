@@ -37,7 +37,6 @@ class SolrIndexService
      * injects indexer
      *
      * @param Indexer $indexer
-     * @return void
      */
     public function injectIndexer(Indexer $indexer)
     {
@@ -50,7 +49,6 @@ class SolrIndexService
      * @param array $records
      * @param string $type
      * @param int $rootPageUid
-     * @return void
      */
     public function indexRecords(array $records, string $type, int $rootPageUid)
     {
@@ -110,7 +108,6 @@ class SolrIndexService
      *
      * @param string $type
      * @param int $rootPage
-     * @return void
      */
     public function indexerDeleteByType(string $type, $rootPage)
     {

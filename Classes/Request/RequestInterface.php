@@ -104,7 +104,6 @@ interface RequestInterface
      * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
      *
      * @param string $cacheTag
-     * @return void
      */
     public function addCacheTag(string $cacheTag);
 

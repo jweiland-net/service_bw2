@@ -30,8 +30,6 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
      * inject objectManager
      *
      * @param ObjectManager $objectManager
-     *
-     * @return void
      */
     public function injectObjectManager(ObjectManager $objectManager)
     {

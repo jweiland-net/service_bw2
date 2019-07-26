@@ -22,9 +22,6 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
  */
 class AlphabeticalIndexController extends AbstractWidgetController
 {
-    /**
-     * @return void
-     */
     public function indexAction()
     {
         $alphabeticalNavigation = [];

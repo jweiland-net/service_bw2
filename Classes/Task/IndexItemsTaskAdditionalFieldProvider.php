@@ -121,7 +121,6 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
      *
      * @param array $submittedData
      * @param AbstractTask $task
-     * @return void
      */
     public function saveAdditionalFields(array $submittedData, AbstractTask $task)
     {

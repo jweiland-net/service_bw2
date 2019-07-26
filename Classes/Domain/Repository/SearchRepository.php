@@ -39,7 +39,6 @@ class SearchRepository extends AbstractRepository
      * inject configurationUtility
      *
      * @param ConfigurationUtility $configurationUtility
-     * @return void
      */
     public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)
     {

@@ -50,8 +50,6 @@ class Token extends AbstractRequest
      * Get Scopes
      *
      * Results in something like [readLebenslage, search]
-     *
-     * @return void
      */
     public function getScopes()
     {
@@ -61,8 +59,6 @@ class Token extends AbstractRequest
 
     /**
      * get authentication token
-     *
-     * @return void
      */
     public function getToken()
     {

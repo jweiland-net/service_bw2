@@ -83,7 +83,6 @@ class OrganisationseinheitenRepository extends AbstractRepository
      * want to know which fields are provided.
      *
      * @param array $records
-     * @return void
      * @throws \Exception if request is not valid!
      */
     protected function addChildrenToRecords(array &$records)

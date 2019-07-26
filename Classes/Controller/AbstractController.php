@@ -42,7 +42,6 @@ abstract class AbstractController extends ActionController
      * inject configurationUtility and get service_bw2 configuration
      *
      * @param ConfigurationUtility $configurationUtility
-     * @return void
      */
     public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)
     {
@@ -54,7 +53,6 @@ abstract class AbstractController extends ActionController
      * Add "error while fetching records" error message
      *
      * @param \Exception $exception
-     * @return void
      */
     protected function addErrorWhileFetchingRecordsMessage(\Exception $exception)
     {
@@ -75,7 +73,6 @@ abstract class AbstractController extends ActionController
      * overridePageTitle equals 1
      *
      * @param string $title
-     * @return void
      */
     protected function setPageTitle(string $title)
     {
@@ -88,8 +85,6 @@ abstract class AbstractController extends ActionController
      * Initialize action
      * USE parent::initializeAction() IN CHILD CONTROLLERS
      * IF YOU ARE OVERRIDING THIS METHOD
-     *
-     * @return void
      */
     public function initializeAction()
     {
@@ -101,7 +96,6 @@ abstract class AbstractController extends ActionController
      * if the setting is filled or empty. Throws an exception in case of a
      * misconfiguration.
      *
-     * @return void
      * @throws \InvalidArgumentException
      */
     protected function validateExtensionConfiguration()
