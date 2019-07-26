@@ -16,7 +16,7 @@ namespace JWeiland\ServiceBw2\Tests\Unit\PostProcessor;
  */
 
 use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor

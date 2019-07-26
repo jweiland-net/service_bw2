@@ -16,7 +16,7 @@ namespace JWeiland\ServiceBw2\Tests\Unit\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TranslationService;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Service\TranslationService

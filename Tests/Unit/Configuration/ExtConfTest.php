@@ -15,8 +15,8 @@ namespace JWeiland\ServiceBw2\Tests\Unit\Configuration;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Configuration\ExtConf
