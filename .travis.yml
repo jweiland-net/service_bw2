@@ -25,6 +25,7 @@ addons:
   apt:
     packages:
       - parallel
+      - libgnutls28-dev
 
 cache:
   directories:
@@ -39,6 +40,7 @@ notifications:
 
 before_install:
   - which pecl && echo yes | pecl install pecl_http || true
+  - echo "extension = http.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - composer self-update
 
