@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace JWeiland\ServiceBw2\Configuration;
 
 /*
@@ -18,54 +19,45 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class ExtConf
+ * Class, which contains the configuration from ExtensionManager
  */
 class ExtConf implements SingletonInterface
 {
     /**
-     * username
-     *
      * @var string
      */
     protected $username = '';
 
     /**
-     * password
-     *
      * @var string
      */
     protected $password = '';
 
     /**
-     * mandant
-     *
      * @var string
      */
     protected $mandant = '';
 
     /**
-     * baseUrl
-     *
      * @var string
      */
     protected $baseUrl = '';
 
     /**
-     * allowed languages.
+     * Allowed languages.
      * First defined language = default language
      *
      * @var array
      */
     protected $allowedLanguages = [];
 
-    /**
-     * constructor of this class
-     * This method reads the global configuration and calls the setter methods
-     */
     public function __construct()
     {
         // get global configuration
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2']);
+        $extConf = unserialize(
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2'],
+            ['allowed_classes' => false]
+        );
         if (is_array($extConf) && count($extConf)) {
             // call setter method foreach configuration entry
             foreach ($extConf as $key => $value) {
@@ -78,112 +70,82 @@ class ExtConf implements SingletonInterface
     }
 
     /**
-     * Returns the username
-     *
-     * @return string $username
+     * @return string
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
     /**
-     * Sets the username
-     *
      * @param string $username
-     *
-     * @return void
      */
-    public function setUsername($username)
+    public function setUsername(string $username)
     {
-        $this->username = (string)trim($username);
+        $this->username = trim($username);
     }
 
     /**
-     * Returns the password
-     *
-     * @return string $password
+     * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
     /**
-     * Sets the password
-     *
      * @param string $password
-     *
-     * @return void
      */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
-        $this->password = (string)trim($password);
+        $this->password = trim($password);
     }
 
     /**
-     * Returns the mandant
-     *
-     * @return string $mandant
+     * @return string
      */
-    public function getMandant()
+    public function getMandant(): string
     {
         return $this->mandant;
     }
 
     /**
-     * Sets the mandant
-     *
      * @param string $mandant
-     *
-     * @return void
      */
-    public function setMandant($mandant)
+    public function setMandant(string $mandant)
     {
-        $this->mandant = (string)trim($mandant);
+        $this->mandant = trim($mandant);
     }
 
     /**
-     * Returns the baseUrl
-     *
-     * @return string $baseUrl
+     * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
 
     /**
-     * Sets the baseUrl
-     *
      * @param string $baseUrl
-     *
-     * @return void
      */
-    public function setBaseUrl($baseUrl)
+    public function setBaseUrl(string $baseUrl)
     {
         $baseUrl = trim($baseUrl);
         $this->baseUrl = (string)rtrim($baseUrl, '/');
     }
 
     /**
-     * Returns the allowedLanguages
-     *
-     * @return array $allowedLanguages
+     * @return array
      */
-    public function getAllowedLanguages()
+    public function getAllowedLanguages(): array
     {
         return $this->allowedLanguages;
     }
 
     /**
-     * Sets the allowedLanguages
-     *
      * @param string $allowedLanguages
-     *
-     * @return void
      */
-    public function setAllowedLanguages($allowedLanguages)
+    public function setAllowedLanguages(string $allowedLanguages)
     {
         if (preg_match('@^([a-z]{2,2}=\d+;?)+$@', $allowedLanguages)) {
             $languageConfigurations = GeneralUtility::trimExplode(';', $allowedLanguages, true);
