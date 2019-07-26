@@ -41,10 +41,7 @@ class TranslationService implements SingletonInterface
     protected $translationField = 'i18n';
 
     /**
-     * inject extConf
-     *
      * @param ExtConf $extConf
-     * @return void
      */
     public function injectExtConf(ExtConf $extConf)
     {
@@ -53,8 +50,6 @@ class TranslationService implements SingletonInterface
 
     /**
      * Initialize object
-     *
-     * @return void
      */
     public function initializeObject()
     {
@@ -94,7 +89,6 @@ class TranslationService implements SingletonInterface
      * @param array $records
      * @param bool $translateChildren translates entries inside _children by default, set true to enable
      * @param bool $translateRecursive
-     * @return void
      */
     public function translateRecords(array &$records, bool $translateChildren = false, bool $translateRecursive = false)
     {

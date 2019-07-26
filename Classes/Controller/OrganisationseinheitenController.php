@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Controller;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -34,23 +34,16 @@ class OrganisationseinheitenController extends AbstractController
     protected $leistungenRepository;
 
     /**
-     * inject organisationseinheitenRepository
-     *
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
-     * @return void
      */
     public function injectOrganisationseinheitRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
-    )
-    {
+    ) {
         $this->organisationseinheitenRepository = $organisationseinheitenRepository;
     }
 
     /**
-     * inject leistungenRepository
-     *
      * @param LeistungenRepository $leistungenRepository
-     * @return void
      */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
     {
@@ -59,8 +52,6 @@ class OrganisationseinheitenController extends AbstractController
 
     /**
      * List action
-     *
-     * @return void
      */
     public function listAction()
     {
@@ -78,7 +69,6 @@ class OrganisationseinheitenController extends AbstractController
      * Show action
      *
      * @param int $id
-     * @return void
      */
     public function showAction(int $id)
     {

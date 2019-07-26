@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\ViewHelpers;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -60,8 +60,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Initializes the arguments
-     *
-     * @return void
      */
     public function initializeArguments()
     {
@@ -168,7 +166,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * @param array $regulaereZeiten
      * @param array $forenoonOpeningHoursWorkdays reference!
      * @param array $afternoonOpeningHours reference!
-     * @return void
      */
     protected static function processOpeningHours(
         array $regulaereZeiten,

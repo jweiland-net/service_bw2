@@ -16,12 +16,10 @@ namespace JWeiland\ServiceBw2\Tests\Unit\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TranslationService;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Service\TranslationService
- *
- * @author Stefan Froemken <projects@jweiland.net>
  */
 class TranslationServiceTest extends UnitTestCase
 {
@@ -40,6 +38,7 @@ class TranslationServiceTest extends UnitTestCase
 
         $this->subject = new TranslationService();
         $this->subject->injectExtConf($extConf);
+        $this->subject->initializeObject();
     }
 
     /**
@@ -53,227 +52,95 @@ class TranslationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function emptyArrayResultsInEmptyArraysForEachLanguage()
+    public function translateRecordsWithEmptyRecordsWillResultInEmptyTranslations()
     {
-        $this->assertSame(
-            [
-                'de' => [
-                    0 => []
-                ],
-                'en' => [
-                    0 => []
-                ],
-                'fr' => [
-                    0 => []
-                ],
-            ],
-            $this->subject->translateRecords([])
-        );
-    }
+        $data = [];
+        $this->subject->translateRecords($data);
 
-    /**
-     * This test will also test, if single array will be sanitized to multi array
-     *
-     * @test
-     */
-    public function arrayWithIdAndNoTranslationResultsInArraysForEachLanguage()
-    {
         $this->assertSame(
-            [
-                'de' => [
-                    123 => ['id' => 123]
-                ],
-                'en' => [
-                    123 => ['id' => 123]
-                ],
-                'fr' => [
-                    123 => ['id' => 123]
-                ],
-            ],
-            $this->subject->translateRecords([
-                'id' => 123
-            ])
+            [],
+            $data
         );
     }
 
     /**
      * @test
      */
-    public function translateWithoutSpracheCreatesThreeEmptyArrayEntries()
+    public function translateRecordsWithTwoLanguagesWillReturnGermanLanguage()
     {
-        $this->assertSame(
-            [
-                'de' => [
-                    0 => []
-                ],
-                'en' => [
-                    0 => []
-                ],
-                'fr' => [
-                    0 => []
-                ],
-            ],
-            $this->subject->translateRecords([
-                'i18n' => [
-                    0 => [
-                        'title' => 'category'
-                    ]
-                ]
-            ])
-        );
-    }
-
-
-    /**
-     * @test
-     */
-    public function translateWithOneTranslationCreatesThreeArrayEntries()
-    {
-        $this->assertSame(
-            [
-                'de' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 0
-                    ]
-                ],
-                'en' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 1
-                    ]
-                ],
-                'fr' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 2
-                    ]
-                ],
-            ],
-            $this->subject->translateRecords([
-                'i18n' => [
-                    0 => [
-                        'title' => 'category',
-                        'sprache' => 'de'
-                    ]
-                ]
-            ])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function translateWithTwoLanguagesCreatesThreeArrayEntries()
-    {
-        $this->assertSame(
-            [
-                'de' => [
-                    0 => [
-                        'title' => 'Kategorie',
-                        '_languageUid' => 0
-                    ]
-                ],
-                'en' => [
-                    0 => [
-                        'title' => 'category',
-                        '_languageUid' => 1
-                    ]
-                ],
-                'fr' => [
-                    0 => [
-                        'title' => 'Kategorie',
-                        '_languageUid' => 2
-                    ]
-                ],
-            ],
-            $this->subject->translateRecords([
+        $data = [
+            0 => [
                 'i18n' => [
                     0 => [
                         'title' => 'Kategorie',
                         'sprache' => 'de'
                     ],
                     1 => [
-                        'title' => 'category',
+                        'title' => 'Category',
                         'sprache' => 'en'
                     ]
                 ]
-            ])
+            ]
+        ];
+        $this->subject->translateRecords($data);
+
+        $this->assertSame(
+            [
+                0 => [
+                    'title' => 'Kategorie'
+                ]
+            ],
+            $data
         );
     }
 
     /**
      * @test
      */
-    public function mergeRecordWithTranslationsCreatesThreeArrayEntries()
+    public function translateRecordsWillMergeParentKeysWithGermanTranslation()
     {
+        $data = [
+            0 => [
+                'firstName' => 'Stefan',
+                'i18n' => [
+                    0 => [
+                        'gender' => 'Mann',
+                        'sprache' => 'de'
+                    ],
+                    1 => [
+                        'gender' => 'man',
+                        'sprache' => 'en'
+                    ]
+                ]
+            ],
+            1 => [
+                'firstName' => 'Petra',
+                'i18n' => [
+                    0 => [
+                        'gender' => 'Frau',
+                        'sprache' => 'de'
+                    ],
+                    1 => [
+                        'gender' => 'woman',
+                        'sprache' => 'en'
+                    ]
+                ]
+            ]
+        ];
+        $this->subject->translateRecords($data);
+
         $this->assertSame(
             [
-                'de' => [
-                    0 => [
-                        'firstName' => 'Stefan',
-                        'gender' => 'Mann',
-                        '_languageUid' => 0
-                    ],
-                    1 => [
-                        'firstName' => 'Petra',
-                        'gender' => 'Frau',
-                        '_languageUid' => 0
-                    ],
-                ],
-                'en' => [
-                    0 => [
-                        'firstName' => 'Stefan',
-                        'gender' => 'man',
-                        '_languageUid' => 1
-                    ],
-                    1 => [
-                        'firstName' => 'Petra',
-                        'gender' => 'woman',
-                        '_languageUid' => 1
-                    ],
-                ],
-                'fr' => [
-                    0 => [
-                        'firstName' => 'Stefan',
-                        'gender' => 'Mann',
-                        '_languageUid' => 2
-                    ],
-                    1 => [
-                        'firstName' => 'Petra',
-                        'gender' => 'Frau',
-                        '_languageUid' => 2
-                    ],
-                ],
-            ],
-            $this->subject->translateRecords([
                 0 => [
                     'firstName' => 'Stefan',
-                    'i18n' => [
-                        0 => [
-                            'gender' => 'Mann',
-                            'sprache' => 'de'
-                        ],
-                        1 => [
-                            'gender' => 'man',
-                            'sprache' => 'en'
-                        ]
-                    ]
+                    'gender' => 'Mann',
                 ],
                 1 => [
                     'firstName' => 'Petra',
-                    'i18n' => [
-                        0 => [
-                            'gender' => 'Frau',
-                            'sprache' => 'de'
-                        ],
-                        1 => [
-                            'gender' => 'woman',
-                            'sprache' => 'en'
-                        ]
-                    ]
-                ]
-            ])
+                    'gender' => 'Frau',
+                ],
+            ],
+            $data
         );
     }
 }

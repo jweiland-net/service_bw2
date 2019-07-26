@@ -2,17 +2,17 @@
 namespace JWeiland\ServiceBw2\Utility;
 
 /*
-* This file is part of the TYPO3 CMS project.
-*
-* It is free software; you can redistribute it and/or modify it under
-* the terms of the GNU General Public License, either version 2
-* of the License, or any later version.
-*
-* For the full copyright and license information, please read the
-* LICENSE.txt file that was distributed with this source code.
-*
-* The TYPO3 project - inspiring people to share!
-*/
+ * This file is part of the service_bw2 project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 /**
  * Class AlphabeticalIndexUtility
@@ -75,7 +75,6 @@ class AlphabeticalIndexUtility
      * @param array $sortedLetterList reference for letter list (navigation part)
      * @param array $sortedRecordList reference for record list (list part)
      * @param array $alphabet array with letters as key and boolean value as value (default letters)
-     * @return void
      */
     public static function createAlphabeticalIndex(
         array $records,
@@ -83,8 +82,7 @@ class AlphabeticalIndexUtility
         array &$sortedLetterList,
         array &$sortedRecordList,
         array $alphabet = self::GERMAN_ALPHABET
-    )
-    {
+    ) {
         $sortedLetterList = $alphabet;
         foreach ($records as $record) {
             $sortedLetterList[self::getFirstLetterOfRecordTitle($record[$titleField])] = true;

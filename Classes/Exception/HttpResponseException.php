@@ -15,8 +15,8 @@ namespace JWeiland\ServiceBw2\Exception;
  */
 
 /**
- * Class HttpRequestException
+ * Class HttpResponseException
  */
-class HttpRequestException extends \Exception
+class HttpResponseException extends \Exception
 {
 }

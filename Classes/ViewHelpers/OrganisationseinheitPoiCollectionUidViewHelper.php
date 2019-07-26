@@ -2,29 +2,28 @@
 namespace JWeiland\ServiceBw2\ViewHelpers;
 
 /*
-* This file is part of the TYPO3 CMS project.
-*
-* It is free software; you can redistribute it and/or modify it under
-* the terms of the GNU General Public License, either version 2
-* of the License, or any later version.
-*
-* For the full copyright and license information, please read the
-* LICENSE.txt file that was distributed with this source code.
-*
-* The TYPO3 project - inspiring people to share!
-*/
+ * This file is part of the service_bw2 project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
-use JWeiland\Maps2\Domain\Model\Location;
-use JWeiland\Maps2\Domain\Model\RadiusResult;
-use JWeiland\Maps2\Service\GoogleMapsService;
+use JWeiland\Maps2\Domain\Model\Position;
+use JWeiland\Maps2\Service\GeoCodeService;
+use JWeiland\Maps2\Service\MapService;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
@@ -48,9 +47,9 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static $organisationseinheitenRepository;
 
     /**
-     * @var GoogleMapsService
+     * @var GeoCodeService
      */
-    protected static $googleMapsService;
+    protected static $geoCodeService;
 
     /**
      * Storage page id of maps2 records
@@ -74,14 +73,13 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 
     /**
      * @param int $organisationseinheitId
-     * @return void
      */
     public static function init(int $organisationseinheitId)
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         self::$organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
-        self::$googleMapsService = $objectManager->get(GoogleMapsService::class);
+        self::$geoCodeService = $objectManager->get(GeoCodeService::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK
         )['settings']['organisationseinheiten']['maps2Pid'];
@@ -152,7 +150,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      *
      * @param string $hashedAddress
      * @param int $txMaps2Poi
-     * @return void
      */
     protected static function updatePoiRelation(string $hashedAddress, int $txMaps2Poi)
     {
@@ -167,7 +164,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      *
      * @param string $hashedAddress
      * @param int $txMaps2Poi
-     * @return void
      */
     protected static function createPoiRelation(string $hashedAddress, int $txMaps2Poi)
     {
@@ -219,39 +215,18 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static function getUidOfNewPoiCollectionForAddress(string $address, string $poiTitle): int
     {
         $poiUid = 0;
-        $radiusResult = self::$googleMapsService->getFirstFoundPositionByAddress($address);
-        if ($radiusResult instanceof RadiusResult) {
-            $location = $radiusResult->getGeometry()->getLocation();
-            $address = $radiusResult->getFormattedAddress();
-            $poiUid = self::createNewPoiCollection($location, $address, $poiTitle);
+        $position = self::$geoCodeService->getFirstFoundPositionByAddress($address);
+        if ($position instanceof Position) {
+            $mapService = GeneralUtility::makeInstance(MapService::class);
+            $poiUid = $mapService->createNewPoiCollection(
+                self::$maps2Pid,
+                $position,
+                [
+                    'title' => $poiTitle,
+                    'address' => $address
+                ]
+            );
         }
         return $poiUid;
-    }
-
-    /**
-     * Creates a new poi colleciton
-     *
-     * @param Location $location
-     * @param string $address
-     * @param string $poiTitle
-     * @return int uid of the new poi collection
-     */
-    protected static function createNewPoiCollection(Location $location, string $address, string $poiTitle): int
-    {
-        $data = [];
-        $data['pid'] = self::$maps2Pid;
-        $data['tstamp'] = time();
-        $data['crdate'] = time();
-        $data['hidden'] = 0;
-        $data['deleted'] = 0;
-        $data['latitude'] = $location->getLat();
-        $data['longitude'] = $location->getLng();
-        $data['collection_type'] = 'Point';
-        $data['title'] = $poiTitle;
-        $data['address'] = $address;
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_maps2_domain_model_poicollection');
-        $connection->insert('tx_maps2_domain_model_poicollection', $data);
-        return (int)$connection->lastInsertId();
     }
 }

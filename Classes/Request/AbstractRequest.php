@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Request;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -123,11 +123,7 @@ abstract class AbstractRequest implements RequestInterface
     protected $cacheTags = [];
 
     /**
-     * inject extConf
-     *
      * @param ExtConf $extConf
-     *
-     * @return void
      */
     public function injectExtConf(ExtConf $extConf)
     {
@@ -135,11 +131,7 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * inject ObjectManager
-     *
      * @param ObjectManager $objectManager
-     *
-     * @return void
      */
     public function injectObjectManager(ObjectManager $objectManager)
     {
@@ -180,13 +172,11 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the method
      *
      * @param string $method
-     *
-     * @return void
      */
     public function setMethod($method)
     {
         $method = trim(strtoupper((string)$method));
-        $allowedMethods = array('GET', 'POST', 'PUT');
+        $allowedMethods = ['GET', 'POST', 'PUT'];
         if (in_array($method, $allowedMethods, true)) {
             $this->method = $method;
         }
@@ -206,8 +196,6 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the path
      *
      * @param string $path
-     *
-     * @return void
      */
     public function setPath($path)
     {
@@ -237,12 +225,10 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the parameters
      *
      * @param array $parameters
-     *
-     * @return void
      */
     public function setParameters(array $parameters)
     {
-        $this->parameters = array();
+        $this->parameters = [];
         foreach ($parameters as $parameter => $value) {
             $this->addParameter($parameter, $value);
         }
@@ -253,8 +239,6 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $parameter
      * @param string|int $value
-     *
-     * @return void
      */
     public function addParameter($parameter, $value)
     {
@@ -293,8 +277,6 @@ abstract class AbstractRequest implements RequestInterface
      * Remove parameter
      *
      * @param string $parameter
-     *
-     * @return void
      */
     public function removeParameter($parameter)
     {
@@ -353,8 +335,6 @@ abstract class AbstractRequest implements RequestInterface
      * Sets the accept
      *
      * @param string $accept
-     *
-     * @return void
      */
     public function setAccept($accept)
     {
@@ -458,7 +438,6 @@ abstract class AbstractRequest implements RequestInterface
      * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
      *
      * @param string $cacheTag
-     * @return void
      */
     public function addCacheTag(string $cacheTag)
     {

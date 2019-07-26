@@ -2,17 +2,17 @@
 namespace JWeiland\ServiceBw2\Controller;
 
 /*
-* This file is part of the service_bw2 project.
-*
-* It is free software; you can redistribute it and/or modify it under
-* the terms of the GNU General Public License, either version 2
-* of the License, or any later version.
-*
-* For the full copyright and license information, please read the
-* LICENSE.txt file that was distributed with this source code.
-*
-* The TYPO3 project - inspiring people to share!
-*/
+ * This file is part of the service_bw2 project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 use JWeiland\ServiceBw2\Domain\Repository\ExterneFormulareRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
@@ -40,10 +40,7 @@ class LeistungenController extends AbstractController
     protected $organisationseinheitenRepository;
 
     /**
-     * inject leistungenRepository
-     *
      * @param LeistungenRepository $leistungenRepository
-     * @return void
      */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
     {
@@ -51,10 +48,7 @@ class LeistungenController extends AbstractController
     }
 
     /**
-     * inject externeFormulareRepository
-     *
      * @param ExterneFormulareRepository $externeFormulareRepository
-     * @return void
      */
     public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository)
     {
@@ -62,10 +56,7 @@ class LeistungenController extends AbstractController
     }
 
     /**
-     * inject OrganisationseinheitenRepository
-     *
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
-     * @return void
      */
     public function injectOrganisationseinheitenRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
@@ -77,12 +68,11 @@ class LeistungenController extends AbstractController
      * Show action
      *
      * @param int $id of Leistung
-     * @return void
      */
     public function showAction(int $id)
     {
-        $regionIds = (string)$this->extensionConfiguration['regionIds']['value'];
-        $mandantId = (string)$this->extensionConfiguration['mandant']['value'];
+        $regionIds = $this->extConf->getRegionIds();
+        $mandantId = $this->extConf->getMandant();
         try {
             $leistung = $this->leistungenRepository->getLiveById($id);
             $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
@@ -107,8 +97,6 @@ class LeistungenController extends AbstractController
 
     /**
      * List action
-     *
-     * @return void
      */
     public function listAction()
     {

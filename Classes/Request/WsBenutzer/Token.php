@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Request\WsBenutzer;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -50,8 +50,6 @@ class Token extends AbstractRequest
      * Get Scopes
      *
      * Results in something like [readLebenslage, search]
-     *
-     * @return void
      */
     public function getScopes()
     {
@@ -61,8 +59,6 @@ class Token extends AbstractRequest
 
     /**
      * get authentication token
-     *
-     * @return void
      */
     public function getToken()
     {

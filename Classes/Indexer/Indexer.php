@@ -68,7 +68,6 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
      *
      * @param string $type
      * @param int $rootPageId
-     * @return void
      */
     public function deleteItemsByType(string $type, int $rootPageId)
     {

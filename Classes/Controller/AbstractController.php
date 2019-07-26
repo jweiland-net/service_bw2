@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Controller;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,12 +14,12 @@ namespace JWeiland\ServiceBw2\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 
 /**
  * Class AbstractController
@@ -27,34 +27,22 @@ use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 abstract class AbstractController extends ActionController
 {
     /**
-     * @var ConfigurationUtility
+     * @var ExtConf
      */
-    protected $configurationUtility;
+    protected $extConf;
 
     /**
-     * Extension configuration for service_bw2
-     *
-     * @var array
+     * @param ExtConf $extConf
      */
-    protected $extensionConfiguration = [];
-
-    /**
-     * inject configurationUtility and get service_bw2 configuration
-     *
-     * @param ConfigurationUtility $configurationUtility
-     * @return void
-     */
-    public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)
+    public function injectExtConf(ExtConf $extConf)
     {
-        $this->configurationUtility = $configurationUtility;
-        $this->extensionConfiguration = $configurationUtility->getCurrentConfiguration('service_bw2');
+        $this->extConf = $extConf;
     }
 
     /**
      * Add "error while fetching records" error message
      *
      * @param \Exception $exception
-     * @return void
      */
     protected function addErrorWhileFetchingRecordsMessage(\Exception $exception)
     {
@@ -75,7 +63,6 @@ abstract class AbstractController extends ActionController
      * overridePageTitle equals 1
      *
      * @param string $title
-     * @return void
      */
     protected function setPageTitle(string $title)
     {
@@ -85,31 +72,27 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * Initialize action
-     * USE parent::initializeAction() IN CHILD CONTROLLERS
-     * IF YOU ARE OVERRIDING THIS METHOD
-     *
-     * @return void
+     * Initializes the controller before invoking an action method.
      */
     public function initializeAction()
     {
-        $this->validateExtensionConfiguration();
+        $this->validateExtConf();
     }
 
     /**
-     * Validates the given extension configuration by checking
+     * Validates the given ext_emconf by checking
      * if the setting is filled or empty. Throws an exception in case of a
      * misconfiguration.
      *
-     * @return void
      * @throws \InvalidArgumentException
      */
-    protected function validateExtensionConfiguration()
+    protected function validateExtConf()
     {
         $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages', 'regionIds'];
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
-            if (empty($this->extensionConfiguration[$requiredSetting]['value'])) {
+            $getterMethodName = 'get' . ucfirst($requiredSetting);
+            if (empty($this->extConf->{$getterMethodName}())) {
                 $missingSettings[] = $requiredSetting;
             }
         }

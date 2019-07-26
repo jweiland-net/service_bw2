@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -62,7 +62,6 @@ class LebenslagenRepository extends AbstractRepository
      * Will add children into $record[<id>]['_children'] = [];
      *
      * @param array $records
-     * @return void
      * @throws \Exception if request is not valid!
      */
     protected function addChildrenToRecords(array &$records)

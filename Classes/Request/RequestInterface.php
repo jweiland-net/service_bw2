@@ -2,7 +2,7 @@
 namespace JWeiland\ServiceBw2\Request;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the service_bw2 project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -104,7 +104,6 @@ interface RequestInterface
      * @see \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend::isValidTag()
      *
      * @param string $cacheTag
-     * @return void
      */
     public function addCacheTag(string $cacheTag);
 

@@ -157,7 +157,6 @@ class IndexItemsTask extends AbstractTask
                     $recordToIndex['id']
                 );
             } catch (ClientException $exception) {
-
             }
 
             // TODO: Search can be optimized by imploding for sub arrays in sections like address
