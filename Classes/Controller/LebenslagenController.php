@@ -29,8 +29,6 @@ class LebenslagenController extends AbstractController
     protected $lebenslagenRepository;
 
     /**
-     * injects lebenslagenRepository
-     *
      * @param LebenslagenRepository $lebenslagenRepository
      */
     public function injectLebenslagenRepository(LebenslagenRepository $lebenslagenRepository)

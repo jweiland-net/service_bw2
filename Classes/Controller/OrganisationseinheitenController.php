@@ -34,8 +34,6 @@ class OrganisationseinheitenController extends AbstractController
     protected $leistungenRepository;
 
     /**
-     * inject organisationseinheitenRepository
-     *
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
      */
     public function injectOrganisationseinheitRepository(
@@ -46,8 +44,6 @@ class OrganisationseinheitenController extends AbstractController
     }
 
     /**
-     * inject leistungenRepository
-     *
      * @param LeistungenRepository $leistungenRepository
      */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)

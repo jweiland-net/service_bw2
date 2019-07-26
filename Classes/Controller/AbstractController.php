@@ -39,8 +39,6 @@ abstract class AbstractController extends ActionController
     protected $extensionConfiguration = [];
 
     /**
-     * inject configurationUtility and get service_bw2 configuration
-     *
      * @param ConfigurationUtility $configurationUtility
      */
     public function injectConfigurationUtility(ConfigurationUtility $configurationUtility)

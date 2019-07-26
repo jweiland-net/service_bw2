@@ -36,8 +36,6 @@ class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
     protected $controller;
 
     /**
-     * inject controller
-     *
      * @param AlphabeticalIndexController $controller
      */
     public function injectController(AlphabeticalIndexController $controller)

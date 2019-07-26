@@ -40,8 +40,6 @@ class LeistungenController extends AbstractController
     protected $organisationseinheitenRepository;
 
     /**
-     * inject leistungenRepository
-     *
      * @param LeistungenRepository $leistungenRepository
      */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
@@ -50,8 +48,6 @@ class LeistungenController extends AbstractController
     }
 
     /**
-     * inject externeFormulareRepository
-     *
      * @param ExterneFormulareRepository $externeFormulareRepository
      */
     public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository)
@@ -60,8 +56,6 @@ class LeistungenController extends AbstractController
     }
 
     /**
-     * inject OrganisationseinheitenRepository
-     *
      * @param OrganisationseinheitenRepository $organisationseinheitenRepository
      */
     public function injectOrganisationseinheitenRepository(

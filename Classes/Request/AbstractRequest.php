@@ -123,8 +123,6 @@ abstract class AbstractRequest implements RequestInterface
     protected $cacheTags = [];
 
     /**
-     * inject extConf
-     *
      * @param ExtConf $extConf
      */
     public function injectExtConf(ExtConf $extConf)
@@ -133,8 +131,6 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * inject ObjectManager
-     *
      * @param ObjectManager $objectManager
      */
     public function injectObjectManager(ObjectManager $objectManager)

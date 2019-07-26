@@ -54,8 +54,6 @@ class ServiceBwClient
     protected $cacheInstance;
 
     /**
-     * inject objectManager
-     *
      * @param ObjectManager $objectManager
      */
     public function injectObjectManager(ObjectManager $objectManager)
@@ -64,8 +62,6 @@ class ServiceBwClient
     }
 
     /**
-     * inject registry
-     *
      * @param Registry $registry
      */
     public function injectRegistry(Registry $registry)

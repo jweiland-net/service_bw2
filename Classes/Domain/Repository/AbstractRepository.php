@@ -55,8 +55,6 @@ abstract class AbstractRepository implements SingletonInterface
     ];
 
     /**
-     * inject objectManager
-     *
      * @param ObjectManager $objectManager
      */
     public function injectObjectManager(ObjectManager $objectManager)
@@ -65,8 +63,6 @@ abstract class AbstractRepository implements SingletonInterface
     }
 
     /**
-     * inject serviceBwClient
-     *
      * @param ServiceBwClient $serviceBwClient
      */
     public function injectServiceBwClient(ServiceBwClient $serviceBwClient)
@@ -75,8 +71,6 @@ abstract class AbstractRepository implements SingletonInterface
     }
 
     /**
-     * inject translationService
-     *
      * @param TranslationService $translationService
      */
     public function injectTranslationService(TranslationService $translationService)
