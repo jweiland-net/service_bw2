@@ -47,7 +47,8 @@ class TCAUtility
             'type' => 'select',
             'renderType' => 'selectMultipleSideBySide',
             'itemsProcFunc' => OrganisationseinheitenItems::class . '->getItems',
-            'enableMultiSelectFilterTextfield' => true
+            'enableMultiSelectFilterTextfield' => true,
+            'default' => 0
         ];
         ArrayUtility::mergeRecursiveWithOverrule($fieldTcaConfig, $customSettingOverride);
         return $fieldTcaConfig;
