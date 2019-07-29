@@ -148,7 +148,7 @@ abstract class AbstractRequest implements RequestInterface
 
     /**
      * Returns the mandant
-     * ToDo:Currently only one mandant can be configured. Maybe we will allow multiple mandants with a configuration record or pageTSconfig
+     * ToDo: Currently only one mandant can be configured. Maybe we will allow multiple mandants with a configuration record or pageTSconfig
      *
      * @return string $mandant
      */
