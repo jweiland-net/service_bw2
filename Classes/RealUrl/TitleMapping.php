@@ -61,24 +61,24 @@ class TitleMapping
      * @param EncodeDecoderBase $encodeDecoderBase
      * @return string|null
      */
-public function main(array $parameters, EncodeDecoderBase $encodeDecoderBase)
-{
-    if ($parameters['decodeAlias']) {
-        $this->utility = $this->getUtilityFromDecoder($encodeDecoderBase);
-        $id = $this->decodeTitleToId((string)$parameters['value']);
-        $result = $id !== -1 ? (string)$id : (string)$parameters['value'];
-    } else {
-        $this->utility = $encodeDecoderBase->getUtility();
-        if (MathUtility::canBeInterpretedAsInteger($parameters['value'])) {
-            $result = $this->encodeIdToTitle((int)$parameters['value'], $parameters['pathParts'][0]);
+    public function main(array $parameters, EncodeDecoderBase $encodeDecoderBase)
+    {
+        if ($parameters['decodeAlias']) {
+            $this->utility = $this->getUtilityFromDecoder($encodeDecoderBase);
+            $id = $this->decodeTitleToId((string)$parameters['value']);
+            $result = $id !== -1 ? (string)$id : (string)$parameters['value'];
         } else {
-            // if pathParts is empty the current URL will not be saved!
-            $parameters['pathParts'] = [];
-            $result = null;
+            $this->utility = $encodeDecoderBase->getUtility();
+            if (MathUtility::canBeInterpretedAsInteger($parameters['value'])) {
+                $result = $this->encodeIdToTitle((int)$parameters['value'], $parameters['pathParts'][0]);
+            } else {
+                // if pathParts is empty the current URL will not be saved!
+                $parameters['pathParts'] = [];
+                $result = null;
+            }
         }
+        return $result;
     }
-    return $result;
-}
 
     /**
      * Returns the utility class from url decoder
