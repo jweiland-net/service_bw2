@@ -24,6 +24,7 @@ use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
@@ -58,20 +59,26 @@ class TitleMapping
      *
      * @param array $parameters
      * @param EncodeDecoderBase $encodeDecoderBase
-     * @return string
+     * @return string|null
      */
-    public function main(array $parameters, EncodeDecoderBase $encodeDecoderBase): string
-    {
-        if ($parameters['decodeAlias']) {
-            $this->utility = $this->getUtilityFromDecoder($encodeDecoderBase);
-            $id = $this->decodeTitleToId((string)$parameters['value']);
-            $result = $id !== -1 ? (string)$id : (string)$parameters['value'];
-        } else {
-            $this->utility = $encodeDecoderBase->getUtility();
+public function main(array $parameters, EncodeDecoderBase $encodeDecoderBase)
+{
+    if ($parameters['decodeAlias']) {
+        $this->utility = $this->getUtilityFromDecoder($encodeDecoderBase);
+        $id = $this->decodeTitleToId((string)$parameters['value']);
+        $result = $id !== -1 ? (string)$id : (string)$parameters['value'];
+    } else {
+        $this->utility = $encodeDecoderBase->getUtility();
+        if (MathUtility::canBeInterpretedAsInteger($parameters['value'])) {
             $result = $this->encodeIdToTitle((int)$parameters['value'], $parameters['pathParts'][0]);
+        } else {
+            // if pathParts is empty the current URL will not be saved!
+            $parameters['pathParts'] = [];
+            $result = null;
         }
-        return $result;
     }
+    return $result;
+}
 
     /**
      * Returns the utility class from url decoder
