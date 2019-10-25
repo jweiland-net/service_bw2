@@ -16,7 +16,7 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
         'frontend' => \TYPO3\CMS\Core\Cache\Frontend\StringFrontend::class,
         'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
         'options' => [],
-        'groups' => []
+        'groups' => ['all', 'pages']
     ];
 }
 
