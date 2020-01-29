@@ -1,6 +1,14 @@
-{namespace jw=JWeiland\ServiceBw2\ViewHelpers}
-<f:layout name="default"/>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
+<f:layout name="default" />
+
 <f:section name="main">
-  <jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}" records="{leistungen}"
-                               controller="Leistungen" action="show"/>
+	<jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}"
+															 records="{leistungen}"
+															 controller="Leistungen"
+															 action="show"/>
 </f:section>
+</html>

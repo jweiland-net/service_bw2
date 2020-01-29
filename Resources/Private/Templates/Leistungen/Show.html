@@ -1,20 +1,27 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:layout name="default" />
+
 <f:section name="main">
-  <div class="grid_12 marginbottom">
-    <h1>{leistung.title}</h1>
-  </div>
-  <div class="grid_8 floatleft">
-    <div class="gridright">
-      <f:if condition="{leistung.preamble}">
-        <f:format.html>{leistung.preamble}</f:format.html>
-      </f:if>
-      <f:render partial="Sections" arguments="{sections: leistung.sections}" />
-    </div>
-  </div>
-  <aside class="grid_4 floatleft">
-    <div class="gridleft">
-      <f:render partial="Leistungen/ExterneFormulare" arguments="{externeFormulare: externeFormulare}" />
-      <f:render partial="Leistungen/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheiten}" />
-    </div>
-  </aside>
+	<div class="grid_12 marginbottom">
+		<h1>{leistung.title}</h1>
+	</div>
+	<div class="grid_8 floatleft">
+		<div class="gridright">
+			<f:if condition="{leistung.preamble}">
+				<f:format.html>{leistung.preamble}</f:format.html>
+			</f:if>
+			<f:render partial="Sections" arguments="{sections: leistung.sections}" />
+		</div>
+	</div>
+	<aside class="grid_4 floatleft">
+		<div class="gridleft">
+			<f:render partial="Leistungen/ExterneFormulare" arguments="{externeFormulare: externeFormulare}" />
+			<f:render partial="Leistungen/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheiten}" />
+		</div>
+	</aside>
 </f:section>
+</html>

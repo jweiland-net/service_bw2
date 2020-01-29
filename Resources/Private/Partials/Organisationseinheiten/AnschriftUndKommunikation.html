@@ -1,4 +1,8 @@
-{namespace jw=JWeiland\ServiceBw2\ViewHelpers}
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <dl class="clearfix rulerafter">
 	<f:render partial="Organisationseinheiten/Anschrift"
 						arguments="{anschrift: organisationseinheit.anschrift, kommunikation: organisationseinheit.kommunikation, type: 'HAUSANSCHRIFT', organisationseinheitId: organisationseinheit.id, maps2DetailPageUid: maps2DetailPageUid}"/>
@@ -34,12 +38,12 @@
 <f:if
 condition="{beschreibungstext.organisationseinheit.structuredOpeningHours} || {organisationseinheit.infoOeffnungszeitenText}">
 
-	<f:comment>
+	<f:comment><!--
 		This is a very weird system! Sometimes there is just the old "migrated" openingHours HTML field,
 		then we use this with an unknown HTML structure. In other cases the new structuredOpeningHours field is
 		available and can be used.
 		In later versions of Service BW API this will be changed!
-	</f:comment>
+	--></f:comment>
 	<f:if condition="{beschreibungstext.organisationseinheit.structuredOpeningHours}">
 		<f:then>
 			<jw:openingHours structuredOpeningHours="{beschreibungstext.organisationseinheit.structuredOpeningHours}"/>
@@ -58,3 +62,4 @@ condition="{beschreibungstext.organisationseinheit.structuredOpeningHours} || {o
 		</f:else>
 	</f:if>
 </f:if>
+</html>

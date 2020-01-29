@@ -1,10 +1,18 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:for each="{organisationseinheiten}" as="organisationseinheit">
-  <li>
-    <f:link.action pageUid="{pageUid}" arguments="{id: organisationseinheit.id}" action="show">{organisationseinheit.name}</f:link.action>
-    <f:if condition="{organisationseinheit._children}">
-      <ul class="content_list items extul gridleft">
-        <f:render partial="Organisationseinheiten/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit._children, pageUid: pageUid}"/>
-      </ul>
-    </f:if>
-  </li>
+	<li>
+		<f:link.action pageUid="{pageUid}"
+									 arguments="{id: organisationseinheit.id}"
+									 action="show">{organisationseinheit.name}</f:link.action>
+		<f:if condition="{organisationseinheit._children}">
+			<ul class="content_list items extul gridleft">
+				<f:render partial="Organisationseinheiten/Organisationseinheiten"
+									arguments="{organisationseinheiten: organisationseinheit._children, pageUid: pageUid}"/>
+			</ul>
+		</f:if>
+	</li>
 </f:for>
+</html>
