@@ -23,6 +23,7 @@ use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -118,20 +119,62 @@ class ServiceBwClient
                 $request->getUri(),
                 [
                     'body' => $request->getBody(),
-                    'headers' => $this->getHeaders($request)
+                    'headers' => $this->getHeaders($request),
+                    'http_errors' => false // Do not throw exceptions on 404 responses
                 ]
             );
-            if ($response->getStatusCode() === 200) {
+
+            // Allow Status 200 and 404
+            // 404 has nothing to do with a non available URI, it has more to do with
+            // requested entry was not found in Service BW database
+            if (in_array($response->getStatusCode(), [200, 404], true)) {
                 $body = (string)$response->getBody();
                 foreach ($request->getPostProcessors() as $postProcessor) {
                     if ($postProcessor instanceof PostProcessorInterface) {
                         $body = $postProcessor->process($body);
                     }
                 }
-                $this->cacheInstance->set($cacheIdentifier, \json_encode($body), $request->getCacheTags());
+                if ($this->isValidResponse($body)) {
+                    $this->cacheInstance->set($cacheIdentifier, \json_encode($body), $request->getCacheTags());
+                }
+            } else {
+                throw new \Exception(sprintf(
+                    'It seems that Service BW API is not not available. Status code %d returned',
+                    $response->getStatusCode()
+                ));
             }
         }
         return $body;
+    }
+
+    /**
+     * Check, if pre-processed response is valid for further processing
+     *
+     * @param null|array|string $response
+     * @return bool
+     * @throws \Exception
+     */
+    protected function isValidResponse($response): bool
+    {
+        if (is_string($response)) {
+            // In case of authentication response is string
+            return true;
+        } elseif ($response === null) {
+            // Something went wrong
+            throw new \Exception('Response of service_bw2 Extension was empty. Please check code in ServiceBwClient. Maybe invalid decode of JSON');
+        } elseif (is_array($response)) {
+            // Check array key
+            if (
+                !empty($response)
+                && is_string(key($response))
+                && StringUtility::beginsWith(key($response), 'unknown_')
+            ) {
+                throw new \Exception('The requested data was not found in Service BW Database. Maybe the record is not available in selected language');
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
