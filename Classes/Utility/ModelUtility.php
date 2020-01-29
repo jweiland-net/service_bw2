@@ -15,6 +15,7 @@ namespace JWeiland\ServiceBw2\Utility;
  */
 
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -52,12 +53,14 @@ class ModelUtility
                 try {
                     $record = $organisationseinheitenRepository->getById((int)$id);
                 } catch (\Exception $exception) {
-                    GeneralUtility::sysLog(
+                    $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+                    $logger->error(
                         'Exception in ModelUtility while executing getById() with id' . $id
                         . ': ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' Code: '
                         . $exception->getCode(),
-                        'service_bw2',
-                        GeneralUtility::SYSLOG_SEVERITY_ERROR
+                        [
+                            'extKey' => 'service_bw2'
+                        ]
                     );
                     continue;
                 }
@@ -90,12 +93,14 @@ class ModelUtility
             try {
                 $organisationseinheit = $organisationseinheitenRepository->getById((int)$organisationseinheit);
             } catch (\Exception $exception) {
-                GeneralUtility::sysLog(
+                $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+                $logger->error(
                     'Exception in ModelUtility while executing getById() with id' . $organisationseinheit
                     . ': ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' Code: '
                     . $exception->getCode(),
-                    'service_bw2',
-                    GeneralUtility::SYSLOG_SEVERITY_ERROR
+                    [
+                        'extKey' => 'service_bw2'
+                    ]
                 );
                 $organisationseinheit = [];
             }
