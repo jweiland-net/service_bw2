@@ -13,8 +13,13 @@ ChangeLog
 
 **Version 3.0.0**
 
-- Switched Plugin Namespace in TS from plugin.tx_servicebw2_servicebw to plugin.tx_servicebw2
+- Breaking: Switched Plugin Namespace in TS from plugin.tx_servicebw2_servicebw to plugin.tx_servicebw2
 - Add TypoScriptService to merge filled TS settings into empty FlexForm settings.
+- Add Fluid Namespace to all Fluid Templates
+- Use AbstractViewHelper of Typo3Fluid package
+- Add FlexForm overview to Page->show module
+- Add configuration for newContentElementWizard
+- Move tt_content changing TCA into TCA/Overrides
 
 **Version 2.1.1**
 
