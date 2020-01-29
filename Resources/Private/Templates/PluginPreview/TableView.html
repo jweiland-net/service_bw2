@@ -1,5 +1,4 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
 			data-namespace-typo3-fluid="true">
 
 <table class="table">
@@ -11,29 +10,30 @@
 	</thead>
 	<tbody>
 	<tr>
-		<td><strong>Show A-Z links</strong></td>
+		<td><strong>View</strong></td>
+		<td>{pi_flexform_transformed.switchableControllerActions}</td>
+	</tr>
+	<tr>
+		<td><strong>Orga</strong></td>
 		<td>
-			<f:if condition="{pi_flexform_transformed.settings.showGlossar}">
-				<f:then><core:icon identifier="actions-check" /></f:then>
-				<f:else><core:icon identifier="actions-message-ok-close" /></f:else>
-			</f:if>
+			List: {pi_flexform_transformed.settings.organisationseinheiten.pidOfListPage}<br>
+			Detail: {pi_flexform_transformed.settings.organisationseinheiten.pidOfDetailPage}
 		</td>
 	</tr>
 	<tr>
-		<td><strong>Add All-link</strong></td>
+		<td><strong>Service</strong></td>
 		<td>
-			<f:if condition="{pi_flexform_transformed.settings.showAllLink}">
-				<f:then><core:icon identifier="actions-check" /></f:then>
-				<f:else><core:icon identifier="actions-message-ok-close" /></f:else>
-			</f:if>
+			List: {pi_flexform_transformed.settings.leistungen.pidOfListPage}<br>
+			Detail: {pi_flexform_transformed.settings.leistungen.pidOfDetailPage}
 		</td>
 	</tr>
-	<f:if condition="{pi_flexform_transformed.settings.categories}">
-		<tr>
-			<td><strong>Categories</strong></td>
-			<td>{pi_flexform_transformed.settings.categories}</td>
-		</tr>
-	</f:if>
+	<tr>
+		<td><strong>Living</strong></td>
+		<td>
+			List: {pi_flexform_transformed.settings.lebenslagen.pidOfListPage}<br>
+			Detail: {pi_flexform_transformed.settings.lebenslagen.pidOfDetailPage}
+		</td>
+	</tr>
 	</tbody>
 </table>
 </html>
