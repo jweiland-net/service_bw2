@@ -72,6 +72,17 @@ Take a look into the maps2 documentation for that.
 Upgrade
 -------
 
+Version 3.0.0
+~~~~~~~~~~~~~
+
+We have simplified the Plugin Configuration. That's why you have to change your TS Setup and TS Constants from
+
+plugin.tx_servicebw2_servicebw
+
+to
+
+plugin.tx_servicebw2
+
 Version 2.1.1
 ~~~~~~~~~~~~~
 

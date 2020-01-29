@@ -1,21 +1,34 @@
-plugin.tx_servicebw2_servicebw {
+plugin.tx_servicebw2 {
   view {
     templateRootPaths {
       0 = EXT:service_bw2/Resources/Private/Templates/
-      1 = {$plugin.tx_servicebw2_servicebw.view.templateRootPath}
+      1 = {$plugin.tx_servicebw2.view.templateRootPath}
     }
 
     partialRootPaths {
       0 = EXT:service_bw2/Resources/Private/Partials/
-      1 = {$plugin.tx_servicebw2_servicebw.view.partialRootPath}
+      1 = {$plugin.tx_servicebw2.view.partialRootPath}
     }
 
     layoutRootPaths {
       0 = EXT:service_bw2/Resources/Private/Layouts/
-      1 = {$plugin.tx_servicebw2_servicebw.view.layoutRootPath}
+      1 = {$plugin.tx_servicebw2.view.layoutRootPath}
     }
   }
   settings {
-    overridePageTitle = {$plugin.tx_servicebw2_servicebw.settings.overridePageTitle}
+    overridePageTitle = {$plugin.tx_servicebw2.settings.overridePageTitle}
+
+    organisationseinheiten {
+      pidOfListPage = {$plugin.tx_servicebw2.settings.organisationseinheiten.pidOfListPage}
+      pidOfDetailPage = {$plugin.tx_servicebw2.settings.organisationseinheiten.pidOfDetailPage}
+    }
+    leistungen {
+      pidOfListPage = {$plugin.tx_servicebw2.settings.leistungen.pidOfListPage}
+      pidOfDetailPage = {$plugin.tx_servicebw2.settings.leistungen.pidOfDetailPage}
+    }
+    lebenslagen {
+      pidOfListPage = {$plugin.tx_servicebw2.settings.lebenslagen.pidOfListPage}
+      pidOfDetailPage = {$plugin.tx_servicebw2.settings.lebenslagen.pidOfDetailPage}
+    }
   }
 }
