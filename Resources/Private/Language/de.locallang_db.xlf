@@ -3,9 +3,13 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2" target-language="de">
 		<header/>
 		<body>
-			<trans-unit id="plugin.title">
+			<trans-unit id="plugin.servicebw.title">
 				<source>Service BW</source>
 				<target>Service BW</target>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw.description">
+				<source>This plugin provides the possibility to list and show various kinds of entities of Service BW API onto your website.</source>
+				<target>Dieses Plugin bietet die Möglichkeit an verschiedene Organisationsstrukturen auf der Webseite anzeigen zu lassen.</target>
 			</trans-unit>
 		</body>
 	</file>
