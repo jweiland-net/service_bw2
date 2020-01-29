@@ -15,6 +15,7 @@ namespace JWeiland\ServiceBw2\Client;
  */
 use GuzzleHttp\Client;
 use JWeiland\ServiceBw2\Exception\HttpRequestException;
+use JWeiland\ServiceBw2\Exception\HttpResponseException;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 use JWeiland\ServiceBw2\Request\RequestInterface;
 use JWeiland\ServiceBw2\Request\WsBenutzer\Token;
@@ -100,7 +101,7 @@ class ServiceBwClient
         if ($this->cacheInstance->has($cacheIdentifier)) {
             $body = \json_decode($this->cacheInstance->get($cacheIdentifier), true);
             if ($body === null) {
-                throw new \HttpResponseException(
+                throw new HttpResponseException(
                     'Could not decode the JSON from HTTP response!',
                     1525852462
                 );
