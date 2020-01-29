@@ -90,10 +90,10 @@ class ServiceBwClient
      * Process request
      *
      * @param RequestInterface $request
-     * @return array
+     * @return null|array|string Returns null, if there is no data; returns array in most cases; returns string, if there are no PostProcessors like in Authentication (Bearer)
      * @throws \Exception if request is not valid or could not be decoded!
      */
-    public function processRequest(RequestInterface $request): array
+    public function processRequest(RequestInterface $request)
     {
         $body = null;
         $cacheIdentifier = $this->getCacheIdentifier($request);
