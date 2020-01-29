@@ -1,14 +1,19 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:if condition="{leistungen}">
-  <div class="relations">
-    <h3><f:translate key="organisationseinheit.leistungen" /></h3>
-    <ul class="items extul">
-      <f:for each="{leistungen}" as="leistung">
-        <li class="item extli">
-          <f:link.action pageUid="{leistungenDetailPid}" controller="Leistungen" action="show" arguments="{id: leistung.leistung.id}">
-            {leistung.leistung.displayName}
-          </f:link.action>
-        </li>
-      </f:for>
-    </ul>
-  </div>
+	<div class="relations">
+		<h3><f:translate key="organisationseinheit.leistungen" /></h3>
+		<ul class="items extul">
+			<f:for each="{leistungen}" as="leistung">
+				<li class="item extli">
+					<f:link.action pageUid="{leistungenDetailPid}" controller="Leistungen" action="show" arguments="{id: leistung.leistung.id}">
+						{leistung.leistung.displayName}
+					</f:link.action>
+				</li>
+			</f:for>
+		</ul>
+	</div>
 </f:if>
+</html>

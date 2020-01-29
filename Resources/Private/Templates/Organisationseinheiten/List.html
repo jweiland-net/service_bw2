@@ -1,8 +1,14 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:layout name="default" />
+
 <f:section name="main">
-  <div class="frame-type-menu_sitemap_pages">
-    <ul>
-      <f:render partial="Organisationseinheiten/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheiten, pageUid: settings.organisationseinheiten.pidOfDetailPage}" />
-    </ul>
-  </div>
+	<div class="frame-type-menu_sitemap_pages">
+		<ul>
+			<f:render partial="Organisationseinheiten/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheiten, pageUid: settings.organisationseinheiten.pidOfDetailPage}" />
+		</ul>
+	</div>
 </f:section>
+</html>

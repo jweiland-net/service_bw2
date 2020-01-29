@@ -1,3 +1,7 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:for each="{lebenslagen}" as="lebenslage">
 	<li class="item extli">
 		<f:link.action pageUid="{pageUid}" arguments="{id: lebenslage.id}" action="show">{lebenslage.displayName}</f:link.action>
@@ -8,3 +12,4 @@
 		</f:if>
 	</li>
 </f:for>
+</html>

@@ -1,29 +1,34 @@
-<f:layout name="default"/>
-<f:section name="main">
-  <div class="grid_12 marginbottom">
-    <h1>{lebenslage.displayName}</h1>
-  </div>
-  <div class="grid_8 floatleft">
-    <div class="gridright">
-      <f:format.html>{beschreibungstext.preamble}</f:format.html>
-      <f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
-    </div>
-  </div>
-  <aside class="grid_4 floatleft">
-    <div class="gridleft">
-      <div class="relations">
-        <f:if condition="{childLebenslagen}">
-          <h3><f:translate key="lebenslage.assigned_life_situations" /></h3>
-          <f:render partial="Lebenslagen/Sub" arguments="{childLebenslagen: childLebenslagen}" />
-        </f:if>
-      </div>
-      <div class="relations">
-        <f:if condition="{verfahrenReferences}">
-          <h3><f:translate key="lebenslage.related_verfahren" /></h3>
-          <f:render partial="Lebenslagen/References" arguments="{references: verfahrenReferences}" />
-        </f:if>
-      </div>
-    </div>
-  </aside>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
 
+<f:layout name="default" />
+
+<f:section name="main">
+	<div class="grid_12 marginbottom">
+		<h1>{lebenslage.displayName}</h1>
+	</div>
+	<div class="grid_8 floatleft">
+		<div class="gridright">
+			<f:format.html>{beschreibungstext.preamble}</f:format.html>
+			<f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
+		</div>
+	</div>
+	<aside class="grid_4 floatleft">
+		<div class="gridleft">
+			<div class="relations">
+				<f:if condition="{childLebenslagen}">
+					<h3><f:translate key="lebenslage.assigned_life_situations" /></h3>
+					<f:render partial="Lebenslagen/Sub" arguments="{childLebenslagen: childLebenslagen}" />
+				</f:if>
+			</div>
+			<div class="relations">
+				<f:if condition="{verfahrenReferences}">
+					<h3><f:translate key="lebenslage.related_verfahren" /></h3>
+					<f:render partial="Lebenslagen/References" arguments="{references: verfahrenReferences}" />
+				</f:if>
+			</div>
+		</div>
+	</aside>
 </f:section>
+</html>

@@ -1,35 +1,40 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <div class="indexbar">
-  <ul class="az_list clearfix">
-    <f:for each="{alphabeticalNavigation}" key="letter" as="occur">
-      <li>
-        <f:if condition="{occur}">
-          <f:then>
-            <f:link.page section="initial_{letter}">{letter}</f:link.page>
-          </f:then>
-          <f:else><span>{letter}</span></f:else>
-        </f:if>
-      </li>
-    </f:for>
-  </ul>
+	<ul class="az_list clearfix">
+		<f:for each="{alphabeticalNavigation}" key="letter" as="occur">
+			<li>
+				<f:if condition="{occur}">
+					<f:then>
+						<f:link.page section="initial_{letter}">{letter}</f:link.page>
+					</f:then>
+					<f:else><span>{letter}</span></f:else>
+				</f:if>
+			</li>
+		</f:for>
+	</ul>
 </div>
 <div class="list category_list">
-  <f:for each="{recordList}" key="letter" as="records">
-    <div class="category">
-      <h2 id="initial_{letter}">{letter}</h2>
-    </div>
-    <ul class="items extul">
-      <f:for each="{records}" as="record">
-        <li class="item extli">
-          <f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}"
-                         arguments="{id: record.id}">{record.{titleField}}
-          </f:link.action>
-        </li>
-      </f:for>
-    </ul>
-    <p class="csc-linkToTop">
-      <f:link.page section="top" title="{f:translate(key: 'alphabetical_index.to_top')}">
-        <f:translate key="alphabetical_index.to_top"/>
-      </f:link.page>
-    </p>
-  </f:for>
+	<f:for each="{recordList}" key="letter" as="records">
+		<div class="category">
+			<h2 id="initial_{letter}">{letter}</h2>
+		</div>
+		<ul class="items extul">
+			<f:for each="{records}" as="record">
+				<li class="item extli">
+					<f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}"
+												 arguments="{id: record.id}">{record.{titleField}}
+					</f:link.action>
+				</li>
+			</f:for>
+		</ul>
+		<p class="csc-linkToTop">
+			<f:link.page section="top" title="{f:translate(key: 'alphabetical_index.to_top')}">
+				<f:translate key="alphabetical_index.to_top"/>
+			</f:link.page>
+		</p>
+	</f:for>
 </div>
+</html>

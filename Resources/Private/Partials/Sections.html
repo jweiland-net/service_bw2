@@ -1,6 +1,12 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:for each="{sections}" as="section">
-  <f:if condition="{section.text} != '' && {section.text} != '<p>&nbsp;</p>'">
-    <h2 class="{section.textblockid}">{section.headline}</h2>
-    <f:format.html>{section.text}</f:format.html>
-  </f:if>
+	<f:if condition="{section.text} != '' && {section.text} != '<p>&nbsp;</p>'">
+		<h2 class="{section.textblockid}">{section.headline}</h2>
+		<f:format.html>{section.text}</f:format.html>
+	</f:if>
 </f:for>
+</html>

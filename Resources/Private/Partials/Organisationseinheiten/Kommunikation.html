@@ -1,16 +1,21 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
 <f:for each="{kommunikation}" as="item">
-  <f:if condition="{kanal} == {item.kanal}">
-    <br />
-    <f:switch expression="{item.kanal}">
-      <f:case value="TELEFON">
-        <span aria-hidden="true" class="icon-phone_pf"></span>{item.kennung}
-      </f:case>
-      <f:case value="FAX">
-        <span aria-hidden="true" class="icon-fax_pf"></span>{item.kennung}
-      </f:case>
-      <f:case value="EMAIL">
-        <span aria-hidden="true" class="icon-email"></span><f:link.email email="{item.kennung}"><f:translate key="organisationseinheit.mail"/></f:link.email>
-      </f:case>
-    </f:switch>
-  </f:if>
+	<f:if condition="{kanal} == {item.kanal}">
+		<br />
+		<f:switch expression="{item.kanal}">
+			<f:case value="TELEFON">
+				<span aria-hidden="true" class="icon-phone_pf"></span>{item.kennung}
+			</f:case>
+			<f:case value="FAX">
+				<span aria-hidden="true" class="icon-fax_pf"></span>{item.kennung}
+			</f:case>
+			<f:case value="EMAIL">
+				<span aria-hidden="true" class="icon-email"></span><f:link.email email="{item.kennung}"><f:translate key="organisationseinheit.mail" /></f:link.email>
+			</f:case>
+		</f:switch>
+	</f:if>
 </f:for>
+</html>
