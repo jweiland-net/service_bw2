@@ -11,6 +11,10 @@
 ChangeLog
 =========
 
-Providing a change log chapter is optional. You can also refer
-users to the ChangeLog file inside the extension or to some repository's
-commit listing.
+**Version 2.1.1**
+
+- Remove strict type from processRequest in ServiceBwClient, as this method can also return
+  null, array and string
+- Switch over from StringFrontend to VariableFrontend. You have to clear Cache completely.
+- Update Documentation
+

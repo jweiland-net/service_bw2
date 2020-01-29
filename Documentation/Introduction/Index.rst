@@ -30,7 +30,7 @@ You can integrate the following parts:
 Screenshots
 -----------
 
-   I´ll add some screenshots how the frontend can look like after the TER template is ready!
+I´ll add some screenshots how the frontend can look like after the TER template is ready!
 
 .. =============================
 .. todo: add example screenshots
