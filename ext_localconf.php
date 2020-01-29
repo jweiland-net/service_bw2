@@ -25,6 +25,9 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['service_bw2'] = \JWeiland\ServiceBw2\Hooks\RealUrlAutoConfiguration::class . '->addConfig';
 }
 
+// Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['events2_clearcache'] = \JWeiland\ServiceBw2\Hooks\DataHandler::class . '->clearCachePostProc';
+
 // create scheduler to create/update solr index for service_bw2
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\JWeiland\ServiceBw2\Task\IndexItemsTask::class] = [
     'extension' => 'service_bw2',
