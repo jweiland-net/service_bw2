@@ -16,7 +16,9 @@ namespace JWeiland\ServiceBw2\Tca;
 
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -37,6 +39,11 @@ class OrganisationseinheitenItems implements SingletonInterface
     protected $translationService;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * OrganisationseinheitenItems constructor.
      */
     public function __construct()
@@ -44,6 +51,7 @@ class OrganisationseinheitenItems implements SingletonInterface
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
         $this->translationService = $objectManager->get(TranslationService::class);
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     /**
@@ -58,10 +66,11 @@ class OrganisationseinheitenItems implements SingletonInterface
             $records = $this->organisationseinheitenRepository->getAll();
         } catch (\Exception $e) {
             $processorParameters['items'] = ['Exception: ' . $e->getMessage(), 'exception'];
-            GeneralUtility::sysLog(
+            $this->logger->error(
                 'Could not get organisationseinheiten: ' . $e->getMessage(),
-                'service_bw2',
-                GeneralUtility::SYSLOG_SEVERITY_ERROR
+                [
+                    'extKey' => 'service_bw2'
+                ]
             );
             return;
         }

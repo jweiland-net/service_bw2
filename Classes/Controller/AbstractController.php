@@ -15,9 +15,10 @@ namespace JWeiland\ServiceBw2\Controller;
  */
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -32,11 +33,24 @@ abstract class AbstractController extends ActionController
     protected $extConf;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @param ExtConf $extConf
      */
     public function injectExtConf(ExtConf $extConf)
     {
         $this->extConf = $extConf;
+    }
+
+    /**
+     * @param LogManagerInterface $logManager
+     */
+    public function injectLogger(LogManagerInterface $logManager)
+    {
+        $this->logger = $logManager->getLogger(__CLASS__);
     }
 
     /**
@@ -51,10 +65,11 @@ abstract class AbstractController extends ActionController
             '',
             AbstractMessage::ERROR
         );
-        GeneralUtility::sysLog(
+        $this->logger->error(
             'Got the following exception while fetching records: ' . $exception->getMessage(),
-            'service_bw2',
-            GeneralUtility::SYSLOG_SEVERITY_ERROR
+            [
+                'extKey' => 'service_bw2'
+            ]
         );
     }
 
