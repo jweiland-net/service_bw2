@@ -1,0 +1,16 @@
+mod.wizards.newContentElement.wizardItems.plugins {
+  elements {
+    servicebw {
+      iconIdentifier = ext-servicebw-wizard-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw.description
+      tt_content_defValues {
+        CType = list
+        list_type = servicebw2_servicebw
+      }
+    }
+  }
+}
+
+# Add CType Preview
+mod.web_layout.tt_content.preview.list.servicebw2_servicebw = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
