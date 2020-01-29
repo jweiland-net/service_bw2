@@ -19,7 +19,7 @@ use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 use JWeiland\ServiceBw2\Request\RequestInterface;
 use JWeiland\ServiceBw2\Request\WsBenutzer\Token;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\StringFrontend;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -49,7 +49,7 @@ class ServiceBwClient
     /**
      * Cache instance
      *
-     * @var StringFrontend
+     * @var VariableFrontend
      */
     protected $cacheInstance;
 
