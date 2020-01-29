@@ -15,10 +15,13 @@ namespace JWeiland\ServiceBw2\Controller;
  */
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use JWeiland\ServiceBw2\Service\TypoScriptService;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -51,6 +54,38 @@ abstract class AbstractController extends ActionController
     public function injectLogger(LogManagerInterface $logManager)
     {
         $this->logger = $logManager->getLogger(__CLASS__);
+    }
+
+    /**
+     * Pre configure configuration
+     *
+     * @param ConfigurationManagerInterface $configurationManager
+     * @return void
+     * @throws \Exception
+     */
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+
+        $typoScriptSettings = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
+            'servicebw2',
+            'servicebw2_servicebw' // invalid plugin name, to get fresh unmerged settings
+        );
+        if (empty($typoScriptSettings['settings'])) {
+            throw new \Exception('You have forgotten to add TS-Template of service_bw2', 1580294227);
+        }
+        $mergedFlexFormSettings = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+        );
+
+        // start override
+        $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+        $typoScriptService->override(
+            $mergedFlexFormSettings,
+            $typoScriptSettings['settings']
+        );
+        $this->settings = $mergedFlexFormSettings;
     }
 
     /**
@@ -92,6 +127,15 @@ abstract class AbstractController extends ActionController
     public function initializeAction()
     {
         $this->validateExtConf();
+
+        // if this value was not set, then it will be filled with 0
+        // but that is not good, because UriBuilder accepts 0 as pid, so it's better to set it to NULL
+        $this->settings['organisationseinheiten']['pidOfListPage'] ?: null;
+        $this->settings['organisationseinheiten']['pidOfDetailPage'] ?: null;
+        $this->settings['leistungen']['pidOfListPage'] ?: null;
+        $this->settings['leistungen']['pidOfDetailPage'] ?: null;
+        $this->settings['lebenslagen']['pidOfListPage'] ?: null;
+        $this->settings['lebenslagen']['pidOfDetailPage'] ?: null;
     }
 
     /**
