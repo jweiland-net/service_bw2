@@ -13,47 +13,50 @@ Service BW Extension
 
 .. only:: html
 
-  :Classification:
-    service_bw2
+   :Classification:
+      service_bw2
 
-  :Version:
-    |release|
+   :Version:
+      |release|
 
-  :Language:
-    en
+   :Language:
+      en
 
-  :Description:
+   :Description:
+      This extensions provides the possibility to integrate parts of Service BW (https://www.service-bw.de/) to your
+      website.
 
-  :Keywords:
-    service_bw2,service,bw
+   :Keywords:
+      service_bw2,service,bw
 
-  :Copyright:
-    2018
+   :Copyright:
+      2013-2020
 
-  :Author:
-    Stefan Froemken, Markus Kugler, Pascal Rinker
+   :Author:
+      Stefan Froemken, Markus Kugler, Pascal Rinker
 
-  :Email:
-    projects@jweiland.net
+   :Email:
+      projects@jweiland.net
 
-  :License:
-    This document is published under the Open Content License
-    available from http://www.opencontent.org/opl.shtml
+   :License:
+      This document is published under the Open Content License
+      available from http://www.opencontent.org/opl.shtml
 
-  :Rendered:
-    |today|
+   :Rendered:
+      |today|
 
-  The content of this document is related to TYPO3,
-  a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+      The content of this document is related to TYPO3,
+      a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
 
-  **Table of Contents**
+   **Table of Contents**
 
-.. toctree::
-  :maxdepth: 5
+   .. toctree::
+      :maxdepth: 5
 
-  Introduction/Index
-  User/Index
-  Administrator/Index
-  Developer/Index
-  KnownProblems/Index
-  Links
+      Introduction/Index
+      User/Index
+      Administrator/Index
+      Developer/Index
+      KnownProblems/Index
+      ChangeLog/Index
+      Links

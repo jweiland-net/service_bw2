@@ -39,10 +39,10 @@ List view
 *********
 
 Choose items to display (recursive)
-  Most time it´s not necessary to display all departments with all children in one list.
-  You can define one or more start points with this setting. For example: Your city is a department and all city related
-  departments are children of the city department. In this case you select the city department as starting point to
-  get a cleaner list.
+   Most time it´s not necessary to display all departments with all children in one list.
+   You can define one or more start points with this setting. For example: Your city is a department and all city related
+   departments are children of the city department. In this case you select the city department as starting point to
+   get a cleaner list.
 
 Detail view
 ***********
@@ -51,10 +51,10 @@ This extension has a ext:maps2 integration for departments. The address provided
 create maps2 records for a department.
 
 Where to store maps2 records of Organisationseinheit items?
-  The folder where maps2 records for service_bw2 have to stay.
+   The folder where maps2 records for service_bw2 have to stay.
 
 Detail page for maps2 poi collection
-  The detail page to display maps2 records coming from a department detail view.
+   The detail page to display maps2 records coming from a department detail view.
 
 .. figure:: ../Images/UserManual/OrganisationseinheitDetailViewSettings.jpg
    :width: 500px
@@ -68,13 +68,12 @@ Detail view
 ***********
 
 Region IDs (comma separated list)
-  The region id will be used to display forms (API name: Externe Formulare) by region and service (Leistung)
+   The region id will be used to display forms (API name: Externe Formulare) by region and service (Leistung)
 
 Hide selected assigned life situations
-  In this case assigned life situations are departments (Organisationseinheiten). Maybe you don´t want that
-  your cities "main" department will be listed on every page. Then you can add those department(s) to the list.
+   In this case assigned life situations are departments (Organisationseinheiten). Maybe you don´t want that
+   your cities "main" department will be listed on every page. Then you can add those department(s) to the list.
 
 .. figure:: ../Images/UserManual/ServicesDetailViewSettings.jpg
-  :width: 500px
+   :width: 500px
    :alt: Example settings
-
