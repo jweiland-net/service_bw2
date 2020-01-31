@@ -58,12 +58,12 @@ class Token extends AbstractRequest
     }
 
     /**
-     * get authentication token
+     * Get authentication token
      */
     public function getToken()
     {
         $this->setMethod('POST');
-        $this->setPath('wsbenutzer/token/{benutzername}');
+        $this->setPath('wsbenutzer/token?benutzername={benutzername}');
         $this->addParameter('benutzername', $this->extConf->getUsername());
         $this->setBody($this->extConf->getPassword());
     }

@@ -25,15 +25,15 @@ class ExterneFormulareRepository extends AbstractRepository
      * Get Formulare by Leistung and Region
      *
      * @param int $leistungId of Leistung
-     * @param string $regionIds Region IDs commma separated (e.g. 123,456,789)
+     * @param array $regionIds Region IDs (e.g. [123,456,789])
      * @return array
      * @throws \Exception if request is not valid
      */
-    public function getByLeistungAndRegion(int $leistungId, string $regionIds): array
+    public function getByLeistungAndRegion(int $leistungId, array $regionIds): array
     {
         $request = $this->objectManager->get(ListByLeistungAndRegion::class);
         $request->addParameter('leistungId', $leistungId);
-        $request->addParameter('regionIds', $regionIds);
+        $request->setRegionIds($regionIds);
         $records = $this->serviceBwClient->processRequest($request);
         $this->translationService->translateRecords($records);
         return $records;

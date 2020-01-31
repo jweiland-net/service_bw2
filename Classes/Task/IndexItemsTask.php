@@ -137,7 +137,7 @@ class IndexItemsTask extends AbstractTask
                 ['uid' => $this->pluginTtContentUid]
             )->fetch();
         $flexform = GeneralUtility::xml2array($resultRows['pi_flexform']);
-        return GeneralUtility::trimExplode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF']);
+        return GeneralUtility::trimExplode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF'], true);
     }
 
     /**

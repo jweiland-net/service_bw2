@@ -5,27 +5,35 @@
 		<body>
 			<trans-unit id="username" xml:space="preserve">
 				<source>Username for Service BW API: The username to get a token for further API requests. Normally starts with ws_.</source>
+				<target>Benutzername für die Service BW API: Benutzername, um einen Token zu erhalten, der für weitere API Anfragen wiederverwendet wird. Der Benutzername startet üblicherweise mit ws_</target>
 			</trans-unit>
 			<trans-unit id="password" xml:space="preserve">
 				<source>Password for Service BW API: Password to receive a token, which will be used for further API requests.</source>
+				<target>Passwort für die Service BW API: Passwort, um einen Token zu erhalten, der für weitere API Anfragen wiederverwendet wird.</target>
 			</trans-unit>
 			<trans-unit id="mandant" xml:space="preserve">
 				<source>Mandant: Place the number of the mandant of the city (only BW).</source>
+				<target>Mandant: Tragen Sie hier die Nummer des Mandanten der Stadt (nur BW) ein.</target>
 			</trans-unit>
 			<trans-unit id="baseUrl" xml:space="preserve">
 				<source>URI of Service BW API: To which URI the API requests should be send?. Normally: https://sgw.service-bw.de:443/</source>
+				<target>URI der Service BW API: An welche URI sollen die Anfragen geschickt werden?. Normalerweise: https://sgw.service-bw.de:443/</target>
 			</trans-unit>
 			<trans-unit id="allowedLanguages" xml:space="preserve">
 				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=[sys_language_uid]. Assign multiple languages with ";". Example: de=2;en=5. First value will be used as default language.</source>
+				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code]=[sys_language_uid]. Angabe mehrer Sprachen mit ";". Beispiel: de=2;en=5. Der erste Wert wird immer als Standardwert verwendet.</target>
 			</trans-unit>
 			<trans-unit id="regionIds">
 				<source>Region IDs of city: Cities are mostly separated into sections. Type in each Region ID of these sections. If you don't know these Region IDs, keep this field empty. We will try to find them by AGS or PLZ.</source>
+				<target>IDs der Stadtviertel: Meistens werden Städte in kleinere Regionen/Stadtviertel eingeteilt. Tragen Sie hier die Region ID eines jeden Stadtviertels ein. Falls nicht zur Hand, dann dieses Feld bitte leer lassen. Wir werden dann versuchen die Region IDs auf Basis der AGS oder PLZ zu erhalten.</target>
 			</trans-unit>
 			<trans-unit id="ags">
 				<source>AGS (Official Municipality Key): This value is only needed, if you don't know the Region IDs.</source>
+				<target>AGS (Amtlicher Gemeindeschlüssel): Dieser Wert wird nur benötigt, falls Sie die Region Stadtviertel IDs nicht zu Hand haben.</target>
 			</trans-unit>
 			<trans-unit id="plz">
 				<source>ZIP of your city: If you don't know the Region IDs nor the AGS we will try to fetch all Region IDs by one of your main ZIP.</source>
+				<target>Eine PLZ der Stadt: Falls Sie weder die Stadtviertel IDs noch den AGS zur Hand haben, dann versuchen wir alle Stadtviertel IDs auf Basis der PLZ zu erhalten.</target>
 			</trans-unit>
 		</body>
 	</file>

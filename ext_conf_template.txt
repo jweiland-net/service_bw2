@@ -10,3 +10,7 @@ baseUrl = https://sgw.service-bw.de:443/
 allowedLanguages = de=0;en=1;fr=2
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:regionIds
 regionIds =
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:ags
+ags =
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:plz
+plz =
