@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-9.5.99',
-            'maps2' => '5.0.0-5.99.99'
+            'maps2' => '5.0.0-10.0.0'
         ],
         'conflicts' => [
             'fal_dropbox' => ''

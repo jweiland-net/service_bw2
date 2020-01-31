@@ -140,13 +140,12 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_servicebw2_organisationseinheit');
-        $result = $connection
+        return $connection
             ->select(
                 ['hashed_address', 'tx_maps2_poi'],
                 'tx_servicebw2_organisationseinheit',
                 ['id' => self::$id]
             )->fetch(\PDO::FETCH_ASSOC);
-        return $result;
     }
 
     /**
