@@ -15,8 +15,10 @@ namespace JWeiland\ServiceBw2\Configuration;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JWeiland\ServiceBw2\Domain\Repository\GebieteRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class, which contains the configuration from ExtensionManager
@@ -52,9 +54,19 @@ class ExtConf implements SingletonInterface
     protected $allowedLanguages = [];
 
     /**
+     * @var array
+     */
+    protected $regionIds = [];
+
+    /**
+     * @var int
+     */
+    protected $ags = 0;
+
+    /**
      * @var string
      */
-    protected $regionIds = '';
+    protected $plz = '';
 
     public function __construct()
     {
@@ -76,82 +88,52 @@ class ExtConf implements SingletonInterface
         }
     }
 
-    /**
-     * @return string
-     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     */
     public function setUsername(string $username)
     {
         $this->username = trim($username);
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
     public function setPassword(string $password)
     {
         $this->password = trim($password);
     }
 
-    /**
-     * @return string
-     */
     public function getMandant(): string
     {
         return $this->mandant;
     }
 
-    /**
-     * @param string $mandant
-     */
     public function setMandant(string $mandant)
     {
         $this->mandant = trim($mandant);
     }
 
-    /**
-     * @return string
-     */
     public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
 
-    /**
-     * @param string $baseUrl
-     */
     public function setBaseUrl(string $baseUrl)
     {
         $baseUrl = trim($baseUrl);
         $this->baseUrl = (string)rtrim($baseUrl, '/');
     }
 
-    /**
-     * @return array
-     */
     public function getAllowedLanguages(): array
     {
         return $this->allowedLanguages;
     }
 
-    /**
-     * @param string $allowedLanguages
-     */
     public function setAllowedLanguages(string $allowedLanguages)
     {
         if (preg_match('@^([a-z]{2,2}=\d+;?)+$@', $allowedLanguages)) {
@@ -163,19 +145,50 @@ class ExtConf implements SingletonInterface
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getRegionIds(): string
+    public function getRegionIds(): array
     {
+        if (empty($this->regionIds)) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $gebieteRepository = $objectManager->get(GebieteRepository::class);
+            if ($this->getAgs()) {
+                $this->regionIds = current($gebieteRepository->getRegionIdsByAgs($this->getAgs()));
+            } elseif ($this->getPlz()) {
+                $this->regionIds = current($gebieteRepository->getRegionIdsByPlz($this->getPlz()));
+            }
+        }
         return $this->regionIds;
     }
 
-    /**
-     * @param string $regionIds
-     */
     public function setRegionIds(string $regionIds)
     {
-        $this->regionIds = trim($regionIds);
+        $this->regionIds = GeneralUtility::trimExplode(',', $regionIds, true);
+    }
+
+    public function getAgs(): int
+    {
+        return $this->ags;
+    }
+
+    /**
+     * Amtlicher Gemeindeschluessel
+     *
+     * Sometimes this value is prefixed with 0 with are not valid
+     * for requests. That's why we cast this value to int.
+     *
+     * @param string $ags
+     */
+    public function setAgs(string $ags)
+    {
+        $this->ags = (int)$ags;
+    }
+
+    public function getPlz(): string
+    {
+        return $this->plz;
+    }
+
+    public function setPlz(string $plz)
+    {
+        $this->plz = $plz;
     }
 }

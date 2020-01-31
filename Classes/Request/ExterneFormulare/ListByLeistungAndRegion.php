@@ -24,7 +24,7 @@ class ListByLeistungAndRegion extends AbstractRequest
     /**
      * @var string
      */
-    protected $path = '/externeFormulare/listByLeistungAndRegion?leistungId={leistungId}&regionIds={regionIds}';
+    protected $path = '/externeFormulare/listByLeistungAndRegion?leistungId={leistungId}&{regionIds}';
 
     /**
      * @var array
@@ -39,4 +39,23 @@ class ListByLeistungAndRegion extends AbstractRequest
             'required' => true
         ]
     ];
+
+    /**
+     * RegionIds need a special URL handling.
+     * URL has to look like: leistungId=1813&regionIds=2177&regionIds=1282&regionIds=1923
+     *
+     * @param array $regionIds
+     */
+    public function setRegionIds(array $regionIds)
+    {
+        $this->addParameter(
+            'regionIds',
+            implode(
+                '&',
+                array_map(function($regionId) {
+                    return 'regionIds=' . $regionId;
+                }, $regionIds)
+            )
+        );
+    }
 }
