@@ -159,7 +159,7 @@ class ServiceBwClient
             $arrayKey = key($response);
             if (
                 !empty($response[$arrayKey])
-                && StringUtility::beginsWith($arrayKey,'unknown_')
+                && StringUtility::beginsWith($arrayKey, 'unknown_')
                 && array_key_exists('type', $response[$arrayKey])
                 && $response[$arrayKey]['type'] === 'ERROR'
             ) {
