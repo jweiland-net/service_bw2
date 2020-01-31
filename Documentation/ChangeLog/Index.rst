@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+**Version 3.0.1**
+
+- Region IDs will internally be used as arrays instead of comma separated values
+- If Region IDs are not known you can add AGS or ZIP to help finding Region IDs.
+- Update Documentation
+
 **Version 3.0.0**
 
 - Breaking: Switched Plugin Namespace in TS from plugin.tx_servicebw2_servicebw to plugin.tx_servicebw2

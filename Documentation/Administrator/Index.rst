@@ -64,7 +64,13 @@ Allowed languages
    Assign multiple languages with ";". Example: de=2;en=5. First value will be used as default language.
 
 Region IDs
-   Some API calls require a RegionID. Normally this is a number like 1234.
+   Type in each Region ID of the areas of your city. If you don't know them, please fill AGS or PLZ below.
+
+AGS
+   This is the Official Municipality Key of your city. We need it to find all Region IDs.
+
+ZIP
+   If you don't know the Region IDs not the AGS of your city, you have to insert ONE of your ZIP codes here.
 
 If not already done then you need to configure maps2, because service_bw2 has a maps2 integration for departments.
 Take a look into the maps2 documentation for that.
