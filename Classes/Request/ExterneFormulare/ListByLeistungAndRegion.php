@@ -53,7 +53,7 @@ class ListByLeistungAndRegion extends AbstractRequest
             'regionIds',
             implode(
                 '&',
-                array_map(function($regionId) {
+                array_map(function ($regionId) {
                     return 'regionIds=' . $regionId;
                 }, $regionIds)
             )
