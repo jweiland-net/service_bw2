@@ -172,7 +172,7 @@ class ExtConf implements SingletonInterface
     /**
      * Amtlicher Gemeindeschluessel
      *
-     * Sometimes this value is prefixed with 0 with are not valid
+     * Sometimes this value is prefixed with 0 which is not valid
      * for requests. That's why we cast this value to int.
      *
      * @param string $ags
