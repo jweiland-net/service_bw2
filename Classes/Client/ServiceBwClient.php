@@ -160,14 +160,28 @@ class ServiceBwClient
             if (
                 !empty($response[$arrayKey])
                 && StringUtility::beginsWith($arrayKey, 'unknown_')
-                && array_key_exists('type', $response[$arrayKey])
-                && $response[$arrayKey]['type'] === 'ERROR'
             ) {
-                throw new \Exception(sprintf(
-                    'Service BW API returned an error. Code "%s" with message "%s".',
-                    $response[$arrayKey]['code'],
-                    $response[$arrayKey]['message']
-                ));
+                // "Normal" Error
+                if (
+                    array_key_exists('type', $response[$arrayKey])
+                    && $response[$arrayKey]['type'] === 'ERROR'
+                ) {
+                    throw new \Exception(sprintf(
+                        'Service BW API returned an error. Code "%s" with message "%s".',
+                        $response[$arrayKey]['code'],
+                        $response[$arrayKey]['message']
+                    ));
+                }
+
+                // "Fatal" Error (Exception)
+                if (array_key_exists('error', $response[$arrayKey])) {
+                    throw new \Exception(sprintf(
+                        'Service BW API returned an Exception. Code "%s" with message "%s". Exception: %s',
+                        $response[$arrayKey]['status'],
+                        $response[$arrayKey]['message'],
+                        $response[$arrayKey]['exception']
+                    ));
+                }
             } else {
                 return true;
             }
