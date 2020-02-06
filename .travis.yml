@@ -1,5 +1,8 @@
 language: php
 
+os:
+  - linux
+
 jobs:
   include:
     - stage: test
@@ -18,8 +21,6 @@ jobs:
       php: "7.2"
       env:
         - TYPO3_VERSION=^9
-
-sudo: false
 
 addons:
   apt:
@@ -45,9 +46,7 @@ install:
   - >
     composer config minimum-stability dev;
     composer config prefer-stable true;
-  - while true; do echo "..."; sleep 60; done &
   - composer require typo3/minimal=$TYPO3_VERSION
-  - kill %1
   - mkdir -p .Build/public/typo3conf/ext/
   - if [ ! -L .Build/public/typo3conf/ext/service_bw2 ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/service_bw2; fi
   - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
