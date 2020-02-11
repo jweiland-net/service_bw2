@@ -16,11 +16,11 @@ $EM_CONF[$_EXTKEY] = [
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
     'lockType' => '',
-    'version' => '3.0.3',
+    'version' => '3.0.4',
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-9.5.99',
-            'maps2' => '7.1.3-10.0.0'
+            'maps2' => '8.0.0-0.0.0'
         ],
         'conflicts' => [
             'fal_dropbox' => ''
