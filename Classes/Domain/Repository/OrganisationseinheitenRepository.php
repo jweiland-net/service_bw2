@@ -43,7 +43,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
     public function getAll(): array
     {
         $request = $this->objectManager->get(Roots::class);
-        $records = $this->serviceBwClient->processRequest($request);
+        $records = (array)$this->serviceBwClient->processRequest($request);
         $this->addChildrenToRecords($records);
         $this->translationService->translateRecords($records);
 
@@ -135,8 +135,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
             unset($record[$id]['uebergeordnet']);
         }
         $this->translationService->translateRecords($record, false, true);
-        $record = $record[$id];
-        return $record;
+        return (array)$record[$id];
     }
 
     /**
@@ -152,8 +151,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
         $request->addParameter('id', $id);
         $request->addParameter('lang', $this->translationService->getLanguage());
         $record = $this->serviceBwClient->processRequest($request);
-        $record = $record[$id];
-        return $record;
+        return (array)$record[$id];
     }
 
     /**
@@ -205,7 +203,7 @@ class OrganisationseinheitenRepository extends AbstractRepository
     {
         $request = $this->objectManager->get(Internetadressen::class);
         $request->addParameter('id', $id);
-        $records = $this->serviceBwClient->processRequest($request);
+        $records = (array)$this->serviceBwClient->processRequest($request);
         $this->translationService->translateRecords($records, false, true);
         return $records;
     }
