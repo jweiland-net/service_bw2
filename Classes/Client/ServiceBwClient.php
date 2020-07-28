@@ -1,18 +1,16 @@
 <?php
-namespace JWeiland\ServiceBw2\Client;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Client;
+
 use GuzzleHttp\Client;
 use JWeiland\ServiceBw2\Exception\HttpRequestException;
 use JWeiland\ServiceBw2\Exception\HttpResponseException;
@@ -58,7 +56,7 @@ class ServiceBwClient
     /**
      * @param ObjectManager $objectManager
      */
-    public function injectObjectManager(ObjectManager $objectManager)
+    public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
     }
@@ -66,7 +64,7 @@ class ServiceBwClient
     /**
      * @param Registry $registry
      */
-    public function injectRegistry(Registry $registry)
+    public function injectRegistry(Registry $registry): void
     {
         $this->registry = $registry;
     }
@@ -75,7 +73,7 @@ class ServiceBwClient
      * Initializes this object
      * It starts a first call to Service BW and authenticate
      */
-    public function initializeObject()
+    public function initializeObject(): void
     {
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
         // set auth token in sys_registry
@@ -91,7 +89,7 @@ class ServiceBwClient
      * Process request
      *
      * @param RequestInterface $request
-     * @return null|array|string Returns null, if there is no data; returns array in most cases; returns string, if there are no PostProcessors like in Authentication (Bearer)
+     * @return array|string|null Returns null, if there is no data; returns array in most cases; returns string, if there are no PostProcessors like in Authentication (Bearer)
      * @throws \Exception if request is not valid or could not be decoded!
      */
     public function processRequest(RequestInterface $request)
@@ -143,7 +141,7 @@ class ServiceBwClient
     /**
      * Check, if pre-processed response is valid for further processing
      *
-     * @param null|array|string $response
+     * @param array|string|null $response
      * @return bool
      * @throws \Exception
      */
@@ -152,10 +150,12 @@ class ServiceBwClient
         if (is_string($response)) {
             // In case of authentication response is string
             return true;
-        } elseif ($response === null) {
+        }
+        if ($response === null) {
             // Something went wrong
             throw new \Exception('Response of service_bw2 Extension was empty. Please check code in ServiceBwClient. Maybe invalid decode of JSON');
-        } elseif (is_array($response)) {
+        }
+        if (is_array($response)) {
             $arrayKey = key($response);
             if (
                 !empty($response[$arrayKey])

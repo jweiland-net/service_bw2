@@ -1,18 +1,15 @@
 <?php
-namespace JWeiland\ServiceBw2\Task;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Task;
 
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
@@ -62,7 +59,7 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
         array &$taskInfo,
         $task,
         SchedulerModuleController $schedulerModule
-    ) {
+    ): array {
         foreach ($this->insertFields as $fieldID) {
             if (empty($taskInfo[$fieldID])) {
                 $taskInfo[$fieldID] = $task->$fieldID;
@@ -112,7 +109,7 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
     public function validateAdditionalFields(
         array &$submittedData,
         SchedulerModuleController $schedulerModule
-    ) {
+    ): bool {
         return true;
     }
 
@@ -122,7 +119,7 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
      * @param array $submittedData
      * @param AbstractTask $task
      */
-    public function saveAdditionalFields(array $submittedData, AbstractTask $task)
+    public function saveAdditionalFields(array $submittedData, AbstractTask $task): void
     {
         /** @var IndexItemsTask $task */
         $task->typeToIndex = $submittedData['typeToIndex'];
@@ -137,7 +134,7 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
      * @param string $selected
      * @return string
      */
-    protected function getTypeToIndexOptions($selected = '')
+    protected function getTypeToIndexOptions($selected = ''): string
     {
         $availableTypes = [
             'OrganisationsEinheiten' => OrganisationseinheitenRepository::class,

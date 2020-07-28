@@ -1,18 +1,15 @@
 <?php
-namespace JWeiland\ServiceBw2\Request\WsBenutzer;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Request\WsBenutzer;
 
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 
@@ -51,7 +48,7 @@ class Token extends AbstractRequest
      *
      * Results in something like [readLebenslage, search]
      */
-    public function getScopes()
+    public function getScopes(): void
     {
         $this->setMethod('GET');
         $this->setPath('wsbenutzer/token/scopes');
@@ -60,7 +57,7 @@ class Token extends AbstractRequest
     /**
      * Get authentication token
      */
-    public function getToken()
+    public function getToken(): void
     {
         $this->setMethod('POST');
         $this->setPath('wsbenutzer/token?benutzername={benutzername}');

@@ -1,19 +1,15 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\Domain\Repository;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use JWeiland\ServiceBw2\Request\Lebenslagen\Children;
 use JWeiland\ServiceBw2\Request\Lebenslagen\Id;
@@ -64,7 +60,7 @@ class LebenslagenRepository extends AbstractRepository
      * @param array $records
      * @throws \Exception if request is not valid!
      */
-    protected function addChildrenToRecords(array &$records)
+    protected function addChildrenToRecords(array &$records): void
     {
         if (is_array($records)) {
             foreach ($records as &$record) {
@@ -100,7 +96,7 @@ class LebenslagenRepository extends AbstractRepository
      * @return array
      * @throws \Exception
      */
-    public function getReferences(int $id, string $type)
+    public function getReferences(int $id, string $type): array
     {
         $request = $this->objectManager->get(References::class);
 

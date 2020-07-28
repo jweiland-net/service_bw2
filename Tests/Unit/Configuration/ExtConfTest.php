@@ -1,28 +1,28 @@
 <?php
 
-namespace JWeiland\ServiceBw2\Tests\Unit\Configuration;
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Tests\Unit\Configuration;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Configuration\ExtConf
  */
 class ExtConfTest extends UnitTestCase
 {
+    use ExtensionConfigurationMockTrait;
+
     /**
      * @var ExtConf
      */
@@ -31,15 +31,16 @@ class ExtConfTest extends UnitTestCase
     /**
      * set up.
      */
-    public function setUp()
+    public function setUp(): void
     {
-        $this->subject = new ExtConf();
+        $this->addExtensionConfigurationMockToGeneralUtilityInstances();
+        $this->subject = GeneralUtility::makeInstance(ExtensionConfiguration::class);
     }
 
     /**
      * tear down.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->subject);
     }
@@ -49,7 +50,7 @@ class ExtConfTest extends UnitTestCase
      */
     public function getUsernameInitiallyReturnsEmptyString()
     {
-        $this->assertSame(
+        self::assertSame(
             '',
             $this->subject->getUsername()
         );
@@ -62,7 +63,7 @@ class ExtConfTest extends UnitTestCase
     {
         $this->subject->setUsername('foo bar');
 
-        $this->assertSame(
+        self::assertSame(
             'foo bar',
             $this->subject->getUsername()
         );
@@ -71,27 +72,9 @@ class ExtConfTest extends UnitTestCase
     /**
      * @test
      */
-    public function setUsernameWithIntegerResultsInString()
-    {
-        $this->subject->setUsername(123);
-        $this->assertSame('123', $this->subject->getUsername());
-    }
-
-    /**
-     * @test
-     */
-    public function setUsernameWithBooleanResultsInString()
-    {
-        $this->subject->setUsername(true);
-        $this->assertSame('1', $this->subject->getUsername());
-    }
-
-    /**
-     * @test
-     */
     public function getPasswordInitiallyReturnsEmptyString()
     {
-        $this->assertSame(
+        self::assertSame(
             '',
             $this->subject->getPassword()
         );
@@ -104,7 +87,7 @@ class ExtConfTest extends UnitTestCase
     {
         $this->subject->setPassword('foo bar');
 
-        $this->assertSame(
+        self::assertSame(
             'foo bar',
             $this->subject->getPassword()
         );
@@ -113,27 +96,9 @@ class ExtConfTest extends UnitTestCase
     /**
      * @test
      */
-    public function setPasswordWithIntegerResultsInString()
-    {
-        $this->subject->setPassword(123);
-        $this->assertSame('123', $this->subject->getPassword());
-    }
-
-    /**
-     * @test
-     */
-    public function setPasswordWithBooleanResultsInString()
-    {
-        $this->subject->setPassword(true);
-        $this->assertSame('1', $this->subject->getPassword());
-    }
-
-    /**
-     * @test
-     */
     public function getMandantInitiallyReturnsEmptyString()
     {
-        $this->assertSame(
+        self::assertSame(
             '',
             $this->subject->getMandant()
         );
@@ -146,7 +111,7 @@ class ExtConfTest extends UnitTestCase
     {
         $this->subject->setMandant('foo bar');
 
-        $this->assertSame(
+        self::assertSame(
             'foo bar',
             $this->subject->getMandant()
         );
@@ -155,27 +120,9 @@ class ExtConfTest extends UnitTestCase
     /**
      * @test
      */
-    public function setMandantWithIntegerResultsInString()
-    {
-        $this->subject->setMandant(123);
-        $this->assertSame('123', $this->subject->getMandant());
-    }
-
-    /**
-     * @test
-     */
-    public function setMandantWithBooleanResultsInString()
-    {
-        $this->subject->setMandant(true);
-        $this->assertSame('1', $this->subject->getMandant());
-    }
-
-    /**
-     * @test
-     */
     public function getBaseUrlInitiallyReturnsEmptyString()
     {
-        $this->assertSame(
+        self::assertSame(
             '',
             $this->subject->getBaseUrl()
         );
@@ -188,7 +135,7 @@ class ExtConfTest extends UnitTestCase
     {
         $this->subject->setBaseUrl('foo bar');
 
-        $this->assertSame(
+        self::assertSame(
             'foo bar',
             $this->subject->getBaseUrl()
         );
@@ -197,27 +144,9 @@ class ExtConfTest extends UnitTestCase
     /**
      * @test
      */
-    public function setBaseUrlWithIntegerResultsInString()
-    {
-        $this->subject->setBaseUrl(123);
-        $this->assertSame('123', $this->subject->getBaseUrl());
-    }
-
-    /**
-     * @test
-     */
-    public function setBaseUrlWithBooleanResultsInString()
-    {
-        $this->subject->setBaseUrl(true);
-        $this->assertSame('1', $this->subject->getBaseUrl());
-    }
-
-    /**
-     * @test
-     */
     public function getAllowedLanguagesInitiallyReturnsEmptyArray()
     {
-        $this->assertSame(
+        self::assertSame(
             [],
             $this->subject->getAllowedLanguages()
         );
@@ -230,7 +159,7 @@ class ExtConfTest extends UnitTestCase
     {
         $this->subject->setAllowedLanguages('');
 
-        $this->assertSame(
+        self::assertSame(
             [],
             $this->subject->getAllowedLanguages()
         );
@@ -239,19 +168,10 @@ class ExtConfTest extends UnitTestCase
     /**
      * @test
      */
-    public function setAllowedLanguagesWithIntegerResultsInEmptyArray()
-    {
-        $this->subject->setAllowedLanguages(123);
-        $this->assertSame([], $this->subject->getAllowedLanguages());
-    }
-
-    /**
-     * @test
-     */
     public function setAllowedLanguagesWithInvalidStringResultsInEmptyArray()
     {
         $this->subject->setAllowedLanguages('12?42.fr');
-        $this->assertSame([], $this->subject->getAllowedLanguages());
+        self::assertSame([], $this->subject->getAllowedLanguages());
     }
 
     /**
@@ -260,7 +180,7 @@ class ExtConfTest extends UnitTestCase
     public function setAllowedLanguagesWithViceVersaConfigurationResultsInEmptyArray()
     {
         $this->subject->setAllowedLanguages('0=de;1=en;2=fr');
-        $this->assertSame([], $this->subject->getAllowedLanguages());
+        self::assertSame([], $this->subject->getAllowedLanguages());
     }
 
     /**
@@ -269,7 +189,7 @@ class ExtConfTest extends UnitTestCase
     public function setAllowedLanguageResultsInLanguageArray()
     {
         $this->subject->setAllowedLanguages('de=0');
-        $this->assertSame(
+        self::assertSame(
             [
                 'de' => 0
             ],
@@ -283,7 +203,7 @@ class ExtConfTest extends UnitTestCase
     public function setAllowedLanguagesResultsInLanguageArray()
     {
         $this->subject->setAllowedLanguages('de=0;en=1;fr=2');
-        $this->assertSame(
+        self::assertSame(
             [
                 'de' => 0,
                 'en' => 1,

@@ -1,19 +1,15 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\Controller;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Request\Lebenslagen\References;
@@ -31,7 +27,7 @@ class LebenslagenController extends AbstractController
     /**
      * @param LebenslagenRepository $lebenslagenRepository
      */
-    public function injectLebenslagenRepository(LebenslagenRepository $lebenslagenRepository)
+    public function injectLebenslagenRepository(LebenslagenRepository $lebenslagenRepository): void
     {
         $this->lebenslagenRepository = $lebenslagenRepository;
     }
@@ -39,7 +35,7 @@ class LebenslagenController extends AbstractController
     /**
      * List action
      */
-    public function listAction()
+    public function listAction(): void
     {
         try {
             $records = $this->lebenslagenRepository->getRoots();
@@ -55,7 +51,7 @@ class LebenslagenController extends AbstractController
      *
      * @param int $id
      */
-    public function showAction(int $id)
+    public function showAction(int $id): void
     {
         try {
             $lebenslage = $this->lebenslagenRepository->getById($id);

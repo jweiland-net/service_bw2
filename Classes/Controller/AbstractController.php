@@ -1,18 +1,15 @@
 <?php
-namespace JWeiland\ServiceBw2\Controller;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TypoScriptService;
@@ -43,7 +40,7 @@ abstract class AbstractController extends ActionController
     /**
      * @param ExtConf $extConf
      */
-    public function injectExtConf(ExtConf $extConf)
+    public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
     }
@@ -51,7 +48,7 @@ abstract class AbstractController extends ActionController
     /**
      * @param LogManagerInterface $logManager
      */
-    public function injectLogger(LogManagerInterface $logManager)
+    public function injectLogger(LogManagerInterface $logManager): void
     {
         $this->logger = $logManager->getLogger(__CLASS__);
     }
@@ -60,10 +57,9 @@ abstract class AbstractController extends ActionController
      * Pre configure configuration
      *
      * @param ConfigurationManagerInterface $configurationManager
-     * @return void
      * @throws \Exception
      */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {
         $this->configurationManager = $configurationManager;
 
@@ -93,7 +89,7 @@ abstract class AbstractController extends ActionController
      *
      * @param \Exception $exception
      */
-    protected function addErrorWhileFetchingRecordsMessage(\Exception $exception)
+    protected function addErrorWhileFetchingRecordsMessage(\Exception $exception): void
     {
         $this->addFlashMessage(
             LocalizationUtility::translate('error_message.error_while_fetching_records', 'service_bw2'),
@@ -114,7 +110,7 @@ abstract class AbstractController extends ActionController
      *
      * @param string $title
      */
-    protected function setPageTitle(string $title)
+    protected function setPageTitle(string $title): void
     {
         if ($this->settings['overridePageTitle'] === '1') {
             $this->objectManager->get(PageRenderer::class)->setTitle($title);
@@ -124,7 +120,7 @@ abstract class AbstractController extends ActionController
     /**
      * Initializes the controller before invoking an action method.
      */
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->validateExtConf();
 
@@ -145,7 +141,7 @@ abstract class AbstractController extends ActionController
      *
      * @throws \InvalidArgumentException
      */
-    protected function validateExtConf()
+    protected function validateExtConf(): void
     {
         $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages', 'regionIds'];
         $missingSettings = [];

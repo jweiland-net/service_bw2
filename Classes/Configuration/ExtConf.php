@@ -1,21 +1,18 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\Configuration;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
 
+namespace JWeiland\ServiceBw2\Configuration;
+
 use JWeiland\ServiceBw2\Domain\Repository\GebieteRepository;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -70,19 +67,13 @@ class ExtConf implements SingletonInterface
 
     public function __construct()
     {
-        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2'])) {
-            // get global configuration
-            $extConf = unserialize(
-                $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['service_bw2'],
-                ['allowed_classes' => false]
-            );
-            if (is_array($extConf) && count($extConf)) {
-                // call setter method foreach configuration entry
-                foreach ($extConf as $key => $value) {
-                    $methodName = 'set' . ucfirst($key);
-                    if (method_exists($this, $methodName)) {
-                        $this->$methodName($value);
-                    }
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('service_bw2');
+        if (is_array($extConf) && count($extConf)) {
+            // call setter method foreach configuration entry
+            foreach ($extConf as $key => $value) {
+                $methodName = 'set' . ucfirst($key);
+                if (method_exists($this, $methodName)) {
+                    $this->$methodName($value);
                 }
             }
         }
@@ -93,7 +84,7 @@ class ExtConf implements SingletonInterface
         return $this->username;
     }
 
-    public function setUsername(string $username)
+    public function setUsername(string $username): void
     {
         $this->username = trim($username);
     }
@@ -103,7 +94,7 @@ class ExtConf implements SingletonInterface
         return $this->password;
     }
 
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->password = trim($password);
     }
@@ -113,7 +104,7 @@ class ExtConf implements SingletonInterface
         return $this->mandant;
     }
 
-    public function setMandant(string $mandant)
+    public function setMandant(string $mandant): void
     {
         $this->mandant = trim($mandant);
     }
@@ -123,7 +114,7 @@ class ExtConf implements SingletonInterface
         return $this->baseUrl;
     }
 
-    public function setBaseUrl(string $baseUrl)
+    public function setBaseUrl(string $baseUrl): void
     {
         $baseUrl = trim($baseUrl);
         $this->baseUrl = (string)rtrim($baseUrl, '/');
@@ -134,12 +125,12 @@ class ExtConf implements SingletonInterface
         return $this->allowedLanguages;
     }
 
-    public function setAllowedLanguages(string $allowedLanguages)
+    public function setAllowedLanguages(string $allowedLanguages): void
     {
         if (preg_match('@^([a-z]{2,2}=\d+;?)+$@', $allowedLanguages)) {
             $languageConfigurations = GeneralUtility::trimExplode(';', $allowedLanguages, true);
             foreach ($languageConfigurations as $languageConfiguration) {
-                list($language, $sysLanguageUid) = GeneralUtility::trimExplode('=', $languageConfiguration, true);
+                [$language, $sysLanguageUid] = GeneralUtility::trimExplode('=', $languageConfiguration, true);
                 $this->allowedLanguages[$language] = (int)$sysLanguageUid;
             }
         }
@@ -159,7 +150,7 @@ class ExtConf implements SingletonInterface
         return $this->regionIds;
     }
 
-    public function setRegionIds(string $regionIds)
+    public function setRegionIds(string $regionIds): void
     {
         $this->regionIds = GeneralUtility::trimExplode(',', $regionIds, true);
     }
@@ -177,7 +168,7 @@ class ExtConf implements SingletonInterface
      *
      * @param string $ags
      */
-    public function setAgs(string $ags)
+    public function setAgs(string $ags): void
     {
         $this->ags = (int)$ags;
     }
@@ -187,7 +178,7 @@ class ExtConf implements SingletonInterface
         return $this->plz;
     }
 
-    public function setPlz(string $plz)
+    public function setPlz(string $plz): void
     {
         $this->plz = $plz;
     }

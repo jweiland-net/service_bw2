@@ -1,18 +1,16 @@
 <?php
-namespace JWeiland\ServiceBw2\Request;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Request;
+
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\PostProcessor\JsonPostProcessor;
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
@@ -125,7 +123,7 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * @param ExtConf $extConf
      */
-    public function injectExtConf(ExtConf $extConf)
+    public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
     }
@@ -133,7 +131,7 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * @param ObjectManager $objectManager
      */
-    public function injectObjectManager(ObjectManager $objectManager)
+    public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
     }
@@ -150,9 +148,9 @@ abstract class AbstractRequest implements RequestInterface
      * Returns the mandant
      * ToDo: Currently only one mandant can be configured. Maybe we will allow multiple mandants with a configuration record or pageTSconfig
      *
-     * @return string $mandant
+     * @return string
      */
-    public function getMandant()
+    public function getMandant(): string
     {
         return $this->extConf->getMandant();
     }
@@ -160,9 +158,9 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * Returns the method
      *
-     * @return string $method
+     * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -172,7 +170,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $method
      */
-    public function setMethod($method)
+    public function setMethod($method): void
     {
         $method = trim(strtoupper((string)$method));
         $allowedMethods = ['GET', 'POST', 'PUT'];
@@ -186,7 +184,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @return string $path
      */
-    public function getPath()
+    public function getPath(): string
     {
         return '/' . ltrim(trim($this->path), '/');
     }
@@ -196,7 +194,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $path
      */
-    public function setPath($path)
+    public function setPath($path): void
     {
         $this->path = $path;
     }
@@ -204,9 +202,9 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * Returns the parameters
      *
-     * @return array $parameters
+     * @return array
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         // add parameters with default values, if not set already
         foreach ($this->allowedParameters as $parameter => $configuration) {
@@ -225,7 +223,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param array $parameters
      */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): void
     {
         $this->parameters = [];
         foreach ($parameters as $parameter => $value) {
@@ -239,7 +237,7 @@ abstract class AbstractRequest implements RequestInterface
      * @param string $parameter
      * @param string|int $value
      */
-    public function addParameter($parameter, $value)
+    public function addParameter($parameter, $value): void
     {
         // cast value as defined
         if (array_key_exists($parameter, $this->allowedParameters)) {
@@ -277,7 +275,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $parameter
      */
-    public function removeParameter($parameter)
+    public function removeParameter($parameter): void
     {
         unset($this->parameters[$parameter]);
     }
@@ -287,7 +285,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         $body = '';
         $parameters = $this->getParameters();
@@ -305,7 +303,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $body
      */
-    public function setBody($body)
+    public function setBody($body): void
     {
         $this->body = trim($body);
     }
@@ -315,7 +313,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @return string
      */
-    public function getUri()
+    public function getUri(): string
     {
         return $this->extConf->getBaseUrl() . $this->getPath();
     }
@@ -323,9 +321,9 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * Returns the accept
      *
-     * @return string $accept
+     * @return string
      */
-    public function getAccept()
+    public function getAccept(): string
     {
         return $this->accept;
     }
@@ -335,7 +333,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $accept
      */
-    public function setAccept($accept)
+    public function setAccept($accept): void
     {
         $this->accept = (string)trim($accept);
     }
@@ -345,7 +343,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @return PostProcessorInterface[]
      */
-    public function getPostProcessors()
+    public function getPostProcessors(): array
     {
         $postProcessors = [];
 
@@ -379,7 +377,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @return bool
      */
-    public function isValidRequest()
+    public function isValidRequest(): bool
     {
         $isValid = true;
 
@@ -427,7 +425,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param array $cacheTags
      */
-    public function setCacheTags(array $cacheTags)
+    public function setCacheTags(array $cacheTags): void
     {
         $this->cacheTags = $cacheTags;
     }
@@ -438,7 +436,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @param string $cacheTag
      */
-    public function addCacheTag(string $cacheTag)
+    public function addCacheTag(string $cacheTag): void
     {
         $this->cacheTags[] = $cacheTag;
     }

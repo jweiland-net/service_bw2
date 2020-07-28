@@ -20,8 +20,8 @@
 				<target>URI der Service BW API: An welche URI sollen die Anfragen geschickt werden?. Normalerweise: https://sgw.service-bw.de:443/</target>
 			</trans-unit>
 			<trans-unit id="allowedLanguages" xml:space="preserve">
-				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=[sys_language_uid]. Assign multiple languages with ";". Example: de=2;en=5. First value will be used as default language.</source>
-				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code]=[sys_language_uid]. Angabe mehrer Sprachen mit ";". Beispiel: de=2;en=5. Der erste Wert wird immer als Standardwert verwendet.</target>
+				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</source>
+				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code]=0. Angabe mehrer Sprachen mit ";". Beispiel: de=0;en=0. Der erste Wert wird immer als Standardwert verwendet. Die null ist nur noch aus Kompatibilitätsgründen notwendig.</target>
 			</trans-unit>
 			<trans-unit id="regionIds">
 				<source>Region IDs of city: Cities are mostly separated into sections. Type in each Region ID of these sections. If you don't know these Region IDs, keep this field empty. We will try to find them by AGS or PLZ.</source>

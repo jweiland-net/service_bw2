@@ -1,19 +1,15 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\Controller;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\ExterneFormulareRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
@@ -43,7 +39,7 @@ class LeistungenController extends AbstractController
     /**
      * @param LeistungenRepository $leistungenRepository
      */
-    public function injectLeistungenRepository(LeistungenRepository $leistungenRepository)
+    public function injectLeistungenRepository(LeistungenRepository $leistungenRepository): void
     {
         $this->leistungenRepository = $leistungenRepository;
     }
@@ -51,7 +47,7 @@ class LeistungenController extends AbstractController
     /**
      * @param ExterneFormulareRepository $externeFormulareRepository
      */
-    public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository)
+    public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository): void
     {
         $this->externeFormulareRepository = $externeFormulareRepository;
     }
@@ -61,7 +57,7 @@ class LeistungenController extends AbstractController
      */
     public function injectOrganisationseinheitenRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
-    ) {
+    ): void {
         $this->organisationseinheitenRepository = $organisationseinheitenRepository;
     }
 
@@ -70,7 +66,7 @@ class LeistungenController extends AbstractController
      *
      * @param int $id of Leistung
      */
-    public function showAction(int $id)
+    public function showAction(int $id): void
     {
         $regionIds = $this->extConf->getRegionIds();
         $mandantId = $this->extConf->getMandant();
@@ -99,7 +95,7 @@ class LeistungenController extends AbstractController
     /**
      * List action
      */
-    public function listAction()
+    public function listAction(): void
     {
         try {
             $this->view->assign('leistungen', $this->leistungenRepository->getAll());

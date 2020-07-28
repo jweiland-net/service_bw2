@@ -1,21 +1,19 @@
 <?php
-namespace JWeiland\ServiceBw2\Service;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -43,7 +41,7 @@ class TranslationService implements SingletonInterface
     /**
      * @param ExtConf $extConf
      */
-    public function injectExtConf(ExtConf $extConf)
+    public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
     }
@@ -51,7 +49,7 @@ class TranslationService implements SingletonInterface
     /**
      * Initialize object
      */
-    public function initializeObject()
+    public function initializeObject(): void
     {
         $this->language = $this->getFrontendLanguageIsoCode();
     }
@@ -72,8 +70,8 @@ class TranslationService implements SingletonInterface
         $allowedLanguages = $this->extConf->getAllowedLanguages();
         $language = '';
         // Set current frontend language if TSFE is initialized
-        if ($typoScriptFrontendController instanceof TypoScriptFrontendController) {
-            $language = $typoScriptFrontendController->sys_language_isocode;
+        if ($GLOBALS['TYPO3_REQUEST']->getAttribute('language') instanceof SiteLanguage) {
+            $language = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getTwoLetterIsoCode();
         }
         // Set default language if current $language is not in $allowedLanguages
         if (!array_key_exists($language, $allowedLanguages)) {
@@ -90,7 +88,7 @@ class TranslationService implements SingletonInterface
      * @param bool $translateChildren translates entries inside _children by default, set true to enable
      * @param bool $translateRecursive
      */
-    public function translateRecords(array &$records, bool $translateChildren = false, bool $translateRecursive = false)
+    public function translateRecords(array &$records, bool $translateChildren = false, bool $translateRecursive = false): void
     {
         foreach ($records as &$record) {
             $record = $this->translate($record, $translateRecursive);
@@ -185,7 +183,7 @@ class TranslationService implements SingletonInterface
      *
      * @param string $language
      */
-    public function setLanguage(string $language)
+    public function setLanguage(string $language): void
     {
         $this->language = $language;
     }

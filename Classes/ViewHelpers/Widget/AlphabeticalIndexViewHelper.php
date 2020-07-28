@@ -1,19 +1,15 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\ViewHelpers\Widget;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\ViewHelpers\Widget;
 
 use JWeiland\ServiceBw2\ViewHelpers\Widget\Controller\AlphabeticalIndexController;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
@@ -39,7 +35,7 @@ class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
     /**
      * @param AlphabeticalIndexController $controller
      */
-    public function injectController(AlphabeticalIndexController $controller)
+    public function injectController(AlphabeticalIndexController $controller): void
     {
         $this->controller = $controller;
     }
@@ -47,7 +43,7 @@ class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('detailPageUid', 'string', 'UID of the detail page uid for a record', true);
         $this->registerArgument(
@@ -87,7 +83,7 @@ class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
     /**
      * @return \TYPO3\CMS\Extbase\Mvc\ResponseInterface
      */
-    public function render()
+    public function render(): \TYPO3\CMS\Extbase\Mvc\ResponseInterface
     {
         return $this->initiateSubRequest();
     }
