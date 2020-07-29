@@ -15,6 +15,7 @@ use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TranslationService;
 use JWeiland\ServiceBw2\Tests\Unit\Configuration\ExtensionConfigurationMockTrait;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -37,6 +38,8 @@ class TranslationServiceTest extends UnitTestCase
         $this->addExtensionConfigurationMockToGeneralUtilityInstances();
         $extConf = GeneralUtility::makeInstance(ExtConf::class);
         $extConf->setAllowedLanguages('de=0;en=1;fr=2');
+
+        $GLOBALS['TYPO3_REQUEST'] = new ServerRequest();
 
         $this->subject = new TranslationService();
         $this->subject->injectExtConf($extConf);

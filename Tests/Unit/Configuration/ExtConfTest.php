@@ -13,7 +13,6 @@ namespace JWeiland\ServiceBw2\Tests\Unit\Configuration;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -34,7 +33,7 @@ class ExtConfTest extends UnitTestCase
     public function setUp(): void
     {
         $this->addExtensionConfigurationMockToGeneralUtilityInstances();
-        $this->subject = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        $this->subject = GeneralUtility::makeInstance(ExtConf::class);
     }
 
     /**
