@@ -1,19 +1,15 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\Service;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Service;
 
 use ApacheSolrForTypo3\Solr\IndexQueue\Item;
 use JWeiland\ServiceBw2\Indexer\Indexer;
@@ -33,10 +29,7 @@ class SolrIndexService
      */
     protected $alreadyIndexed = [];
 
-    /**
-     * @param Indexer $indexer
-     */
-    public function injectIndexer(Indexer $indexer)
+    public function injectIndexer(Indexer $indexer): void
     {
         $this->indexer = $indexer;
     }
@@ -48,7 +41,7 @@ class SolrIndexService
      * @param string $type
      * @param int $rootPageUid
      */
-    public function indexRecords(array $records, string $type, int $rootPageUid)
+    public function indexRecords(array $records, string $type, int $rootPageUid): void
     {
         foreach ($records as $key => $record) {
             if ($record && !in_array($record['id'], $this->alreadyIndexed, true) && $this->indexRecord($record, $type, $rootPageUid)) {
@@ -107,7 +100,7 @@ class SolrIndexService
      * @param string $type
      * @param int $rootPage
      */
-    public function indexerDeleteByType(string $type, $rootPage)
+    public function indexerDeleteByType(string $type, $rootPage): void
     {
         $tsfe = $GLOBALS['TSFE'];
         $this->indexer->deleteItemsByType($type, $rootPage);

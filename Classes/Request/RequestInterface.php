@@ -1,18 +1,16 @@
 <?php
-namespace JWeiland\ServiceBw2\Request;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Request;
+
 use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
 
 /**
@@ -33,56 +31,56 @@ interface RequestInterface
      *
      * @return string $mandant
      */
-    public function getMandant();
+    public function getMandant(): string;
 
     /**
      * Returns the method
      *
      * @return string $method
      */
-    public function getMethod();
+    public function getMethod(): string;
 
     /**
      * Returns the uri
      *
      * @return string $method
      */
-    public function getUri();
+    public function getUri(): string;
 
     /**
      * Returns the parameters
      *
      * @return array $parameters
      */
-    public function getParameters();
+    public function getParameters(): array;
 
     /**
      * Returns the body
      *
      * @return string $body
      */
-    public function getBody();
+    public function getBody(): string;
 
     /**
      * Returns the accept
      *
      * @return string $accept
      */
-    public function getAccept();
+    public function getAccept(): string;
 
     /**
      * Returns the postProcessors
      *
      * @return PostProcessorInterface[]
      */
-    public function getPostProcessors();
+    public function getPostProcessors(): array;
 
     /**
      * Checks, if this request is valid
      *
      * @return bool
      */
-    public function isValidRequest();
+    public function isValidRequest(): bool;
 
     /**
      * Returns CacheTags
@@ -97,7 +95,7 @@ interface RequestInterface
      *
      * @param array $cacheTags
      */
-    public function setCacheTags(array $cacheTags);
+    public function setCacheTags(array $cacheTags): void;
 
     /**
      * Adds a cache tag
@@ -105,7 +103,7 @@ interface RequestInterface
      *
      * @param string $cacheTag
      */
-    public function addCacheTag(string $cacheTag);
+    public function addCacheTag(string $cacheTag): void;
 
     /**
      * Removes a cache tag

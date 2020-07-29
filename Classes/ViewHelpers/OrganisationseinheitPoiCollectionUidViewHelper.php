@@ -1,19 +1,15 @@
 <?php
-declare(strict_types = 1);
-namespace JWeiland\ServiceBw2\ViewHelpers;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\ViewHelpers;
 
 use JWeiland\Maps2\Domain\Model\Position;
 use JWeiland\Maps2\Service\GeoCodeService;
@@ -68,7 +64,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     /**
      * Initializes the arguments
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('id', 'int', 'id of the organisationseinheit', true);
     }
@@ -76,7 +72,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     /**
      * @param int $organisationseinheitId
      */
-    public static function init(int $organisationseinheitId)
+    public static function init(int $organisationseinheitId): void
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
@@ -94,13 +90,13 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      * @param array $arguments
      * @param \Closure $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
-     * @return string
+     * @return int
      */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): int {
         self::init($arguments['id']);
         try {
             $organisationseinheit = self::$organisationseinheitenRepository->getById($arguments['id']);
@@ -154,7 +150,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      * @param string $hashedAddress
      * @param int $txMaps2Poi
      */
-    protected static function updatePoiRelation(string $hashedAddress, int $txMaps2Poi)
+    protected static function updatePoiRelation(string $hashedAddress, int $txMaps2Poi): void
     {
         $data = ['hashed_address' => $hashedAddress, 'tx_maps2_poi' => $txMaps2Poi];
         GeneralUtility::makeInstance(ConnectionPool::class)
@@ -168,7 +164,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      * @param string $hashedAddress
      * @param int $txMaps2Poi
      */
-    protected static function createPoiRelation(string $hashedAddress, int $txMaps2Poi)
+    protected static function createPoiRelation(string $hashedAddress, int $txMaps2Poi): void
     {
         $data = ['id' => self::$id, 'hashed_address' => $hashedAddress, 'tx_maps2_poi' => $txMaps2Poi];
         GeneralUtility::makeInstance(ConnectionPool::class)

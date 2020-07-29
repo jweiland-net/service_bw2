@@ -1,28 +1,30 @@
 <?php
-namespace JWeiland\ServiceBw2\Tests\Unit\Service;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the service_bw2 project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\ServiceBw2\Tests\Unit\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TranslationService;
+use JWeiland\ServiceBw2\Tests\Unit\Configuration\ExtensionConfigurationMockTrait;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Service\TranslationService
  */
 class TranslationServiceTest extends UnitTestCase
 {
+    use ExtensionConfigurationMockTrait;
+
     /**
      * @var TranslationService
      */
@@ -31,10 +33,13 @@ class TranslationServiceTest extends UnitTestCase
     /**
      * set up.
      */
-    public function setUp()
+    public function setUp(): void
     {
-        $extConf = new ExtConf();
+        $this->addExtensionConfigurationMockToGeneralUtilityInstances();
+        $extConf = GeneralUtility::makeInstance(ExtConf::class);
         $extConf->setAllowedLanguages('de=0;en=1;fr=2');
+
+        $GLOBALS['TYPO3_REQUEST'] = new ServerRequest();
 
         $this->subject = new TranslationService();
         $this->subject->injectExtConf($extConf);
@@ -44,7 +49,7 @@ class TranslationServiceTest extends UnitTestCase
     /**
      * tear down.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->subject);
     }
@@ -57,7 +62,7 @@ class TranslationServiceTest extends UnitTestCase
         $data = [];
         $this->subject->translateRecords($data);
 
-        $this->assertSame(
+        self::assertSame(
             [],
             $data
         );
@@ -84,7 +89,7 @@ class TranslationServiceTest extends UnitTestCase
         ];
         $this->subject->translateRecords($data);
 
-        $this->assertSame(
+        self::assertSame(
             [
                 0 => [
                     'title' => 'Kategorie'
@@ -129,7 +134,7 @@ class TranslationServiceTest extends UnitTestCase
         ];
         $this->subject->translateRecords($data);
 
-        $this->assertSame(
+        self::assertSame(
             [
                 0 => [
                     'firstName' => 'Stefan',

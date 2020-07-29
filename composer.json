@@ -28,12 +28,12 @@
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^8.7 || ^9.5",
+		"typo3/cms-core": "^9.5.18 || ^10.4.3",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^2.0",
-		"nimut/testing-framework": "^4.1"
+		"friendsofphp/php-cs-fixer": "^2.14",
+		"nimut/testing-framework": "^5.1"
 	},
 	"autoload": {
 		"psr-4": {
@@ -46,15 +46,18 @@
 		}
 	},
 	"config": {
-		"vendor-dir": ".Build/vendor",
-		"bin-dir": ".Build/bin"
+		"vendor-dir": ".build/vendor"
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "service_bw2",
-			"cms-package-dir": "{$vendor-dir}/typo3/cms",
-			"app-dir": ".Build",
-			"web-dir": ".Build/public"
+			"app-dir": ".build",
+			"web-dir": ".build/public"
 		}
+	},
+	"scripts": {
+		"php:fix": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix Classes Tests",
+		"ci:php:lint": "find *.php Classes Configuration Tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix --dry-run -v --show-progress=dots --diff-format=udiff Classes Tests",
+		"ci:tests:unit": ".build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit"
 	}
 }
