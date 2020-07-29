@@ -36,25 +36,16 @@ class LeistungenController extends AbstractController
      */
     protected $organisationseinheitenRepository;
 
-    /**
-     * @param LeistungenRepository $leistungenRepository
-     */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository): void
     {
         $this->leistungenRepository = $leistungenRepository;
     }
 
-    /**
-     * @param ExterneFormulareRepository $externeFormulareRepository
-     */
     public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository): void
     {
         $this->externeFormulareRepository = $externeFormulareRepository;
     }
 
-    /**
-     * @param OrganisationseinheitenRepository $organisationseinheitenRepository
-     */
     public function injectOrganisationseinheitenRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
     ): void {

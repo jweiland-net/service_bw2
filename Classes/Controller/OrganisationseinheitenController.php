@@ -29,18 +29,12 @@ class OrganisationseinheitenController extends AbstractController
      */
     protected $leistungenRepository;
 
-    /**
-     * @param OrganisationseinheitenRepository $organisationseinheitenRepository
-     */
     public function injectOrganisationseinheitRepository(
         OrganisationseinheitenRepository $organisationseinheitenRepository
     ): void {
         $this->organisationseinheitenRepository = $organisationseinheitenRepository;
     }
 
-    /**
-     * @param LeistungenRepository $leistungenRepository
-     */
     public function injectLeistungenRepository(LeistungenRepository $leistungenRepository): void
     {
         $this->leistungenRepository = $leistungenRepository;

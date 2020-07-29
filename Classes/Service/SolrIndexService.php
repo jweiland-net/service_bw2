@@ -29,9 +29,6 @@ class SolrIndexService
      */
     protected $alreadyIndexed = [];
 
-    /**
-     * @param Indexer $indexer
-     */
     public function injectIndexer(Indexer $indexer): void
     {
         $this->indexer = $indexer;

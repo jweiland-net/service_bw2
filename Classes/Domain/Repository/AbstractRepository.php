@@ -40,25 +40,16 @@ abstract class AbstractRepository implements SingletonInterface
      */
     protected $translationService;
 
-    /**
-     * @param ObjectManager $objectManager
-     */
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * @param ServiceBwClient $serviceBwClient
-     */
     public function injectServiceBwClient(ServiceBwClient $serviceBwClient): void
     {
         $this->serviceBwClient = $serviceBwClient;
     }
 
-    /**
-     * @param TranslationService $translationService
-     */
     public function injectTranslationService(TranslationService $translationService): void
     {
         $this->translationService = $translationService;

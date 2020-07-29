@@ -37,28 +37,16 @@ abstract class AbstractController extends ActionController
      */
     protected $logger;
 
-    /**
-     * @param ExtConf $extConf
-     */
     public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
     }
 
-    /**
-     * @param LogManagerInterface $logManager
-     */
     public function injectLogger(LogManagerInterface $logManager): void
     {
         $this->logger = $logManager->getLogger(__CLASS__);
     }
 
-    /**
-     * Pre configure configuration
-     *
-     * @param ConfigurationManagerInterface $configurationManager
-     * @throws \Exception
-     */
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {
         $this->configurationManager = $configurationManager;

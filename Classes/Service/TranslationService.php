@@ -38,9 +38,6 @@ class TranslationService implements SingletonInterface
      */
     protected $translationField = 'i18n';
 
-    /**
-     * @param ExtConf $extConf
-     */
     public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;

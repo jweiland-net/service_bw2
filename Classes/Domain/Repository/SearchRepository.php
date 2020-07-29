@@ -24,9 +24,6 @@ class SearchRepository extends AbstractRepository
      */
     protected $extConf;
 
-    /**
-     * @param ExtConf $extConf
-     */
     public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;

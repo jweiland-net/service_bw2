@@ -120,17 +120,11 @@ abstract class AbstractRequest implements RequestInterface
      */
     protected $cacheTags = [];
 
-    /**
-     * @param ExtConf $extConf
-     */
     public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
     }
 
-    /**
-     * @param ObjectManager $objectManager
-     */
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
