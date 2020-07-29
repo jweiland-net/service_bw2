@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\ViewHelpers\Widget;
 
 use JWeiland\ServiceBw2\ViewHelpers\Widget\Controller\AlphabeticalIndexController;
+use TYPO3\CMS\Extbase\Mvc\ResponseInterface;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
 
 /**
@@ -32,9 +33,6 @@ class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
      */
     protected $controller;
 
-    /**
-     * @param AlphabeticalIndexController $controller
-     */
     public function injectController(AlphabeticalIndexController $controller): void
     {
         $this->controller = $controller;
@@ -80,10 +78,7 @@ class AlphabeticalIndexViewHelper extends AbstractWidgetViewHelper
         );
     }
 
-    /**
-     * @return \TYPO3\CMS\Extbase\Mvc\ResponseInterface
-     */
-    public function render(): \TYPO3\CMS\Extbase\Mvc\ResponseInterface
+    public function render(): ResponseInterface
     {
         return $this->initiateSubRequest();
     }

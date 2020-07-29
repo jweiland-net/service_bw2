@@ -53,17 +53,11 @@ class ServiceBwClient
      */
     protected $cacheInstance;
 
-    /**
-     * @param ObjectManager $objectManager
-     */
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * @param Registry $registry
-     */
     public function injectRegistry(Registry $registry): void
     {
         $this->registry = $registry;
