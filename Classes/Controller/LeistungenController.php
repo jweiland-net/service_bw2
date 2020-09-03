@@ -75,7 +75,7 @@ class LeistungenController extends AbstractController
         }
         $organisationseinheiten = ServiceBwUtility::removeItemsFromArray(
             $organisationseinheiten,
-            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'])
+            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'] ?? '')
         );
         $this->setPageTitle($leistung['title']);
         $this->view->assign('leistung', $leistung);
