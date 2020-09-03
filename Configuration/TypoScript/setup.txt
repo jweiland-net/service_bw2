@@ -25,6 +25,7 @@ plugin.tx_servicebw2 {
     leistungen {
       pidOfListPage = {$plugin.tx_servicebw2.settings.leistungen.pidOfListPage}
       pidOfDetailPage = {$plugin.tx_servicebw2.settings.leistungen.pidOfDetailPage}
+      hideSelectedOrganisationseinheiten =
     }
     lebenslagen {
       pidOfListPage = {$plugin.tx_servicebw2.settings.lebenslagen.pidOfListPage}
