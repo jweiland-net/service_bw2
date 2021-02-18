@@ -53,4 +53,7 @@ call_user_func(function () {
         'description' => 'Re-Generate solr index for service_bw2',
         'additionalFields' => \JWeiland\ServiceBw2\Task\IndexItemsTaskAdditionalFieldProvider::class
     ];
+
+    // Register an Aspect to map various ID of Service BW API to uid-title
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ServiceBwTitleMapper'] = \JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper::class;
 });

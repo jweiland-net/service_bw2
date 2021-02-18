@@ -11,6 +11,15 @@
 ChangeLog
 =========
 
+**Version 4.0.1**
+
+- Add missing Aspect Mapper for RouteEnhancer
+
+**Version 4.0.0**
+
+- Remove TYPO3 8 compatibility
+- Add TYPO3 10 compatibility
+
 **Version 3.0.1**
 
 - Region IDs will internally be used as arrays instead of comma separated values
