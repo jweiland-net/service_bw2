@@ -36,7 +36,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  *         _arguments:
  *           lebenslage: id
  *       -
- *         routePath: '/service-bw/organisationseinheiten/show/{leistung}'
+ *         routePath: '/service-bw/leistungen/show/{leistung}'
  *         _controller: 'Leistungen::show'
  *         _arguments:
  *           leistung: id
