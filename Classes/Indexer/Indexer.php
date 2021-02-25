@@ -24,10 +24,6 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
      * @param Item $item
      * @param int $language
      * @return bool
-     * @throws \Apache_Solr_HttpTransportException
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     * @throws \UnexpectedValueException
      */
     protected function indexItem(Item $item, $language = 0): bool
     {
@@ -50,7 +46,7 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
         $documents = $this->processDocuments($item, $documents);
         $documents = $this->preAddModifyDocuments($item, $language, $documents);
 
-        $response = $this->solr->addDocuments($documents);
+        $response = $this->solr->getWriteService()->addDocuments($documents);
         if ($response->getHttpStatus() === 200) {
             $itemIndexed = true;
         }
@@ -69,6 +65,6 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
     public function deleteItemsByType(string $type, int $rootPageId): void
     {
         $this->solr = $this->connectionManager->getConnectionByRootPageId($rootPageId);
-        $this->solr->deleteByType($type);
+        $this->solr->getWriteService()->deleteByType($type);
     }
 }
