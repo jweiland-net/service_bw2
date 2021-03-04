@@ -53,6 +53,7 @@
 			"dev-master": "4.0.x-dev"
 		},
 		"typo3/cms": {
+			"extension-key": "service_bw2",
 			"app-dir": ".build",
 			"web-dir": ".build/public"
 		}
