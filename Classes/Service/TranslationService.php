@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Service;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -62,19 +63,23 @@ class TranslationService implements SingletonInterface
      */
     protected function getFrontendLanguageIsoCode(): string
     {
-        /** @var TypoScriptFrontendController $typoScriptFrontendController */
-        $typoScriptFrontendController = $GLOBALS['TSFE'];
         $allowedLanguages = $this->extConf->getAllowedLanguages();
-        $language = '';
-        // Set current frontend language if TSFE is initialized
-        if ($GLOBALS['TYPO3_REQUEST']->getAttribute('language') instanceof SiteLanguage) {
-            $language = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getTwoLetterIsoCode();
+        reset($allowedLanguages);
+
+        // Set a default for CLI requests
+        $language = key($allowedLanguages);
+
+        // Override language, if we are in a web request
+        if (
+            $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface
+            && $GLOBALS['TYPO3_REQUEST']->getAttribute('language') instanceof SiteLanguage
+        ) {
+            $currentLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getTwoLetterIsoCode();
+            if (array_key_exists($currentLanguage, $allowedLanguages)) {
+                $language = $currentLanguage;
+            }
         }
-        // Set default language if current $language is not in $allowedLanguages
-        if (!array_key_exists($language, $allowedLanguages)) {
-            reset($allowedLanguages);
-            $language = key($allowedLanguages);
-        }
+
         return $language;
     }
 
