@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         typo3: [^9.5, ^10.4]
-        php: ['7.3', '7.4']
+        php: ['7.4']
 
     steps:
       - name: Checkout
@@ -17,7 +17,6 @@ jobs:
 
       - name: Set up PHP Version ${{ matrix.php }}
         run: |
-          sudo update-alternatives --config php
           sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
           php -v
 
