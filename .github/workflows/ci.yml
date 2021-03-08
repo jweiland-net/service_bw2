@@ -17,6 +17,7 @@ jobs:
 
       - name: Set up PHP Version ${{ matrix.php }}
         run: |
+          sudo update-alternatives --config php
           sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
           php -v
 
