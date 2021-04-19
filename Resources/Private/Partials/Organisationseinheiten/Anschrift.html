@@ -3,12 +3,16 @@
 			data-namespace-typo3-fluid="true"
 >
 
-<f:for each="{anschrift}" as="anschriftItem">
+<f:for each="{organisationseinheit.anschriften}" as="anschriftItem">
 	<f:if condition="{anschriftItem.type} == {type}">
-		<dt>
+		<dt class="margin-top">
 			<f:translate key="organisationseinheit.anschrift.{type}"/>
 		</dt>
-		<dd class="{f:if(condition: '{anschriftItem.type} == \'HAUSANSCHRIFT\'', then: 'noborder grid_8 floatleft')}">
+		<dd>
+			<f:if condition="{anschriftItem.postfach}">
+				{anschriftItem.postfach}
+				<br />
+			</f:if>
 			<f:if condition="{anschriftItem.strasse} && {anschriftItem.hausnummer}">
 				{anschriftItem.strasse} {anschriftItem.hausnummer}
 				<br/>
@@ -17,10 +21,13 @@
 				{anschriftItem.postleitzahl} {anschriftItem.ort}
 			</f:if>
 		</dd>
+
 		<f:if condition="{anschriftItem.type} == 'HAUSANSCHRIFT'">
+			<dd>
 				<f:render partial="Organisationseinheiten/Maps2Poi"
-									arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(id: \'{organisationseinheitId}\')}', detailPageUid: maps2DetailPageUid}"
+									arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(organisationseinheit: \'{organisationseinheit}\')}', detailPageUid: maps2DetailPageUid}"
 				/>
+			</dd>
 		</f:if>
 	</f:if>
 </f:for>

@@ -4,18 +4,21 @@
 
 <f:for each="{kommunikation}" as="item">
 	<f:if condition="{kanal} == {item.kanal}">
-		<br />
-		<f:switch expression="{item.kanal}">
-			<f:case value="TELEFON">
-				<span aria-hidden="true" class="icon-phone_pf"></span>{item.kennung}
-			</f:case>
-			<f:case value="FAX">
-				<span aria-hidden="true" class="icon-fax_pf"></span>{item.kennung}
-			</f:case>
-			<f:case value="EMAIL">
-				<span aria-hidden="true" class="icon-email"></span><f:link.email email="{item.kennung}"><f:translate key="organisationseinheit.mail" /></f:link.email>
-			</f:case>
-		</f:switch>
+		<dd class="icon-text">
+			<f:switch expression="{item.kanal}">
+				<f:case value="TELEFON">
+					<i class="fal fa-phone-alt fa-lg fa-fw" aria-hidden="true"></i><a href="tel:{item.kennung}">
+					<span itemprop="telephone">{item.kennung}</span>
+				</a>
+				</f:case>
+				<f:case value="FAX">
+					<i class="fal fa-fax fa-lg fa-fw" aria-hidden="true"></i><span>{item.kennung}</span>
+				</f:case>
+				<f:case value="EMAIL">
+					<i class="fal fa-envelope fa-lg fa-fw" aria-hidden="true"></i><f:link.email email="{item.kennung}"><f:translate key="organisationseinheit.mail" /></f:link.email>
+				</f:case>
+			</f:switch>
+		</dd>
 	</f:if>
 </f:for>
 </html>

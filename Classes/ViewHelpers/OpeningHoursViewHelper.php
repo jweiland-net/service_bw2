@@ -59,7 +59,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        $this->registerArgument('structuredOpeningHours', 'array', 'Opening hours array', true);
+        $this->registerArgument('oeffnungszeitenStrukturiert', 'array', 'Opening hours array', true);
     }
 
     /**
@@ -86,9 +86,9 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             'TELEFONISCHE_ERREICHBARKEIT',
         ];
         // This array inlcudes an array from type ALLGEMEINE_OEFFNUNGSZEIT
-        foreach ($arguments['structuredOpeningHours'] as $structuredOpeningHours) {
-            if (isset($structuredOpeningHours['type'])) {
-                if (in_array($structuredOpeningHours['type'], $allowedTypes, true)) {
+        foreach ($arguments['oeffnungszeitenStrukturiert'] as $structuredOpeningHours) {
+            if (isset($structuredOpeningHours['typ'])) {
+                if (in_array($structuredOpeningHours['typ'], $allowedTypes, true)) {
                     $html[] = self::getStructuredOpeningHoursHTML($structuredOpeningHours);
                 }
             }
@@ -120,7 +120,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             $html[] = '<dl class="extdl clearfix">';
             $html[] = '<dt>';
             $html[] = LocalizationUtility::translate(
-                'organisationseinheit.opening_hours.' . $structuredOpeningHours['type'],
+                'organisationseinheit.opening_hours.' . $structuredOpeningHours['typ'],
                 'service_bw2'
             );
             $html[] = '</dt>';
@@ -172,8 +172,8 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             if (
                 array_key_exists('tagesposition', $regulaereZeitenDay)
                 && array_key_exists('tagestyp', $regulaereZeitenDay)
-                && array_key_exists('start', $regulaereZeitenDay)
-                && array_key_exists('end', $regulaereZeitenDay)
+                && array_key_exists('beginn', $regulaereZeitenDay)
+                && array_key_exists('ende', $regulaereZeitenDay)
             ) {
                 // Opening hours monday to friday forenoon
                 if ($regulaereZeitenDay['tagestyp'] === 'ARBEITSTAG_MO_FR') {
@@ -197,6 +197,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      */
     protected static function getRegulaereZeitenHours(array $regulaereZeiten): string
     {
-        return date('H:i', $regulaereZeiten['start'] / 1000) . ' - ' . date('H:i', $regulaereZeiten['end'] / 1000);
+        return date('H:i', $regulaereZeiten['beginn'] / 1000) . ' - ' . date('H:i', $regulaereZeiten['ende'] / 1000);
     }
 }

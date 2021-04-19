@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
-use JWeiland\ServiceBw2\Request\Lebenslagen\References;
+use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 
 /**
  * Class LebenslagenController
@@ -20,13 +19,13 @@ use JWeiland\ServiceBw2\Request\Lebenslagen\References;
 class LebenslagenController extends AbstractController
 {
     /**
-     * @var LebenslagenRepository
+     * @var Lebenslagen
      */
-    protected $lebenslagenRepository;
+    protected $lebenslagen;
 
-    public function injectLebenslagenRepository(LebenslagenRepository $lebenslagenRepository): void
+    public function __construct(Lebenslagen $lebenslagen)
     {
-        $this->lebenslagenRepository = $lebenslagenRepository;
+        $this->lebenslagen = $lebenslagen;
     }
 
     /**
@@ -34,13 +33,7 @@ class LebenslagenController extends AbstractController
      */
     public function listAction(): void
     {
-        try {
-            $records = $this->lebenslagenRepository->getRoots();
-        } catch (\Exception $exception) {
-            $this->addErrorWhileFetchingRecordsMessage($exception);
-            return;
-        }
-        $this->view->assign('lebenslagen', $records);
+        $this->view->assign('lebenslagenbaum', $this->lebenslagen->findLebenslagenbaum());
     }
 
     /**
@@ -50,19 +43,8 @@ class LebenslagenController extends AbstractController
      */
     public function showAction(int $id): void
     {
-        try {
-            $lebenslage = $this->lebenslagenRepository->getById($id);
-            $childLebenslagen = $this->lebenslagenRepository->getChildren($id);
-            $liveLebenslage = $this->lebenslagenRepository->getLiveLebenslagen($id);
-            $verfahrenReferences = $this->lebenslagenRepository->getReferences($id, References::TYPE_LEISTUNG);
-        } catch (\Exception $exception) {
-            $this->addErrorWhileFetchingRecordsMessage($exception);
-            return;
-        }
-        $this->setPageTitle($lebenslage['displayName']);
+        $lebenslage = $this->lebenslagen->findById($id);
         $this->view->assign('lebenslage', $lebenslage);
-        $this->view->assign('childLebenslagen', $childLebenslagen);
-        $this->view->assign('beschreibungstext', $liveLebenslage);
-        $this->view->assign('verfahrenReferences', $verfahrenReferences);
+        $this->setPageTitle($lebenslage['name']);
     }
 }

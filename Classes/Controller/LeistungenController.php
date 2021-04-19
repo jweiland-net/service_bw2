@@ -11,10 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Domain\Repository\ExterneFormulareRepository;
-use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
-use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
+use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\ServiceBwClient;
 
 /**
  * Class LeistungenController
@@ -22,34 +20,13 @@ use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 class LeistungenController extends AbstractController
 {
     /**
-     * @var LeistungenRepository
+     * @var Leistungen
      */
-    protected $leistungenRepository;
+    protected $leistungen;
 
-    /**
-     * @var ExterneFormulareRepository
-     */
-    protected $externeFormulareRepository;
-
-    /**
-     * @var OrganisationseinheitenRepository
-     */
-    protected $organisationseinheitenRepository;
-
-    public function injectLeistungenRepository(LeistungenRepository $leistungenRepository): void
+    public function __construct(Leistungen $leistungen)
     {
-        $this->leistungenRepository = $leistungenRepository;
-    }
-
-    public function injectExterneFormulareRepository(ExterneFormulareRepository $externeFormulareRepository): void
-    {
-        $this->externeFormulareRepository = $externeFormulareRepository;
-    }
-
-    public function injectOrganisationseinheitenRepository(
-        OrganisationseinheitenRepository $organisationseinheitenRepository
-    ): void {
-        $this->organisationseinheitenRepository = $organisationseinheitenRepository;
+        $this->leistungen = $leistungen;
     }
 
     /**
@@ -59,28 +36,14 @@ class LeistungenController extends AbstractController
      */
     public function showAction(int $id): void
     {
-        $regionIds = $this->extConf->getRegionIds();
-        $mandantId = $this->extConf->getMandant();
-        try {
-            $leistung = $this->leistungenRepository->getLiveById($id);
-            $externeFormulare = $this->externeFormulareRepository->getByLeistungAndRegion($id, $regionIds);
-            $organisationseinheiten = $this->organisationseinheitenRepository->getRecordsByLeistungAndRegionId(
-                $id,
-                $regionIds,
-                $mandantId
-            );
-        } catch (\Exception $exception) {
-            $this->addErrorWhileFetchingRecordsMessage($exception);
-            return;
-        }
-        $organisationseinheiten = ServiceBwUtility::removeItemsFromArray(
-            $organisationseinheiten,
-            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'] ?? '')
-        );
-        $this->setPageTitle($leistung['title']);
+        $leistung = $this->leistungen->findById($id);
+        // todo: remove langauge labels, flexform setting, ...
+//        $organisationseinheiten = ServiceBwUtility::removeItemsFromArray(
+//            $organisationseinheiten,
+//            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'] ?? '')
+//        );
+        $this->setPageTitle($leistung['name']);
         $this->view->assign('leistung', $leistung);
-        $this->view->assign('externeFormulare', $externeFormulare);
-        $this->view->assign('organisationseinheiten', $organisationseinheiten);
     }
 
     /**
@@ -88,10 +51,6 @@ class LeistungenController extends AbstractController
      */
     public function listAction(): void
     {
-        try {
-            $this->view->assign('leistungen', $this->leistungenRepository->getAll());
-        } catch (\Exception $exception) {
-            $this->addErrorWhileFetchingRecordsMessage($exception);
-        }
+        $this->view->assign('leistungen', $this->leistungen->findAll());
     }
 }

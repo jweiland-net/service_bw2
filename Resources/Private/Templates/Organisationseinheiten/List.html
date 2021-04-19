@@ -5,10 +5,12 @@
 <f:layout name="default" />
 
 <f:section name="main">
-	<div class="frame-type-menu_sitemap_pages">
-		<ul>
-			<f:render partial="Organisationseinheiten/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheiten, pageUid: settings.organisationseinheiten.pidOfDetailPage}" />
-		</ul>
+	<!--TYPO3SEARCH_end-->
+	<div class="frame-indent">
+		<f:for each="{organisationseinheitenbaum}" as="organisationseinheitenbaumItem">
+			<f:render partial="Organisationseinheiten/Organisationseinheitenbaum" arguments="{organisationseinheitenbaum: organisationseinheitenbaumItem, pageUid: settings.organisationseinheiten.pidOfDetailPage}"/>
+		</f:for>
 	</div>
+	<!--TYPO3SEARCH_begin-->
 </f:section>
 </html>

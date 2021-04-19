@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Configuration;
 
-use JWeiland\ServiceBw2\Domain\Repository\GebieteRepository;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class, which contains the configuration from ExtensionManager
@@ -51,11 +49,6 @@ class ExtConf implements SingletonInterface
     protected $allowedLanguages = [];
 
     /**
-     * @var array
-     */
-    protected $regionIds = [];
-
-    /**
      * @var int
      */
     protected $ags = 0;
@@ -63,7 +56,7 @@ class ExtConf implements SingletonInterface
     /**
      * @var string
      */
-    protected $plz = '';
+    protected $gebietId = '';
 
     public function __construct()
     {
@@ -136,25 +129,6 @@ class ExtConf implements SingletonInterface
         }
     }
 
-    public function getRegionIds(): array
-    {
-        if (empty($this->regionIds)) {
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $gebieteRepository = $objectManager->get(GebieteRepository::class);
-            if ($this->getAgs()) {
-                $this->regionIds = current($gebieteRepository->getRegionIdsByAgs($this->getAgs()));
-            } elseif ($this->getPlz()) {
-                $this->regionIds = current($gebieteRepository->getRegionIdsByPlz($this->getPlz()));
-            }
-        }
-        return $this->regionIds;
-    }
-
-    public function setRegionIds(string $regionIds): void
-    {
-        $this->regionIds = GeneralUtility::trimExplode(',', $regionIds, true);
-    }
-
     public function getAgs(): int
     {
         return $this->ags;
@@ -173,13 +147,19 @@ class ExtConf implements SingletonInterface
         $this->ags = (int)$ags;
     }
 
-    public function getPlz(): string
+    /**
+     * @return string
+     */
+    public function getGebietId(): string
     {
-        return $this->plz;
+        return $this->gebietId;
     }
 
-    public function setPlz(string $plz): void
+    /**
+     * @param string $gebietId
+     */
+    public function setGebietId(string $gebietId): void
     {
-        $this->plz = $plz;
+        $this->gebietId = $gebietId;
     }
 }

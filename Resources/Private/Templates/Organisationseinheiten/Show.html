@@ -5,23 +5,31 @@
 <f:layout name="default" />
 
 <f:section name="main">
-	<div class="grid_12 marginbottom">
-		<h1>{organisationseinheit.name}</h1>
-	</div>
-	<div class="grid_6 floatleft">
-		<div class="gridright">
-			<f:if condition="{beschreibungstext.preamble}">
-				<f:format.html>{beschreibungstext.preamble}</f:format.html>
+	<div class="grid">
+		<div class="col-12">
+			<h1>{organisationseinheit.name}</h1>
+		</div>
+		<aside class="col-4_md-12">
+			<div class="infobox">
+				<f:render partial="Organisationseinheiten/AnschriftUndKommunikation" arguments="{organisationseinheit: organisationseinheit, maps2DetailPageUid: settings.organisationseinheiten.maps2DetailPage}" />
+			</div>
+		</aside>
+		<div class="col-8_md-12 float-right">
+			<f:render partial="Textbloecke" arguments="{textbloecke: organisationseinheit.textbloecke}" />
+			<f:if condition="{organisationseinheit.leistungen}">
+				<h2><f:translate key="organisationseinheit.leistungen" /></h2>
+				<f:render partial="Leistungen" arguments="{leistungen: organisationseinheit.leistungen}" />
 			</f:if>
-			<f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
-			<f:render partial="Organisationseinheiten/Leistungen" arguments="{leistungen: leistungen, leistungenDetailPid: settings.leistungen.pidOfDetailPage}" />
-			<f:render partial="Organisationseinheiten/Children" arguments="{children: children, detailPageUid: settings.organisationseinheiten.pidOfDetailPage}" />
+			<f:if condition="{organisationseinheit.kontaktpersonen}">
+					<h2><f:translate key="organisationseinheit.kontaktpersonen" /></h2>
+					<f:render partial="Organisationseinheiten/Kontaktpersonen" arguments="{kontaktpersonen: organisationseinheit.kontaktpersonen}" />
+			</f:if>
+			<f:render partial="Formulare" arguments="{formulare: organisationseinheit.formulare}" />
+			<f:if condition="{organisationseinheit.untergeordneteOEs}">
+				<h2><f:translate key="organisationseinheit.children"/></h2>
+				<f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit.untergeordneteOEs}" />
+			</f:if>
 		</div>
 	</div>
-	<aside class="grid_6 floatleft">
-		<div class="gridleft rulerbefore4">
-			<f:render partial="Organisationseinheiten/AnschriftUndKommunikation" arguments="{organisationseinheit: organisationseinheit, maps2DetailPageUid: settings.organisationseinheiten.maps2DetailPage, beschreibungstext: beschreibungstext, internetadressen: internetadressen}" />
-		</div>
-	</aside>
 </f:section>
 </html>

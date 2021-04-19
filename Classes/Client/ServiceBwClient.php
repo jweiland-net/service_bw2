@@ -11,28 +11,45 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Client;
 
-use GuzzleHttp\Client;
-use JWeiland\ServiceBw2\Exception\HttpRequestException;
-use JWeiland\ServiceBw2\Exception\HttpResponseException;
-use JWeiland\ServiceBw2\PostProcessor\PostProcessorInterface;
-use JWeiland\ServiceBw2\Request\RequestInterface;
-use JWeiland\ServiceBw2\Request\WsBenutzer\Token;
+use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
+use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Registry;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
- * Class ServiceBwClient
+ *  Request class to be used for all Service BW API request classes
  */
-class ServiceBwClient
+class ServiceBwClient implements SingletonInterface
 {
+    protected const DEFAULT_PAGINATION_CONFIGURATION = [
+        'nextItem' => 'nextPage',
+        'pageParameter' => 'page',
+        'pageSizeParameter' => 'pageSize',
+        'pageSize' => 1000
+    ];
+
+    protected const DEFAULT_LOCALIZATION_CONFIGURATION = [
+        'headerParameter' => 'Accept-Language'
+    ];
+
+    protected $path = '';
+
+    protected $isPaginatedRequest = false;
+    protected $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
+
+    protected $isLocalizedRequest = false;
+    protected $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
+
     /**
-     * @var ObjectManager
+     * @var RequestFactory
      */
-    protected $objectManager;
+    protected $requestFactory;
 
     /**
      * @var Registry
@@ -40,181 +57,158 @@ class ServiceBwClient
     protected $registry;
 
     /**
-     * Guzzle Client
-     *
-     * @var Client
+     * @var ExtConf
      */
-    protected $client;
+    protected $extConf;
 
     /**
-     * Cache instance
-     *
-     * @var VariableFrontend
+     * @var FrontendInterface
      */
-    protected $cacheInstance;
+    protected $cache;
 
-    public function injectObjectManager(ObjectManager $objectManager): void
+    /**
+     * @param RequestFactory $requestFactory
+     * @param Registry $registry
+     * @param TokenHelper $tokenHelper
+     * @param ExtConf $extConf
+     */
+    public function __construct(RequestFactory $requestFactory, Registry $registry, TokenHelper $tokenHelper, ExtConf $extConf)
     {
-        $this->objectManager = $objectManager;
-    }
-
-    public function injectRegistry(Registry $registry): void
-    {
+        $this->requestFactory = $requestFactory;
         $this->registry = $registry;
-    }
+        $this->extConf = $extConf;
+        $this->cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
 
-    /**
-     * Initializes this object
-     * It starts a first call to Service BW and authenticate
-     */
-    public function initializeObject(): void
-    {
-        $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
-        // set auth token in sys_registry
         if (!$this->registry->get('ServiceBw', 'token', false)) {
-            /** @var Token $request */
-            $request = $this->objectManager->get(Token::class);
-            $request->getToken();
-            $this->registry->set('ServiceBw', 'token', $this->processRequest($request));
+            $tokenHelper->fetchAndSaveToken();
         }
     }
 
     /**
-     * Process request
-     *
-     * @param RequestInterface $request
-     * @return array|string|null Returns null, if there is no data; returns array in most cases; returns string, if there are no PostProcessors like in Authentication (Bearer)
-     * @throws \Exception if request is not valid or could not be decoded!
-     */
-    public function processRequest(RequestInterface $request)
-    {
-        $body = null;
-        $cacheIdentifier = $this->getCacheIdentifier($request);
-        // Check if current request is cached
-        if ($this->cacheInstance->has($cacheIdentifier)) {
-            $body = \json_decode($this->cacheInstance->get($cacheIdentifier), true);
-            if ($body === null) {
-                throw new HttpResponseException(
-                    'Could not decode the JSON from HTTP response!',
-                    1525852462
-                );
-            }
-        } else {
-            if (!$request->isValidRequest()) {
-                throw new HttpRequestException('Request not valid', 1513940893);
-            }
-            if ($this->client === null) {
-                $this->client = GeneralUtility::makeInstance(Client::class);
-            }
-            $response = $this->client->request(
-                $request->getMethod(),
-                $request->getUri(),
-                [
-                    'body' => $request->getBody(),
-                    'headers' => $this->getHeaders($request),
-                    'http_errors' => false // Do not throw exceptions on 404 responses
-                ]
-            );
-
-            // Do not check against status code, as this value has nothing to do with reachability of the URI.
-            // It has more to do with: entity was found (200), entity not found (404) and you don't
-            // have access to entity (403).
-            $body = (string)$response->getBody();
-            foreach ($request->getPostProcessors() as $postProcessor) {
-                if ($postProcessor instanceof PostProcessorInterface) {
-                    $body = $postProcessor->process($body);
-                }
-            }
-            if ($this->isValidResponse($body)) {
-                $this->cacheInstance->set($cacheIdentifier, \json_encode($body), $request->getCacheTags());
-            }
-        }
-        return $body;
-    }
-
-    /**
-     * Check, if pre-processed response is valid for further processing
-     *
-     * @param array|string|null $response
-     * @return bool
-     * @throws \Exception
-     */
-    protected function isValidResponse($response): bool
-    {
-        if (is_string($response)) {
-            // In case of authentication response is string
-            return true;
-        }
-        if ($response === null) {
-            // Something went wrong
-            throw new \Exception('Response of service_bw2 Extension was empty. Please check code in ServiceBwClient. Maybe invalid decode of JSON');
-        }
-        if (is_array($response)) {
-            $arrayKey = key($response);
-            if (
-                !empty($response[$arrayKey])
-                && StringUtility::beginsWith($arrayKey, 'unknown_')
-            ) {
-                // "Normal" Error
-                if (
-                    array_key_exists('type', $response[$arrayKey])
-                    && $response[$arrayKey]['type'] === 'ERROR'
-                ) {
-                    throw new \Exception(sprintf(
-                        'Service BW API returned an error. Code "%s" with message "%s".',
-                        $response[$arrayKey]['code'],
-                        $response[$arrayKey]['message']
-                    ));
-                }
-
-                // "Fatal" Error (Exception)
-                if (array_key_exists('error', $response[$arrayKey])) {
-                    throw new \Exception(sprintf(
-                        'Service BW API returned an Exception. Code "%s" with message "%s". Exception: %s',
-                        $response[$arrayKey]['status'],
-                        $response[$arrayKey]['message'],
-                        $response[$arrayKey]['exception']
-                    ));
-                }
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get headers for request
-     *
-     * @param RequestInterface $request
+     * @param string $path
+     * @param array $getParameters
+     * @param bool $isLocalizedRequest
+     * @param bool $isPaginatedRequest
+     * @param string|null $body
+     * @param array $overridePaginationConfiguration
+     * @param array $overrideLocalizationConfiguration
      * @return array
      */
-    protected function getHeaders(RequestInterface $request): array
+    public function request(
+        string $path,
+        array $getParameters = [],
+        bool $isLocalizedRequest = true,
+        bool $isPaginatedRequest = false,
+        ?string $body = null,
+        array $overridePaginationConfiguration = [],
+        array $overrideLocalizationConfiguration = []
+    ): array
     {
-        $headers = [];
-        $headers['X-SP-Mandant'] = $request->getMandant();
-        if ($request->getAccept()) {
-            $headers['Accept'] = $request->getAccept();
-            if ($request->getAccept() === 'text/plain') {
-                $headers['Content-Type'] = 'text/plain';
-            }
-        }
-        $token = $this->registry->get('ServiceBw', 'token');
-        if (!empty($token)) {
-            $headers['Authorization'] = $token;
+        $cacheIdentifier = md5(json_encode(func_get_args()));
+        if (!$this->cache->has($cacheIdentifier)) {
+            $this->path = $path;
+            $this->isPaginatedRequest = $isPaginatedRequest;
+            $this->isLocalizedRequest = $isLocalizedRequest;
+            $this->paginationConfiguration = array_merge(self::DEFAULT_PAGINATION_CONFIGURATION, $overridePaginationConfiguration);
+            $this->localizationConfiguration = array_merge(self::DEFAULT_LOCALIZATION_CONFIGURATION, $overrideLocalizationConfiguration);
+
+            $query = array_merge(
+                $this->getQueryForDefaultParameters(),
+                $getParameters,
+                $isPaginatedRequest ? $this->getQueryForPaginatedRequest() : []
+            );
+
+            $items = [];
+            do {
+                $response = $this->requestFactory->request(
+                    $this->extConf->getBaseUrl() . $this->path,
+                    'GET',
+                    [
+                        'headers' => $this->getHeaders(),
+                        'body' => $body,
+                        'query' => $query
+                    ]
+                );
+
+                $responseBody = (array)json_decode($response->getBody()->getContents(), true);
+
+                $isNextPageSet = false;
+                if ($isPaginatedRequest) {
+                    if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
+                        $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
+                    }
+                    $items = array_merge($items, $responseBody['items']);
+                }
+
+            } while($isPaginatedRequest && $isNextPageSet);
+
+            $this->cache->set($cacheIdentifier, $isPaginatedRequest ? $items : $responseBody, ['service_bw2_request']);
         }
 
+        return $this->cache->get($cacheIdentifier);
+    }
+
+    protected function getHeaders(): array
+    {
+        $headers = [
+            'Authorization' => $this->registry->get('ServiceBw', 'token', '')
+        ];
+        if ($this->isLocalizedRequest) {
+            $localizationHelper = GeneralUtility::makeInstance(ObjectManager::class)->get(LocalizationHelper::class);
+            $headers[$this->localizationConfiguration['headerParameter']] = $localizationHelper->getFrontendLanguageIsoCode();
+        }
         return $headers;
     }
 
-    /**
-     * Get a unique cache identifier for request
-     *
-     * @param RequestInterface $request
-     * @return string
-     */
-    protected function getCacheIdentifier(RequestInterface $request): string
+    protected function getQueryForPaginatedRequest(): array
     {
-        return md5(serialize($request));
+        return [
+            $this->paginationConfiguration['pageParameter'] => 0,
+            $this->paginationConfiguration['pageSizeParameter'] => $this->paginationConfiguration['pageSize']
+        ];
+    }
+
+    protected function getQueryForDefaultParameters(): array
+    {
+        $query = ['mandantId' => $this->extConf->getMandant()];
+        if ($this->extConf->getAgs()) {
+            $query['gebietAgs'] = $this->extConf->getAgs();
+        }
+        if ($this->extConf->getGebietId()) {
+            $query['gebietId'] = $this->extConf->getGebietId();
+        }
+        return $query;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPaginationConfiguration(): array
+    {
+        return $this->paginationConfiguration;
+    }
+
+    /**
+     * @param array $paginationConfiguration
+     */
+    public function setPaginationConfiguration(array $paginationConfiguration): void
+    {
+        $this->paginationConfiguration = $paginationConfiguration;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocalizationConfiguration(): array
+    {
+        return $this->localizationConfiguration;
+    }
+
+    /**
+     * @param array $localizationConfiguration
+     */
+    public function setLocalizationConfiguration(array $localizationConfiguration): void
+    {
+        $this->localizationConfiguration = $localizationConfiguration;
     }
 }

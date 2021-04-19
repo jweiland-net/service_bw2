@@ -6,22 +6,28 @@
 <f:layout name="default" />
 
 <f:section name="main">
-	<div class="grid_12 marginbottom">
-		<h1>{leistung.title}</h1>
+	<div class="stripedblocks">
+		<section>
+			<div class="width-max">
+				<header>
+					<h1>{leistung.name}</h1>
+				</header>
+			</div>
+		</section>
+		<f:render partial="Textbloecke" arguments="{textbloecke: leistung.textbloecke}"/>
+		<f:if condition="{leistung.formulare} || {leistung.prozesse} || {leistung.organisationseinheiten}">
+			<aside>
+				<div class="width-max">
+					<f:render partial="Formulare" arguments="{formulare: leistung.formulare}" />
+					<f:render partial="Leistungen/Prozesse" arguments="{prozesse: leistung.prozesse}" />
+					<f:if condition="{leistung.organisationseinheiten}">
+						<h2><f:translate key="leistungen.organisationseinheiten.head" /></h2>
+						<f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: leistung.organisationseinheiten}" />
+					</f:if>
+				</div>
+			</aside>
+		</f:if>
+
 	</div>
-	<div class="grid_8 floatleft">
-		<div class="gridright">
-			<f:if condition="{leistung.preamble}">
-				<f:format.html>{leistung.preamble}</f:format.html>
-			</f:if>
-			<f:render partial="Sections" arguments="{sections: leistung.sections}" />
-		</div>
-	</div>
-	<aside class="grid_4 floatleft">
-		<div class="gridleft">
-			<f:render partial="Leistungen/ExterneFormulare" arguments="{externeFormulare: externeFormulare}" />
-			<f:render partial="Leistungen/Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheiten}" />
-		</div>
-	</aside>
 </f:section>
 </html>

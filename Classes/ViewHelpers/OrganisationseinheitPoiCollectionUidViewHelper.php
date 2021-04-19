@@ -16,7 +16,6 @@ use JWeiland\Maps2\Service\GeoCodeService;
 use JWeiland\Maps2\Service\MapService;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -40,11 +39,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     protected static $configurationManager;
 
     /**
-     * @var OrganisationseinheitenRepository
-     */
-    protected static $organisationseinheitenRepository;
-
-    /**
      * @var GeoCodeService
      */
     protected static $geoCodeService;
@@ -66,7 +60,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        $this->registerArgument('id', 'int', 'id of the organisationseinheit', true);
+        $this->registerArgument('organisationseinheit', 'array', 'organisationseinheit', true);
     }
 
     /**
@@ -76,7 +70,6 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-        self::$organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
         self::$geoCodeService = $objectManager->get(GeoCodeService::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK
@@ -97,31 +90,19 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ): int {
-        self::init($arguments['id']);
-        try {
-            $organisationseinheit = self::$organisationseinheitenRepository->getById($arguments['id']);
-        } catch (\Exception $exception) {
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-            $logger->error(
-                'Exception inside ' . __CLASS__ . ': ' . $exception->getMessage(),
-                [
-                    'extKey' => 'service_bw2'
-                ]
-            );
-            return 0;
-        }
+        self::init($arguments['organisationseinheit']['id']);
         $maps2Relation = self::findMaps2Relation();
-        $address = self::getAddress($organisationseinheit);
+        $address = self::getAddress($arguments['organisationseinheit']);
         $hashedAddress = md5($address);
         if (is_array($maps2Relation) && !empty($maps2Relation)) {
             if ($maps2Relation['hashed_address'] === $hashedAddress) {
                 $maps2PoiUid = $maps2Relation['tx_maps2_poi'];
             } else {
-                $maps2PoiUid = self::getUidOfNewPoiCollectionForAddress($address, $organisationseinheit['name']);
+                $maps2PoiUid = self::getUidOfNewPoiCollectionForAddress($address, $arguments['organisationseinheit']['name']);
                 self::updatePoiRelation($hashedAddress, $maps2PoiUid);
             }
         } else {
-            $maps2PoiUid = self::getUidOfNewPoiCollectionForAddress($address, $organisationseinheit['name']);
+            $maps2PoiUid = self::getUidOfNewPoiCollectionForAddress($address, $arguments['organisationseinheit']['name']);
             self::createPoiRelation($hashedAddress, $maps2PoiUid);
         }
         return $maps2PoiUid;
@@ -180,8 +161,8 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
      */
     protected static function getAddress(array $organisationseinheit): string
     {
-        if ($organisationseinheit['anschrift']) {
-            foreach ($organisationseinheit['anschrift'] as $anschrift) {
+        if ($organisationseinheit['anschriften']) {
+            foreach ($organisationseinheit['anschriften'] as $anschrift) {
                 if ($anschrift['type'] === 'HAUSANSCHRIFT') {
                     if (
                         $anschrift['strasse'] &&

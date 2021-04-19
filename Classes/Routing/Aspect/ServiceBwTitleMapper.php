@@ -11,10 +11,11 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Routing\Aspect;
 
-use JWeiland\ServiceBw2\Domain\Repository\AbstractRepository;
-use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use GuzzleHttp\Exception\ClientException;
+use JWeiland\ServiceBw2\Request\AbstractRequest;
+use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
@@ -74,7 +75,6 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
     public function __construct(array $settings)
     {
         $this->settings = $settings;
-
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
     }
 
@@ -84,20 +84,15 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
     public function generate(string $value): ?string
     {
         $controllerType = (string)$this->settings['controllerType'];
-        $repository = $this->getRepositoryForController($controllerType);
-        switch ($controllerType) {
-            case 'lebenslagen':
-                $title = $repository->getById((int)$value)['displayName'];
-                break;
-            case 'leistungen':
-                $title = $repository->getLiveById((int)$value)['title'];
-                break;
-            case 'organisationseinheiten':
-                $title = $repository->getById((int)$value)['name'];
-                break;
-            default:
-                $title = '';
-                break;
+        $title = '';
+        if (in_array($controllerType, ['lebenslagen', 'leistungen', 'organisationseinheiten'], true)) {
+            try {
+                $records = $this->getRequestClassForControllerType($controllerType)->findAll();
+                $key = array_search((int)$value, array_column($records, 'id'));
+                $title = $key !== false ? $records[$key]['name'] : '';
+            } catch (ClientException $clientException) {
+                return null;
+            }
         }
 
         // SlugHelper->sanitize will not replace / to -, so do it here
@@ -125,31 +120,29 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
     }
 
     /**
-     * Get repository for requested controller type
-     *
      * @param string $controllerType
-     * @return AbstractRepository
-     * @throws \Exception if controller name is invalid
+     * @return AbstractRequest
+     * @throws \InvalidArgumentException if controller name is invalid
      */
-    protected function getRepositoryForController(string $controllerType): AbstractRepository
+    protected function getRequestClassForControllerType(string $controllerType): AbstractRequest
     {
         switch ($controllerType) {
             case 'lebenslagen':
-                $repository = $this->objectManager->get(LebenslagenRepository::class);
+                $requestClass = $this->objectManager->get(Lebenslagen::class);
                 break;
             case 'leistungen':
-                $repository = $this->objectManager->get(LeistungenRepository::class);
+                $requestClass = $this->objectManager->get(Leistungen::class);
                 break;
             case 'organisationseinheiten':
-                $repository = $this->objectManager->get(OrganisationseinheitenRepository::class);
+                $requestClass = $this->objectManager->get(Organisationseinheiten::class);
                 break;
             default:
                 throw new \InvalidArgumentException(
-                    'Could not find repository for selected controller type "' . $controllerType . '"!',
+                    'Could not find request class for selected controller type "' . $controllerType . '"!',
                     1523960421
                 );
         }
-        return $repository;
+        return $requestClass;
     }
 
     protected function getSlugHelper(): SlugHelper

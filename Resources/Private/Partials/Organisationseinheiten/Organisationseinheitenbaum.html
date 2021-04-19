@@ -1,0 +1,17 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
+<ul class="{f:if(condition: '{noClass}', then: '', else: 'ul-menu')}">
+	<li>
+		<f:link.action pageUid="{pageUid}" arguments="{id: organisationseinheitenbaum.id}" action="show">
+			{organisationseinheitenbaum.name}
+		</f:link.action>
+		<f:if condition="{organisationseinheitenbaum.untergeordneteOrganisationseinheiten}">
+			<f:for each="{organisationseinheitenbaum.untergeordneteOrganisationseinheiten}" as="organisationseinheitenbaumItem">
+				<f:render partial="Organisationseinheiten/Organisationseinheitenbaum" arguments="{organisationseinheitenbaum: organisationseinheitenbaumItem, pageUid: pageUid, noClass: 'true'}"/>
+			</f:for>
+		</f:if>
+	</li>
+</ul>
+</html>

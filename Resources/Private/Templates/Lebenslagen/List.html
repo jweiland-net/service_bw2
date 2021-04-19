@@ -6,9 +6,12 @@
 <f:layout name="default" />
 
 <f:section name="main">
-	<jw:widget.alphabeticalIndex detailPageUid="{settings.lebenslagen.pidOfDetailPage}"
-															 records="{lebenslagen}"
-															 controller="Lebenslagen"
-															 action="show"/>
+	<!--TYPO3SEARCH_end-->
+	<div class="frame-indent">
+		<f:for each="{lebenslagenbaum}" as="lebenslagenbaumItem">
+			<f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslagenbaumItem, pageUid: settings.lebenslagen.pidOfDetailPage}"/>
+		</f:for>
+	</div>
+	<!--TYPO3SEARCH_begin-->
 </f:section>
 </html>

@@ -63,20 +63,37 @@ Allowed languages
    This is important if your website is multi language. Format: [2 letters language ISO code]=[sys_language_uid].
    Assign multiple languages with ";". Example: de=2;en=5. First value will be used as default language.
 
-Region IDs
-   Type in each Region ID of the areas of your city. If you don't know them, please fill AGS or PLZ below.
-
 AGS
-   This is the Official Municipality Key of your city. We need it to find all Region IDs.
+   Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.
+   Optional parameter for API requests. Leave empty to not use this filter option.
 
-ZIP
-   If you don't know the Region IDs not the AGS of your city, you have to insert ONE of your ZIP codes here.
+gebietId
+   Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.
+   Optional parameter for API requests. Leave empty to not use this filter option.
 
 If not already done then you need to configure maps2, because service_bw2 has a maps2 integration for departments.
 Take a look into the maps2 documentation for that.
 
 Upgrade
 -------
+
+Version 5.0.0
+~~~~~~~~~~~~~
+
+We updated the whole extension because of the Service BW API Version 2. There is a new much simpler
+ServiceBwClient which can be used for all API requests (even for version 1).
+
+We removed the post processors and post processor hook of ServiceBwClient. If you added a custom or extended an existing
+one then keep in mind that these no longer work.
+
+If you added your own requests, you have to update them. Use `JWeiland\\ServiceBw2\\Request\\AbstractRequest` as base
+and take a look at the other request classes to build your own one. The newer ServiceBwClient is much easier to understand
+so it should not take very long to migrate your old request classes.
+
+Custom fluid templates must also be updated due to the new object structure from API v2. To do this, use the existing templates and go through the templates piece by piece.
+
+Third party extensions that use `JWeiland\\ServiceBw2\\Utility\\TCAUtility` and `JWeiland\\ServiceBw2\\Utility\\ModelUtility` should not be affected.
+We updated those classes but kept the public methods and properties.
 
 Version 3.0.0
 ~~~~~~~~~~~~~

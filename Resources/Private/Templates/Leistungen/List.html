@@ -6,9 +6,12 @@
 <f:layout name="default" />
 
 <f:section name="main">
+	<!--TYPO3SEARCH_end-->
 	<jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}"
+															 titleField="name"
 															 records="{leistungen}"
 															 controller="Leistungen"
 															 action="show"/>
-</f:section>
+	</f:section>
+	<!--TYPO3SEARCH_begin-->
 </html>

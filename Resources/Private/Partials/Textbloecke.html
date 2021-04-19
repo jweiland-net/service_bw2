@@ -1,0 +1,16 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
+<f:for each="{textbloecke}" as="textblock">
+	<f:if condition="{textblock.text} != '' && {textblock.text} != '<p>&nbsp;</p>'">
+		<section>
+			<div class="width-max">
+				<f:if condition="{textblock.titel}"><h2 class="{textblock.typ}">{textblock.titel}</h2></f:if>
+				<f:format.html>{textblock.text}</f:format.html>
+			</div>
+		</section>
+	</f:if>
+</f:for>
+</html>

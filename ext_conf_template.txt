@@ -8,9 +8,7 @@ mandant =
 baseUrl = https://sgw.service-bw.de:443/
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:allowedLanguages
 allowedLanguages = de=0;en=0;fr=0
-# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:regionIds
-regionIds =
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:ags
 ags =
-# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:plz
-plz =
+# cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:gebietId
+gebietId =

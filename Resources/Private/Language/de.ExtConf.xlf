@@ -23,17 +23,13 @@
 				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</source>
 				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code]=0. Angabe mehrer Sprachen mit ";". Beispiel: de=0;en=0. Der erste Wert wird immer als Standardwert verwendet. Die null ist nur noch aus Kompatibilitätsgründen notwendig.</target>
 			</trans-unit>
-			<trans-unit id="regionIds">
-				<source>Region IDs of city: Cities are mostly separated into sections. Type in each Region ID of these sections. If you don't know these Region IDs, keep this field empty. We will try to find them by AGS or PLZ.</source>
-				<target>IDs der Stadtviertel: Meistens werden Städte in kleinere Regionen/Stadtviertel eingeteilt. Tragen Sie hier die Region ID eines jeden Stadtviertels ein. Falls nicht zur Hand, dann dieses Feld bitte leer lassen. Wir werden dann versuchen die Region IDs auf Basis der AGS oder PLZ zu erhalten.</target>
+			<trans-unit id="gebietId">
+				<source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
+				<target>Beschreibung von der Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optionaler Parameter! Leer lassen, um diese Filterung nicht zu nutzen.</target>
 			</trans-unit>
 			<trans-unit id="ags">
-				<source>AGS (Official Municipality Key): This value is only needed, if you don't know the Region IDs.</source>
-				<target>AGS (Amtlicher Gemeindeschlüssel): Dieser Wert wird nur benötigt, falls Sie die Region Stadtviertel IDs nicht zu Hand haben.</target>
-			</trans-unit>
-			<trans-unit id="plz">
-				<source>ZIP of your city: If you don't know the Region IDs nor the AGS we will try to fetch all Region IDs by one of your main ZIP.</source>
-				<target>Eine PLZ der Stadt: Falls Sie weder die Stadtviertel IDs noch den AGS zur Hand haben, dann versuchen wir alle Stadtviertel IDs auf Basis der PLZ zu erhalten.</target>
+				<source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
+				<target>Beschreibung von der Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optionaler Parameter! Leer lassen, um diese Filterung nicht zu nutzen.</target>
 			</trans-unit>
 		</body>
 	</file>

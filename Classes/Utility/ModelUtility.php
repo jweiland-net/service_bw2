@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Utility;
 
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -45,17 +46,16 @@ class ModelUtility
             $ids = \json_decode('[' . $organisationseinheiten . ']');
             $organisationseinheiten = [];
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
+            $requestClass = $objectManager->get(Organisationseinheiten::class);
             foreach ($ids as $id) {
                 try {
-                    $record = $organisationseinheitenRepository->getById((int)$id);
+                    $record = $requestClass->findById((int)$id);
                 } catch (\Exception $exception) {
                     $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
                     $logger->error(
-                        'Exception in ModelUtility while executing getById() with id' . $id
-                        . ': ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' Code: '
-                        . $exception->getCode(),
+                        'Exception in ModelUtility while executing findById() with id' . $id,
                         [
+                            'exception' => $exception,
                             'extKey' => 'service_bw2'
                         ]
                     );
@@ -86,16 +86,15 @@ class ModelUtility
     {
         if (!is_array($organisationseinheit)) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
+            $requestClass = $objectManager->get(Organisationseinheiten::class);
             try {
-                $organisationseinheit = $organisationseinheitenRepository->getById((int)$organisationseinheit);
+                $organisationseinheit = $requestClass->findById((int)$organisationseinheit);
             } catch (\Exception $exception) {
                 $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
                 $logger->error(
-                    'Exception in ModelUtility while executing getById() with id' . $organisationseinheit
-                    . ': ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' Code: '
-                    . $exception->getCode(),
+                    'Exception in ModelUtility while executing findById() with id' . $organisationseinheit,
                     [
+                        'exception' => $exception,
                         'extKey' => 'service_bw2'
                     ]
                 );

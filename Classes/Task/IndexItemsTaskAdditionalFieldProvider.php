@@ -12,6 +12,10 @@ namespace JWeiland\ServiceBw2\Task;
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
@@ -134,10 +138,11 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
      */
     protected function getTypeToIndexOptions($selected = ''): string
     {
+        $selected = ServiceBwUtility::getRepositoryReplacement($selected);
         $availableTypes = [
-            'OrganisationsEinheiten' => OrganisationseinheitenRepository::class,
-            'Lebenslagen' => LebenslagenRepository::class,
-            'Leistungen' => LeistungenRepository::class
+            'Organisationseinheiten' => Organisationseinheiten::class,
+            'Lebenslagen' => Lebenslagen::class,
+            'Leistungen' => Leistungen::class
         ];
 
         $optionString = '';

@@ -11,16 +11,15 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TypoScriptService;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class AbstractController
@@ -72,24 +71,24 @@ abstract class AbstractController extends ActionController
         $this->settings = $mergedFlexFormSettings;
     }
 
-    /**
-     * Add "error while fetching records" error message
-     *
-     * @param \Exception $exception
-     */
-    protected function addErrorWhileFetchingRecordsMessage(\Exception $exception): void
+    protected function callActionMethod(): void
     {
-        $this->addFlashMessage(
-            LocalizationUtility::translate('error_message.error_while_fetching_records', 'service_bw2'),
-            '',
-            AbstractMessage::ERROR
-        );
-        $this->logger->error(
-            'Got the following exception while fetching records: ' . $exception->getMessage(),
-            [
-                'extKey' => 'service_bw2'
-            ]
-        );
+        try {
+            parent::callActionMethod();
+        } catch (ClientException $clientException) {
+            $this->logger->error(
+                sprintf('Client exception in  %s', __CLASS__),
+                [
+                    'exception' => $clientException,
+                    'controller' => __CLASS__,
+                    'action' => $this->actionMethodName,
+                    'arguments' => $this->request->getArguments()
+                ]
+            );
+            $this->view->assign('exception', $clientException);
+            $this->response->setStatus($clientException->getCode());
+            $this->response->setContent($this->view->render('ApiError'));
+        }
     }
 
     /**
@@ -131,7 +130,7 @@ abstract class AbstractController extends ActionController
      */
     protected function validateExtConf(): void
     {
-        $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages', 'regionIds'];
+        $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages'];
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
             $getterMethodName = 'get' . ucfirst($requiredSetting);

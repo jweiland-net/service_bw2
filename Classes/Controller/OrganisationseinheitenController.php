@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 
 /**
  * Class OrganisationseinheitenController
@@ -20,24 +20,13 @@ use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 class OrganisationseinheitenController extends AbstractController
 {
     /**
-     * @var OrganisationseinheitenRepository
+     * @var Organisationseinheiten
      */
-    protected $organisationseinheitenRepository;
+    protected $organisationseinheiten;
 
-    /**
-     * @var LeistungenRepository
-     */
-    protected $leistungenRepository;
-
-    public function injectOrganisationseinheitRepository(
-        OrganisationseinheitenRepository $organisationseinheitenRepository
-    ): void {
-        $this->organisationseinheitenRepository = $organisationseinheitenRepository;
-    }
-
-    public function injectLeistungenRepository(LeistungenRepository $leistungenRepository): void
+    public function __construct(Organisationseinheiten $organisationseinheiten)
     {
-        $this->leistungenRepository = $leistungenRepository;
+        $this->organisationseinheiten = $organisationseinheiten;
     }
 
     /**
@@ -46,13 +35,8 @@ class OrganisationseinheitenController extends AbstractController
     public function listAction(): void
     {
         $listItems = json_decode('[' . $this->settings['organisationseinheiten']['listItems'] . ']', true);
-        try {
-            $records = $this->organisationseinheitenRepository->getRecordsWithChildren($listItems);
-        } catch (\Exception $exception) {
-            $this->addErrorWhileFetchingRecordsMessage($exception);
-            return;
-        }
-        $this->view->assign('organisationseinheiten', $records);
+        $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds($this->organisationseinheiten->findOrganisationseinheitenbaum(), $listItems);
+        $this->view->assign('organisationseinheitenbaum', $records);
     }
 
     /**
@@ -62,21 +46,8 @@ class OrganisationseinheitenController extends AbstractController
      */
     public function showAction(int $id): void
     {
-        try {
-            $liveOrganisationseinheit = $this->organisationseinheitenRepository->getLiveOrganisationseinheitById($id);
-            $organisationseinheit = $this->organisationseinheitenRepository->getById($id);
-            $internetadressen = $this->organisationseinheitenRepository->getInternetadressenById($id);
-            $children = $this->organisationseinheitenRepository->getChildren($id);
-            $leistungen = $this->leistungenRepository->getByOrganisationseinheit($id);
-        } catch (\Exception $exception) {
-            $this->addErrorWhileFetchingRecordsMessage($exception);
-            return;
-        }
+        $organisationseinheit = $this->organisationseinheiten->findById($id);
         $this->setPageTitle($organisationseinheit['name']);
-        $this->view->assign('beschreibungstext', $liveOrganisationseinheit);
         $this->view->assign('organisationseinheit', $organisationseinheit);
-        $this->view->assign('internetadressen', $internetadressen);
-        $this->view->assign('children', $children);
-        $this->view->assign('leistungen', $leistungen);
     }
 }

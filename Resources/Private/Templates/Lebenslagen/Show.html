@@ -5,27 +5,26 @@
 <f:layout name="default" />
 
 <f:section name="main">
-	<div class="grid_12 marginbottom">
-		<h1>{lebenslage.displayName}</h1>
-	</div>
-	<div class="grid_8 floatleft">
-		<div class="gridright">
-			<f:format.html>{beschreibungstext.preamble}</f:format.html>
-			<f:render partial="Sections" arguments="{sections: beschreibungstext.sections}" />
+	<section>
+		<div class="width-max">
+			<header>
+				<h1>{lebenslage.name}</h1>
+			</header>
 		</div>
-	</div>
-	<aside class="grid_4 floatleft">
-		<div class="gridleft">
-			<div class="relations">
-				<f:if condition="{childLebenslagen}">
-					<h3><f:translate key="lebenslage.assigned_life_situations" /></h3>
-					<f:render partial="Lebenslagen/Sub" arguments="{childLebenslagen: childLebenslagen}" />
+	</section>
+	<f:render partial="Textbloecke" arguments="{textbloecke: lebenslage.textbloecke}" />
+	<aside>
+		<div class="width-max">
+			<div class="relations lebenslagenshow">
+				<f:if condition="{lebenslage.lebenslagenbaum}">
+					<h2><f:translate key="lebenslage.assigned_life_situations" /></h2>
+					<f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslage.lebenslagenbaum}" />
 				</f:if>
 			</div>
-			<div class="relations">
-				<f:if condition="{verfahrenReferences}">
-					<h3><f:translate key="lebenslage.related_verfahren" /></h3>
-					<f:render partial="Lebenslagen/References" arguments="{references: verfahrenReferences}" />
+			<div class="relations lebenslagenshow">
+				<f:if condition="{lebenslage.leistungen}">
+					<h2><f:translate key="lebenslage.related_verfahren" /></h2>
+					<f:render partial="Leistungen" arguments="{leistungen: lebenslage.leistungen}" />
 				</f:if>
 			</div>
 		</div>

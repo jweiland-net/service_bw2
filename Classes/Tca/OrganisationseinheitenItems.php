@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tca;
 
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
-use JWeiland\ServiceBw2\Service\TranslationService;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -26,28 +25,19 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class OrganisationseinheitenItems implements SingletonInterface
 {
     /**
-     * @var OrganisationseinheitenRepository
+     * @var Organisationseinheiten
      */
-    protected $organisationseinheitenRepository;
-
-    /**
-     * @var TranslationService
-     */
-    protected $translationService;
+    protected $organisationseinheiten;
 
     /**
      * @var LoggerInterface
      */
     protected $logger;
 
-    /**
-     * OrganisationseinheitenItems constructor.
-     */
     public function __construct()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->organisationseinheitenRepository = $objectManager->get(OrganisationseinheitenRepository::class);
-        $this->translationService = $objectManager->get(TranslationService::class);
+        $this->organisationseinheiten = $objectManager->get(Organisationseinheiten::class);
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -60,18 +50,18 @@ class OrganisationseinheitenItems implements SingletonInterface
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider): void
     {
         try {
-            $records = $this->organisationseinheitenRepository->getAll();
+            $records = $this->organisationseinheiten->findOrganisationseinheitenbaum();
         } catch (\Exception $e) {
             $processorParameters['items'] = ['Exception: ' . $e->getMessage(), 'exception'];
             $this->logger->error(
                 'Could not get organisationseinheiten: ' . $e->getMessage(),
                 [
+                    'exception' => $e,
                     'extKey' => 'service_bw2'
                 ]
             );
             return;
         }
-        $this->translationService->translateRecords($records, true);
         $this->createList($processorParameters['items'], $records);
     }
 
@@ -85,8 +75,8 @@ class OrganisationseinheitenItems implements SingletonInterface
     {
         foreach ($records as $record) {
             $items[] = [$record['name'], $record['id']];
-            if (array_key_exists('_children', $record)) {
-                $this->createList($items, $record['_children']);
+            if ($record['untergeordneteOrganisationseinheiten']) {
+                $this->createList($items, $record['untergeordneteOrganisationseinheiten']);
             }
         }
     }

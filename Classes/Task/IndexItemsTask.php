@@ -10,14 +10,15 @@
 namespace JWeiland\ServiceBw2\Task;
 
 use GuzzleHttp\Exception\ClientException;
-use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Request\AbstractRequest;
+use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
+use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
@@ -51,27 +52,22 @@ class IndexItemsTask extends AbstractTask
     protected $objectManager;
 
     /**
-     * @var Repository
+     * @var AbstractRequest
      */
-    protected $repository;
+    protected $requestClass;
 
     /**
      * @var array
      */
     protected $classMapping = [
-        OrganisationseinheitenRepository::class => [
-            'method' => 'getRecordsWithChildren',
-            'methodLiveById' => 'getLiveOrganisationseinheitById',
-            'initialRecordsSettings' => 'settings.organisationseinheiten.listItems',
-            'useInitialRecords' => true
+        Organisationseinheiten::class => [
+            'method' => 'findOrganisationseinheitenbaum'
         ],
-        LeistungenRepository::class => [
-            'method' => 'getAll',
-            'methodLiveById' => 'getLiveById'
+        Leistungen::class => [
+            'method' => 'findAll'
         ],
-        LebenslagenRepository::class => [
-            'method' => 'getAll',
-            'methodLiveById' => 'getLiveLebenslagen'
+        Lebenslagen::class => [
+            'method' => 'findLebenslagenbaum'
         ]
     ];
 
@@ -84,14 +80,14 @@ class IndexItemsTask extends AbstractTask
      */
     public function execute(): bool
     {
+        $this->typeToIndex = ServiceBwUtility::getRepositoryReplacement($this->typeToIndex);
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->repository = $this->objectManager->get($this->typeToIndex);
+        $this->requestClass = $this->objectManager->get($this->typeToIndex);
 
-        if ($this->classMapping[$this->typeToIndex]['useInitialRecords']) {
-            $initialRecords = $this->getInitialRecords($this->classMapping[$this->typeToIndex]['initialRecordsSettings']);
-            $recordList = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['method']], $initialRecords);
-        } else {
-            $recordList = call_user_func([$this->repository, $this->classMapping[$this->typeToIndex]['method']]);
+        $recordList = call_user_func([$this->requestClass, $this->classMapping[$this->typeToIndex]['method']]);
+        if ($this->classMapping[$this->typeToIndex] === Organisationseinheiten::class) {
+            $initialRecords = $this->getInitialRecords('settings.organisationseinheiten.listItems');
+            $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds($recordList, $initialRecords);
         }
 
         $solrIndexService = $this->objectManager->get(SolrIndexService::class);
@@ -147,72 +143,35 @@ class IndexItemsTask extends AbstractTask
 
         foreach ($records as $recordToIndex) {
             try {
-                $record = call_user_func(
-                    [$this->repository, $this->classMapping[$this->typeToIndex]['methodLiveById']],
-                    $recordToIndex['id']
-                );
+                $record = $this->requestClass->findById($recordToIndex['id']);
             } catch (ClientException $exception) {
             }
 
             // TODO: Search can be optimized by imploding for sub arrays in sections like address
-            if ($record['sections']) {
-                $record['processed_sections'] = $this->resolveSectionsText($record['sections']);
+            if ($record['textbloecke']) {
+                $record['processed_textbloecke'] = $this->resolveTextbloeckeText($record['textbloecke']);
             }
-            if ($record['organisationseinheit']) {
-                $record['processed_organisationseinheit'] = $this->multi_implode($record['organisationseinheit'], ',');
-            }
-            if ($record['preamble']) {
-                $record['preamble'] = strip_tags($record['preamble']);
-            }
-
             $recordsToIndex[] = $record;
-            if ($recordToIndex['_children']) {
-                $recordsToIndex = array_merge($recordsToIndex, $this->getLiveDataForRecords($recordToIndex['_children']));
-            }
         }
 
         return $recordsToIndex;
     }
 
     /**
-     * Resolve sections text
+     * Resolve text of textbloecke
      *
-     * @param array $sections
+     * @param array $textbloecke
      * @return string
      */
-    protected function resolveSectionsText(array $sections): string
+    protected function resolveTextbloeckeText(array $textbloecke): string
     {
         $result = '';
-        foreach ($sections as $section) {
-            if ($section['text']) {
-                $result .= $section['text'] . ',';
+        foreach ($textbloecke as $textblock) {
+            if ($textblock['text']) {
+                $result .= $textblock['text'] . ',';
             }
         }
 
         return strip_tags(rtrim($result, ','));
-    }
-
-    /**
-     * Multi implode
-     *
-     * @param $array
-     * @param $glue
-     * @return bool|string
-     */
-    protected function multi_implode($array, $glue): string
-    {
-        $result = '';
-
-        foreach ($array as $item) {
-            if (is_array($item)) {
-                $result .= $this->multi_implode($item, $glue) . $glue;
-            } else {
-                $result .= $item . $glue;
-            }
-        }
-
-        $result = substr($result, 0, 0 - strlen($glue));
-
-        return strip_tags($result);
     }
 }

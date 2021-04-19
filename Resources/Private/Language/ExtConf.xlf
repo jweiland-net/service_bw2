@@ -18,14 +18,11 @@
 			<trans-unit id="allowedLanguages" xml:space="preserve">
 				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</source>
 			</trans-unit>
-			<trans-unit id="regionIds">
-				<source>Region IDs of city: Cities are mostly separated into sections. Type in each Region ID of these sections. If you don't know these Region IDs, keep this field empty. We will try to find them by AGS or PLZ.</source>
+			<trans-unit id="gebietId">
+				<source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
 			</trans-unit>
 			<trans-unit id="ags">
-				<source>AGS (Official Municipality Key): This value is only needed, if you don't know the Region IDs.</source>
-			</trans-unit>
-			<trans-unit id="plz">
-				<source>ZIP of your city: If you don't know the Region IDs nor the AGS we will try to fetch all Region IDs by one of your main ZIP.</source>
+				<source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
 			</trans-unit>
 		</body>
 	</file>

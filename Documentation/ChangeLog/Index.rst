@@ -11,6 +11,29 @@
 ChangeLog
 =========
 
+**Version 5.0.0**
+
+.. hint::
+
+   Updated Service BW API calls to the lot improved Version 2!
+   There are a lot of changes but the public API classes
+   `JWeiland\\ServiceBw2\\Utility\\TCAUtility` and `JWeiland\\ServiceBw2\\Utility\\ModelUtility`
+   are compatible with earlier versions, so third party extensions that use service_bw2 should
+   continue to work.
+
+Text in quotation marks are original terms from Service BW and therefore in German language.
+
+- Rewrite ServiceBwClient to be easier to understand and easier to use
+- Remove ServiceBwClient PostProcessors and ServiceBwClient PostProcessor hook
+- Remove all repositories that has been used for API requests
+- Remove all API v1 request classes
+- Replace all repository usages by the new request classes
+- Update fluid templates to work with latest jweiland musterprojekt template
+- Update fluid templates to work with API v2
+- Add contact persons to "Organisationseinheiten" detail view
+- Add electronic forms "Prozesse" to "Leistung" detail view
+- Update "Lebenslagen" list view from glossar to a tree
+
 **Version 4.0.1**
 
 - Add missing Aspect Mapper for RouteEnhancer
