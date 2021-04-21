@@ -30,7 +30,7 @@ class LocalizationHelper implements SingletonInterface
 
     protected $isoCode = '';
 
-    public function __construct(ExtConf  $extConf)
+    public function __construct(ExtConf $extConf)
     {
         $this->extConf = $extConf;
     }

@@ -14,7 +14,6 @@ namespace JWeiland\ServiceBw2\ViewHelpers;
 use JWeiland\Maps2\Domain\Model\Position;
 use JWeiland\Maps2\Service\GeoCodeService;
 use JWeiland\Maps2\Service\MapService;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;

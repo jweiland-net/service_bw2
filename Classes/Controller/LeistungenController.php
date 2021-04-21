@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
-use JWeiland\ServiceBw2\Request\ServiceBwClient;
 use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
 
 /**

@@ -104,8 +104,7 @@ class ServiceBwClient implements SingletonInterface
         ?string $body = null,
         array $overridePaginationConfiguration = [],
         array $overrideLocalizationConfiguration = []
-    ): array
-    {
+    ): array {
         $cacheIdentifier = md5(json_encode(func_get_args()));
         if (!$this->cache->has($cacheIdentifier)) {
             $this->path = $path;
@@ -141,8 +140,7 @@ class ServiceBwClient implements SingletonInterface
                     }
                     $items = array_merge($items, $responseBody['items']);
                 }
-
-            } while($isPaginatedRequest && $isNextPageSet);
+            } while ($isPaginatedRequest && $isNextPageSet);
 
             $this->cache->set($cacheIdentifier, $isPaginatedRequest ? $items : $responseBody, ['service_bw2_request']);
         }

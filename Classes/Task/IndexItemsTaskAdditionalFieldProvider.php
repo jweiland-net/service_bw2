@@ -9,9 +9,6 @@
 
 namespace JWeiland\ServiceBw2\Task;
 
-use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;

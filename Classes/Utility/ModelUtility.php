@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Utility;
 
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
