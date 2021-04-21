@@ -13,6 +13,7 @@ namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\ServiceBwClient;
+use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
 
 /**
  * Class LeistungenController
@@ -51,6 +52,15 @@ class LeistungenController extends AbstractController
      */
     public function listAction(): void
     {
-        $this->view->assign('leistungen', $this->leistungen->findAll());
+        $sortedLetterList = [];
+        $sortedRecordList = [];
+        AlphabeticalIndexUtility::createAlphabeticalIndex(
+            $this->leistungen->findAll(),
+            'name',
+            $sortedLetterList,
+            $sortedRecordList
+        );
+        $this->view->assign('sortedLetterList', $sortedLetterList);
+        $this->view->assign('sortedRecordList', $sortedRecordList);
     }
 }

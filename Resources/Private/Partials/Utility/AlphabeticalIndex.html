@@ -1,0 +1,49 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+<div class="indexbar frame-indent">
+	<ul class="glossary-alphabet">
+		<f:for each="{sortedLetterList}" key="letter" as="occur">
+			<li>
+				<f:if condition="{occur}">
+					<f:then>
+						<f:link.page section="initial_{letter}">{letter}</f:link.page>
+					</f:then>
+					<f:else><span>{letter}</span></f:else>
+				</f:if>
+			</li>
+		</f:for>
+	</ul>
+</div>
+<div class="list category_list frame-indent">
+	<f:for each="{sortedRecordList}" key="letter" as="records">
+		<a id="initial_{letter}" class="anker"></a>
+		<div class="category">
+			<h2>{letter}</h2>
+		</div>
+		<ul class="ul-menu">
+			<f:for each="{records}" as="record">
+				<li>
+					<f:if condition="{detailPageUid}">
+						<f:then>
+							<f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}"
+														 arguments="{id: record.id}">{record.{titleField}}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:if condition="{linkField}">
+								<f:then>
+									<a href="{record.{linkField}}" title="{record.{titleField}}" target="_blank">{record.{titleField}}</a>
+								</f:then>
+								<f:else>
+									{record.{titleField}}
+								</f:else>
+							</f:if>
+						</f:else>
+					</f:if>
+				</li>
+			</f:for>
+		</ul>
+	</f:for>
+</div>
+</html>

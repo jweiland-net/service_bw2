@@ -7,11 +7,9 @@
 
 <f:section name="main">
 	<!--TYPO3SEARCH_end-->
-	<jw:widget.alphabeticalIndex detailPageUid="{settings.leistungen.pidOfDetailPage}"
-															 titleField="name"
-															 records="{leistungen}"
-															 controller="Leistungen"
-															 action="show"/>
-	</f:section>
+	<f:render
+		partial="Utility/AlphabeticalIndex"
+		arguments="{detailPageUid: settings.leistungen.pidOfDetailPage, titleField: 'name', sortedLetterList: '{sortedLetterList}', sortedRecordList: '{sortedRecordList}', controller: 'Leistungen', action: 'show'}"/>
 	<!--TYPO3SEARCH_begin-->
+</f:section>
 </html>
