@@ -47,14 +47,15 @@
 				<source>Lebenslagen detail view</source>
 			</trans-unit>
 
+			<trans-unit id="prozesse.list">
+				<source>Prozesse list view</source>
+			</trans-unit>
+
 			<trans-unit id="settings.organisationseinheiten.maps2_pid">
 				<source>Where to store maps2 records of Organisationseinheit items?</source>
 			</trans-unit>
 			<trans-unit id="settings.organisationseinheiten.maps2_detail_page">
 				<source>Detail page for maps2 poi collection</source>
-			</trans-unit>
-			<trans-unit id="settings.leistungen.hide_assigned_life_situations">
-				<source>Hide selected assigned life situations</source>
 			</trans-unit>
 		</body>
 	</file>

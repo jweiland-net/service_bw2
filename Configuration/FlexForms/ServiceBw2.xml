@@ -54,6 +54,12 @@
 										</numIndex>
 										<numIndex index="1">Lebenslagen->show</numIndex>
 									</numIndex>
+									<numIndex index="5">
+										<numIndex index="0">
+											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:prozesse.list
+										</numIndex>
+										<numIndex index="1">Prozesse->list</numIndex>
+									</numIndex>
 								</items>
 								<default>Organisationseinheiten->list</default>
 							</config>
@@ -101,20 +107,6 @@
 							</config>
 						</TCEforms>
 					</settings.organisationseinheiten.maps2DetailPage>
-					<settings.leistungen.hideSelectedOrganisationseinheiten>
-						<TCEforms>
-							<label>
-								LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.leistungen.hide_assigned_life_situations
-							</label>
-							<displayCond>FIELD:switchableControllerActions:=:Leistungen->show</displayCond>
-							<config>
-								<type>select</type>
-								<enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
-								<renderType>selectMultipleSideBySide</renderType>
-								<itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems</itemsProcFunc>
-							</config>
-						</TCEforms>
-					</settings.leistungen.hideSelectedOrganisationseinheiten>
 				</el>
 			</ROOT>
 		</sDEFAULT>

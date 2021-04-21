@@ -10,7 +10,8 @@ call_user_func(function () {
         [
             'Organisationseinheiten' => 'list,show',
             'Lebenslagen' => 'list,show',
-            'Leistungen' => 'list,show'
+            'Leistungen' => 'list,show',
+            'Prozesse' => 'list'
         ],
         // non-cacheable actions
         []
