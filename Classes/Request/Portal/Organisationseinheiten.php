@@ -20,16 +20,16 @@ class Organisationseinheiten extends AbstractRequest
 {
     public function findById(int $id): array
     {
-        return $this->client->request('/rest-v2/api/portal/organisationseinheitsdetails/' . $id);
+        return $this->client->request('/portal/organisationseinheitsdetails/' . $id);
     }
 
     public function findAll(): array
     {
-        return $this->client->request('/rest-v2/api/portal/organisationseinheiten', [], true, true);
+        return $this->client->request('/portal/organisationseinheiten', [], true, true);
     }
 
     public function findOrganisationseinheitenbaum(): array
     {
-        return $this->client->request('/rest-v2/api/portal/organisationseinheitenbaum', [], true, true);
+        return $this->client->request('/portal/organisationseinheitenbaum', [], true, true);
     }
 }

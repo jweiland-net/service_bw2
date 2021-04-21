@@ -23,10 +23,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
- *  Request class to be used for all Service BW API request classes
+ *  Client to be used for all Service BW API v2 requests
  */
 class ServiceBwClient implements SingletonInterface
 {
+    protected const API_ENDPOINT = '/rest-v2/api';
+
     protected const DEFAULT_PAGINATION_CONFIGURATION = [
         'nextItem' => 'nextPage',
         'pageParameter' => 'page',
@@ -121,7 +123,7 @@ class ServiceBwClient implements SingletonInterface
             $items = [];
             do {
                 $response = $this->requestFactory->request(
-                    $this->extConf->getBaseUrl() . $this->path,
+                    $this->extConf->getBaseUrl() . self::API_ENDPOINT . $this->path,
                     'GET',
                     [
                         'headers' => $this->getHeaders(),
@@ -178,37 +180,5 @@ class ServiceBwClient implements SingletonInterface
             $query['gebietId'] = $this->extConf->getGebietId();
         }
         return $query;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPaginationConfiguration(): array
-    {
-        return $this->paginationConfiguration;
-    }
-
-    /**
-     * @param array $paginationConfiguration
-     */
-    public function setPaginationConfiguration(array $paginationConfiguration): void
-    {
-        $this->paginationConfiguration = $paginationConfiguration;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLocalizationConfiguration(): array
-    {
-        return $this->localizationConfiguration;
-    }
-
-    /**
-     * @param array $localizationConfiguration
-     */
-    public function setLocalizationConfiguration(array $localizationConfiguration): void
-    {
-        $this->localizationConfiguration = $localizationConfiguration;
     }
 }

@@ -20,11 +20,11 @@ class Leistungen extends AbstractRequest
 {
     public function findById(int $id): array
     {
-        return $this->client->request('/rest-v2/api/portal/leistungsdetails/' . $id);
+        return $this->client->request('/portal/leistungsdetails/' . $id);
     }
 
     public function findAll(): array
     {
-        return $this->client->request('/rest-v2/api/portal/leistungen', [], true, true);
+        return $this->client->request('/portal/leistungen', [], true, true);
     }
 }

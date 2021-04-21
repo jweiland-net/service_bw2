@@ -20,16 +20,16 @@ class Lebenslagen extends AbstractRequest
 {
     public function findById(int $id): array
     {
-        return $this->client->request('/rest-v2/api/portal/lebenslagendetails/' . $id);
+        return $this->client->request('/portal/lebenslagendetails/' . $id);
     }
 
     public function findAll(): array
     {
-        return $this->client->request('/rest-v2/api/portal/lebenslagen', [], true, true);
+        return $this->client->request('/portal/lebenslagen', [], true, true);
     }
 
     public function findLebenslagenbaum(?int $ebenen = null): array
     {
-        return $this->client->request('/rest-v2/api/portal/lebenslagen/lebenslagenbaum', ['ebenen' => $ebenen], true, true);
+        return $this->client->request('/portal/lebenslagen/lebenslagenbaum', ['ebenen' => $ebenen], true, true);
     }
 }
