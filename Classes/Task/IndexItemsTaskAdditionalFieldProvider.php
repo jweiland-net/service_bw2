@@ -68,7 +68,7 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
         $additionalFields = [];
 
         $fieldID = 'typeToIndex';
-        $fieldCode = '<select name="tx_scheduler[' . $fieldID . ']" class="form-control">' . $this->getTypeToIndexOptions($taskInfo[$fieldID]) . '</select>';
+        $fieldCode = '<select name="tx_scheduler[' . $fieldID . ']" class="form-control">' . $this->getTypeToIndexOptions((string)$taskInfo[$fieldID]) . '</select>';
         $additionalFields[$fieldID] = [
             'code' => $fieldCode,
             'label' => 'LLL:EXT:service_bw2/Resources/Private/Language/locallang_scheduler_indexitems.xlf:' . $fieldID
@@ -133,7 +133,7 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
      * @param string $selected
      * @return string
      */
-    protected function getTypeToIndexOptions($selected = ''): string
+    protected function getTypeToIndexOptions(string $selected = ''): string
     {
         $selected = ServiceBwUtility::getRepositoryReplacement($selected);
         $availableTypes = [

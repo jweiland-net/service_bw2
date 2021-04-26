@@ -61,13 +61,13 @@ class IndexItemsTask extends AbstractTask
      */
     protected $classMapping = [
         Organisationseinheiten::class => [
-            'method' => 'findOrganisationseinheitenbaum'
+            'method' => 'findAll',
         ],
         Leistungen::class => [
             'method' => 'findAll'
         ],
         Lebenslagen::class => [
-            'method' => 'findLebenslagenbaum'
+            'method' => 'findAll'
         ]
     ];
 

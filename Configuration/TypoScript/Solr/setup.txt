@@ -5,8 +5,8 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = title
-      content = processed_sections
+      title = name
+      content = processed_textbloecke
 
       organisationseinheit_textM = processed_organisationseinheit
 
@@ -27,8 +27,8 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = title
-      content = processed_sections
+      title = name
+      content = processed_textbloecke
 
       url = TEXT
       url {
@@ -47,8 +47,8 @@ plugin.tx_solr.index.queue {
     }
 
     fields {
-      title = title
-      content = processed_sections
+      title = name
+      content = processed_textbloecke
 
       url = TEXT
       url {
