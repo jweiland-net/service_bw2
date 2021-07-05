@@ -11,17 +11,32 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Client\Event;
 
-/**
+/*
  * An event to modify the response of a Service BW API request.
  *
  * The event will be fired before the response gets cached and before paginated requests get merged.
  */
 final class ModifyServiceBwResponseEvent
 {
-    private $path;
-    private $responseBody;
-    private $paginatedRequest;
-    private $localizedRequest;
+    /**
+     * @var string
+     */
+    private $path = '';
+
+    /**
+     * @var array
+     */
+    private $responseBody = [];
+
+    /**
+     * @var bool
+     */
+    private $paginatedRequest = false;
+
+    /**
+     * @var bool
+     */
+    private $localizedRequest = false;
 
     public function __construct(string $path, array $responseBody, bool $paginatedRequest = false, bool $localizedRequest = false)
     {

@@ -147,12 +147,13 @@ Example: Modify the URL of Service BW online forms (called: Prozesse):
    namespace ThisIs\MySitePackage\Listener;
 
    use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
+   use TYPO3\CMS\Core\Utility\StringUtility;
 
    class ModifyServiceBwResponseListener
    {
        public function __invoke(ModifyServiceBwResponseEvent $event): void
        {
-           if (strpos($event->getPath(), '/portal/leistungsdetails/') === 0) {
+           if (StringUtility::beginsWith($event->getPath(), '/portal/leistungsdetails/')) {
                $responseBody = $event->getResponseBody();
                foreach ($responseBody['prozesse'] as &$prozess) {
                    $prozess['url'] = str_replace('www.', 'cityname.', $prozess['url']);
@@ -170,7 +171,7 @@ Then register the event in your own Site Package so TYPO3 is able to find the li
    # EXT:my_site_package/Configuration/Services.yaml
    services:
      ThisIs\MySitePackage\Listener\ModifyServiceBwResponseListener:
-        tags:
+       tags:
          - name: event.listener
-        identifier: 'ext-mysitepackage/servicebw-modifyrequest'
-        event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
+           identifier: 'ext-mysitepackage/servicebw-modifyrequest'
+           event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
