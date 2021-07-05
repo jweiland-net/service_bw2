@@ -140,13 +140,14 @@ class ServiceBwClient implements SingletonInterface
                 );
 
                 $responseBody = (array)json_decode($response->getBody()->getContents(), true);
-
-                $responseBody = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
+                /** @var ModifyServiceBwResponseEvent $event */
+                $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
                     $path,
                     $responseBody,
                     $isPaginatedRequest,
                     $isLocalizedRequest
-                ))->getResponseBody();
+                ));
+                $responseBody = $event->getResponseBody();
 
                 $isNextPageSet = false;
                 if ($isPaginatedRequest) {
