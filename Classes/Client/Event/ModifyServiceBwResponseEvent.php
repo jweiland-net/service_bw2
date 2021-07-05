@@ -51,7 +51,7 @@ final class ModifyServiceBwResponseEvent
         return $this->responseBody;
     }
 
-    public function setResponseBody(array $responseBody)
+    public function setResponseBody(array $responseBody): void
     {
         $this->responseBody = $responseBody;
     }
