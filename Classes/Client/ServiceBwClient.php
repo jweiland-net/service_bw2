@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Client;
 
+use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
@@ -69,16 +71,22 @@ class ServiceBwClient implements SingletonInterface
     protected $cache;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
      * @param RequestFactory $requestFactory
      * @param Registry $registry
      * @param TokenHelper $tokenHelper
      * @param ExtConf $extConf
      */
-    public function __construct(RequestFactory $requestFactory, Registry $registry, TokenHelper $tokenHelper, ExtConf $extConf)
+    public function __construct(RequestFactory $requestFactory, Registry $registry, TokenHelper $tokenHelper, ExtConf $extConf, EventDispatcherInterface $eventDispatcher)
     {
         $this->requestFactory = $requestFactory;
         $this->registry = $registry;
         $this->extConf = $extConf;
+        $this->eventDispatcher = $eventDispatcher;
         $this->cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
 
         if (!$this->registry->get('ServiceBw', 'token', false)) {
@@ -132,6 +140,13 @@ class ServiceBwClient implements SingletonInterface
                 );
 
                 $responseBody = (array)json_decode($response->getBody()->getContents(), true);
+
+                $responseBody = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
+                    $path,
+                    $responseBody,
+                    $isPaginatedRequest,
+                    $isLocalizedRequest
+                ))->getResponseBody();
 
                 $isNextPageSet = false;
                 if ($isPaginatedRequest) {

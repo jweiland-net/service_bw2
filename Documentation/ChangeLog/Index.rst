@@ -33,6 +33,8 @@ Text in quotation marks are original terms from Service BW and therefore in Germ
 - Add contact persons to "Organisationseinheiten" detail view
 - Add electronic forms "Prozesse" to "Leistung" detail view
 - Update "Lebenslagen" list view from glossar to a tree
+- Remove TYPO3 v9 compatibility
+- Add event to modify Service BW API responses before they get cached (Hook)
 
 **Version 4.0.1**
 
