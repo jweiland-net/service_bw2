@@ -28,10 +28,11 @@
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^9.5.20 || ^10.4.6",
+		"typo3/cms-core": "^9.5.29 || ^10.4.19",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {
+		"roave/security-advisories": "dev-latest",
 		"friendsofphp/php-cs-fixer": "^2.14",
 		"nimut/testing-framework": "^5.1"
 	},
@@ -53,6 +54,7 @@
 			"dev-master": "4.0.x-dev"
 		},
 		"typo3/cms": {
+			"extension-key": "service_bw2",
 			"app-dir": ".build",
 			"web-dir": ".build/public"
 		}
