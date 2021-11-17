@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+**Version 4.0.2**
+
+- Add extension key to composer.json
+- Add roaves security package
+- Update TYPO3 dependencies
+- Remove old entries from ext_emconf.php
+
 **Version 4.0.1**
 
 - Add missing Aspect Mapper for RouteEnhancer
