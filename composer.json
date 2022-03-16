@@ -33,7 +33,8 @@
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^2.14",
-		"nimut/testing-framework": "^5.1"
+		"nimut/testing-framework": "^6.0",
+		"phpspec/prophecy-phpunit": "^2.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -46,7 +47,11 @@
 		}
 	},
 	"config": {
-		"vendor-dir": ".build/vendor"
+		"vendor-dir": ".build/vendor",
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		}
 	},
 	"extra": {
 		"branch-alias": {
@@ -59,9 +64,14 @@
 		}
 	},
 	"scripts": {
+		"post-autoload-dump": [
+			"mkdir -p .build/public/typo3conf/ext/",
+			"[ -L .build/public/typo3conf/ext/service_bw2 ] || ln -snvf ../../../../. .build/public/typo3conf/ext/service_bw2"
+		],
 		"php:fix": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix Classes Tests",
 		"ci:php:lint": "find *.php Classes Configuration Tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
 		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix --dry-run -v --show-progress=dots --diff-format=udiff Classes Tests",
-		"ci:tests:unit": ".build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit"
+		"ci:tests:unit": ".build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit",
+		"ci:tests:functional": ".build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional"
 	}
 }

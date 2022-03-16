@@ -149,6 +149,48 @@
 				<source>Related URLs</source>
 				<target>Internetadressen</target>
 			</trans-unit>
+
+			<trans-unit id="suche.sortBy">
+				<target>Sortieren nach</target>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.name">
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.relevanz">
+				<target>Relevanz</target>
+			</trans-unit>
+			<trans-unit id="suche.typ">
+				<target>Zeige Kategorie</target>
+			</trans-unit>
+			<trans-unit id="suche.typ.all">
+				<target>-</target>
+			</trans-unit>
+			<trans-unit id="suche.result">
+				<target>Ergebnis</target>
+			</trans-unit>
+			<trans-unit id="suche.results">
+				<target>Ergebnisse</target>
+			</trans-unit>
+
+			<!-- For general use in ext:service_bw2 -->
+			<trans-unit id="leistung">
+				<target>Leistung</target>
+			</trans-unit>
+			<trans-unit id="lebenslage">
+				<target>Lebenslage</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit">
+				<target>Organisationseinheit</target>
+			</trans-unit>
+			<trans-unit id="leistungen">
+				<target>Leistungen</target>
+			</trans-unit>
+			<trans-unit id="lebenslagen">
+				<target>Lebenslagen</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheiten">
+				<target>Organisationseinheiten</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

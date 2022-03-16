@@ -6,3 +6,19 @@ services:
 
   JWeiland\ServiceBw2\:
     resource: '../Classes/*'
+
+  JWeiland\ServiceBw2\Helper\LeistungenHelper:
+    public: true
+    arguments:
+      $cache: '@cache.servicebw_additionalstuff'
+
+  JWeiland\ServiceBw2\Listener\LeistungenListener:
+    tags:
+    - name: event.listener
+      identifier: 'leistungenListener'
+      event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
+
+  cache.servicebw_additionalstuff:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['servicebw_additionalstuff']

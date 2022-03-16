@@ -1,0 +1,70 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:s="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+
+<f:layout name="default" />
+
+<f:section name="main">
+	<f:form action="list" method="get">
+		<div class="form-group">
+			<div class="input-group">
+				<f:form.textfield class="form-control" name="query" value="{query}"/>
+				<span class="input-group-btn">
+						<f:form.submit class="btn btn-default" value="Submit"/>
+				</span>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-6_sm-12 form-group form-group">
+				<label for="sort"><f:translate key="suche.sortBy" /></label>
+				<f:form.select class="form-control" name="sort" value="{sort}" additionalAttributes="{onchange: 'this.form.submit()'}">
+					<f:form.select.option value="name"><f:translate key="suche.sortBy.name" /></f:form.select.option>
+					<f:form.select.option value="relevanz"><f:translate key="suche.sortBy.relevanz" /></f:form.select.option>
+				</f:form.select>
+			</div>
+			<div class="col-6_sm-12 form-group form-group">
+				<label for="typ"><f:translate key="suche.typ" /></label>
+				<f:form.select class="form-control" name="typ" value="{typ}" additionalAttributes="{onchange: 'this.form.submit()'}">
+					<f:form.select.option value=""><f:translate key="suche.typ.all" /></f:form.select.option>
+					<f:form.select.option value="LEISTUNG"><f:translate key="leistung" /></f:form.select.option>
+					<f:form.select.option value="LEBENSLAGE"><f:translate key="lebenslage" /></f:form.select.option>
+					<f:form.select.option value="ORGANISATIONSEINHEIT"><f:translate key="organisationseinheit" /></f:form.select.option>
+				</f:form.select>
+			</div>
+		</div>
+	</f:form>
+
+	<f:if condition="{query}">
+		<h4>
+			<f:variable name="countResults">{result -> f:count()}</f:variable>
+			{countResults} <f:translate key="suche.{f:if(condition: '{countResults} > 1', then: 'results', else: 'result')}" />
+		</h4>
+		<div class="layout-list scroll-container">
+			<f:for each="{result}" as="record">
+				<div class="scroll-item border-top flex-list">
+					<div>
+						<div class="small">
+							{record.typ}
+							<f:if condition="{record.typ} === 'LEISTUNG'">
+								<s:leistungenAdditionalData as="additionalData" id="{record.id}">
+									<f:if condition="{additionalData.hasFormulare}">
+										(with formulare)
+									</f:if>
+									<f:if condition="{additionalData.hasProzesse}">
+										(with prozesse)
+									</f:if>
+								</s:leistungenAdditionalData>
+							</f:if>
+						</div>
+						<div class="fontsize4">
+							<f:render partial="Suche/RecordLink" arguments="{record: record}"/>
+						</div>
+						<div class="small">{record.kurzbeschreibung}</div>
+					</div>
+				</div>
+			</f:for>
+		</div>
+	</f:if>
+</f:section>
+</html>

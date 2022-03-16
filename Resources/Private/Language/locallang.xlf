@@ -112,6 +112,48 @@
 			<trans-unit id="organisationseinheit.internetadressen">
 				<source>Related URLs</source>
 			</trans-unit>
+
+			<trans-unit id="suche.sortBy">
+				<source>Sort by</source>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.relevanz">
+				<source>Relevance</source>
+			</trans-unit>
+			<trans-unit id="suche.typ">
+				<source>Show type</source>
+			</trans-unit>
+			<trans-unit id="suche.typ.all">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="suche.result">
+				<source>Result</source>
+			</trans-unit>
+			<trans-unit id="suche.results">
+				<source>Results</source>
+			</trans-unit>
+
+			<!-- For general use in ext:service_bw2. Used english words from service-bw.de! -->
+			<trans-unit id="leistung">
+				<source>Service</source>
+			</trans-unit>
+			<trans-unit id="lebenslage">
+				<source>Life situation</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit">
+				<source>Organisational unit</source>
+			</trans-unit>
+			<trans-unit id="leistungen">
+				<source>Services</source>
+			</trans-unit>
+			<trans-unit id="lebenslagen">
+				<source>Life situations</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheiten">
+				<source>Organisational units</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -57,6 +57,10 @@
 			<trans-unit id="settings.organisationseinheiten.maps2_detail_page">
 				<source>Detail page for maps2 poi collection</source>
 			</trans-unit>
+
+			<trans-unit id="suche.list">
+				<source>Search</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

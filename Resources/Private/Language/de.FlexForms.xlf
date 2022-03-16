@@ -59,6 +59,11 @@
 				<source>Detail page for maps2 poi collection</source>
 				<target>Seite für die maps2 Detailansicht </target>
 			</trans-unit>
+
+			<trans-unit id="suche.list">
+				<source>Search</source>
+				<target>Suche</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
