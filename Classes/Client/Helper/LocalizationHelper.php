@@ -46,7 +46,7 @@ class LocalizationHelper implements SingletonInterface
      */
     public function getFrontendLanguageIsoCode(): string
     {
-        if ($this->isoCode !== '') {
+        if ($this->isoCode === '') {
             $allowedLanguages = $this->extConf->getAllowedLanguages();
             reset($allowedLanguages);
 
