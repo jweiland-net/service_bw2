@@ -49,10 +49,10 @@ jobs:
         run: composer ci:tests:unit
 
       - name: Functional Tests
-          env:
-            typo3DatabaseName: test
-            typo3DatabaseUsername: root
-            typo3DatabasePassword: password
-            typo3DatabaseHost: 127.0.0.1
-            typo3DatabasePort: ${{ job.services.mysql.ports['3306'] }}
-          run: composer ci:tests:functional
+        env:
+          typo3DatabaseName: test
+          typo3DatabaseUsername: root
+          typo3DatabasePassword: password
+          typo3DatabaseHost: 127.0.0.1
+          typo3DatabasePort: ${{ job.services.mysql.ports['3306'] }}
+        run: composer ci:tests:functional
