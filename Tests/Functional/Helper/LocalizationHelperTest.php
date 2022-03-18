@@ -14,15 +14,12 @@ namespace JWeiland\ServiceBw2\Tests\Functional;
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 class LocalizationHelperTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
-
     protected $testExtensionsToLoad = ['typo3conf/ext/service_bw2'];
 
     /**

@@ -80,6 +80,7 @@ class ServiceBwClient implements SingletonInterface
      * @param Registry $registry
      * @param TokenHelper $tokenHelper
      * @param ExtConf $extConf
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(RequestFactory $requestFactory, Registry $registry, TokenHelper $tokenHelper, ExtConf $extConf, EventDispatcherInterface $eventDispatcher)
     {
@@ -113,7 +114,7 @@ class ServiceBwClient implements SingletonInterface
         array $overridePaginationConfiguration = [],
         array $overrideLocalizationConfiguration = []
     ): array {
-        $cacheIdentifier = md5(json_encode(func_get_args()));
+        $cacheIdentifier = $this->getCacheIdentifier(func_get_args());
         if (!$this->cache->has($cacheIdentifier)) {
             $this->path = $path;
             $this->isPaginatedRequest = $isPaginatedRequest;
@@ -140,6 +141,7 @@ class ServiceBwClient implements SingletonInterface
                 );
 
                 $responseBody = (array)json_decode($response->getBody()->getContents(), true);
+
                 /** @var ModifyServiceBwResponseEvent $event */
                 $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
                     $path,
@@ -162,6 +164,15 @@ class ServiceBwClient implements SingletonInterface
         }
 
         return $this->cache->get($cacheIdentifier);
+    }
+
+    protected function getCacheIdentifier(array $requestArguments): string
+    {
+        $value = json_encode($requestArguments);
+        if ($requestArguments[2]) {
+            $value .= GeneralUtility::makeInstance(LocalizationHelper::class)->getFrontendLanguageIsoCode();
+        }
+        return md5($value);
     }
 
     protected function getHeaders(): array
