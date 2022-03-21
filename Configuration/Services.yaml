@@ -7,6 +7,11 @@ services:
   JWeiland\ServiceBw2\:
     resource: '../Classes/*'
 
+  # to allow GeneralUtility::makeInstance
+  JWeiland\ServiceBw2\Request\:
+    resource: '../Classes/Request/*'
+    public: true
+
   JWeiland\ServiceBw2\Helper\LeistungenHelper:
     public: true
     arguments:
@@ -17,6 +22,12 @@ services:
     - name: event.listener
       identifier: 'leistungenListener'
       event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
+
+  JWeiland\ServiceBw2\Command\CacheWarmupCommand:
+    tags:
+    - name: 'console.command'
+      command: 'servicebw:cachewarmup'
+      description: 'Warmup the caches of Service BW to improve loading times'
 
   cache.servicebw_additionalstuff:
     class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface

@@ -12,11 +12,12 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Request\Portal;
 
 use JWeiland\ServiceBw2\Request\AbstractRequest;
+use JWeiland\ServiceBw2\Request\EntityRequestInterface;
 
 /**
  * Request class for Organisationseinheiten
  */
-class Organisationseinheiten extends AbstractRequest
+class Organisationseinheiten extends AbstractRequest implements EntityRequestInterface
 {
     public function findById(int $id): array
     {
