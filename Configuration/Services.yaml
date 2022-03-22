@@ -12,6 +12,9 @@ services:
     resource: '../Classes/Request/*'
     public: true
 
+  JWeiland\ServiceBw2\Hooks\ClearCacheActionsHook:
+    public: true
+
   JWeiland\ServiceBw2\Helper\LeistungenHelper:
     public: true
     arguments:

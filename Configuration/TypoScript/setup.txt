@@ -1,4 +1,11 @@
 plugin.tx_servicebw2 {
+  _CSS_DEFAULT_STYLE (
+.servicebw-record-icon .icon-size-small svg {
+  display: inline-block;
+  max-height: 26px;
+}
+  )
+
   view {
     templateRootPaths {
       0 = EXT:service_bw2/Resources/Private/Templates/

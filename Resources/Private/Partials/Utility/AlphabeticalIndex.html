@@ -1,4 +1,5 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			xmlns:s="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
 			data-namespace-typo3-fluid="true"
 >
 <div class="indexbar frame-indent">
@@ -15,32 +16,80 @@
 		</f:for>
 	</ul>
 </div>
+<f:if condition="{controller} === 'Leistungen'">
+	<div class="frame-indent">
+		<f:asset.script identifier="alphabeticalIndexServiceBw" src="EXT:service_bw2/Resources/Public/JavaScript/AlphabeticalIndex.js" />
+		<div class="form-group">
+			<div class="form-check checkbox">
+				<label for="filter-prozesse">
+					<input id="filter-prozesse" type="checkbox" data-service-bw-filter="prozesse" data-service-bw-list=".list-{controller}"/>
+					<span><f:translate key="alphabetical_index.filter_prozesse" /></span>
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="form-check checkbox">
+				<label for="search-leistungen">
+					<input id="search-leistungen" type="text" placeholder="{f:translate(key: 'alphabetical_index.search_leistungen')}"
+								 data-service-bw-search data-service-bw-list=".list-{controller}"/>
+				</label>
+			</div>
+		</div>
+	</div>
+</f:if>
 <div class="list category_list frame-indent">
 	<f:for each="{sortedRecordList}" key="letter" as="records">
 		<a id="initial_{letter}" class="anker"></a>
 		<div class="category">
 			<h2>{letter}</h2>
 		</div>
-		<ul class="ul-menu">
+		<ul class="ul-menu list-{controller}">
 			<f:for each="{records}" as="record">
-				<li>
-					<f:if condition="{detailPageUid}">
-						<f:then>
-							<f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}"
-														 arguments="{id: record.id}">{record.{titleField}}
-							</f:link.action>
-						</f:then>
-						<f:else>
-							<f:if condition="{linkField}">
+				<f:variable name="recordIcons">
+					<f:variable name="additionalAttributes" />
+					<f:if condition="{controller} === 'Leistungen'">
+						<div class="servicebw-record-icons text-right frame-type-menu_icons">
+							<s:leistungenAdditionalData as="additionalData" id="{record.id}">
+								<f:if condition="{additionalData.hasFormulare}">
+									<span class="servicebw-record-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{f:translate(key: 'alphabetical_index.has_formulare')}" >
+										<f:render partial="Utility/Icon" arguments="{identifier: 'actions-file-pdf'}"/>
+									</span>
+								</f:if>
+								<f:if condition="{additionalData.hasProzesse}">
+									<span class="servicebw-record-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{f:translate(key: 'alphabetical_index.has_prozesse')}" >
+										<f:render partial="Utility/Icon" arguments="{identifier: 'actions-window-open'}"/>
+									</span>
+								</f:if>
+								<f:variable name="additionalAttributes">
+									<f:if condition="{additionalData.hasProzesse}">data-prozesse</f:if>
+								</f:variable>
+							</s:leistungenAdditionalData>
+						</div>
+					</f:if>
+				</f:variable>
+				<li {additionalAttributes}>
+					<div class="grid">
+						<div class="col-8">
+							<f:if condition="{detailPageUid}">
 								<f:then>
-									<a href="{record.{linkField}}" title="{record.{titleField}}" target="_blank">{record.{titleField}}</a>
+									<f:link.action pageUid="{detailPageUid}" controller="{controller}" action="{action}"
+																 arguments="{id: record.id}">{record.{titleField}}
+									</f:link.action>
 								</f:then>
 								<f:else>
-									{record.{titleField}}
+									<f:if condition="{linkField}">
+										<f:then>
+											<a href="{record.{linkField}}" title="{record.{titleField}}" target="_blank">{record.{titleField}}</a>
+										</f:then>
+										<f:else>
+											{record.{titleField}}
+										</f:else>
+									</f:if>
 								</f:else>
 							</f:if>
-						</f:else>
-					</f:if>
+						</div>
+						<div class="col-4"><f:format.raw>{recordIcons}</f:format.raw></div>
+					</div>
 				</li>
 			</f:for>
 		</ul>

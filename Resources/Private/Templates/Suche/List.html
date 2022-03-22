@@ -1,7 +1,4 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:s="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
-			data-namespace-typo3-fluid="true"
->
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:layout name="default" />
 
@@ -46,16 +43,6 @@
 					<div>
 						<div class="small">
 							<f:translate key="{f:format.case(mode: 'lower', value: '{record.typ}')}" />
-							<f:if condition="{record.typ} === 'LEISTUNG'">
-								<s:leistungenAdditionalData as="additionalData" id="{record.id}">
-									<f:if condition="{additionalData.hasFormulare}">
-										(with formulare)
-									</f:if>
-									<f:if condition="{additionalData.hasProzesse}">
-										(with prozesse)
-									</f:if>
-								</s:leistungenAdditionalData>
-							</f:if>
 						</div>
 						<div class="fontsize4">
 							<f:render partial="Suche/RecordLink" arguments="{record: record}"/>

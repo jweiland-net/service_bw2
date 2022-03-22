@@ -191,6 +191,26 @@
 			<trans-unit id="organisationseinheiten">
 				<target>Organisationseinheiten</target>
 			</trans-unit>
+
+			<trans-unit id="alphabetical_index.has_prozesse">
+				<target>Diese Leistung beinhaltet Prozesse, mit denen Sie ein interaktives Online-Formular ausfüllen können.</target>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.has_formulare">
+				<target>Diese Leistung beinhaltet PDF Formulare.</target>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.search_leistungen">
+				<target>Dienstleistungen durchsuchen...</target>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.filter_prozesse">
+				<target>Nur Dienstleistungen mit Online-Formular anzeigen</target>
+			</trans-unit>
+
+			<trans-unit id="flush_servicebw_caches_title">
+				<target>Service BW Caches leeren</target>
+			</trans-unit>
+			<trans-unit id="flush_servicebw_caches_description">
+				<target>Leere Service BW bezogene Caches wie Lebenslagen, Leistungen und Organisationseinheiten.</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
