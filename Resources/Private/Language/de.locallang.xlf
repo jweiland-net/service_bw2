@@ -89,13 +89,8 @@
 				<target>Verwandte Verfahren</target>
 			</trans-unit>
 
-			<trans-unit id="formulare.head">
-				<source>Related forms</source>
-				<target>Formulare dieses Verfahrens</target>
-			</trans-unit>
-			<trans-unit id="prozesse.head">
-				<source>Related processes</source>
-				<target>Onlineanträge</target>
+			<trans-unit id="formulare_prozesse">
+				<target>Onlineantrag und Formulare</target>
 			</trans-unit>
 			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
 				<source>Related Organisationseinheit</source>
@@ -192,24 +187,23 @@
 				<target>Organisationseinheiten</target>
 			</trans-unit>
 
-			<trans-unit id="alphabetical_index.has_prozesse">
+			<trans-unit id="has_prozesse">
 				<target>Diese Leistung beinhaltet Prozesse, mit denen Sie ein interaktives Online-Formular ausfüllen können.</target>
 			</trans-unit>
-			<trans-unit id="alphabetical_index.has_formulare">
+			<trans-unit id="has_formulare">
 				<target>Diese Leistung beinhaltet PDF Formulare.</target>
+			</trans-unit>
+			<trans-unit id="prozess.description">
+				<target>Interaktives Online-Formular. Kann einen Service BW Account voraussetzen.</target>
+			</trans-unit>
+			<trans-unit id="formular.description">
+				<target>PDF Formular zum herunterladen und ausdrucken.</target>
 			</trans-unit>
 			<trans-unit id="alphabetical_index.search_leistungen">
 				<target>Dienstleistungen durchsuchen...</target>
 			</trans-unit>
 			<trans-unit id="alphabetical_index.filter_prozesse">
 				<target>Nur Dienstleistungen mit Online-Formular anzeigen</target>
-			</trans-unit>
-
-			<trans-unit id="flush_servicebw_caches_title">
-				<target>Service BW Caches leeren</target>
-			</trans-unit>
-			<trans-unit id="flush_servicebw_caches_description">
-				<target>Leere Service BW bezogene Caches wie Lebenslagen, Leistungen und Organisationseinheiten.</target>
 			</trans-unit>
 		</body>
 	</file>

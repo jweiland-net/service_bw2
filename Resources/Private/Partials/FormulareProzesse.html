@@ -1,0 +1,37 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true"
+>
+<f:if condition="{prozesse} || {formulare}">
+	<h2><f:translate key="formulare_prozesse" /></h2>
+</f:if>
+<f:if condition="{prozesse}">
+	<div class="relations">
+		<ul class="no-bullets">
+			<f:for each="{prozesse}" as="prozess">
+				<f:render section="serviceBwIcon"
+									arguments="{title: prozess.name, url: prozess.url, type: 'prozess'}" />
+			</f:for>
+		</ul>
+	</div>
+</f:if>
+<f:if condition="{formulare}">
+	<div class="relations">
+		<ul class="no-bullets">
+			<f:for each="{formulare}" as="formular">
+				<f:render section="serviceBwIcon"
+									arguments="{title: formular.name, url: formular.url, type: '{f:if(condition: \'{formular.typ} === \\\'ONLINEDIENST\\\'\', then: \'prozess\', else: \'formular\')}'}" />
+			</f:for>
+		</ul>
+	</div>
+</f:if>
+
+<f:section name="serviceBwIcon">
+	<li class="icon-text">
+		<f:render partial="Utility/Icon" arguments="{identifier: '{f:if(condition: \'{type} === \\\'prozess\\\'\', then: \'actions-window-open\', else: \'actions-file-pdf\')}', tooltipKey: '{type}.description', tooltipPosition: 'right'}"/>
+		<f:link.external title="{title}" target="_blank" uri="{url}">
+			{title}
+		</f:link.external>
+	</li>
+</f:section>
+
+</html>

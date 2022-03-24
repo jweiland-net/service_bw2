@@ -67,11 +67,8 @@
 				<source>Related Procedure</source>
 			</trans-unit>
 
-			<trans-unit id="formulare.head">
-				<source>Related forms</source>
-			</trans-unit>
-			<trans-unit id="prozesse.head">
-				<source>Related processes</source>
+			<trans-unit id="formulare_prozesse">
+				<source>Related forms and processes</source>
 			</trans-unit>
 			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
 				<source>Related Organisationseinheit</source>
@@ -155,24 +152,23 @@
 				<source>Organisational units</source>
 			</trans-unit>
 
-			<trans-unit id="alphabetical_index.has_prozesse">
+			<trans-unit id="has_prozesse">
 				<source>This service includes processes that allow you to fill out an interactive online form</source>
 			</trans-unit>
-			<trans-unit id="alphabetical_index.has_formulare">
+			<trans-unit id="has_formulare">
 				<source>This service includes PDF forms</source>
+			</trans-unit>
+			<trans-unit id="prozess.description">
+				<source>Interactive online form. May require an Service BW Account.</source>
+			</trans-unit>
+			<trans-unit id="formular.description">
+				<source>PDF form to download and print out</source>
 			</trans-unit>
 			<trans-unit id="alphabetical_index.search_leistungen">
 				<source>Search for a service</source>
 			</trans-unit>
 			<trans-unit id="alphabetical_index.filter_prozesse">
 				<source>Show services with online forms only</source>
-			</trans-unit>
-
-			<trans-unit id="flush_servicebw_caches_title">
-				<source>Flush Service BW Caches</source>
-			</trans-unit>
-			<trans-unit id="flush_servicebw_caches_description">
-				<source>Clear Service BW related caches like caches of services, life situations and oranisational units.</source>
 			</trans-unit>
 		</body>
 	</file>

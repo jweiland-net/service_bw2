@@ -25,7 +25,7 @@ call_user_func(function () {
             'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
             'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
             'options' => [],
-            'groups' => ['service_bw2']
+            'groups' => []
         ];
     }
 
@@ -34,15 +34,9 @@ call_user_func(function () {
             'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
             'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
             'options' => [],
-            'groups' => ['service_bw2']
+            'groups' => []
         ];
     }
-
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'])) {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'] = [];
-    }
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions']['service_bw2'] = \JWeiland\ServiceBw2\Hooks\ClearCacheActionsHook::class;
 
     // Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['events2_clearcache'] = \JWeiland\ServiceBw2\Hooks\DataHandler::class . '->clearCachePostProc';

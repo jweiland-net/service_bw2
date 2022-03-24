@@ -38,10 +38,26 @@ class LeistungenListener
         $pathSegments = explode('/', $event->getPath());
         $this->leistungenHelper->saveAdditionalData(
             (int)end($pathSegments),
-            [
-                'hasFormulare' => !empty($event->getResponseBody()['formulare']),
-                'hasProzesse' => !empty($event->getResponseBody()['prozesse'])
-            ]
+            $this->getAdditionalData($event)
         );
+    }
+
+    protected function getAdditionalData(ModifyServiceBwResponseEvent $event): array
+    {
+        $additionalData = ['hasProzesse' => false, 'hasFormulare' => false];
+        if (!empty($event->getResponseBody()['prozesse'])) {
+            $additionalData['hasProzesse'] = true;
+        }
+        $formulare = $event->getResponseBody()['formulare'] ?? [];
+        while (
+            ($form = array_shift($formulare))
+            && !($additionalData['hasProzesse'] === true && $additionalData['hasFormulare'] === true)) {
+            if ($form['typ'] === 'ONLINEDIENST') {
+                $additionalData['hasProzesse'] = true;
+            } else {
+                $additionalData['hasFormulare'] = true;
+            }
+        }
+        return $additionalData;
     }
 }

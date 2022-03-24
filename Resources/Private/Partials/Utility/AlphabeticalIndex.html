@@ -51,14 +51,10 @@
 						<div class="servicebw-record-icons text-right frame-type-menu_icons">
 							<s:leistungenAdditionalData as="additionalData" id="{record.id}">
 								<f:if condition="{additionalData.hasFormulare}">
-									<span class="servicebw-record-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{f:translate(key: 'alphabetical_index.has_formulare')}" >
-										<f:render partial="Utility/Icon" arguments="{identifier: 'actions-file-pdf'}"/>
-									</span>
+									<f:render partial="Utility/Icon" arguments="{identifier: 'actions-file-pdf', tooltipKey: 'has_formulare'}"/>
 								</f:if>
 								<f:if condition="{additionalData.hasProzesse}">
-									<span class="servicebw-record-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{f:translate(key: 'alphabetical_index.has_prozesse')}" >
-										<f:render partial="Utility/Icon" arguments="{identifier: 'actions-window-open'}"/>
-									</span>
+									<f:render partial="Utility/Icon" arguments="{identifier: 'actions-window-open', tooltipKey: 'has_prozesse'}"/>
 								</f:if>
 								<f:variable name="additionalAttributes">
 									<f:if condition="{additionalData.hasProzesse}">data-prozesse</f:if>
