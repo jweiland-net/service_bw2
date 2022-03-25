@@ -18,6 +18,7 @@ use JWeiland\ServiceBw2\Request\Portal\Leistungen;
  * Because the API does not feature all required functionality right now,
  * this class is a temporary helper class to work with Prozesse.
  *
+ * @deprecated in version 5.0, will be removed in 6.0.
  * @internal methods will be removed if the API adds some similar functionality
  */
 class ProzesseHelper
@@ -34,6 +35,10 @@ class ProzesseHelper
 
     public function findAll(): array
     {
+        trigger_error(
+            'ProzesseHelper::findAll() is deprecated! Use Leistungen::findAll() with LeistungenHelper::getAdditionalData() instead!',
+            E_USER_DEPRECATED
+        );
         $prozesse = [];
         foreach ($this->leistungen->findAll() as $leistungFromList) {
             $leistung = $this->leistungen->findById($leistungFromList['id']);
