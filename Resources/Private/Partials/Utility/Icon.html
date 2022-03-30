@@ -4,7 +4,7 @@
 >
 <f:comment>Use this partial to override the icons in Service BW. This allows overriding the icons without copying the whole template!</f:comment>
 <f:variable name="tooltipHtml"><f:if condition="{tooltipKey}">data-bs-toggle="tooltip" data-bs-placement="<f:if condition="{tooltipPosition}"><f:then>{tooltipPosition}</f:then><f:else>left</f:else></f:if>" data-tooltip-title="{f:translate(key: '{tooltipKey}')}"</f:if></f:variable>
-<span class="service-bw-icon" <f:format.raw>{tooltipHtml}</f:format.raw>
+<span class="service-bw-icon" <f:format.raw>{tooltipHtml}</f:format.raw>>
 	<core:icon identifier="{identifier}" size="small" alternativeMarkupIdentifier="inline" />
 </span>
 </html>

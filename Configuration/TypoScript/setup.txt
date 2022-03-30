@@ -8,8 +8,12 @@ plugin.tx_servicebw2 {
 }
 .service-bw-icon svg {
   display: inline-block;
-  height: 26px;
-  vertical-align: bottom;
+  height: 28px;
+  vertical-align: middle;
+}
+
+.ul-menu .service-bw-icon svg {
+  fill: #56555e;
 }
 
 [data-bs-toggle="tooltip"] {
