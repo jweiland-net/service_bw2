@@ -48,8 +48,8 @@
 				<target>Leistungen Detailansicht</target>
 			</trans-unit>
 			<trans-unit id="prozesse.list">
-				<source>Prozesse list view</source>
-				<target>Prozesse Listenansicht</target>
+				<source>DEPRECATED Prozesse list view</source>
+				<target>VERALTET Prozesse Listenansicht</target>
 			</trans-unit>
 			<trans-unit id="settings.organisationseinheiten.maps2_pid">
 				<source>Where to store maps2 records of Organisationseinheit items?</source>
@@ -58,6 +58,11 @@
 			<trans-unit id="settings.organisationseinheiten.maps2_detail_page">
 				<source>Detail page for maps2 poi collection</source>
 				<target>Seite für die maps2 Detailansicht </target>
+			</trans-unit>
+
+			<trans-unit id="suche.list">
+				<source>Search</source>
+				<target>Suche</target>
 			</trans-unit>
 		</body>
 	</file>

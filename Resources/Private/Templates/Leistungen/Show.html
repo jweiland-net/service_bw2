@@ -11,23 +11,28 @@
 			<div class="width-max">
 				<header>
 					<h1>{leistung.name}</h1>
+					<f:if condition="{leistung.textbloecke.0.typ} == 'preamble'">
+						<f:format.raw>{leistung.textbloecke.0.text}</f:format.raw>
+					</f:if>
 				</header>
 			</div>
 		</section>
-		<f:render partial="Textbloecke" arguments="{textbloecke: leistung.textbloecke}"/>
-		<f:if condition="{leistung.formulare} || {leistung.prozesse} || {leistung.organisationseinheiten}">
-			<aside>
+		<f:if condition="{leistung.formulare} || {leistung.prozesse}">
+			<section>
 				<div class="width-max">
-					<f:render partial="Formulare" arguments="{formulare: leistung.formulare}" />
-					<f:render partial="Leistungen/Prozesse" arguments="{prozesse: leistung.prozesse}" />
-					<f:if condition="{leistung.organisationseinheiten}">
-						<h2><f:translate key="leistungen.organisationseinheiten.head" /></h2>
-						<f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: leistung.organisationseinheiten}" />
-					</f:if>
+					<f:render partial="FormulareProzesse" arguments="{formulare: leistung.formulare, prozesse: leistung.prozesse}" />
 				</div>
-			</aside>
+			</section>
 		</f:if>
-
+		<f:if condition="{leistung.organisationseinheiten}">
+			<section>
+				<div class="width-max">
+					<h2><f:translate key="leistungen.organisationseinheiten.head" /></h2>
+					<f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: leistung.organisationseinheiten}" />
+				</div>
+			</section>
+		</f:if>
+		<f:render partial="Textbloecke" arguments="{textbloecke: leistung.textbloecke}"/>
 	</div>
 </f:section>
 </html>

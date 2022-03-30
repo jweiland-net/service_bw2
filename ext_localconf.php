@@ -11,10 +11,13 @@ call_user_func(function () {
             'Organisationseinheiten' => 'list,show',
             'Lebenslagen' => 'list,show',
             'Leistungen' => 'list,show',
-            'Prozesse' => 'list'
+            'Prozesse' => 'list',
+            'Suche' => 'list'
         ],
         // non-cacheable actions
-        []
+        [
+            'Suche' => 'list'
+        ]
     );
 
     if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'])) {
@@ -22,7 +25,16 @@ call_user_func(function () {
             'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
             'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
             'options' => [],
-            'groups' => ['all', 'pages']
+            'groups' => []
+        ];
+    }
+
+    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
+            'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
+            'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
+            'options' => [],
+            'groups' => []
         ];
     }
 

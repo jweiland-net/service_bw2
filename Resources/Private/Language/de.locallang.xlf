@@ -89,13 +89,8 @@
 				<target>Verwandte Verfahren</target>
 			</trans-unit>
 
-			<trans-unit id="formulare.head">
-				<source>Related forms</source>
-				<target>Formulare dieses Verfahrens</target>
-			</trans-unit>
-			<trans-unit id="prozesse.head">
-				<source>Related processes</source>
-				<target>Onlineanträge</target>
+			<trans-unit id="formulare_prozesse">
+				<target>Onlineantrag und Formulare</target>
 			</trans-unit>
 			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
 				<source>Related Organisationseinheit</source>
@@ -148,6 +143,67 @@
 			<trans-unit id="organisationseinheit.internetadressen">
 				<source>Related URLs</source>
 				<target>Internetadressen</target>
+			</trans-unit>
+
+			<trans-unit id="suche.sortBy">
+				<target>Sortieren nach</target>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.name">
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.relevanz">
+				<target>Relevanz</target>
+			</trans-unit>
+			<trans-unit id="suche.typ">
+				<target>Zeige Kategorie</target>
+			</trans-unit>
+			<trans-unit id="suche.typ.all">
+				<target>-</target>
+			</trans-unit>
+			<trans-unit id="suche.result">
+				<target>Ergebnis</target>
+			</trans-unit>
+			<trans-unit id="suche.results">
+				<target>Ergebnisse</target>
+			</trans-unit>
+
+			<!-- For general use in ext:service_bw2 -->
+			<trans-unit id="leistung">
+				<target>Leistung</target>
+			</trans-unit>
+			<trans-unit id="lebenslage">
+				<target>Lebenslage</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheit">
+				<target>Organisationseinheit</target>
+			</trans-unit>
+			<trans-unit id="leistungen">
+				<target>Leistungen</target>
+			</trans-unit>
+			<trans-unit id="lebenslagen">
+				<target>Lebenslagen</target>
+			</trans-unit>
+			<trans-unit id="organisationseinheiten">
+				<target>Organisationseinheiten</target>
+			</trans-unit>
+
+			<trans-unit id="has_prozesse">
+				<target>Diese Leistung beinhaltet Prozesse, mit denen Sie ein interaktives Online-Formular ausfüllen können.</target>
+			</trans-unit>
+			<trans-unit id="has_formulare">
+				<target>Diese Leistung beinhaltet PDF Formulare.</target>
+			</trans-unit>
+			<trans-unit id="prozess.description">
+				<target>Interaktives Online-Formular. Kann einen Service BW Account voraussetzen.</target>
+			</trans-unit>
+			<trans-unit id="formular.description">
+				<target>PDF Formular zum herunterladen und ausdrucken.</target>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.search_leistungen">
+				<target>Dienstleistungen durchsuchen...</target>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.filter_prozesse">
+				<target>Nur Dienstleistungen mit Online-Formular anzeigen</target>
 			</trans-unit>
 		</body>
 	</file>

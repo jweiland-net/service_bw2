@@ -4,7 +4,7 @@
 >
 
 <f:for each="{textbloecke}" as="textblock">
-	<f:if condition="{textblock.text} != '' && {textblock.text} != '<p>&nbsp;</p>'">
+	<f:if condition="{textblock.text} != '' && {textblock.text} != '<p>&nbsp;</p>' && {textblock.typ} != 'preamble'">
 		<section>
 			<div class="width-max">
 				<f:if condition="{textblock.titel}"><h2 class="{textblock.typ}">{textblock.titel}</h2></f:if>

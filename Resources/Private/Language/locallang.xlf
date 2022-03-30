@@ -67,11 +67,8 @@
 				<source>Related Procedure</source>
 			</trans-unit>
 
-			<trans-unit id="formulare.head">
-				<source>Related forms</source>
-			</trans-unit>
-			<trans-unit id="prozesse.head">
-				<source>Related processes</source>
+			<trans-unit id="formulare_prozesse">
+				<source>Related forms and processes</source>
 			</trans-unit>
 			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
 				<source>Related Organisationseinheit</source>
@@ -111,6 +108,67 @@
 			</trans-unit>
 			<trans-unit id="organisationseinheit.internetadressen">
 				<source>Related URLs</source>
+			</trans-unit>
+
+			<trans-unit id="suche.sortBy">
+				<source>Sort by</source>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="suche.sortBy.relevanz">
+				<source>Relevance</source>
+			</trans-unit>
+			<trans-unit id="suche.typ">
+				<source>Show type</source>
+			</trans-unit>
+			<trans-unit id="suche.typ.all">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="suche.result">
+				<source>Result</source>
+			</trans-unit>
+			<trans-unit id="suche.results">
+				<source>Results</source>
+			</trans-unit>
+
+			<!-- For general use in ext:service_bw2. Used english words from service-bw.de! -->
+			<trans-unit id="leistung">
+				<source>Service</source>
+			</trans-unit>
+			<trans-unit id="lebenslage">
+				<source>Life situation</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheit">
+				<source>Organisational unit</source>
+			</trans-unit>
+			<trans-unit id="leistungen">
+				<source>Services</source>
+			</trans-unit>
+			<trans-unit id="lebenslagen">
+				<source>Life situations</source>
+			</trans-unit>
+			<trans-unit id="organisationseinheiten">
+				<source>Organisational units</source>
+			</trans-unit>
+
+			<trans-unit id="has_prozesse">
+				<source>This service includes processes that allow you to fill out an interactive online form</source>
+			</trans-unit>
+			<trans-unit id="has_formulare">
+				<source>This service includes PDF forms</source>
+			</trans-unit>
+			<trans-unit id="prozess.description">
+				<source>Interactive online form. May require an Service BW Account.</source>
+			</trans-unit>
+			<trans-unit id="formular.description">
+				<source>PDF form to download and print out</source>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.search_leistungen">
+				<source>Search for a service</source>
+			</trans-unit>
+			<trans-unit id="alphabetical_index.filter_prozesse">
+				<source>Show services with online forms only</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -24,7 +24,7 @@
 					<h2><f:translate key="organisationseinheit.kontaktpersonen" /></h2>
 					<f:render partial="Organisationseinheiten/Kontaktpersonen" arguments="{kontaktpersonen: organisationseinheit.kontaktpersonen}" />
 			</f:if>
-			<f:render partial="Formulare" arguments="{formulare: organisationseinheit.formulare}" />
+			<f:render partial="FormulareProzesse" arguments="{formulare: organisationseinheit.formulare}" />
 			<f:if condition="{organisationseinheit.untergeordneteOEs}">
 				<h2><f:translate key="organisationseinheit.children"/></h2>
 				<f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit.untergeordneteOEs}" />

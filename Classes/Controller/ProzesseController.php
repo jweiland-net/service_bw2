@@ -16,6 +16,8 @@ use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
 
 /**
  * Controller for Prozesse from Service BW
+ *
+ * @deprecated in version 5.0, will be removed in 6.0. Use Leistungen (Services) plugin with filter options instead!
  */
 class ProzesseController extends AbstractController
 {
@@ -27,6 +29,11 @@ class ProzesseController extends AbstractController
     public function __construct(ProzesseHelper $prozesseHelper)
     {
         $this->prozesseHelper = $prozesseHelper;
+        trigger_error(
+            'service_bw2: The Prozesse mode is deprecated since version 5.0 and will be removed in 6.0!'
+            . ' Use the Leistungen list with new filter options instead!',
+            E_USER_DEPRECATED
+        );
     }
 
     public function listAction(): void
