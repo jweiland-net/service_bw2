@@ -4,7 +4,7 @@
 	"description": "With this extension you can access service BW interface",
 	"license": "GPL-2.0-or-later",
 	"keywords": ["typo3", "TYPO3 CMS", "service", "bw"],
-	"homepage": "http://www.jweiland.net",
+	"homepage": "https://www.jweiland.net",
 	"authors": [
 		{
 			"name": "Stefan Froemken",
@@ -15,11 +15,6 @@
 			"name": "Markus Kugler",
 			"email": "projects@jweiland.net",
 			"role": "Developer"
-		},
-		{
-			"name": "Pascal Rinker",
-			"email": "projects@jweiland.net",
-			"role": "Developer"
 		}
 	],
 	"support": {
@@ -28,12 +23,14 @@
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^10.4.6",
+		"typo3/cms-core": "^10.4.29",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^2.14",
+		"roave/security-advisories": "dev-latest",
+		"friendsofphp/php-cs-fixer": "^3.0",
 		"nimut/testing-framework": "^6.0",
+		"phpunit/phpunit": "^9.5",
 		"phpspec/prophecy-phpunit": "^2.0"
 	},
 	"autoload": {
@@ -55,7 +52,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "4.0.x-dev"
+			"dev-master": "5.0.x-dev"
 		},
 		"typo3/cms": {
 			"extension-key": "service_bw2",
@@ -64,14 +61,17 @@
 		}
 	},
 	"scripts": {
-		"post-autoload-dump": [
-			"mkdir -p .build/public/typo3conf/ext/",
-			"[ -L .build/public/typo3conf/ext/service_bw2 ] || ln -snvf ../../../../. .build/public/typo3conf/ext/service_bw2"
-		],
 		"php:fix": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix Classes Tests",
 		"ci:php:lint": "find *.php Classes Configuration Tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
-		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix --dry-run -v --show-progress=dots --diff-format=udiff Classes Tests",
-		"ci:tests:unit": ".build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit",
-		"ci:tests:functional": ".build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional"
+		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/.php_cs.php fix --dry-run -v --show-progress=dots --diff Classes Tests",
+		"ci:tests:unit": "php -d date.timezone=Europe/Berlin .build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit",
+		"ci:tests:functional": "find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo \"Running functional test suite {}\"; php -d date.timezone=Europe/Berlin .build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}';",
+		"link-extension": [
+			"@php -r 'is_dir($extFolder=__DIR__.\"/.build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
+			"@php -r 'file_exists($extFolder=__DIR__.\"/.build/public/typo3conf/ext/service_bw2\") || symlink(__DIR__,$extFolder);'"
+		],
+		"post-autoload-dump": [
+			"@link-extension"
+		]
 	}
 }

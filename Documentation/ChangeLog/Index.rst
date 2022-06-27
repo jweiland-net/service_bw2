@@ -11,6 +11,14 @@
 ChangeLog
 =========
 
+**Version 5.0.2**
+
+- Remove deprecated TCA option `enableMultiSelectFilterTextfield`
+
+**Version 5.0.1**
+
+- Delete solr documents for all other languages, too
+
 **Version 5.0.0**
 
 .. hint::

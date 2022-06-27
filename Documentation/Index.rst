@@ -33,7 +33,7 @@ Service BW Extension
       2013-2020
 
    :Author:
-      Stefan Froemken, Markus Kugler, Pascal Rinker
+      Stefan Froemken, Markus Kugler
 
    :Email:
       projects@jweiland.net
