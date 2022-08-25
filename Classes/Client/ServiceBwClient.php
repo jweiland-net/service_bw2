@@ -114,7 +114,16 @@ class ServiceBwClient implements SingletonInterface
         array $overridePaginationConfiguration = [],
         array $overrideLocalizationConfiguration = []
     ): array {
-        $cacheIdentifier = $this->getCacheIdentifier(func_get_args());
+        $cacheIdentifier = $this->getCacheIdentifier([
+            $path,
+            $getParameters,
+            $isLocalizedRequest,
+            $isPaginatedRequest,
+            $body,
+            $overridePaginationConfiguration,
+            $overrideLocalizationConfiguration
+        ]);
+
         if (!$this->cache->has($cacheIdentifier)) {
             $this->path = $path;
             $this->isPaginatedRequest = $isPaginatedRequest;

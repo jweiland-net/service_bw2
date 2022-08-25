@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+**Version 5.0.3**
+
+- Add lang attribute to all fluid templates
+- Use full set of method arguments to build cache identifier
+- Show textbloacke of type preamble in frontend again
+
 **Version 5.0.2**
 
 - Remove deprecated TCA option `enableMultiSelectFilterTextfield`
