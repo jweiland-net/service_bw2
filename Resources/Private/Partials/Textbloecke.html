@@ -5,12 +5,14 @@
 
 <f:for each="{textbloecke}" as="textblock">
 	<f:if condition="{textblock.text} != '' && {textblock.text} != '<p>&nbsp;</p>'">
-		<section>
-			<div class="width-max">
-				<f:if condition="{textblock.titel}"><h2 class="{textblock.typ}">{textblock.titel}</h2></f:if>
-				<f:format.html>{textblock.text}</f:format.html>
-			</div>
-		</section>
+		<f:if condition="{exclude} == '' || ({exclude} != '' && {exclude} != {textblock.typ})">
+			<section>
+				<div class="width-max">
+					<f:if condition="{textblock.titel}"><h2 class="{textblock.typ}">{textblock.titel}</h2></f:if>
+					<f:format.html>{textblock.text}</f:format.html>
+				</div>
+			</section>
+		</f:if>
 	</f:if>
 </f:for>
 </html>
