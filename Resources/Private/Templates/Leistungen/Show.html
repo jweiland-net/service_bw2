@@ -32,7 +32,7 @@
 				</div>
 			</section>
 		</f:if>
-		<f:render partial="Textbloecke" arguments="{textbloecke: leistung.textbloecke}"/>
+		<f:render partial="Textbloecke" arguments="{textbloecke: leistung.textbloecke, exclude: 'preamble'}"/>
 	</div>
 </f:section>
 </html>
