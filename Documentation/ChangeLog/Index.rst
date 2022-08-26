@@ -11,6 +11,10 @@
 ChangeLog
 =========
 
+**Version 5.0.4**
+
+- Add exclude argument for textbloecke
+
 **Version 5.0.3**
 
 - Add lang attribute to all fluid templates
