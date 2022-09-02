@@ -22,8 +22,6 @@ class DataHandler
     /**
      * Removes the Authentication information from sys_registry, if all caches will be cleared.
      * That way a new Bearer information can be stored.
-     *
-     * @param array $params
      */
     public function clearCachePostProc(array $params): void
     {

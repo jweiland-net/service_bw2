@@ -17,7 +17,8 @@ use JWeiland\Maps2\Service\MapService;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
@@ -32,57 +33,41 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    /**
-     * @var ConfigurationManager
-     */
-    protected static $configurationManager;
+    protected static ConfigurationManager $configurationManager;
 
-    /**
-     * @var GeoCodeService
-     */
-    protected static $geoCodeService;
+    protected static GeoCodeService $geoCodeService;
 
     /**
      * Storage page id of maps2 records
-     *
-     * @var int
      */
-    protected static $maps2Pid = 0;
+    protected static int $maps2Pid = 0;
 
-    /**
-     * @var string
-     */
-    protected static $id = '';
+    protected static int $id = 0;
 
-    /**
-     * Initializes the arguments
-     */
     public function initializeArguments(): void
     {
         $this->registerArgument('organisationseinheit', 'array', 'organisationseinheit', true);
     }
 
     /**
-     * @param int $organisationseinheitId
+     * @throws InvalidConfigurationTypeException
      */
     public static function init(int $organisationseinheitId): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-        self::$geoCodeService = $objectManager->get(GeoCodeService::class);
+        self::$geoCodeService = GeneralUtility::makeInstance(GeoCodeService::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
-            ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         )['settings']['organisationseinheiten']['maps2Pid'];
+
         self::$id = $organisationseinheitId;
     }
 
     /**
      * Returns the uid of a maps2 poi collection for a organisationseinheit.
      *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return int
+     * @throws InvalidConfigurationTypeException
+     * @throws \Exception
      */
     public static function renderStatic(
         array $arguments,
@@ -104,6 +89,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
             $maps2PoiUid = self::getUidOfNewPoiCollectionForAddress($address, $arguments['organisationseinheit']['name']);
             self::createPoiRelation($hashedAddress, $maps2PoiUid);
         }
+
         return $maps2PoiUid;
     }
 
@@ -116,19 +102,18 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_servicebw2_organisationseinheit');
+
         return $connection
             ->select(
                 ['hashed_address', 'tx_maps2_poi'],
                 'tx_servicebw2_organisationseinheit',
                 ['id' => self::$id]
-            )->fetch(\PDO::FETCH_ASSOC);
+            )
+            ->fetch(\PDO::FETCH_ASSOC);
     }
 
     /**
      * Update maps2 poi collection relation
-     *
-     * @param string $hashedAddress
-     * @param int $txMaps2Poi
      */
     protected static function updatePoiRelation(string $hashedAddress, int $txMaps2Poi): void
     {
@@ -140,13 +125,15 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 
     /**
      * Create maps2 poi collection relation
-     *
-     * @param string $hashedAddress
-     * @param int $txMaps2Poi
      */
     protected static function createPoiRelation(string $hashedAddress, int $txMaps2Poi): void
     {
-        $data = ['id' => self::$id, 'hashed_address' => $hashedAddress, 'tx_maps2_poi' => $txMaps2Poi];
+        $data = [
+            'id' => self::$id,
+            'hashed_address' => $hashedAddress,
+            'tx_maps2_poi' => $txMaps2Poi
+        ];
+
         GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_servicebw2_organisationseinheit')
             ->insert('tx_servicebw2_organisationseinheit', $data);
@@ -154,42 +141,36 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 
     /**
      * Get address from organisationseinheit
-     *
-     * @param array $organisationseinheit
-     * @return string
      */
     protected static function getAddress(array $organisationseinheit): string
     {
         if ($organisationseinheit['anschriften']) {
             foreach ($organisationseinheit['anschriften'] as $anschrift) {
-                if ($anschrift['type'] === 'HAUSANSCHRIFT') {
-                    if (
-                        $anschrift['strasse'] &&
-                        $anschrift['hausnummer'] &&
-                        $anschrift['postleitzahl'] &&
+                if (
+                    ($anschrift['type'] === 'HAUSANSCHRIFT')
+                    && $anschrift['strasse']
+                    && $anschrift['hausnummer']
+                    && $anschrift['postleitzahl']
+                    && $anschrift['ort']
+                ) {
+                    return sprintf(
+                        '%s %s %s %s',
+                        $anschrift['strasse'],
+                        $anschrift['hausnummer'],
+                        $anschrift['postleitzahl'],
                         $anschrift['ort']
-                    ) {
-                        $address = sprintf(
-                            '%s %s %s %s',
-                            $anschrift['strasse'],
-                            $anschrift['hausnummer'],
-                            $anschrift['postleitzahl'],
-                            $anschrift['ort']
-                        );
-                        return $address;
-                    }
+                    );
                 }
             }
         }
+
         return '';
     }
 
     /**
      * Returns the uid of a new created poi collection for $address
      *
-     * @param string $address
-     * @param string $poiTitle
-     * @return int
+     * @throws \Exception
      */
     protected static function getUidOfNewPoiCollectionForAddress(string $address, string $poiTitle): int
     {
@@ -206,6 +187,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
                 ]
             );
         }
+
         return $poiUid;
     }
 }

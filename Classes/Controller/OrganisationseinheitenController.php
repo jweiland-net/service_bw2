@@ -19,10 +19,7 @@ use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
  */
 class OrganisationseinheitenController extends AbstractController
 {
-    /**
-     * @var Organisationseinheiten
-     */
-    protected $organisationseinheiten;
+    protected Organisationseinheiten $organisationseinheiten;
 
     public function __construct(Organisationseinheiten $organisationseinheiten)
     {
@@ -34,7 +31,17 @@ class OrganisationseinheitenController extends AbstractController
      */
     public function listAction(): void
     {
-        $listItems = json_decode('[' . $this->settings['organisationseinheiten']['listItems'] . ']', true);
+        try {
+            $listItems = json_decode(
+                '[' . $this->settings['organisationseinheiten']['listItems'] . ']',
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (\JsonException $jsonException) {
+            $listItems = [];
+        }
+
         $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds($this->organisationseinheiten->findOrganisationseinheitenbaum(), $listItems);
         $this->view->assign('organisationseinheitenbaum', $records);
     }

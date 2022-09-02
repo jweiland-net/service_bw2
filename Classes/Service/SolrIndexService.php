@@ -19,28 +19,15 @@ use JWeiland\ServiceBw2\Indexer\Indexer;
  */
 class SolrIndexService
 {
-    /**
-     * @var Indexer
-     */
-    protected $indexer;
+    protected Indexer $indexer;
 
-    /**
-     * @var array
-     */
-    protected $alreadyIndexed = [];
+    protected array $alreadyIndexed = [];
 
     public function injectIndexer(Indexer $indexer): void
     {
         $this->indexer = $indexer;
     }
 
-    /**
-     * Index records
-     *
-     * @param array $records
-     * @param string $type
-     * @param int $rootPageUid
-     */
     public function indexRecords(array $records, string $type, int $rootPageUid): void
     {
         foreach ($records as $key => $record) {
@@ -52,11 +39,6 @@ class SolrIndexService
 
     /**
      * Index service bw2 records
-     *
-     * @param array $record
-     * @param string $type equals the name of index config in TypoScript
-     * @param int $rootPageUid
-     * @return bool
      */
     public function indexRecord(array $record, string $type, int $rootPageUid): bool
     {
@@ -82,25 +64,20 @@ class SolrIndexService
 
     /**
      * Wrapper for index
-     *
-     * @param Item $item
-     * @return bool
      */
     protected function indexerIndex(Item $item): bool
     {
         $tsfe = $GLOBALS['TSFE'];
         $indexed = $this->indexer->index($item);
         $GLOBALS['TSFE'] = $tsfe;
+
         return $indexed;
     }
 
     /**
      * Wrapper for delete by type
-     *
-     * @param string $type
-     * @param int $rootPage
      */
-    public function indexerDeleteByType(string $type, $rootPage): void
+    public function indexerDeleteByType(string $type, int $rootPage): void
     {
         $tsfe = $GLOBALS['TSFE'];
         $this->indexer->deleteItemsByType($type, $rootPage);

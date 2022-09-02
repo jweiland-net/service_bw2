@@ -23,12 +23,8 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
 {
     /**
      * Adjust index item
-     *
-     * @param Item $item
-     * @param int $language
-     * @return bool
      */
-    protected function indexItem(Item $item, $language = 0): bool
+    protected function indexItem(Item $item, int $language = 0): bool
     {
         $itemIndexed = false;
         $documents = [];
@@ -61,9 +57,6 @@ class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
 
     /**
      * Deletes items by type
-     *
-     * @param string $type
-     * @param int $rootPageId
      */
     public function deleteItemsByType(string $type, int $rootPageId): void
     {

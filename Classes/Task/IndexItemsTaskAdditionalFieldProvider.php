@@ -24,10 +24,8 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
 {
     /**
      * This fields can not be empty!
-     *
-     * @var array
      */
-    protected $requiredFields = [
+    protected array $requiredFields = [
         'typeToIndex',
         'solrConfig',
         'pluginTtContentUid',
@@ -36,10 +34,8 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
 
     /**
      * Fields to insert from task if empty
-     *
-     * @var array
      */
-    protected $insertFields = [
+    protected array $insertFields = [
         'typeToIndex',
         'solrConfig',
         'pluginTtContentUid',
@@ -98,13 +94,6 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
         return $additionalFields;
     }
 
-    /**
-     * self describing
-     *
-     * @param array $submittedData
-     * @param SchedulerModuleController $schedulerModule
-     * @return bool
-     */
     public function validateAdditionalFields(
         array &$submittedData,
         SchedulerModuleController $schedulerModule
@@ -112,12 +101,6 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
         return true;
     }
 
-    /**
-     * Saves the submitted data from additional fields
-     *
-     * @param array $submittedData
-     * @param AbstractTask $task
-     */
     public function saveAdditionalFields(array $submittedData, AbstractTask $task): void
     {
         /** @var IndexItemsTask $task */
@@ -127,12 +110,6 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
         $task->rootPage = (int)$submittedData['rootPage'];
     }
 
-    /**
-     * Gets "typeToIndex" options
-     *
-     * @param string $selected
-     * @return string
-     */
     protected function getTypeToIndexOptions(string $selected = ''): string
     {
         $selected = ServiceBwUtility::getRepositoryReplacement($selected);

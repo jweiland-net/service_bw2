@@ -20,10 +20,7 @@ use JWeiland\ServiceBw2\Helper\LeistungenHelper;
  */
 class LeistungenListener
 {
-    /**
-     * @var LeistungenHelper
-     */
-    protected $leistungenHelper;
+    protected LeistungenHelper $leistungenHelper;
 
     public function __construct(LeistungenHelper $leistungenHelper)
     {
@@ -58,6 +55,7 @@ class LeistungenListener
                 $additionalData['hasFormulare'] = true;
             }
         }
+
         return $additionalData;
     }
 }

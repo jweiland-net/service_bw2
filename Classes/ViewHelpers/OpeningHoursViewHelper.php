@@ -46,13 +46,13 @@ class OpeningHoursViewHelper extends AbstractViewHelper
      * Days provided by Service BW API
      * Yes in german -_-
      */
-    const DAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG', 'SAMSTAG', 'SONNTAG'];
+    public const DAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG', 'SAMSTAG', 'SONNTAG'];
 
     /**
      * Workdays
      * For tagestyp "ARBEITSTAG_MO_FR" from API
      */
-    const WORKDAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG'];
+    public const WORKDAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG'];
 
     /**
      * Initializes the arguments
@@ -93,14 +93,12 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                 }
             }
         }
+
         return implode('', $html);
     }
 
     /**
      * Get HTML for an structuredOpeningHours array
-     *
-     * @param array $structuredOpeningHours
-     * @return string
      */
     protected static function getStructuredOpeningHoursHTML(array $structuredOpeningHours): string
     {
@@ -153,15 +151,12 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             }
             $html[] = '</dl>';
         }
+
         return implode('', $html);
     }
 
     /**
      * Process opening hours using $structuredOpeningHours['regulaereZeiten'] array
-     *
-     * @param array $regulaereZeiten
-     * @param array $forenoonOpeningHoursWorkdays reference!
-     * @param array $afternoonOpeningHours reference!
      */
     protected static function processOpeningHours(
         array $regulaereZeiten,
@@ -191,9 +186,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Get the opening hours as string e.g. 07:00 - 12:00
-     *
-     * @param array $regulaereZeiten
-     * @return string
      */
     protected static function getRegulaereZeitenHours(array $regulaereZeiten): string
     {

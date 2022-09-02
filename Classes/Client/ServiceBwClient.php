@@ -22,10 +22,9 @@ use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
- *  Client to be used for all Service BW API v2 requests
+ * Client to be used for all Service BW API v2 requests
  */
 class ServiceBwClient implements SingletonInterface
 {
@@ -42,52 +41,42 @@ class ServiceBwClient implements SingletonInterface
         'headerParameter' => 'Accept-Language'
     ];
 
-    protected $path = '';
+    protected string $path = '';
 
-    protected $isPaginatedRequest = false;
-    protected $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
+    protected bool $isPaginatedRequest = false;
 
-    protected $isLocalizedRequest = false;
-    protected $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
+    protected array $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
 
-    /**
-     * @var RequestFactory
-     */
-    protected $requestFactory;
+    protected bool $isLocalizedRequest = false;
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected array $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
 
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected RequestFactory$requestFactory;
 
-    /**
-     * @var FrontendInterface
-     */
-    protected $cache;
+    protected Registry $registry;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected ExtConf $extConf;
 
-    /**
-     * @param RequestFactory $requestFactory
-     * @param Registry $registry
-     * @param TokenHelper $tokenHelper
-     * @param ExtConf $extConf
-     * @param EventDispatcherInterface $eventDispatcher
-     */
-    public function __construct(RequestFactory $requestFactory, Registry $registry, TokenHelper $tokenHelper, ExtConf $extConf, EventDispatcherInterface $eventDispatcher)
-    {
+    protected EventDispatcherInterface $eventDispatcher;
+
+    protected LocalizationHelper $localizationHelper;
+
+    protected FrontendInterface $cache;
+
+    public function __construct(
+        RequestFactory $requestFactory,
+        Registry $registry,
+        ExtConf $extConf,
+        EventDispatcherInterface $eventDispatcher,
+        LocalizationHelper $localizationHelper,
+        TokenHelper $tokenHelper
+    ) {
         $this->requestFactory = $requestFactory;
         $this->registry = $registry;
         $this->extConf = $extConf;
         $this->eventDispatcher = $eventDispatcher;
+        $this->localizationHelper = $localizationHelper;
+
         $this->cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
 
         if (!$this->registry->get('ServiceBw', 'token', false)) {
@@ -95,16 +84,6 @@ class ServiceBwClient implements SingletonInterface
         }
     }
 
-    /**
-     * @param string $path
-     * @param array $getParameters
-     * @param bool $isLocalizedRequest
-     * @param bool $isPaginatedRequest
-     * @param string|null $body
-     * @param array $overridePaginationConfiguration
-     * @param array $overrideLocalizationConfiguration
-     * @return array
-     */
     public function request(
         string $path,
         array $getParameters = [],
@@ -128,8 +107,14 @@ class ServiceBwClient implements SingletonInterface
             $this->path = $path;
             $this->isPaginatedRequest = $isPaginatedRequest;
             $this->isLocalizedRequest = $isLocalizedRequest;
-            $this->paginationConfiguration = array_merge(self::DEFAULT_PAGINATION_CONFIGURATION, $overridePaginationConfiguration);
-            $this->localizationConfiguration = array_merge(self::DEFAULT_LOCALIZATION_CONFIGURATION, $overrideLocalizationConfiguration);
+            $this->paginationConfiguration = array_merge(
+                self::DEFAULT_PAGINATION_CONFIGURATION,
+                $overridePaginationConfiguration
+            );
+            $this->localizationConfiguration = array_merge(
+                self::DEFAULT_LOCALIZATION_CONFIGURATION,
+                $overrideLocalizationConfiguration
+            );
 
             $query = array_merge(
                 $this->getQueryForDefaultParameters(),
@@ -149,7 +134,11 @@ class ServiceBwClient implements SingletonInterface
                     ]
                 );
 
-                $responseBody = (array)json_decode($response->getBody()->getContents(), true);
+                try {
+                    $responseBody = (array)json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $jsonException) {
+                    $responseBody = [];
+                }
 
                 /** @var ModifyServiceBwResponseEvent $event */
                 $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
@@ -158,6 +147,7 @@ class ServiceBwClient implements SingletonInterface
                     $isPaginatedRequest,
                     $isLocalizedRequest
                 ));
+
                 $responseBody = $event->getResponseBody();
 
                 $isNextPageSet = false;
@@ -165,11 +155,15 @@ class ServiceBwClient implements SingletonInterface
                     if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
                         $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
                     }
-                    $items = array_merge($items, $responseBody['items']);
+                    array_push($items, ...$responseBody['items']);
                 }
             } while ($isPaginatedRequest && $isNextPageSet);
 
-            $this->cache->set($cacheIdentifier, $isPaginatedRequest ? $items : $responseBody, ['service_bw2_request']);
+            $this->cache->set(
+                $cacheIdentifier,
+                $isPaginatedRequest ? $items : $responseBody,
+                ['service_bw2_request']
+            );
         }
 
         return $this->cache->get($cacheIdentifier);
@@ -177,10 +171,16 @@ class ServiceBwClient implements SingletonInterface
 
     protected function getCacheIdentifier(array $requestArguments): string
     {
-        $value = json_encode($requestArguments);
+        try {
+            $value = json_encode($requestArguments, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $jsonException) {
+            return '';
+        }
+
         if ($requestArguments[2]) {
             $value .= GeneralUtility::makeInstance(LocalizationHelper::class)->getFrontendLanguageIsoCode();
         }
+
         return md5($value);
     }
 
@@ -190,8 +190,7 @@ class ServiceBwClient implements SingletonInterface
             'Authorization' => $this->registry->get('ServiceBw', 'token', '')
         ];
         if ($this->isLocalizedRequest) {
-            $localizationHelper = GeneralUtility::makeInstance(ObjectManager::class)->get(LocalizationHelper::class);
-            $headers[$this->localizationConfiguration['headerParameter']] = $localizationHelper->getFrontendLanguageIsoCode();
+            $headers[$this->localizationConfiguration['headerParameter']] = $this->localizationHelper->getFrontendLanguageIsoCode();
         }
         return $headers;
     }
@@ -206,13 +205,18 @@ class ServiceBwClient implements SingletonInterface
 
     protected function getQueryForDefaultParameters(): array
     {
-        $query = ['mandantId' => $this->extConf->getMandant()];
+        $query = [
+            'mandantId' => $this->extConf->getMandant()
+        ];
+
         if ($this->extConf->getAgs()) {
             $query['gebietAgs'] = $this->extConf->getAgs();
         }
+
         if ($this->extConf->getGebietId()) {
             $query['gebietId'] = $this->extConf->getGebietId();
         }
+
         return $query;
     }
 }

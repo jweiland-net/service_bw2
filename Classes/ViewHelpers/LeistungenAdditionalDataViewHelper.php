@@ -29,7 +29,7 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('id', 'int', 'ID of the Leistung record', true);
@@ -46,6 +46,7 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
         $templateVariableContainer->add($arguments['as'], $leistungenHelper->getAdditionalData((int)$arguments['id']));
         $output = $renderChildrenClosure();
         $templateVariableContainer->remove($arguments['as']);
+
         return $output;
     }
 }

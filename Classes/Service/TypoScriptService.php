@@ -24,17 +24,9 @@ class TypoScriptService
     public function override(array &$mergedFlexFormSettings, array $typoScriptSettings): void
     {
         foreach ($typoScriptSettings as $property => $value) {
-            if (isset($typoScriptSettings[$property]) && is_array($typoScriptSettings[$property])) {
-                if (is_array($typoScriptSettings[$property])) {
-                    $this->override($mergedFlexFormSettings[$property], $typoScriptSettings[$property]);
-                }
-            } elseif (
-                $mergedFlexFormSettings[$property] === '0' ||
-                (
-                    is_string($mergedFlexFormSettings[$property]) &&
-                    strlen($mergedFlexFormSettings[$property]) === 0
-                )
-            ) {
+            if (isset($value) && is_array($value)) {
+                $this->override($mergedFlexFormSettings[$property], $value);
+            } elseif ($mergedFlexFormSettings[$property] === '0' || $mergedFlexFormSettings[$property] === '') {
                 $mergedFlexFormSettings[$property] = $value;
             }
         }

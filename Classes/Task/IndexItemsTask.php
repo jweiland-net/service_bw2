@@ -18,7 +18,6 @@ use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
@@ -26,40 +25,17 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  */
 class IndexItemsTask extends AbstractTask
 {
-    /**
-     * @var string
-     */
-    public $typeToIndex = '';
+    public string $typeToIndex = '';
 
-    /**
-     * @var string
-     */
-    public $solrConfig = '';
+    public string $solrConfig = '';
 
-    /**
-     * @var string
-     */
-    public $pluginTtContentUid = '';
+    public string $pluginTtContentUid = '';
 
-    /**
-     * @var int
-     */
-    public $rootPage = 0;
+    public int $rootPage = 0;
 
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
+    protected AbstractRequest $requestClass;
 
-    /**
-     * @var AbstractRequest
-     */
-    protected $requestClass;
-
-    /**
-     * @var array
-     */
-    protected $classMapping = [
+    protected array $classMapping = [
         Organisationseinheiten::class => [
             'method' => 'findAll',
         ],
@@ -74,15 +50,13 @@ class IndexItemsTask extends AbstractTask
     /**
      * Execute task
      *
-     * @return bool
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      */
     public function execute(): bool
     {
         $this->typeToIndex = ServiceBwUtility::getRepositoryReplacement($this->typeToIndex);
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->requestClass = $this->objectManager->get($this->typeToIndex);
+        $this->requestClass = GeneralUtility::makeInstance($this->typeToIndex);
 
         $recordList = call_user_func([$this->requestClass, $this->classMapping[$this->typeToIndex]['method']]);
         if ($this->classMapping[$this->typeToIndex] === Organisationseinheiten::class) {
@@ -90,7 +64,7 @@ class IndexItemsTask extends AbstractTask
             $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds($recordList, $initialRecords);
         }
 
-        $solrIndexService = $this->objectManager->get(SolrIndexService::class);
+        $solrIndexService = GeneralUtility::makeInstance(SolrIndexService::class);
         $solrIndexService->indexerDeleteByType($this->solrConfig, $this->rootPage);
         $solrIndexService->indexRecords($this->getLiveDataForRecords($recordList), $this->solrConfig, $this->rootPage);
 
@@ -113,8 +87,6 @@ class IndexItemsTask extends AbstractTask
     /**
      * Gets initial records
      *
-     * @param string $settings
-     * @return array
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      */
@@ -128,29 +100,29 @@ class IndexItemsTask extends AbstractTask
                 ['uid' => $this->pluginTtContentUid]
             )->fetch();
         $flexform = GeneralUtility::xml2array($resultRows['pi_flexform']);
+
         return GeneralUtility::trimExplode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF'], true);
     }
 
     /**
      * Gets live data of given records
-     *
-     * @param array $records
-     * @return array
      */
     protected function getLiveDataForRecords(array $records): array
     {
         $recordsToIndex = [];
 
         foreach ($records as $recordToIndex) {
+            $record = [];
             try {
                 $record = $this->requestClass->findById($recordToIndex['id']);
             } catch (ClientException $exception) {
             }
 
             // TODO: Search can be optimized by imploding for sub arrays in sections like address
-            if ($record['textbloecke']) {
+            if (isset($record['textbloecke']) && is_array($record['textbloecke'])) {
                 $record['processed_textbloecke'] = $this->resolveTextbloeckeText($record['textbloecke']);
             }
+
             $recordsToIndex[] = $record;
         }
 
@@ -159,9 +131,6 @@ class IndexItemsTask extends AbstractTask
 
     /**
      * Resolve text of textbloecke
-     *
-     * @param array $textbloecke
-     * @return string
      */
     protected function resolveTextbloeckeText(array $textbloecke): string
     {

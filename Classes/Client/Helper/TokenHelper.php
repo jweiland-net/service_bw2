@@ -23,20 +23,11 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class TokenHelper implements SingletonInterface
 {
-    /**
-     * @var RequestFactory
-     */
-    protected $requestFactory;
+    protected RequestFactory $requestFactory;
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected Registry $registry;
 
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
     public function __construct(RequestFactory $requestFactory, Registry $registry, ExtConf $extConf)
     {
@@ -51,11 +42,18 @@ class TokenHelper implements SingletonInterface
             $this->extConf->getBaseUrl() . '/wsbenutzer/token',
             'POST',
             [
-                'headers' => ['Accept' => 'text/plain', 'Content-Type' => 'text/plain', 'X-SP-Mandant' => $this->extConf->getMandant()],
+                'headers' => [
+                    'Accept' => 'text/plain',
+                    'Content-Type' => 'text/plain',
+                    'X-SP-Mandant' => $this->extConf->getMandant()
+                ],
                 'body' => $this->extConf->getPassword(),
-                'query' => ['benutzername' => $this->extConf->getUsername()]
+                'query' => [
+                    'benutzername' => $this->extConf->getUsername()
+                ]
             ]
         );
+
         // Guzzle throws exception if http status code is lower than 400!
         $this->registry->set('ServiceBw', 'token', $response->getBody()->getContents());
     }
