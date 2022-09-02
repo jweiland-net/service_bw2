@@ -5,18 +5,18 @@ if (!defined('TYPO3_MODE')) {
 
 call_user_func(static function () {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'JWeiland.service_bw2',
+        'ServiceBw2',
         'ServiceBw',
         [
-            'Organisationseinheiten' => 'list,show',
-            'Lebenslagen' => 'list,show',
-            'Leistungen' => 'list,show',
-            'Prozesse' => 'list',
-            'Suche' => 'list'
+            \JWeiland\ServiceBw2\Controller\OrganisationseinheitenController::class => 'list,show',
+            \JWeiland\ServiceBw2\Controller\LebenslagenController::class => 'list,show',
+            \JWeiland\ServiceBw2\Controller\LeistungenController::class => 'list,show',
+            \JWeiland\ServiceBw2\Controller\ProzesseController::class => 'list',
+            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
         ],
         // non-cacheable actions
         [
-            'Suche' => 'list'
+            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list'
         ]
     );
 
