@@ -14,12 +14,16 @@ namespace JWeiland\ServiceBw2\Controller;
 use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TypoScriptService;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
 /**
  * Class AbstractController
@@ -71,11 +75,14 @@ abstract class AbstractController extends ActionController
         $this->settings = $mergedFlexFormSettings;
     }
 
-    protected function callActionMethod(): void
+    protected function callActionMethod(RequestInterface $request): ResponseInterface
     {
         try {
-            parent::callActionMethod();
+            return parent::callActionMethod($request);
         } catch (ClientException $clientException) {
+            $response = new Response();
+            $body = new Stream('php://temp', 'rw');
+
             $this->logger->error(
                 sprintf('Client exception in  %s', __CLASS__),
                 [
@@ -86,8 +93,13 @@ abstract class AbstractController extends ActionController
                 ]
             );
             $this->view->assign('exception', $clientException);
-            $this->response->setStatus($clientException->getCode());
-            $this->response->setContent($this->view->render('ApiError'));
+
+            $body->write($this->view->render('ApiError'));
+            $body->rewind();
+
+            $response->withStatus($clientException->getCode());
+
+            return $response->withBody($body);
         }
     }
 
