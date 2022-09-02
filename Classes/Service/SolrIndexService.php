@@ -23,7 +23,7 @@ class SolrIndexService
 
     protected array $alreadyIndexed = [];
 
-    public function injectIndexer(Indexer $indexer): void
+    public function __construct(Indexer $indexer)
     {
         $this->indexer = $indexer;
     }
@@ -67,7 +67,7 @@ class SolrIndexService
      */
     protected function indexerIndex(Item $item): bool
     {
-        $tsfe = $GLOBALS['TSFE'];
+        $tsfe = $GLOBALS['TSFE'] ?? null;
         $indexed = $this->indexer->index($item);
         $GLOBALS['TSFE'] = $tsfe;
 
@@ -79,7 +79,7 @@ class SolrIndexService
      */
     public function indexerDeleteByType(string $type, int $rootPage): void
     {
-        $tsfe = $GLOBALS['TSFE'];
+        $tsfe = $GLOBALS['TSFE'] ?? null;
         $this->indexer->deleteItemsByType($type, $rootPage);
         $GLOBALS['TSFE'] = $tsfe;
     }

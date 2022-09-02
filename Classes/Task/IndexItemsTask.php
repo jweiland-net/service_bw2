@@ -10,6 +10,7 @@
 namespace JWeiland\ServiceBw2\Task;
 
 use GuzzleHttp\Exception\ClientException;
+use JWeiland\ServiceBw2\Indexer\Indexer;
 use JWeiland\ServiceBw2\Request\AbstractRequest;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
@@ -64,7 +65,8 @@ class IndexItemsTask extends AbstractTask
             $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds($recordList, $initialRecords);
         }
 
-        $solrIndexService = GeneralUtility::makeInstance(SolrIndexService::class);
+        $indexer = GeneralUtility::makeInstance(Indexer::class);
+        $solrIndexService = GeneralUtility::makeInstance(SolrIndexService::class, $indexer);
         $solrIndexService->indexerDeleteByType($this->solrConfig, $this->rootPage);
         $solrIndexService->indexRecords($this->getLiveDataForRecords($recordList), $this->solrConfig, $this->rootPage);
 

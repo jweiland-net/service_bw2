@@ -56,6 +56,11 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
         SchedulerModuleController $schedulerModule
     ): array {
         foreach ($this->insertFields as $fieldID) {
+            if ($task === null) {
+                $taskInfo[$fieldID] = '';
+                continue;
+            }
+
             if (empty($taskInfo[$fieldID])) {
                 $taskInfo[$fieldID] = $task->$fieldID;
             }
