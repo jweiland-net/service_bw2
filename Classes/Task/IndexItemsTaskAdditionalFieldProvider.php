@@ -13,14 +13,14 @@ use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
-use TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface;
+use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
  * Class IndexItemsTaskAdditionalFieldProvider
  */
-class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderInterface
+class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
     /**
      * This fields can not be empty!
