@@ -19,18 +19,24 @@ call_user_func(static function () {
         ]
     );
 
+    // Register caches for requests to Service BW API.
+    // Set group to system. So, pages cache can be flushed, without lost of Service BW data.
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'] = [
         'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
         'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
         'options' => [],
-        'groups' => []
+        'groups' => [
+            0 => 'system'
+        ]
     ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
         'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
         'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
         'options' => [],
-        'groups' => []
+        'groups' => [
+            0 => 'system'
+        ]
     ];
 
     // Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
