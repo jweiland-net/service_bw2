@@ -23,7 +23,7 @@
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^11.5.11",
+		"typo3/cms-core": "^10.4.32 || ^11.5.16",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {
