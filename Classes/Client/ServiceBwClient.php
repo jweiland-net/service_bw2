@@ -103,70 +103,73 @@ class ServiceBwClient implements SingletonInterface
             $overrideLocalizationConfiguration
         ]);
 
-        if (!$this->cache->has($cacheIdentifier)) {
-            $this->path = $path;
-            $this->isPaginatedRequest = $isPaginatedRequest;
-            $this->isLocalizedRequest = $isLocalizedRequest;
-            $this->paginationConfiguration = array_merge(
-                self::DEFAULT_PAGINATION_CONFIGURATION,
-                $overridePaginationConfiguration
-            );
-            $this->localizationConfiguration = array_merge(
-                self::DEFAULT_LOCALIZATION_CONFIGURATION,
-                $overrideLocalizationConfiguration
-            );
-
-            $query = array_merge(
-                $this->getQueryForDefaultParameters(),
-                $getParameters,
-                $isPaginatedRequest ? $this->getQueryForPaginatedRequest() : []
-            );
-
-            $items = [];
-            do {
-                $response = $this->requestFactory->request(
-                    $this->extConf->getBaseUrl() . self::API_ENDPOINT . $this->path,
-                    'GET',
-                    [
-                        'headers' => $this->getHeaders(),
-                        'body' => $body,
-                        'query' => $query
-                    ]
-                );
-
-                try {
-                    $responseBody = (array)json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-                } catch (\JsonException $jsonException) {
-                    $responseBody = [];
-                }
-
-                /** @var ModifyServiceBwResponseEvent $event */
-                $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
-                    $path,
-                    $responseBody,
-                    $isPaginatedRequest,
-                    $isLocalizedRequest
-                ));
-
-                $responseBody = $event->getResponseBody();
-
-                $isNextPageSet = false;
-                if ($isPaginatedRequest) {
-                    if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
-                        $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
-                    }
-                    array_push($items, ...$responseBody['items']);
-                }
-            } while ($isPaginatedRequest && $isNextPageSet);
-
-            $this->cache->set(
-                $cacheIdentifier,
-                $isPaginatedRequest ? $items : $responseBody,
-                ['service_bw2_request']
-            );
+        // early return, if data exists in cache
+        if ($this->cache->has($cacheIdentifier)) {
+            return $this->cache->get($cacheIdentifier);
         }
 
-        return $this->cache->get($cacheIdentifier);
+        $this->path = $path;
+        $this->isPaginatedRequest = $isPaginatedRequest;
+        $this->isLocalizedRequest = $isLocalizedRequest;
+        $this->paginationConfiguration = array_merge(
+            self::DEFAULT_PAGINATION_CONFIGURATION,
+            $overridePaginationConfiguration
+        );
+        $this->localizationConfiguration = array_merge(
+            self::DEFAULT_LOCALIZATION_CONFIGURATION,
+            $overrideLocalizationConfiguration
+        );
+
+        $query = array_merge(
+            $this->getQueryForDefaultParameters(),
+            $getParameters,
+            $isPaginatedRequest ? $this->getQueryForPaginatedRequest() : []
+        );
+
+        $items = [];
+        do {
+            $response = $this->requestFactory->request(
+                $this->extConf->getBaseUrl() . self::API_ENDPOINT . $this->path,
+                'GET',
+                [
+                    'headers' => $this->getHeaders(),
+                    'body' => $body,
+                    'query' => $query
+                ]
+            );
+
+            try {
+                $responseBody = (array)json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $jsonException) {
+                $responseBody = [];
+            }
+
+            /** @var ModifyServiceBwResponseEvent $event */
+            $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
+                $path,
+                $responseBody,
+                $isPaginatedRequest,
+                $isLocalizedRequest
+            ));
+
+            $responseBody = $event->getResponseBody();
+
+            $isNextPageSet = false;
+            if ($isPaginatedRequest) {
+                if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
+                    $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
+                }
+                array_push($items, ...$responseBody['items']);
+            }
+        } while ($isPaginatedRequest && $isNextPageSet);
+
+        $this->cache->set(
+            $cacheIdentifier,
+            $isPaginatedRequest ? $items : $responseBody,
+            ['service_bw2_request']
+        );
+
+        return $isPaginatedRequest ? $items : $responseBody;
     }
 
     protected function getCacheIdentifier(array $requestArguments): string
