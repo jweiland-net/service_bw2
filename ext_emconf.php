@@ -18,6 +18,7 @@ $EM_CONF[$_EXTKEY] = [
             'fal_dropbox' => ''
         ],
         'suggests' => [
+            'solr' => '10.2.0-0.0.0'
         ],
     ],
 ];
