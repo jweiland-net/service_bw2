@@ -11,20 +11,27 @@ namespace JWeiland\ServiceBw2\Task;
 
 use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Indexer\Indexer;
-use JWeiland\ServiceBw2\Request\AbstractRequest;
+use JWeiland\ServiceBw2\Request\EntityRequestInterface;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Registry;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Scheduler\ProgressProviderInterface;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
  * Class IndexItemsTask
  */
-class IndexItemsTask extends AbstractTask
+class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
 {
     public string $typeToIndex = '';
 
@@ -34,7 +41,7 @@ class IndexItemsTask extends AbstractTask
 
     public int $rootPage = 0;
 
-    protected AbstractRequest $requestClass;
+    protected EntityRequestInterface $requestClass;
 
     protected array $classMapping = [
         Organisationseinheiten::class => [
@@ -52,10 +59,11 @@ class IndexItemsTask extends AbstractTask
      * Execute task
      *
      * @throws \InvalidArgumentException
-     * @throws \UnexpectedValueException
+     * @throws \UnexpectedValueException|Exception
      */
     public function execute(): bool
     {
+        $this->getRegistry()->remove('servicebw2.scheduler.index','progress');
         $this->typeToIndex = ServiceBwUtility::getRepositoryReplacement($this->typeToIndex);
         $this->requestClass = GeneralUtility::makeInstance($this->typeToIndex);
 
@@ -65,25 +73,49 @@ class IndexItemsTask extends AbstractTask
             $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds($recordList, $initialRecords);
         }
 
-        $indexer = GeneralUtility::makeInstance(Indexer::class);
-        $solrIndexService = GeneralUtility::makeInstance(SolrIndexService::class, $indexer);
-        $solrIndexService->indexerDeleteByType($this->solrConfig, $this->rootPage);
-        $solrIndexService->indexRecords($this->getLiveDataForRecords($recordList), $this->solrConfig, $this->rootPage);
+        // While executing this method, all detail data for records will be stored in cache
+        $liveDataForRecords = $this->getLiveDataForRecords($recordList);
+
+        if ($this->solrConfig !== '' && ExtensionManagementUtility::isLoaded('solr')) {
+            $indexer = GeneralUtility::makeInstance(Indexer::class);
+            $solrIndexService = GeneralUtility::makeInstance(SolrIndexService::class, $indexer);
+            try {
+                $solrIndexService->indexerDeleteByType($this->solrConfig, $this->rootPage);
+                $solrIndexService->indexRecords($liveDataForRecords, $this->solrConfig, $this->rootPage);
+            } catch (\RuntimeException $runtimeException) {
+                $service = GeneralUtility::makeInstance(FlashMessageService::class);
+                $queue = $service->getMessageQueueByIdentifier();
+                $queue->enqueue(
+                    GeneralUtility::makeInstance(
+                        FlashMessage::class,
+                        'Given solr configuration "' . $this->solrConfig . '"could not be found',
+                        'Skip Solr Indexing',
+                        AbstractMessage::WARNING
+                    )
+                );
+            }
+        }
 
         return true;
     }
 
-    /**
-     * This method is designed to return some additional information about the task,
-     * that may help to set it apart from other tasks from the same class
-     * This additional information is used - for example - in the Scheduler's BE module
-     * This method should be implemented in most task classes
-     *
-     * @return string Information to display
-     */
     public function getAdditionalInformation(): string
     {
-        return parent::getAdditionalInformation();
+        if ($this->solrConfig === '') {
+            return 'Note: Solr type not configured. Skipping Solr indexing.';
+        }
+
+        return '';
+    }
+
+    public function getProgress(): float
+    {
+        $progress = $this->getRegistry()->get('servicebw2.scheduler.index', 'progress');
+        if (is_array($progress)) {
+            return 100 / $progress['records'] * $progress['counter'];
+        }
+
+        return 0.0;
     }
 
     /**
@@ -107,25 +139,37 @@ class IndexItemsTask extends AbstractTask
     }
 
     /**
-     * Gets live data of given records
+     * Loop through all records and request individual data from Service BW API.
+     * The individual response data will be stored in Cache for faster response in FE.
      */
     protected function getLiveDataForRecords(array $records): array
     {
         $recordsToIndex = [];
+        $amountOfRecords = count($records);
+        $counter = 0;
 
         foreach ($records as $recordToIndex) {
-            $record = [];
+            $counter++;
+
             try {
                 $record = $this->requestClass->findById($recordToIndex['id']);
+                $this->getRegistry()->set(
+                    'servicebw2.scheduler.index',
+                    'progress',
+                    [
+                        'records' => $amountOfRecords,
+                        'counter' => $counter
+                    ]
+                );
+
+                // TODO: Search can be optimized by imploding for sub arrays in sections like address
+                if (isset($record['textbloecke']) && is_array($record['textbloecke'])) {
+                    $record['processed_textbloecke'] = $this->resolveTextbloeckeText($record['textbloecke']);
+                }
+
+                $recordsToIndex[] = $record;
             } catch (ClientException $exception) {
             }
-
-            // TODO: Search can be optimized by imploding for sub arrays in sections like address
-            if (isset($record['textbloecke']) && is_array($record['textbloecke'])) {
-                $record['processed_textbloecke'] = $this->resolveTextbloeckeText($record['textbloecke']);
-            }
-
-            $recordsToIndex[] = $record;
         }
 
         return $recordsToIndex;
@@ -144,5 +188,16 @@ class IndexItemsTask extends AbstractTask
         }
 
         return strip_tags(rtrim($result, ','));
+    }
+
+    protected function getRegistry(): Registry
+    {
+        static $registry = null;
+
+        if ($registry === null) {
+            $registry = GeneralUtility::makeInstance(Registry::class);
+        }
+
+        return $registry;
     }
 }

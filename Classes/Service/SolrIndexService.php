@@ -30,8 +30,12 @@ class SolrIndexService
 
     public function indexRecords(array $records, string $type, int $rootPageUid): void
     {
-        foreach ($records as $key => $record) {
-            if ($record && !in_array($record['id'], $this->alreadyIndexed, true) && $this->indexRecord($record, $type, $rootPageUid)) {
+        foreach ($records as $record) {
+            if (
+                is_array($record)
+                && !in_array($record['id'], $this->alreadyIndexed, true)
+                && $this->indexRecord($record, $type, $rootPageUid)
+            ) {
                 $this->alreadyIndexed[] = $record['id'];
             }
         }
@@ -58,18 +62,6 @@ class SolrIndexService
         if ($record['_children']) {
             $this->indexRecords($record['_children'], $type, $rootPageUid);
         }
-
-        return $indexed;
-    }
-
-    /**
-     * Wrapper for index
-     */
-    protected function indexerIndex(Item $item): bool
-    {
-        $tsfe = $GLOBALS['TSFE'] ?? null;
-        $indexed = $this->indexer->index($item);
-        $GLOBALS['TSFE'] = $tsfe;
 
         return $indexed;
     }
