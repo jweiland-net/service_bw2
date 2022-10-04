@@ -9,16 +9,19 @@ use JWeiland\ServiceBw2\Service\SolrIndexService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 return static function (ContainerConfigurator $container, ContainerBuilder $containerBuilder) {
-    if (ExtensionManagementUtility::isLoaded('solr')) {
-        $definition = new Definition();
-        $definition->setPublic(true);
-        $definition->setAutowired(true);
-        $definition->setAutoconfigured(true);
+    try {
+        if ($containerBuilder->get(\ApacheSolrForTypo3\Solr\IndexQueue\Indexer::class)) {
+            $definition = new Definition();
+            $definition->setPublic(true);
+            $definition->setAutowired(true);
+            $definition->setAutoconfigured(true);
 
-        $containerBuilder->setDefinition(Indexer::class, $definition);
-        $containerBuilder->setDefinition(SolrIndexService::class, $definition);
+            $containerBuilder->setDefinition(Indexer::class, $definition);
+            $containerBuilder->setDefinition(SolrIndexService::class, $definition);
+        }
+    } catch (\Exception $exception) {
+        // Service not found. Do not touch configuration
     }
 };
