@@ -23,12 +23,6 @@ services:
       identifier: 'leistungenListener'
       event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
 
-  JWeiland\ServiceBw2\Service\SolrIndexService:
-    public: true
-
-  JWeiland\ServiceBw2\Task\IndexItemsTask:
-    public: true
-
   JWeiland\ServiceBw2\Command\CacheWarmupCommand:
     tags:
     - name: 'console.command'
