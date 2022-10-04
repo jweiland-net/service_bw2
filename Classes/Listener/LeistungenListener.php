@@ -49,7 +49,7 @@ class LeistungenListener
         while (
             ($form = array_shift($formulare))
             && !($additionalData['hasProzesse'] === true && $additionalData['hasFormulare'] === true)) {
-            if ($form['typ'] === 'ONLINEDIENST') {
+            if (is_array($form) && isset($form['typ']) && $form['typ'] === 'ONLINEDIENST') {
                 $additionalData['hasProzesse'] = true;
             } else {
                 $additionalData['hasFormulare'] = true;
