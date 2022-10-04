@@ -11,6 +11,10 @@
 ChangeLog
 =========
 
+**Version 5.0.5**
+
+- Catch and log exceptions while requesting Service BW API
+
 **Version 5.0.4**
 
 - Add exclude argument for textbloecke
