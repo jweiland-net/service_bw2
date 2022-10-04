@@ -51,7 +51,7 @@ class ModifyServiceBwResponseEventTest extends UnitTestCase
 
         $subject->setResponseBody($array);
 
-        $this->assertSame(
+        self::assertSame(
             $array,
             $subject->getResponseBody()
         );
@@ -68,7 +68,7 @@ class ModifyServiceBwResponseEventTest extends UnitTestCase
             true
         );
 
-        $this->assertTrue(
+        self::assertTrue(
             $subject->isPaginatedRequest()
         );
     }
@@ -84,7 +84,7 @@ class ModifyServiceBwResponseEventTest extends UnitTestCase
             false
         );
 
-        $this->assertFalse(
+        self::assertFalse(
             $subject->isPaginatedRequest()
         );
     }
@@ -101,7 +101,7 @@ class ModifyServiceBwResponseEventTest extends UnitTestCase
             true
         );
 
-        $this->assertTrue(
+        self::assertTrue(
             $subject->isLocalizedRequest()
         );
     }
@@ -118,7 +118,7 @@ class ModifyServiceBwResponseEventTest extends UnitTestCase
             false
         );
 
-        $this->assertFalse(
+        self::assertFalse(
             $subject->isLocalizedRequest()
         );
     }
