@@ -25,7 +25,12 @@ class TokenHelperTest extends FunctionalTestCase
 {
     use ProphecyTrait;
 
-    protected $testExtensionsToLoad = ['typo3conf/ext/service_bw2'];
+    /**
+     * @var string[]
+     */
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/service_bw2'
+    ];
 
     /**
      * Valid response = return code is 200!

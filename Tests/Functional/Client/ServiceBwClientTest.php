@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
+use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
@@ -29,12 +30,16 @@ class ServiceBwClientTest extends FunctionalTestCase
 {
     use ProphecyTrait;
 
-    protected $testExtensionsToLoad = ['typo3conf/ext/service_bw2'];
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/service_bw2'
+    ];
 
     protected function setUp(): void
     {
         parent::setUp();
-        GeneralUtility::makeInstance(Registry::class)->set('ServiceBw', 'token', '123456');
+
+        GeneralUtility::makeInstance(Registry::class)
+            ->set('ServiceBw', 'token', '123456');
     }
 
     public function requestVariantsDataProvider(): array
@@ -104,7 +109,11 @@ class ServiceBwClientTest extends FunctionalTestCase
         $extConf->setAgs('1234');
         $extConf->setGebietId('testGebietId');
 
-        $responseBody = ['hello' => 'world'];
+        $responseBody = [
+            0 => [
+                'hello' => 'world'
+            ],
+        ];
         if ($isPaginatedRequest) {
             $responseBody = ['items' => $responseBody];
         }
@@ -136,9 +145,10 @@ class ServiceBwClientTest extends FunctionalTestCase
         $serviceBwClient = new ServiceBwClient(
             $requestFactoryProphecy->reveal(),
             GeneralUtility::makeInstance(Registry::class),
-            GeneralUtility::makeInstance(TokenHelper::class),
             $extConf,
-            GeneralUtility::makeInstance(EventDispatcher::class)
+            GeneralUtility::makeInstance(EventDispatcher::class),
+            GeneralUtility::makeInstance(LocalizationHelper::class),
+            GeneralUtility::makeInstance(TokenHelper::class),
         );
 
         $result = $serviceBwClient->request(
@@ -149,7 +159,11 @@ class ServiceBwClientTest extends FunctionalTestCase
         );
 
         self::assertEquals(
-            ['hello' => 'world'],
+            [
+                0 => [
+                    'hello' => 'world'
+                ],
+            ],
             $result
         );
     }

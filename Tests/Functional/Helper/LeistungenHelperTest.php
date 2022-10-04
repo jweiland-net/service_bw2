@@ -26,7 +26,12 @@ class LeistungenHelperTest extends FunctionalTestCase
 {
     use ProphecyTrait;
 
-    protected $testExtensionsToLoad = ['typo3conf/ext/service_bw2'];
+    /**
+     * @var string[]
+     */
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/service_bw2'
+    ];
 
     /**
      * @test
@@ -38,6 +43,7 @@ class LeistungenHelperTest extends FunctionalTestCase
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
         $leistungenHelper = new LeistungenHelper($cache, $leistungenProhphecy->reveal());
         $leistungenHelper->saveAdditionalData(1234, $data);
+
         self::assertEquals(
             $data,
             $cache->get('leistung_1234')
