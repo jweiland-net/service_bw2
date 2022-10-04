@@ -29,7 +29,6 @@ class LocalizationHelperTest extends FunctionalTestCase
         'typo3conf/ext/service_bw2'
     ];
 
-
     protected function setUp(): void
     {
         parent::setUp();
