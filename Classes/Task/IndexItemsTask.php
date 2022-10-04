@@ -63,7 +63,7 @@ class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
      */
     public function execute(): bool
     {
-        $this->getRegistry()->remove('servicebw2.scheduler.index','progress');
+        $this->getRegistry()->remove('servicebw2.scheduler.index', 'progress');
         $this->typeToIndex = ServiceBwUtility::getRepositoryReplacement($this->typeToIndex);
         $this->requestClass = GeneralUtility::makeInstance($this->typeToIndex);
 
