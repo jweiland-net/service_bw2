@@ -16,6 +16,8 @@ use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
@@ -26,8 +28,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Client to be used for all Service BW API v2 requests
  */
-class ServiceBwClient implements SingletonInterface
+class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
 {
+    use LoggerAwareTrait;
+
     protected const API_ENDPOINT = '/rest-v2/api';
 
     protected const DEFAULT_PAGINATION_CONFIGURATION = [
@@ -103,7 +107,7 @@ class ServiceBwClient implements SingletonInterface
             $overrideLocalizationConfiguration
         ]);
 
-        // early return, if data exists in cache
+        // Early return, if data exists in cache
         if ($this->cache->has($cacheIdentifier)) {
             return $this->cache->get($cacheIdentifier);
         }
@@ -127,40 +131,54 @@ class ServiceBwClient implements SingletonInterface
         );
 
         $items = [];
+        $isNextPageSet = false;
         do {
-            $response = $this->requestFactory->request(
-                $this->extConf->getBaseUrl() . self::API_ENDPOINT . $this->path,
-                'GET',
-                [
-                    'headers' => $this->getHeaders(),
-                    'body' => $body,
-                    'query' => $query
-                ]
-            );
-
             try {
-                $responseBody = (array)json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $jsonException) {
                 $responseBody = [];
-            }
 
-            /** @var ModifyServiceBwResponseEvent $event */
-            $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
-                $path,
-                $responseBody,
-                $isPaginatedRequest,
-                $isLocalizedRequest
-            ));
+                $response = $this->requestFactory->request(
+                    $this->extConf->getBaseUrl() . self::API_ENDPOINT . $this->path,
+                    'GET',
+                    [
+                        'headers' => $this->getHeaders(),
+                        'body' => $body,
+                        'query' => $query
+                    ]
+                );
 
-            $responseBody = $event->getResponseBody();
-
-            $isNextPageSet = false;
-            if ($isPaginatedRequest) {
-                if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
-                    $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
+                if ($response->getStatusCode() !== 200) {
+                    $this->logger->error('SKIP record because returned status code is not 200.');
+                    continue;
                 }
-                array_push($items, ...$responseBody['items']);
+
+                try {
+                    $responseBody = (array)json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $jsonException) {
+                    $this->logger->error('SKIP record because Service BW response could not be extracted.');
+                    continue;
+                }
+
+                /** @var ModifyServiceBwResponseEvent $event */
+                $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
+                    $path,
+                    $responseBody,
+                    $isPaginatedRequest,
+                    $isLocalizedRequest
+                ));
+
+                $responseBody = $event->getResponseBody();
+
+                $isNextPageSet = false;
+                if ($isPaginatedRequest) {
+                    if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
+                        $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
+                    }
+                    array_push($items, ...$responseBody['items']);
+                }
+            } catch (\Exception $exception) {
+                $this->logger->error('SKIP record because of error: ' . $exception->getMessage());
             }
+
         } while ($isPaginatedRequest && $isNextPageSet);
 
         $this->cache->set(
