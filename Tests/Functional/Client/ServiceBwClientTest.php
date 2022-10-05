@@ -104,7 +104,11 @@ class ServiceBwClientTest extends FunctionalTestCase
         $extConf->setAgs('1234');
         $extConf->setGebietId('testGebietId');
 
-        $responseBody = ['hello' => 'world'];
+        $responseBody = [
+            0 => [
+                'hello' => 'world'
+            ]
+        ];
         if ($isPaginatedRequest) {
             $responseBody = ['items' => $responseBody];
         }
@@ -145,11 +149,15 @@ class ServiceBwClientTest extends FunctionalTestCase
             (string)time(),
             $getParameters,
             true,
-            $isPaginatedRequest,
+            $isPaginatedRequest
         );
 
         self::assertEquals(
-            ['hello' => 'world'],
+            [
+                0 => [
+                    'hello' => 'world'
+                ]
+            ],
             $result
         );
     }
