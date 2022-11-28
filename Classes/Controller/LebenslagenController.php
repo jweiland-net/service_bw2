@@ -45,6 +45,6 @@ class LebenslagenController extends AbstractController
     {
         $lebenslage = $this->lebenslagen->findById($id);
         $this->view->assign('lebenslage', $lebenslage);
-        $this->setPageTitle($lebenslage['name']);
+        $this->setPageTitle($lebenslage['name'] ?? '');
     }
 }
