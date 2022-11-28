@@ -42,7 +42,7 @@ class LeistungenController extends AbstractController
 //            $organisationseinheiten,
 //            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'] ?? '')
 //        );
-        $this->setPageTitle($leistung['name']);
+        $this->setPageTitle($leistung['name'] ?? '');
         $this->view->assign('leistung', $leistung);
     }
 
