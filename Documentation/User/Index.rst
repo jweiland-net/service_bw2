@@ -1,13 +1,9 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
+﻿..  include:: /Includes.rst.txt
 
 
 .. _user-manual:
 
+============
 Users Manual
 ============
 
@@ -28,15 +24,15 @@ Because of that behaviour you have to set the detail and list pages in every Ser
 
 
 Type specific configuration
----------------------------
+===========================
 
 There may be some additional configuration for a type. In this section you can take a look at those settings.
 
 Departments (Organisationseinheiten)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 List view
-*********
+~~~~~~~~~
 
 Choose items to display (recursive)
    Most time it´s not necessary to display all departments with all children in one list.
@@ -45,7 +41,7 @@ Choose items to display (recursive)
    get a cleaner list.
 
 Detail view
-***********
+~~~~~~~~~~~
 
 This extension has a ext:maps2 integration for departments. The address provided by the Service BW API will be used to
 create maps2 records for a department.
@@ -62,10 +58,10 @@ Detail page for maps2 poi collection
    Example configuration
 
 Services (Leistungen)
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Detail view
-***********
+~~~~~~~~~~~
 
 Region IDs (comma separated list)
    The region id will be used to display forms (API name: Externe Formulare) by region and service (Leistung)

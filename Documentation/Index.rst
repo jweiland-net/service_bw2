@@ -1,62 +1,60 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
+﻿..  include:: /Includes.rst.txt
 
-.. include:: Includes.txt
 
 .. _start:
 
-=============================================================
+====================
 Service BW Extension
-=============================================================
+====================
 
-.. only:: html
+:Extension key:
+    service_bw2
 
-   :Classification:
-      service_bw2
+:Package name:
+    jweiland/service-bw2
 
-   :Version:
-      |release|
+:Version:
+    |release|
 
-   :Language:
-      en
+:Language:
+    en
 
-   :Description:
-      This extensions provides the possibility to integrate parts of Service BW (https://www.service-bw.de/) to your
-      website.
+:Author:
+    Stefan Froemken
 
-   :Keywords:
-      service_bw2,service,bw
+:License:
+    This document is published under the
+    `Creative Commons BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`__
+    license.
 
-   :Copyright:
-      2013-2020
+:Rendered:
+    |today|
 
-   :Author:
-      Stefan Froemken, Markus Kugler
+----
 
-   :Email:
-      projects@jweiland.net
+This extensions provides the possibility to integrate parts of Service BW (https://www.service-bw.de/) to your
+website.
 
-   :License:
-      This document is published under the Open Content License
-      available from http://www.opencontent.org/opl.shtml
+----
 
-   :Rendered:
-      |today|
+**Table of Contents:**
 
-      The content of this document is related to TYPO3,
-      a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+..  toctree::
+    :maxdepth: 2
+    :titlesonly:
 
-   **Table of Contents**
+    Introduction/Index
+    User/Index
+    Administrator/Index
+    Developer/Index
+    KnownProblems/Index
+    ChangeLog/Index
+    Links
 
-   .. toctree::
-      :maxdepth: 5
+..  Meta Menu
 
-      Introduction/Index
-      User/Index
-      Administrator/Index
-      Developer/Index
-      KnownProblems/Index
-      ChangeLog/Index
-      Links
+..  toctree::
+    :hidden:
+
+    Sitemap
+    genindex

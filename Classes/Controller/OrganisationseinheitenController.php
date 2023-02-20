@@ -54,7 +54,7 @@ class OrganisationseinheitenController extends AbstractController
     public function showAction(int $id): void
     {
         $organisationseinheit = $this->organisationseinheiten->findById($id);
-        $this->setPageTitle($organisationseinheit['name']);
+        $this->setPageTitle($organisationseinheit['name'] ?? '');
         $this->view->assign('organisationseinheit', $organisationseinheit);
     }
 }

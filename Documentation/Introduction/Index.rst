@@ -1,13 +1,9 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
+﻿..  include:: /Includes.rst.txt
 
 
 .. _introduction:
 
+============
 Introduction
 ============
 
@@ -15,7 +11,7 @@ Introduction
 .. _what-it-does:
 
 What does it do?
-----------------
+================
 
 This extensions provides the possibility to integrate parts of Service BW (https://www.service-bw.de/) to your website.
 
@@ -28,7 +24,7 @@ You can integrate the following parts:
 .. _screenshots:
 
 Screenshots
------------
+===========
 
 I´ll add some screenshots how the frontend can look like after the TER template is ready!
 

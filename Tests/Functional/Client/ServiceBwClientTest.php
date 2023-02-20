@@ -155,7 +155,7 @@ class ServiceBwClientTest extends FunctionalTestCase
             (string)time(),
             $getParameters,
             true,
-            $isPaginatedRequest,
+            $isPaginatedRequest
         );
 
         self::assertEquals(

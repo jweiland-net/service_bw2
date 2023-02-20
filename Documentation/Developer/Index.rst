@@ -1,31 +1,27 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
+﻿..  include:: /Includes.rst.txt
 
 
 .. _developer:
 
+================
 Developer Corner
 ================
 
 .. _developer-api:
 
 Important notes
----------------
+===============
 
 We are using the german method names of the Service BW API in our extension to make it easier to extend/understand
 the extension.
 
 API
----
+===
 
 This extension provides APIs to use departments (Organisationseinheiten) in other extensions.
 
 Use departments in TCA
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 .. figure:: ../Images/DeveloperManual/TCAUtilityDemo.jpg
    :width: 500px
@@ -56,12 +52,12 @@ For example if you only want one item maximum:
    ],
 
 Get department item(s) by id
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 The ModelUtility provides two public static methods to request either a single or multiple departments.
 
 Get a single department
-***********************
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Use the method getOrganisationseinheit for that. The first parameter must be either the (int|string) id of the
 department to request or an array (this is very useful if you´re using the method inside a getter method).
@@ -90,7 +86,7 @@ department to request or an array (this is very useful if you´re using the meth
    }
 
 Get multiple departments
-************************
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use the method getOrganisationseinheiten for that. The first parameter must be either a single id (int|string),
 multiple ids separated by comma (e.g. 12,45) or an array (this is very useful if you´re using the method inside a getter method).
@@ -125,10 +121,10 @@ multiple ids separated by comma (e.g. 12,45) or an array (this is very useful if
 
 
 Hooks / Events
----------------
+==============
 
 Modify response object
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 Use the `ModifyServiceBwResponseEvent` event to modify the response object of the Service BW API before it gets cached.
 The event dispatches before paginated requests are merged together.
@@ -136,7 +132,7 @@ The event dispatches before paginated requests are merged together.
 Add an event listener class that uses the event to modify the request.
 
 Example: Modify the URL of Service BW online forms (called: Prozesse):
-**********************************************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: php
 
