@@ -23,7 +23,7 @@
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^10.4.29",
+		"typo3/cms-core": "^10.4.32 || ^11.5.16",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {
@@ -52,7 +52,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "5.0.x-dev"
+			"dev-master": "6.0.x-dev"
 		},
 		"typo3/cms": {
 			"extension-key": "service_bw2",

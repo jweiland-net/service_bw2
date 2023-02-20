@@ -8,16 +8,17 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 'projects@jweiland.net',
     'author_company' => 'jweiland.net',
     'state' => 'stable',
-    'version' => '5.0.7',
+    'version' => '6.0.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.0-10.4.99',
+            'typo3' => '10.4.32-11.5.99',
             'maps2' => '8.0.0-0.0.0'
         ],
         'conflicts' => [
             'fal_dropbox' => ''
         ],
         'suggests' => [
+            'solr' => '10.2.0-0.0.0'
         ],
     ],
 ];

@@ -20,48 +20,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ExtConf implements SingletonInterface
 {
-    /**
-     * @var string
-     */
-    protected $username = '';
+    protected string $username = '';
 
-    /**
-     * @var string
-     */
-    protected $password = '';
+    protected string $password = '';
 
-    /**
-     * @var string
-     */
-    protected $mandant = '';
+    protected string $mandant = '';
 
-    /**
-     * @var string
-     */
-    protected $baseUrl = '';
+    protected string $baseUrl = '';
 
     /**
      * Allowed languages.
      * First defined language = default language
-     *
-     * @var array
      */
-    protected $allowedLanguages = [];
+    protected array $allowedLanguages = [];
 
-    /**
-     * @var int
-     */
-    protected $ags = 0;
+    protected int $ags = 0;
 
-    /**
-     * @var string
-     */
-    protected $gebietId = '';
+    protected string $gebietId = '';
 
     public function __construct()
     {
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('service_bw2');
-        if (is_array($extConf) && count($extConf)) {
+        if (is_array($extConf)) {
             // call setter method foreach configuration entry
             foreach ($extConf as $key => $value) {
                 $methodName = 'set' . ucfirst($key);
@@ -110,7 +90,7 @@ class ExtConf implements SingletonInterface
     public function setBaseUrl(string $baseUrl): void
     {
         $baseUrl = trim($baseUrl);
-        $this->baseUrl = (string)rtrim($baseUrl, '/');
+        $this->baseUrl = rtrim($baseUrl, '/');
     }
 
     public function getAllowedLanguages(): array
@@ -139,25 +119,17 @@ class ExtConf implements SingletonInterface
      *
      * Sometimes this value is prefixed with 0 which is not valid
      * for requests. That's why we cast this value to int.
-     *
-     * @param string $ags
      */
     public function setAgs(string $ags): void
     {
         $this->ags = (int)$ags;
     }
 
-    /**
-     * @return string
-     */
     public function getGebietId(): string
     {
         return $this->gebietId;
     }
 
-    /**
-     * @param string $gebietId
-     */
     public function setGebietId(string $gebietId): void
     {
         $this->gebietId = $gebietId;

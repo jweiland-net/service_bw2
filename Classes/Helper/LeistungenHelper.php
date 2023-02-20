@@ -23,15 +23,9 @@ class LeistungenHelper
 {
     private const CACHE_IDENTIFIER = 'leistung_%d';
 
-    /**
-     * @var FrontendInterface
-     */
-    private $cache;
+    private FrontendInterface $cache;
 
-    /**
-     * @var Leistungen
-     */
-    private $leistungen;
+    private Leistungen $leistungen;
 
     public function __construct(FrontendInterface $cache, Leistungen $leistungen)
     {
@@ -39,11 +33,6 @@ class LeistungenHelper
         $this->leistungen = $leistungen;
     }
 
-    /**
-     * @param int $id
-     * @param bool $fetchIfMissing
-     * @return array
-     */
     public function getAdditionalData(int $id, bool $fetchIfMissing = true): array
     {
         $identifier = sprintf(self::CACHE_IDENTIFIER, $id);
@@ -51,17 +40,17 @@ class LeistungenHelper
             if (!$fetchIfMissing) {
                 return [];
             }
+
             $this->leistungen->findById($id);
+
             return $this->getAdditionalData($id, false);
         }
+
         return $this->cache->get($identifier);
     }
 
     /**
      * Used by LeistungenListener to save additional with Leistungen::findById() call
-     *
-     * @param int $id
-     * @param array $data
      */
     public function saveAdditionalData(int $id, array $data): void
     {

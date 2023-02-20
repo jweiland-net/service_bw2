@@ -29,11 +29,23 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('id', 'int', 'ID of the Leistung record', true);
-        $this->registerArgument('as', 'string', 'Name of the variable that contains the additional data', true);
+
+        $this->registerArgument(
+            'id',
+            'int',
+            'ID of the Leistung record',
+            true
+        );
+
+        $this->registerArgument(
+            'as',
+            'string',
+            'Name of the variable that contains the additional data',
+            true
+        );
     }
 
     public static function renderStatic(
@@ -41,11 +53,19 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $leistungenHelper = GeneralUtility::makeInstance(LeistungenHelper::class);
         $templateVariableContainer = $renderingContext->getVariableProvider();
-        $templateVariableContainer->add($arguments['as'], $leistungenHelper->getAdditionalData((int)$arguments['id']));
+        $templateVariableContainer->add(
+            $arguments['as'],
+            self::getLeistungenHelper()->getAdditionalData((int)$arguments['id'])
+        );
         $output = $renderChildrenClosure();
         $templateVariableContainer->remove($arguments['as']);
+
         return $output;
+    }
+
+    protected static function getLeistungenHelper(): LeistungenHelper
+    {
+        return GeneralUtility::makeInstance(LeistungenHelper::class);
     }
 }

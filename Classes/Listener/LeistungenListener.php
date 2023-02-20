@@ -20,10 +20,7 @@ use JWeiland\ServiceBw2\Helper\LeistungenHelper;
  */
 class LeistungenListener
 {
-    /**
-     * @var LeistungenHelper
-     */
-    protected $leistungenHelper;
+    protected LeistungenHelper $leistungenHelper;
 
     public function __construct(LeistungenHelper $leistungenHelper)
     {
@@ -52,12 +49,13 @@ class LeistungenListener
         while (
             ($form = array_shift($formulare))
             && !($additionalData['hasProzesse'] === true && $additionalData['hasFormulare'] === true)) {
-            if ($form['typ'] === 'ONLINEDIENST') {
+            if (is_array($form) && isset($form['typ']) && $form['typ'] === 'ONLINEDIENST') {
                 $additionalData['hasProzesse'] = true;
             } else {
                 $additionalData['hasFormulare'] = true;
             }
         }
+
         return $additionalData;
     }
 }

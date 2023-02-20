@@ -17,42 +17,30 @@ use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class OrganisationseinheitenItems
  */
 class OrganisationseinheitenItems implements SingletonInterface
 {
-    /**
-     * @var Organisationseinheiten
-     */
-    protected $organisationseinheiten;
+    protected Organisationseinheiten $organisationseinheiten;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct()
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->organisationseinheiten = $objectManager->get(Organisationseinheiten::class);
+        $this->organisationseinheiten = GeneralUtility::makeInstance(Organisationseinheiten::class);
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     /**
      * Get items for select field
-     *
-     * @param array $processorParameters
-     * @param AbstractItemProvider $itemProvider
      */
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider): void
     {
         try {
             $records = $this->organisationseinheiten->findOrganisationseinheitenbaum();
         } catch (\Exception $e) {
-            $processorParameters['items'] = ['Exception: ' . $e->getMessage(), 'exception'];
             $this->logger->error(
                 'Could not get organisationseinheiten: ' . $e->getMessage(),
                 [
@@ -62,14 +50,12 @@ class OrganisationseinheitenItems implements SingletonInterface
             );
             return;
         }
+
         $this->createList($processorParameters['items'], $records);
     }
 
     /**
      * Create item list
-     *
-     * @param array $items
-     * @param array $records
      */
     protected function createList(array &$items, array $records): void
     {

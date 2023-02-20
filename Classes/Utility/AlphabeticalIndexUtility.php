@@ -19,7 +19,7 @@ class AlphabeticalIndexUtility
     /**
      * German alphabet
      */
-    const GERMAN_ALPHABET = [
+    public const GERMAN_ALPHABET = [
         'A' => false,
         'B' => false,
         'C' => false,
@@ -54,7 +54,7 @@ class AlphabeticalIndexUtility
     /**
      * Char list for trim
      */
-    const TRIM_CHAR_LIST = ' "\'';
+    public const TRIM_CHAR_LIST = ' "\'';
 
     /**
      * The $sortedLetterList is an array with alphabetic letters
@@ -90,9 +90,6 @@ class AlphabeticalIndexUtility
 
     /**
      * Returns the first letter of a record title as upper char
-     *
-     * @param string $recordTitle
-     * @return string
      */
     protected static function getFirstLetterOfRecordTitle(string $recordTitle): string
     {

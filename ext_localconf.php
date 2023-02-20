@@ -5,41 +5,43 @@ if (!defined('TYPO3_MODE')) {
 
 call_user_func(static function () {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'JWeiland.service_bw2',
+        'ServiceBw2',
         'ServiceBw',
         [
-            'Organisationseinheiten' => 'list,show',
-            'Lebenslagen' => 'list,show',
-            'Leistungen' => 'list,show',
-            'Prozesse' => 'list',
-            'Suche' => 'list'
+            \JWeiland\ServiceBw2\Controller\OrganisationseinheitenController::class => 'list,show',
+            \JWeiland\ServiceBw2\Controller\LebenslagenController::class => 'list,show',
+            \JWeiland\ServiceBw2\Controller\LeistungenController::class => 'list,show',
+            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
         ],
         // non-cacheable actions
         [
-            'Suche' => 'list'
+            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list'
         ]
     );
 
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'])) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'] = [
-            'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
-            'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
-            'options' => [],
-            'groups' => []
-        ];
-    }
+    // Register caches for requests to Service BW API.
+    // Set group to system. So, pages cache can be flushed, without lost of Service BW data.
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'] = [
+        'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
+        'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
+        'options' => [],
+        'groups' => [
+            0 => 'system'
+        ]
+    ];
 
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'])) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
-            'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
-            'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
-            'options' => [],
-            'groups' => []
-        ];
-    }
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
+        'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
+        'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
+        'options' => [],
+        'groups' => [
+            0 => 'system'
+        ]
+    ];
 
     // Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['events2_clearcache'] = \JWeiland\ServiceBw2\Hooks\DataHandler::class . '->clearCachePostProc';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['events2_clearcache']
+        = \JWeiland\ServiceBw2\Hooks\DataHandler::class . '->clearCachePostProc';
 
     // Register SVG Icon Identifier
     $svgIcons = [
@@ -54,7 +56,7 @@ call_user_func(static function () {
         );
     }
 
-    // add service_bw2 to new element wizard
+    // Add service_bw2 to new element wizard
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
         '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:service_bw2/Configuration/TSconfig/ContentElementWizard.txt">'
     );

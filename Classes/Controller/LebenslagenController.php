@@ -18,10 +18,7 @@ use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
  */
 class LebenslagenController extends AbstractController
 {
-    /**
-     * @var Lebenslagen
-     */
-    protected $lebenslagen;
+    protected Lebenslagen $lebenslagen;
 
     public function __construct(Lebenslagen $lebenslagen)
     {

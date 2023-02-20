@@ -14,27 +14,25 @@ namespace JWeiland\ServiceBw2\Controller;
 use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TypoScriptService;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
 /**
  * Class AbstractController
  */
 abstract class AbstractController extends ActionController
 {
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function injectExtConf(ExtConf $extConf): void
     {
@@ -71,11 +69,14 @@ abstract class AbstractController extends ActionController
         $this->settings = $mergedFlexFormSettings;
     }
 
-    protected function callActionMethod(): void
+    protected function callActionMethod(RequestInterface $request): ResponseInterface
     {
         try {
-            parent::callActionMethod();
+            return parent::callActionMethod($request);
         } catch (ClientException $clientException) {
+            $response = new Response();
+            $body = new Stream('php://temp', 'rw');
+
             $this->logger->error(
                 sprintf('Client exception in  %s', __CLASS__),
                 [
@@ -86,8 +87,13 @@ abstract class AbstractController extends ActionController
                 ]
             );
             $this->view->assign('exception', $clientException);
-            $this->response->setStatus($clientException->getCode());
-            $this->response->setContent($this->view->render('ApiError'));
+
+            $body->write($this->view->render('ApiError'));
+            $body->rewind();
+
+            $response->withStatus($clientException->getCode());
+
+            return $response->withBody($body);
         }
     }
 
@@ -100,7 +106,7 @@ abstract class AbstractController extends ActionController
     protected function setPageTitle(string $title): void
     {
         if ($this->settings['overridePageTitle'] === '1') {
-            $this->objectManager->get(PageRenderer::class)->setTitle($title);
+            GeneralUtility::makeInstance(PageRenderer::class)->setTitle($title);
         }
     }
 
@@ -113,12 +119,12 @@ abstract class AbstractController extends ActionController
 
         // if this value was not set, then it will be filled with 0
         // but that is not good, because UriBuilder accepts 0 as pid, so it's better to set it to NULL
-        $this->settings['organisationseinheiten']['pidOfListPage'] ?: null;
-        $this->settings['organisationseinheiten']['pidOfDetailPage'] ?: null;
-        $this->settings['leistungen']['pidOfListPage'] ?: null;
-        $this->settings['leistungen']['pidOfDetailPage'] ?: null;
-        $this->settings['lebenslagen']['pidOfListPage'] ?: null;
-        $this->settings['lebenslagen']['pidOfDetailPage'] ?: null;
+        $this->settings['organisationseinheiten']['pidOfListPage'] = $this->settings['organisationseinheiten']['pidOfListPage'] ?: null;
+        $this->settings['organisationseinheiten']['pidOfDetailPage'] = $this->settings['organisationseinheiten']['pidOfDetailPage'] ?: null;
+        $this->settings['leistungen']['pidOfListPage'] = $this->settings['leistungen']['pidOfListPage'] ?: null;
+        $this->settings['leistungen']['pidOfDetailPage'] = $this->settings['leistungen']['pidOfDetailPage'] ?: null;
+        $this->settings['lebenslagen']['pidOfListPage'] = $this->settings['lebenslagen']['pidOfListPage'] ?: null;
+        $this->settings['lebenslagen']['pidOfDetailPage'] = $this->settings['lebenslagen']['pidOfDetailPage'] ?: null;
     }
 
     /**

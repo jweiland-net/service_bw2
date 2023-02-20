@@ -28,23 +28,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheWarmupCommand extends Command
 {
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
+    protected OutputInterface $output;
 
     public function __construct(ExtConf $extConf)
     {
         parent::__construct();
+
         $this->extConf = $extConf;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Configurable command to warmup the caches of Service BW to improve loading times')
@@ -77,11 +72,12 @@ class CacheWarmupCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $languages = GeneralUtility::trimExplode(',', $input->getOption('locales'), true)
             ?: array_keys($this->extConf->getAllowedLanguages());
+
         foreach ($languages as $language) {
             $output->writeln('Language for further requests: ' . $language);
             // We're using the ServerRequest for the SiteLanguage only! Maybe use an alternative way in later versions
@@ -102,14 +98,18 @@ class CacheWarmupCommand extends Command
                 }
             }
         }
+
         return 0;
     }
 
     protected function warmupType(string $type): void
     {
         $this->output->writeln('Warmup caches for "' . $type . '"');
-        /** @var EntityRequestInterface $requestClass */
-        $requestClass = GeneralUtility::makeInstance('JWeiland\\ServiceBw2\\Request\\Portal\\' . ucfirst($type));
+        $requestClass = $this->getEntityRequestType($type);
+        if ($requestClass === null) {
+            return;
+        }
+
         $allRecords = $requestClass->findAll();
         $progressBar = new ProgressBar($this->output, count($allRecords));
         $progressBar->start();
@@ -119,5 +119,13 @@ class CacheWarmupCommand extends Command
         }
         $progressBar->finish();
         $this->output->writeln('');
+    }
+
+    protected function getEntityRequestType(string $type): ?EntityRequestInterface
+    {
+        /** @var EntityRequestInterface $requestClass */
+        $requestClass = GeneralUtility::makeInstance('JWeiland\\ServiceBw2\\Request\\Portal\\' . ucfirst($type));
+
+        return $requestClass;
     }
 }

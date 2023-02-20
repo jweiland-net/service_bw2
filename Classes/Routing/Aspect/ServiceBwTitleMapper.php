@@ -20,7 +20,6 @@ use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /*
  * Mapper to map an ID of service_bw API to title.
@@ -62,25 +61,13 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  */
 class ServiceBwTitleMapper implements StaticMappableAspectInterface
 {
-    /**
-     * @var array
-     */
-    protected $settings;
-
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
+    protected array $settings;
 
     public function __construct(array $settings)
     {
         $this->settings = $settings;
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generate(string $value): ?string
     {
         $controllerType = (string)$this->settings['controllerType'];
@@ -88,7 +75,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
         if (in_array($controllerType, ['lebenslagen', 'leistungen', 'organisationseinheiten'], true)) {
             try {
                 $records = $this->getRequestClassForControllerType($controllerType)->findAll();
-                $key = array_search((int)$value, array_column($records, 'id'));
+                $key = array_search((int)$value, array_column($records, 'id'), true);
                 $title = $key !== false ? $records[$key]['name'] : '';
             } catch (ClientException $clientException) {
                 return null;
@@ -106,9 +93,6 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(string $value): ?string
     {
         if (preg_match('/(?<id>\d+)-.*/', $value, $matches)) {
@@ -116,6 +100,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
         } else {
             throw new InvalidPathException('Could not find id by path for service_bw2 RouteEnhancer!', 1525782342);
         }
+
         return (string)$id;
     }
 
@@ -128,13 +113,13 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
     {
         switch ($controllerType) {
             case 'lebenslagen':
-                $requestClass = $this->objectManager->get(Lebenslagen::class);
+                $requestClass = GeneralUtility::makeInstance(Lebenslagen::class);
                 break;
             case 'leistungen':
-                $requestClass = $this->objectManager->get(Leistungen::class);
+                $requestClass = GeneralUtility::makeInstance(Leistungen::class);
                 break;
             case 'organisationseinheiten':
-                $requestClass = $this->objectManager->get(Organisationseinheiten::class);
+                $requestClass = GeneralUtility::makeInstance(Organisationseinheiten::class);
                 break;
             default:
                 throw new \InvalidArgumentException(
@@ -142,6 +127,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
                     1523960421
                 );
         }
+
         return $requestClass;
     }
 

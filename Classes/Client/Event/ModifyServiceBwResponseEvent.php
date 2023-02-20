@@ -18,28 +18,20 @@ namespace JWeiland\ServiceBw2\Client\Event;
  */
 final class ModifyServiceBwResponseEvent
 {
-    /**
-     * @var string
-     */
-    private $path = '';
+    private string $path;
 
-    /**
-     * @var array
-     */
-    private $responseBody = [];
+    private array $responseBody;
 
-    /**
-     * @var bool
-     */
-    private $paginatedRequest = false;
+    private bool $paginatedRequest;
 
-    /**
-     * @var bool
-     */
-    private $localizedRequest = false;
+    private bool $localizedRequest;
 
-    public function __construct(string $path, array $responseBody, bool $paginatedRequest = false, bool $localizedRequest = false)
-    {
+    public function __construct(
+        string $path,
+        array $responseBody,
+        bool $paginatedRequest = false,
+        bool $localizedRequest = false
+    ) {
         $this->path = $path;
         $this->responseBody = $responseBody;
         $this->paginatedRequest = $paginatedRequest;

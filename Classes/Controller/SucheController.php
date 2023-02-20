@@ -15,18 +15,18 @@ use JWeiland\ServiceBw2\Request\Portal\Suche;
 
 class SucheController extends AbstractController
 {
-    /**
-     * @var Suche
-     */
-    protected $suche;
+    protected Suche $suche;
 
     public function __construct(Suche $suche)
     {
         $this->suche = $suche;
     }
 
-    public function listAction(string $query = '', string $sort = Suche::SORT_RELEVANZ, string $typ = Suche::TYP_NONE): void
-    {
+    public function listAction(
+        string $query = '',
+        string $sort = Suche::SORT_RELEVANZ,
+        string $typ = Suche::TYP_NONE
+    ): void {
         $this->view->assignMultiple([
             'query' => $query,
             'result' => $query ? $this->suche->suche($query, $typ, $sort) : [],

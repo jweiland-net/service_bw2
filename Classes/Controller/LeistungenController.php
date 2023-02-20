@@ -19,10 +19,7 @@ use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
  */
 class LeistungenController extends AbstractController
 {
-    /**
-     * @var Leistungen
-     */
-    protected $leistungen;
+    protected Leistungen $leistungen;
 
     public function __construct(Leistungen $leistungen)
     {

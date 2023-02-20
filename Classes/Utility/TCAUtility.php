@@ -36,7 +36,6 @@ class TCAUtility
      * ]
      *
      * @param array $customSettingOverride Override or add your own settings to field config
-     * @return array
      */
     public static function getOrganisationseinheitenFieldTCAConfig(array $customSettingOverride = []): array
     {
@@ -46,7 +45,9 @@ class TCAUtility
             'itemsProcFunc' => OrganisationseinheitenItems::class . '->getItems',
             'default' => 0
         ];
+
         ArrayUtility::mergeRecursiveWithOverrule($fieldTcaConfig, $customSettingOverride);
+
         return $fieldTcaConfig;
     }
 }

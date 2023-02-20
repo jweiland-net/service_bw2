@@ -20,23 +20,32 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 class LocalizationHelperTest extends FunctionalTestCase
 {
-    protected $testExtensionsToLoad = ['typo3conf/ext/service_bw2'];
+    protected LocalizationHelper $subject;
 
     /**
-     * @var LocalizationHelper
+     * @var string[]
      */
-    protected $localizationHelper;
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/service_bw2'
+    ];
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->localizationHelper = new LocalizationHelper(new ExtConf());
+
+        $this->subject = new LocalizationHelper(
+            new ExtConf()
+        );
     }
 
     protected function tearDown(): void
     {
+        unset(
+            $this->extConf,
+            $this->subject
+        );
+
         parent::tearDown();
-        unset($this->extConf, $this->localizationHelper);
     }
 
     public function frontendLanguageDataProvider(): array
@@ -51,6 +60,7 @@ class LocalizationHelperTest extends FunctionalTestCase
 
     /**
      * @test
+     *
      * @dataProvider frontendLanguageDataProvider
      */
     public function getFrontendLanguageIsoCodeReturnsIsoCode(string $locale, string $expected, string $message): void
@@ -61,7 +71,7 @@ class LocalizationHelperTest extends FunctionalTestCase
 
         self::assertEquals(
             $expected,
-            $this->localizationHelper->getFrontendLanguageIsoCode(),
+            $this->subject->getFrontendLanguageIsoCode(),
             $message
         );
     }

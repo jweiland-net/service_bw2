@@ -38,9 +38,9 @@ class ServiceBwUtility
             if (in_array($organisationseinheit['id'], $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
             } elseif ($organisationseinheit['untergeordneteOrganisationseinheiten'] && $depth < $maxDepth) {
-                $filteredOrganisationseinheiten = array_merge(
+                array_push(
                     $filteredOrganisationseinheiten,
-                    static::filterOrganisationseinheitenByParentIds(
+                    ...static::filterOrganisationseinheitenByParentIds(
                         $organisationseinheit['untergeordneteOrganisationseinheiten'],
                         $allowedParentIds,
                         $depth++
@@ -48,6 +48,7 @@ class ServiceBwUtility
                 );
             }
         }
+
         return $filteredOrganisationseinheiten;
     }
 
@@ -63,9 +64,11 @@ class ServiceBwUtility
             'JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository' => Leistungen::class,
             'JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository' => Lebenslagen::class
         ];
+
         if (array_key_exists($repositoryClass, $mapping)) {
             $repositoryClass = $mapping[$repositoryClass];
         }
+
         return $repositoryClass;
     }
 }

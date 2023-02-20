@@ -31,6 +31,13 @@ class Lebenslagen extends AbstractRequest implements EntityRequestInterface
 
     public function findLebenslagenbaum(?int $ebenen = null): array
     {
-        return $this->client->request('/portal/lebenslagen/lebenslagenbaum', ['ebenen' => $ebenen], true, true);
+        return $this->client->request(
+            '/portal/lebenslagen/lebenslagenbaum',
+            [
+                'ebenen' => $ebenen
+            ],
+            true,
+            true
+        );
     }
 }

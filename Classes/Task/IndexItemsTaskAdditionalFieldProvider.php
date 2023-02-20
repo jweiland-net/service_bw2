@@ -13,21 +13,19 @@ use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
-use TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface;
+use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
  * Class IndexItemsTaskAdditionalFieldProvider
  */
-class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderInterface
+class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
     /**
      * This fields can not be empty!
-     *
-     * @var array
      */
-    protected $requiredFields = [
+    protected array $requiredFields = [
         'typeToIndex',
         'solrConfig',
         'pluginTtContentUid',
@@ -36,10 +34,8 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
 
     /**
      * Fields to insert from task if empty
-     *
-     * @var array
      */
-    protected $insertFields = [
+    protected array $insertFields = [
         'typeToIndex',
         'solrConfig',
         'pluginTtContentUid',
@@ -60,6 +56,11 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
         SchedulerModuleController $schedulerModule
     ): array {
         foreach ($this->insertFields as $fieldID) {
+            if ($task === null) {
+                $taskInfo[$fieldID] = '';
+                continue;
+            }
+
             if (empty($taskInfo[$fieldID])) {
                 $taskInfo[$fieldID] = $task->$fieldID;
             }
@@ -98,13 +99,6 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
         return $additionalFields;
     }
 
-    /**
-     * self describing
-     *
-     * @param array $submittedData
-     * @param SchedulerModuleController $schedulerModule
-     * @return bool
-     */
     public function validateAdditionalFields(
         array &$submittedData,
         SchedulerModuleController $schedulerModule
@@ -112,12 +106,6 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
         return true;
     }
 
-    /**
-     * Saves the submitted data from additional fields
-     *
-     * @param array $submittedData
-     * @param AbstractTask $task
-     */
     public function saveAdditionalFields(array $submittedData, AbstractTask $task): void
     {
         /** @var IndexItemsTask $task */
@@ -127,12 +115,6 @@ class IndexItemsTaskAdditionalFieldProvider implements AdditionalFieldProviderIn
         $task->rootPage = (int)$submittedData['rootPage'];
     }
 
-    /**
-     * Gets "typeToIndex" options
-     *
-     * @param string $selected
-     * @return string
-     */
     protected function getTypeToIndexOptions(string $selected = ''): string
     {
         $selected = ServiceBwUtility::getRepositoryReplacement($selected);

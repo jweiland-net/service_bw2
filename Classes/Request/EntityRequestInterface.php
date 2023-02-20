@@ -18,5 +18,6 @@ namespace JWeiland\ServiceBw2\Request;
 interface EntityRequestInterface
 {
     public function findById(int $id): array;
+
     public function findAll(): array;
 }
