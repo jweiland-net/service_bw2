@@ -1,14 +1,14 @@
 ﻿..  include:: /Includes.rst.txt
 
 
-.. _introduction:
+..  _introduction:
 
 ============
 Introduction
 ============
 
 
-.. _what-it-does:
+..  _what-it-does:
 
 What does it do?
 ================
@@ -17,17 +17,6 @@ This extensions provides the possibility to integrate parts of Service BW (https
 
 You can integrate the following parts:
 
-- Departments (Organisationseinheiten)
-- Circumstance (Lebenslagen)
-- Services (Leistungen)
-
-.. _screenshots:
-
-Screenshots
-===========
-
-I´ll add some screenshots how the frontend can look like after the TER template is ready!
-
-.. =============================
-.. todo: add example screenshots
-.. -----------------------------
+*   Departments (Organisationseinheiten)
+*   Circumstance (Lebenslagen)
+*   Services (Leistungen)
