@@ -34,7 +34,7 @@ class Lebenslagen extends AbstractRequest implements EntityRequestInterface
         return $this->client->request(
             '/portal/lebenslagen/lebenslagenbaum',
             [
-                'ebenen' => $ebenen
+                'ebenen' => $ebenen,
             ],
             true,
             true

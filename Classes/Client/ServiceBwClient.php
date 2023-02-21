@@ -38,34 +38,67 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         'nextItem' => 'nextPage',
         'pageParameter' => 'page',
         'pageSizeParameter' => 'pageSize',
-        'pageSize' => 1000
+        'pageSize' => 1000,
     ];
 
     protected const DEFAULT_LOCALIZATION_CONFIGURATION = [
-        'headerParameter' => 'Accept-Language'
+        'headerParameter' => 'Accept-Language',
     ];
 
-    protected string $path = '';
+    /**
+     * @var string
+     */
+    protected $path = '';
 
-    protected bool $isPaginatedRequest = false;
+    /**
+     * @var bool
+     */
+    protected $isPaginatedRequest = false;
 
-    protected array $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
+    /**
+     * @var array
+     */
+    protected $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
 
-    protected bool $isLocalizedRequest = false;
+    /**
+     * @var bool
+     */
+    protected $isLocalizedRequest = false;
 
-    protected array $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
+    /**
+     * @var string[]
+     */
+    protected $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
 
-    protected RequestFactory$requestFactory;
+    /**
+     * @var RequestFactory
+     */
+    protected $requestFactory;
 
-    protected Registry $registry;
+    /**
+     * @var Registry
+     */
+    protected $registry;
 
-    protected ExtConf $extConf;
+    /**
+     * @var ExtConf
+     */
+    protected $extConf;
 
-    protected EventDispatcherInterface $eventDispatcher;
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
-    protected LocalizationHelper $localizationHelper;
+    /**
+     * @var LocalizationHelper
+     */
+    protected $localizationHelper;
 
-    protected FrontendInterface $cache;
+    /**
+     * @var FrontendInterface
+     */
+    protected $cache;
 
     public function __construct(
         RequestFactory $requestFactory,
@@ -104,7 +137,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
             $isPaginatedRequest,
             $body,
             $overridePaginationConfiguration,
-            $overrideLocalizationConfiguration
+            $overrideLocalizationConfiguration,
         ]);
 
         // Early return, if data exists in cache
@@ -142,7 +175,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
                     [
                         'headers' => $this->getHeaders(),
                         'body' => $body,
-                        'query' => $query
+                        'query' => $query,
                     ]
                 );
 
@@ -208,7 +241,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
     protected function getHeaders(): array
     {
         $headers = [
-            'Authorization' => $this->registry->get('ServiceBw', 'token', '')
+            'Authorization' => $this->registry->get('ServiceBw', 'token', ''),
         ];
         if ($this->isLocalizedRequest) {
             $headers[$this->localizationConfiguration['headerParameter']] = $this->localizationHelper->getFrontendLanguageIsoCode();
@@ -220,14 +253,14 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
     {
         return [
             $this->paginationConfiguration['pageParameter'] => 0,
-            $this->paginationConfiguration['pageSizeParameter'] => $this->paginationConfiguration['pageSize']
+            $this->paginationConfiguration['pageSizeParameter'] => $this->paginationConfiguration['pageSize'],
         ];
     }
 
     protected function getQueryForDefaultParameters(): array
     {
         $query = [
-            'mandantId' => $this->extConf->getMandant()
+            'mandantId' => $this->extConf->getMandant(),
         ];
 
         if ($this->extConf->getAgs()) {

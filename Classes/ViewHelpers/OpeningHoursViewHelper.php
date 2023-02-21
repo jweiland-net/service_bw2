@@ -87,10 +87,11 @@ class OpeningHoursViewHelper extends AbstractViewHelper
         ];
         // This array inlcudes an array from type ALLGEMEINE_OEFFNUNGSZEIT
         foreach ($arguments['oeffnungszeitenStrukturiert'] as $structuredOpeningHours) {
-            if (isset($structuredOpeningHours['typ'])) {
-                if (in_array($structuredOpeningHours['typ'], $allowedTypes, true)) {
-                    $html[] = self::getStructuredOpeningHoursHTML($structuredOpeningHours);
-                }
+            if (
+                isset($structuredOpeningHours['typ'])
+                && in_array($structuredOpeningHours['typ'], $allowedTypes, true)
+            ) {
+                $html[] = self::getStructuredOpeningHoursHTML($structuredOpeningHours);
             }
         }
 

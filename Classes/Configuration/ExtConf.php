@@ -20,23 +20,43 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ExtConf implements SingletonInterface
 {
-    protected string $username = '';
+    /**
+     * @var string
+     */
+    protected $username = '';
 
-    protected string $password = '';
+    /**
+     * @var string
+     */
+    protected $password = '';
 
-    protected string $mandant = '';
+    /**
+     * @var string
+     */
+    protected $mandant = '';
 
-    protected string $baseUrl = '';
+    /**
+     * @var string
+     */
+    protected $baseUrl = '';
 
     /**
      * Allowed languages.
      * First defined language = default language
+     *
+     * @var int[]
      */
-    protected array $allowedLanguages = [];
+    protected $allowedLanguages = [];
 
-    protected int $ags = 0;
+    /**
+     * @var int
+     */
+    protected $ags = 0;
 
-    protected string $gebietId = '';
+    /**
+     * @var string
+     */
+    protected $gebietId = '';
 
     public function __construct()
     {

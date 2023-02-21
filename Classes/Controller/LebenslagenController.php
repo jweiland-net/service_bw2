@@ -18,26 +18,21 @@ use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
  */
 class LebenslagenController extends AbstractController
 {
-    protected Lebenslagen $lebenslagen;
+    /**
+     * @var Lebenslagen
+     */
+    protected $lebenslagen;
 
-    public function __construct(Lebenslagen $lebenslagen)
+    public function injectLebenslagen(Lebenslagen $lebenslagen): void
     {
         $this->lebenslagen = $lebenslagen;
     }
 
-    /**
-     * List action
-     */
     public function listAction(): void
     {
         $this->view->assign('lebenslagenbaum', $this->lebenslagen->findLebenslagenbaum());
     }
 
-    /**
-     * Show action
-     *
-     * @param int $id
-     */
     public function showAction(int $id): void
     {
         $lebenslage = $this->lebenslagen->findById($id);

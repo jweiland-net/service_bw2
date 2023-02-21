@@ -24,15 +24,13 @@ class ServiceBwUtility
     /**
      * This method filters the organisationseinheiten tree by passed parent ids. All matching parents
      * will be added to the result arrays root including all of their children.
-     *
-     * @param array $organisationseinheiten
-     * @param array $allowedParentIds
-     * @param int $maxDepth
-     * @param int $depth
-     * @return array
      */
-    public static function filterOrganisationseinheitenByParentIds(array $organisationseinheiten, array $allowedParentIds, int $maxDepth = 2, int $depth = 0): array
-    {
+    public static function filterOrganisationseinheitenByParentIds(
+        array $organisationseinheiten,
+        array $allowedParentIds,
+        int $maxDepth = 2,
+        int $depth = 0
+    ): array {
         $filteredOrganisationseinheiten = [];
         foreach ($organisationseinheiten as $organisationseinheit) {
             if (in_array($organisationseinheit['id'], $allowedParentIds, true)) {
@@ -53,7 +51,6 @@ class ServiceBwUtility
     }
 
     /**
-     * @param string $repositoryClass
      * @return string full qualified name of replacement or original value of $repositoryClass if there is no replacement
      * @internal to be used for compatibility reason. Remove in version 6.0!
      */
@@ -62,7 +59,7 @@ class ServiceBwUtility
         $mapping = [
             'JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository' => Organisationseinheiten::class,
             'JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository' => Leistungen::class,
-            'JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository' => Lebenslagen::class
+            'JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository' => Lebenslagen::class,
         ];
 
         if (array_key_exists($repositoryClass, $mapping)) {

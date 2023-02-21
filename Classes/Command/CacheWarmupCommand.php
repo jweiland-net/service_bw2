@@ -28,9 +28,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheWarmupCommand extends Command
 {
-    protected ExtConf $extConf;
+    /**
+     * @var ExtConf
+     */
+    protected $extConf;
 
-    protected OutputInterface $output;
+    /**
+     * @var OutputInterface
+     */
+    protected $output;
 
     public function __construct(ExtConf $extConf)
     {

@@ -19,16 +19,16 @@ use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
  */
 class OrganisationseinheitenController extends AbstractController
 {
-    protected Organisationseinheiten $organisationseinheiten;
+    /**
+     * @var Organisationseinheiten
+     */
+    protected $organisationseinheiten;
 
-    public function __construct(Organisationseinheiten $organisationseinheiten)
+    public function injectOrganisationseinheiten(Organisationseinheiten $organisationseinheiten): void
     {
         $this->organisationseinheiten = $organisationseinheiten;
     }
 
-    /**
-     * List action
-     */
     public function listAction(): void
     {
         try {
@@ -46,11 +46,6 @@ class OrganisationseinheitenController extends AbstractController
         $this->view->assign('organisationseinheitenbaum', $records);
     }
 
-    /**
-     * Show action
-     *
-     * @param int $id
-     */
     public function showAction(int $id): void
     {
         $organisationseinheit = $this->organisationseinheiten->findById($id);

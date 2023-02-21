@@ -48,7 +48,7 @@ class AlphabeticalIndexUtility
         'Z' => false,
         'Ä' => false,
         'Ö' => false,
-        'Ü' => false
+        'Ü' => false,
     ];
 
     /**
