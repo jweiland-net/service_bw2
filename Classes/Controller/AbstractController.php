@@ -67,34 +67,6 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $this->settings = $mergedFlexFormSettings;
     }
 
-    protected function callActionMethod(RequestInterface $request): ResponseInterface
-    {
-        try {
-            return parent::callActionMethod($request);
-        } catch (ClientException $clientException) {
-            $response = new Response();
-            $body = new Stream('php://temp', 'rw');
-
-            $this->logger->error(
-                sprintf('Client exception in  %s', __CLASS__),
-                [
-                    'exception' => $clientException,
-                    'controller' => __CLASS__,
-                    'action' => $this->actionMethodName,
-                    'arguments' => $this->request->getArguments(),
-                ]
-            );
-            $this->view->assign('exception', $clientException);
-
-            $body->write($this->view->render('ApiError'));
-            $body->rewind();
-
-            $response->withStatus($clientException->getCode());
-
-            return $response->withBody($body);
-        }
-    }
-
     /**
      * Sets the page title if the setting
      * overridePageTitle equals 1
