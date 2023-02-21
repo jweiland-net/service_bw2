@@ -15,10 +15,10 @@ use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Service\TypoScriptService;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\Stream;
-use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -28,20 +28,18 @@ use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 /**
  * Class AbstractController
  */
-abstract class AbstractController extends ActionController
+abstract class AbstractController extends ActionController implements LoggerAwareInterface
 {
-    protected ExtConf $extConf;
+    use LoggerAwareTrait;
 
-    protected LoggerInterface $logger;
+    /**
+     * @var ExtConf
+     */
+    protected $extConf;
 
     public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
-    }
-
-    public function injectLogger(LogManagerInterface $logManager): void
-    {
-        $this->logger = $logManager->getLogger(__CLASS__);
     }
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
@@ -83,7 +81,7 @@ abstract class AbstractController extends ActionController
                     'exception' => $clientException,
                     'controller' => __CLASS__,
                     'action' => $this->actionMethodName,
-                    'arguments' => $this->request->getArguments()
+                    'arguments' => $this->request->getArguments(),
                 ]
             );
             $this->view->assign('exception', $clientException);
@@ -100,8 +98,6 @@ abstract class AbstractController extends ActionController
     /**
      * Sets the page title if the setting
      * overridePageTitle equals 1
-     *
-     * @param string $title
      */
     protected function setPageTitle(string $title): void
     {

@@ -53,7 +53,7 @@ class ModelUtility
                         'Exception in ModelUtility while executing findById() with id' . $id,
                         [
                             'exception' => $exception,
-                            'extKey' => 'service_bw2'
+                            'extKey' => 'service_bw2',
                         ]
                     );
                     continue;
@@ -77,26 +77,24 @@ class ModelUtility
      *     return $this->organisationseinheit = ModelUtility::getOrganisationseinheit($this->organisationseinheit);
      * }
      *
-     * @param string|int id of a single organisationseinheit
+     * @param int $organisationseinheitUid UID of a single organisationseinheit
      * @return array of organisationseinheit e.g. ['id' => 1234, ...]
      */
-    public static function getOrganisationseinheit($organisationseinheit): array
+    public static function getOrganisationseinheit(int $organisationseinheitUid): array
     {
-        if (!is_array($organisationseinheit)) {
-            $requestClass = GeneralUtility::makeInstance(Organisationseinheiten::class);
-            try {
-                $organisationseinheit = $requestClass->findById((int)$organisationseinheit);
-            } catch (\Exception $exception) {
-                $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-                $logger->error(
-                    'Exception in ModelUtility while executing findById() with id' . $organisationseinheit,
-                    [
-                        'exception' => $exception,
-                        'extKey' => 'service_bw2'
-                    ]
-                );
-                $organisationseinheit = [];
-            }
+        $requestClass = GeneralUtility::makeInstance(Organisationseinheiten::class);
+        try {
+            $organisationseinheit = $requestClass->findById($organisationseinheitUid);
+        } catch (\Exception $exception) {
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger->error(
+                'Exception in ModelUtility while executing findById() with id' . $organisationseinheitUid,
+                [
+                    'exception' => $exception,
+                    'extKey' => 'service_bw2',
+                ]
+            );
+            $organisationseinheit = [];
         }
 
         return $organisationseinheit;

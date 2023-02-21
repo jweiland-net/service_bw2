@@ -33,16 +33,27 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    protected static ConfigurationManager $configurationManager;
+    /**
+     * @var ConfigurationManager
+     */
+    protected static $configurationManager;
 
-    protected static GeoCodeService $geoCodeService;
+    /**
+     * @var GeoCodeService
+     */
+    protected static $geoCodeService;
 
     /**
      * Storage page id of maps2 records
+     *
+     * @var int
      */
-    protected static int $maps2Pid = 0;
+    protected static $maps2Pid = 0;
 
-    protected static int $id = 0;
+    /**
+     * @var int
+     */
+    protected static $id = 0;
 
     public function initializeArguments(): void
     {
@@ -131,7 +142,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
         $data = [
             'id' => self::$id,
             'hashed_address' => $hashedAddress,
-            'tx_maps2_poi' => $txMaps2Poi
+            'tx_maps2_poi' => $txMaps2Poi,
         ];
 
         GeneralUtility::makeInstance(ConnectionPool::class)
@@ -183,7 +194,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
                 $position,
                 [
                     'title' => $poiTitle,
-                    'address' => $address
+                    'address' => $address,
                 ]
             );
         }

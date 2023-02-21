@@ -23,11 +23,20 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class TokenHelper implements SingletonInterface
 {
-    protected RequestFactory $requestFactory;
+    /**
+     * @var RequestFactory
+     */
+    protected $requestFactory;
 
-    protected Registry $registry;
+    /**
+     * @var Registry
+     */
+    protected $registry;
 
-    protected ExtConf $extConf;
+    /**
+     * @var ExtConf
+     */
+    protected $extConf;
 
     public function __construct(RequestFactory $requestFactory, Registry $registry, ExtConf $extConf)
     {
@@ -45,12 +54,12 @@ class TokenHelper implements SingletonInterface
                 'headers' => [
                     'Accept' => 'text/plain',
                     'Content-Type' => 'text/plain',
-                    'X-SP-Mandant' => $this->extConf->getMandant()
+                    'X-SP-Mandant' => $this->extConf->getMandant(),
                 ],
                 'body' => $this->extConf->getPassword(),
                 'query' => [
-                    'benutzername' => $this->extConf->getUsername()
-                ]
+                    'benutzername' => $this->extConf->getUsername(),
+                ],
             ]
         );
 

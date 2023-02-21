@@ -18,7 +18,10 @@ use JWeiland\ServiceBw2\Client\ServiceBwClient;
  */
 abstract class AbstractRequest
 {
-    protected ServiceBwClient $client;
+    /**
+     * @var ServiceBwClient
+     */
+    protected $client;
 
     public function __construct(ServiceBwClient $serviceBwClient)
     {

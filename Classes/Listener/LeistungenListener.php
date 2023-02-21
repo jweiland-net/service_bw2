@@ -20,7 +20,10 @@ use JWeiland\ServiceBw2\Helper\LeistungenHelper;
  */
 class LeistungenListener
 {
-    protected LeistungenHelper $leistungenHelper;
+    /**
+     * @var LeistungenHelper
+     */
+    protected $leistungenHelper;
 
     public function __construct(LeistungenHelper $leistungenHelper)
     {
@@ -29,9 +32,10 @@ class LeistungenListener
 
     public function __invoke(ModifyServiceBwResponseEvent $event): void
     {
-        if (strpos($event->getPath(), '/portal/leistungsdetails') !== 0) {
+        if (!str_starts_with($event->getPath(), '/portal/leistungsdetails')) {
             return;
         }
+
         $pathSegments = explode('/', $event->getPath());
         $this->leistungenHelper->saveAdditionalData(
             (int)end($pathSegments),

@@ -15,7 +15,7 @@ call_user_func(static function () {
         ],
         // non-cacheable actions
         [
-            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list'
+            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
         ]
     );
 
@@ -26,8 +26,8 @@ call_user_func(static function () {
         'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
         'options' => [],
         'groups' => [
-            0 => 'system'
-        ]
+            0 => 'system',
+        ],
     ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
@@ -35,13 +35,13 @@ call_user_func(static function () {
         'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
         'options' => [],
         'groups' => [
-            0 => 'system'
-        ]
+            0 => 'system',
+        ],
     ];
 
     // Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['events2_clearcache']
-        = \JWeiland\ServiceBw2\Hooks\DataHandler::class . '->clearCachePostProc';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['servicebw2_clearcache']
+        = \JWeiland\ServiceBw2\Hook\ClearCacheHook::class . '->clearCachePostProc';
 
     // Register SVG Icon Identifier
     $svgIcons = [
@@ -66,7 +66,7 @@ call_user_func(static function () {
         'extension' => 'service_bw2',
         'title' => 'Index service_bw2',
         'description' => 'Re-Generate solr index for service_bw2',
-        'additionalFields' => \JWeiland\ServiceBw2\Task\IndexItemsTaskAdditionalFieldProvider::class
+        'additionalFields' => \JWeiland\ServiceBw2\Task\IndexItemsTaskAdditionalFieldProvider::class,
     ];
 
     // Register an Aspect to map various ID of Service BW API to uid-title

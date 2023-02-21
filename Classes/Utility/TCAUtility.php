@@ -43,7 +43,7 @@ class TCAUtility
             'type' => 'select',
             'renderType' => 'selectMultipleSideBySide',
             'itemsProcFunc' => OrganisationseinheitenItems::class . '->getItems',
-            'default' => 0
+            'default' => 0,
         ];
 
         ArrayUtility::mergeRecursiveWithOverrule($fieldTcaConfig, $customSettingOverride);

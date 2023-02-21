@@ -12,25 +12,26 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tca;
 
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
-use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class OrganisationseinheitenItems
  */
-class OrganisationseinheitenItems implements SingletonInterface
+class OrganisationseinheitenItems implements SingletonInterface, LoggerAwareInterface
 {
-    protected Organisationseinheiten $organisationseinheiten;
+    use LoggerAwareTrait;
 
-    protected LoggerInterface $logger;
+    /**
+     * @var Organisationseinheiten
+     */
+    protected $organisationseinheiten;
 
-    public function __construct()
+    public function __construct(Organisationseinheiten $organisationseinheiten)
     {
-        $this->organisationseinheiten = GeneralUtility::makeInstance(Organisationseinheiten::class);
-        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+        $this->organisationseinheiten = $organisationseinheiten;
     }
 
     /**
@@ -45,7 +46,7 @@ class OrganisationseinheitenItems implements SingletonInterface
                 'Could not get organisationseinheiten: ' . $e->getMessage(),
                 [
                     'exception' => $e,
-                    'extKey' => 'service_bw2'
+                    'extKey' => 'service_bw2',
                 ]
             );
             return;

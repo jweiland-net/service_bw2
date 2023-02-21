@@ -33,26 +33,44 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  */
 class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
 {
-    public string $typeToIndex = '';
+    /**
+     * @var string
+     */
+    public $typeToIndex = '';
 
-    public string $solrConfig = '';
+    /**
+     * @var string
+     */
+    public $solrConfig = '';
 
-    public string $pluginTtContentUid = '';
+    /**
+     * @var string
+     */
+    public $pluginTtContentUid = '';
 
-    public int $rootPage = 0;
+    /**
+     * @var int
+     */
+    public $rootPage = 0;
 
-    protected EntityRequestInterface $requestClass;
+    /**
+     * @var EntityRequestInterface
+     */
+    protected $requestClass;
 
-    protected array $classMapping = [
+    /**
+     * @var array[]
+     */
+    protected $classMapping = [
         Organisationseinheiten::class => [
             'method' => 'findAll',
         ],
         Leistungen::class => [
-            'method' => 'findAll'
+            'method' => 'findAll',
         ],
         Lebenslagen::class => [
-            'method' => 'findAll'
-        ]
+            'method' => 'findAll',
+        ],
     ];
 
     /**
@@ -68,6 +86,10 @@ class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
         $this->requestClass = GeneralUtility::makeInstance($this->typeToIndex);
 
         $recordList = call_user_func([$this->requestClass, $this->classMapping[$this->typeToIndex]['method']]);
+        // SF: I don't understand that condition. As Organisationseinheiten:::class is always contained in
+        // $this->classMapping this condition does not make sense to me. Further, the value on the left
+        // is an array!
+        // ToDo: CleanUp somehow
         if ($this->classMapping[$this->typeToIndex] === Organisationseinheiten::class) {
             $initialRecords = $this->getInitialRecords('settings.organisationseinheiten.listItems');
             $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds($recordList, $initialRecords);
@@ -158,7 +180,7 @@ class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
                     'progress',
                     [
                         'records' => $amountOfRecords,
-                        'counter' => $counter
+                        'counter' => $counter,
                     ]
                 );
 

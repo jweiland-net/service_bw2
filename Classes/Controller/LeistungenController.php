@@ -19,33 +19,26 @@ use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
  */
 class LeistungenController extends AbstractController
 {
-    protected Leistungen $leistungen;
+    /**
+     * @var Leistungen
+     */
+    protected $leistungen;
 
-    public function __construct(Leistungen $leistungen)
+    public function injectLeistungen(Leistungen $leistungen): void
     {
         $this->leistungen = $leistungen;
     }
 
     /**
-     * Show action
-     *
      * @param int $id of Leistung
      */
     public function showAction(int $id): void
     {
         $leistung = $this->leistungen->findById($id);
-        // todo: remove langauge labels, flexform setting, ...
-//        $organisationseinheiten = ServiceBwUtility::removeItemsFromArray(
-//            $organisationseinheiten,
-//            explode(',', $this->settings['leistungen']['hideSelectedOrganisationseinheiten'] ?? '')
-//        );
         $this->setPageTitle($leistung['name'] ?? '');
         $this->view->assign('leistung', $leistung);
     }
 
-    /**
-     * List action
-     */
     public function listAction(): void
     {
         $sortedLetterList = [];

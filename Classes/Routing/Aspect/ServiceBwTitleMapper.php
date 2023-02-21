@@ -61,7 +61,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ServiceBwTitleMapper implements StaticMappableAspectInterface
 {
-    protected array $settings;
+    /**
+     * @var array
+     */
+    protected $settings;
 
     public function __construct(array $settings)
     {
@@ -105,8 +108,6 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
     }
 
     /**
-     * @param string $controllerType
-     * @return AbstractRequest
      * @throws \InvalidArgumentException if controller name is invalid
      */
     protected function getRequestClassForControllerType(string $controllerType): AbstractRequest

@@ -7,9 +7,13 @@ services:
   JWeiland\ServiceBw2\:
     resource: '../Classes/*'
 
-  # to allow GeneralUtility::makeInstance
+  # To allow GeneralUtility::makeInstance
   JWeiland\ServiceBw2\Request\:
     resource: '../Classes/Request/*'
+    public: true
+
+  # Will be called by GeneralUtility::makeInstance in a hook of DataHandler
+  JWeiland\ServiceBw2\Hook\ClearCacheHook:
     public: true
 
   JWeiland\ServiceBw2\Helper\LeistungenHelper:

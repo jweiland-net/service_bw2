@@ -23,9 +23,15 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
  */
 class LocalizationHelper implements SingletonInterface
 {
-    protected ExtConf $extConf;
+    /**
+     * @var ExtConf
+     */
+    protected $extConf;
 
-    protected string $isoCode = '';
+    /**
+     * @var string
+     */
+    protected $isoCode = '';
 
     public function __construct(ExtConf $extConf)
     {

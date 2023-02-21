@@ -19,9 +19,15 @@ use JWeiland\ServiceBw2\Indexer\Indexer;
  */
 class SolrIndexService
 {
-    protected Indexer $indexer;
+    /**
+     * @var Indexer
+     */
+    protected $indexer;
 
-    protected array $alreadyIndexed = [];
+    /**
+     * @var array
+     */
+    protected $alreadyIndexed = [];
 
     public function __construct(Indexer $indexer)
     {
@@ -54,7 +60,7 @@ class SolrIndexService
             'item_uid' => $record['id'],
             'root' => $rootPageUid,
             'item_type' => $type,
-            'indexing_configuration' => $type
+            'indexing_configuration' => $type,
         ], $record);
 
         $indexed = $this->indexer->index($item);

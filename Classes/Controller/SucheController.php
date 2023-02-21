@@ -15,9 +15,12 @@ use JWeiland\ServiceBw2\Request\Portal\Suche;
 
 class SucheController extends AbstractController
 {
-    protected Suche $suche;
+    /**
+     * @var Suche
+     */
+    protected $suche;
 
-    public function __construct(Suche $suche)
+    public function injectSuche(Suche $suche): void
     {
         $this->suche = $suche;
     }
@@ -31,7 +34,7 @@ class SucheController extends AbstractController
             'query' => $query,
             'result' => $query ? $this->suche->suche($query, $typ, $sort) : [],
             'sort' => $sort,
-            'typ' => $typ
+            'typ' => $typ,
         ]);
     }
 }

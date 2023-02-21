@@ -12,13 +12,13 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '10.4.32-11.5.99',
-            'maps2' => '8.0.0-0.0.0'
+            'maps2' => '8.0.0-0.0.0',
         ],
         'conflicts' => [
-            'fal_dropbox' => ''
+            'fal_dropbox' => '',
         ],
         'suggests' => [
-            'solr' => '10.2.0-0.0.0'
+            'solr' => '10.2.0-0.0.0',
         ],
     ],
 ];
