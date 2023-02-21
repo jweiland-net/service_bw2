@@ -4,7 +4,7 @@ name: CI
 on:
   pull_request:
     branches:
-    - master
+    - main
 
 jobs:
   build:
@@ -34,10 +34,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up PHP Version ${{ matrix.php }}
-        run: |
-          sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
-          php -v
+      - name: Setup PHP ${{ matrix.php }}, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, dom, zip, mysql
+
+      - name: Start mysql service
+        run: sudo /etc/init.d/mysql start
 
       - name: Validate composer.json and composer.lock
         run: composer validate
@@ -63,4 +67,5 @@ jobs:
           typo3DatabasePassword: password
           typo3DatabaseHost: 127.0.0.1
           typo3DatabasePort: ${{ job.services.mysql.ports['3306'] }}
-        run: composer ci:tests:functional
+        run: |
+          php .build/vendor/bin/phpunit -c .build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional
