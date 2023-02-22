@@ -58,7 +58,7 @@ call_user_func(static function () {
 
     // Add service_bw2 to new element wizard
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:service_bw2/Configuration/TSconfig/ContentElementWizard.txt">'
+        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:service_bw2/Configuration/TSconfig/ContentElementWizard.tsconfig">'
     );
 
     // Create scheduler to create/update solr index for service_bw2
