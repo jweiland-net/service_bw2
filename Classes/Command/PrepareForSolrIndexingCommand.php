@@ -133,7 +133,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             $progressBar->finish();
         }
 
-        return true;
+        return 0;
     }
 
     protected function getInitialRecords(int $contentUid): array
