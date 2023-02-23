@@ -13,6 +13,9 @@ namespace JWeiland\ServiceBw2\Command;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Request\EntityRequestInterface;
+use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -35,15 +38,15 @@ class CacheWarmupCommand extends Command
     protected $types = [
         'lebenslagen' => [
             'option' => 'include-lebenslagen',
-            'class' => \JWeiland\ServiceBw2\Request\Portal\Lebenslagen::class,
+            'class' => Lebenslagen::class,
         ],
         'leistungen' => [
             'option' => 'include-leistungen',
-            'class' => \JWeiland\ServiceBw2\Request\Portal\Leistungen::class,
+            'class' => Leistungen::class,
         ],
         'organisationseinheiten' => [
             'option' => 'include-organisationseinheiten',
-            'class' => \JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten::class,
+            'class' => Organisationseinheiten::class,
         ],
     ];
     /**
@@ -148,17 +151,31 @@ class CacheWarmupCommand extends Command
     {
         $this->output->writeln('Warmup caches for "' . $className . '"');
 
-        $requestClass = GeneralUtility::makeInstance($className);
-        $allRecords = $requestClass->findAll();
+        $request = $this->getRequestObject($className);
+        $allRecords = $request->findAll();
 
         $progressBar = new ProgressBar($this->output, count($allRecords));
         $progressBar->start();
         foreach ($allRecords as $record) {
-            $requestClass->findById($record['id']);
+            $request->findById($record['id']);
             $progressBar->advance();
         }
         $progressBar->finish();
 
         $this->output->writeln('');
+    }
+
+
+    protected function getRequestObject(string $className): EntityRequestInterface
+    {
+        if (
+            class_exists($className)
+            && ($requestObject = GeneralUtility::makeInstance($className))
+            && $requestObject instanceof EntityRequestInterface
+        ) {
+            return $requestObject;
+        }
+
+        throw new \InvalidArgumentException('Invalid classname ' . $className . ' for request detected');
     }
 }

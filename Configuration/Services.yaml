@@ -33,6 +33,12 @@ services:
       command: 'servicebw:cachewarmup'
       description: 'Warmup the caches of Service BW to improve loading times'
 
+  JWeiland\ServiceBw2\Command\PrepareForSolrIndexingCommand:
+    tags:
+    - name: 'console.command'
+      command: 'servicebw:preparesolrindex'
+      description: 'Prepare records of service_bw2 to be indexed by EXT:solr'
+
   cache.servicebw_additionalstuff:
     class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
     factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
