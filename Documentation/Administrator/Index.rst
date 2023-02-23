@@ -73,6 +73,14 @@ Take a look into the maps2 documentation for that.
 Upgrade
 =======
 
+Version 6.0.0
+-------------
+
+We have migrated the Solr Indexer Task into a command. Please copy the values of the old tasks, delete
+the tasks, create new scheduler tasks of type `Execute console command`, choose
+`servicebw2::preparesolrindex` and save the task. After the reload new fields for the
+chosen command will be visible. Fill in the values from above and save again.
+
 Version 5.0.0
 -------------
 

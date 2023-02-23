@@ -33,7 +33,7 @@ class ServiceBwUtility
     ): array {
         $filteredOrganisationseinheiten = [];
         foreach ($organisationseinheiten as $organisationseinheit) {
-            if (in_array($organisationseinheit['id'], $allowedParentIds, true)) {
+            if (in_array((string)$organisationseinheit['id'], $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
             } elseif ($organisationseinheit['untergeordneteOrganisationseinheiten'] && $depth < $maxDepth) {
                 array_push(

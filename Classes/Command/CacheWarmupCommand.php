@@ -13,6 +13,10 @@ namespace JWeiland\ServiceBw2\Command;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Request\EntityRequestInterface;
+use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,6 +33,23 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class CacheWarmupCommand extends Command
 {
     /**
+     * @var array[]
+     */
+    protected $types = [
+        'lebenslagen' => [
+            'option' => 'include-lebenslagen',
+            'class' => Lebenslagen::class,
+        ],
+        'leistungen' => [
+            'option' => 'include-leistungen',
+            'class' => Leistungen::class,
+        ],
+        'organisationseinheiten' => [
+            'option' => 'include-organisationseinheiten',
+            'class' => Organisationseinheiten::class,
+        ],
+    ];
+    /**
      * @var ExtConf
      */
     protected $extConf;
@@ -38,10 +59,8 @@ class CacheWarmupCommand extends Command
      */
     protected $output;
 
-    public function __construct(ExtConf $extConf)
+    public function injectExtConf(ExtConf $extConf): void
     {
-        parent::__construct();
-
         $this->extConf = $extConf;
     }
 
@@ -81,26 +100,16 @@ class CacheWarmupCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
-        $languages = GeneralUtility::trimExplode(',', $input->getOption('locales'), true)
-            ?: array_keys($this->extConf->getAllowedLanguages());
 
-        foreach ($languages as $language) {
-            $output->writeln('Language for further requests: ' . $language);
+        foreach ($this->getLanguages($input) as $language2letterIsoCode) {
+            $output->writeln('Language for further requests: ' . $language2letterIsoCode);
+
             // We're using the ServerRequest for the SiteLanguage only! Maybe use an alternative way in later versions
-            $GLOBALS['TYPO3_REQUEST'] = GeneralUtility::makeInstance(ServerRequest::class);
-            $siteLanguage = GeneralUtility::makeInstance(
-                SiteLanguage::class,
-                1,
-                $language,
-                GeneralUtility::makeInstance(Uri::class, '/' . $language),
-                ['iso-639-1' => $language]
-            );
-            $GLOBALS['TYPO3_REQUEST']->withAttribute('language', $siteLanguage);
+            $GLOBALS['TYPO3_REQUEST'] = $this->getTypo3Request($language2letterIsoCode);
 
-            $types = ['lebenslagen', 'leistungen', 'organisationseinheiten'];
-            foreach ($types as $type) {
-                if ($input->getOption('include-' . $type)) {
-                    $this->warmupType($type);
+            foreach ($this->types as $type) {
+                if ($input->getOption($type['option'])) {
+                    $this->warmupType($type['class']);
                 }
             }
         }
@@ -108,30 +117,65 @@ class CacheWarmupCommand extends Command
         return 0;
     }
 
-    protected function warmupType(string $type): void
+    /**
+     * @return string[] Array of 2-letter language ISO codes
+     */
+    protected function getLanguages(InputInterface $input): array
     {
-        $this->output->writeln('Warmup caches for "' . $type . '"');
-        $requestClass = $this->getEntityRequestType($type);
-        if ($requestClass === null) {
-            return;
-        }
+        $configuredLanguages = GeneralUtility::trimExplode(
+            ',',
+            $input->getOption('locales'),
+            true
+        );
 
-        $allRecords = $requestClass->findAll();
+        // If no languages are configured for command, use all allowed languages configured in extension settings
+        return $configuredLanguages ?: array_keys($this->extConf->getAllowedLanguages());
+    }
+
+    protected function getTypo3Request(string $language2letterIsoCode): ServerRequestInterface
+    {
+        $typo3Request = GeneralUtility::makeInstance(ServerRequest::class);
+
+        $siteLanguage = GeneralUtility::makeInstance(
+            SiteLanguage::class,
+            1,
+            $language2letterIsoCode,
+            GeneralUtility::makeInstance(Uri::class, '/' . $language2letterIsoCode),
+            ['iso-639-1' => $language2letterIsoCode]
+        );
+
+        return $typo3Request->withAttribute('language', $siteLanguage);
+    }
+
+    protected function warmupType(string $className): void
+    {
+        $this->output->writeln('Warmup caches for "' . $className . '"');
+
+        $request = $this->getRequestObject($className);
+        $allRecords = $request->findAll();
+
         $progressBar = new ProgressBar($this->output, count($allRecords));
         $progressBar->start();
         foreach ($allRecords as $record) {
-            $requestClass->findById($record['id']);
+            $request->findById($record['id']);
             $progressBar->advance();
         }
         $progressBar->finish();
+
         $this->output->writeln('');
     }
 
-    protected function getEntityRequestType(string $type): ?EntityRequestInterface
-    {
-        /** @var EntityRequestInterface $requestClass */
-        $requestClass = GeneralUtility::makeInstance('JWeiland\\ServiceBw2\\Request\\Portal\\' . ucfirst($type));
 
-        return $requestClass;
+    protected function getRequestObject(string $className): EntityRequestInterface
+    {
+        if (
+            class_exists($className)
+            && ($requestObject = GeneralUtility::makeInstance($className))
+            && $requestObject instanceof EntityRequestInterface
+        ) {
+            return $requestObject;
+        }
+
+        throw new \InvalidArgumentException('Invalid classname ' . $className . ' for request detected');
     }
 }
