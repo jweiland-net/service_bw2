@@ -7,7 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\ServiceBw2\Task;
+namespace JWeiland\ServiceBw2\Command;
 
 use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Indexer\Indexer;
@@ -17,41 +17,37 @@ use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Scheduler\ProgressProviderInterface;
-use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
- * Class IndexItemsTask
+ * Command to prepare service_bw2 records for EXT:solr index
  */
-class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
+class PrepareForSolrIndexingCommand extends Command
 {
     /**
      * @var string
      */
-    public $typeToIndex = '';
+    protected $solrConfig = '';
 
     /**
      * @var string
      */
-    public $solrConfig = '';
-
-    /**
-     * @var string
-     */
-    public $pluginTtContentUid = '';
+    protected $pluginTtContentUid = '';
 
     /**
      * @var int
      */
-    public $rootPage = 0;
+    protected $rootPage = 0;
 
     /**
      * @var EntityRequestInterface
@@ -73,13 +69,20 @@ class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
         ],
     ];
 
-    /**
-     * Execute task
-     *
-     * @throws \InvalidArgumentException
-     * @throws \UnexpectedValueException|Exception
-     */
-    public function execute(): bool
+    protected function configure(): void
+    {
+        $this
+            ->setDescription('Prepare records of service_bw2 to be indexed by EXT:solr')
+            ->addOption(
+                'record-type',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Warmup caches of Lebenslagen (Life situations)'
+            );
+
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->getRegistry()->remove('servicebw2.scheduler.index', 'progress');
         $this->requestClass = GeneralUtility::makeInstance($this->typeToIndex);
@@ -156,7 +159,11 @@ class IndexItemsTask extends AbstractTask implements ProgressProviderInterface
             )->fetch();
         $flexform = GeneralUtility::xml2array($resultRows['pi_flexform']);
 
-        return GeneralUtility::trimExplode(',', $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF'], true);
+        return GeneralUtility::trimExplode(
+            ',',
+            $flexform['data']['sDEFAULT']['lDEF'][$settings]['vDEF'],
+            true
+        );
     }
 
     /**

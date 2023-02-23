@@ -116,7 +116,6 @@ class IndexItemsTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvi
 
     protected function getTypeToIndexOptions(string $selected = ''): string
     {
-        $selected = ServiceBwUtility::getRepositoryReplacement($selected);
         $availableTypes = [
             'Organisationseinheiten' => Organisationseinheiten::class,
             'Lebenslagen' => Lebenslagen::class,
