@@ -7,6 +7,21 @@
 ChangeLog
 =========
 
+Version 6.0.0
+=============
+
+*   Add TYPO3 11 compatibility
+*   Remove TYPO3 9 compatibility
+*   We keep PHP 7.3 compatibility for better migration
+*   Check TS path in OrganisationseinheitPoiCollectionUidViewHelper before using it
+*   Migrate scheduler task to Symfony command
+*   Remove old repo2model mapping
+*   Rename TSConfig files to *.tsconfig
+*   Better structure for WarmUpCommand
+*   Set indent size in docs to 4 spaces
+*   Rename DataHandler Hook class
+
+
 Version 5.0.7
 =============
 
