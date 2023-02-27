@@ -19,9 +19,7 @@ Because of that behaviour you have to set the detail and list pages in every Ser
 
 ..  figure:: ../Images/UserManual/PagesExample.jpg
     :width: 500px
-    :alt: Example settings
-    Example configuration
-
+    :alt: Example configuration
 
 Type specific configuration
 ===========================
@@ -54,8 +52,7 @@ Detail page for maps2 poi collection
 
 ..  figure:: ../Images/UserManual/OrganisationseinheitDetailViewSettings.jpg
     :width: 500px
-    :alt: Example settings
-    Example configuration
+    :alt: Example configuration
 
 Services (Leistungen)
 ---------------------

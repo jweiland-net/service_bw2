@@ -44,6 +44,8 @@ website.
     :titlesonly:
 
     Introduction/Index
+    Installation/Index
+    Configuration/Index
     User/Index
     Administrator/Index
     Developer/Index

@@ -16,7 +16,7 @@ Version 6.0.0
 *   Check TS path in OrganisationseinheitPoiCollectionUidViewHelper before using it
 *   Migrate scheduler task to Symfony command
 *   Remove old repo2model mapping
-*   Rename TSConfig files to *.tsconfig
+*   Rename TSConfig files to `*.tsconfig`
 *   Better structure for WarmUpCommand
 *   Set indent size in docs to 4 spaces
 *   Rename DataHandler Hook class
