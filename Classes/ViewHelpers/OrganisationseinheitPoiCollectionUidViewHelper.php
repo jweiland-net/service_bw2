@@ -69,7 +69,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
         self::$geoCodeService = GeneralUtility::makeInstance(GeoCodeService::class);
         self::$maps2Pid = self::$configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        )['settings']['organisationseinheiten']['maps2Pid'];
+        )['settings']['organisationseinheiten']['maps2Pid'] ?? 0;
 
         self::$id = $organisationseinheitId;
     }
@@ -187,7 +187,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         $poiUid = 0;
         $position = self::$geoCodeService->getFirstFoundPositionByAddress($address);
-        if ($position instanceof Position) {
+        if ($position instanceof Position && self::$maps2Pid !== 0) {
             $mapService = GeneralUtility::makeInstance(MapService::class);
             $poiUid = $mapService->createNewPoiCollection(
                 self::$maps2Pid,
