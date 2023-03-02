@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.0.1
+=============
+
+*   Convert all parent IDs for filtering to int
+
 Version 6.0.0
 =============
 
