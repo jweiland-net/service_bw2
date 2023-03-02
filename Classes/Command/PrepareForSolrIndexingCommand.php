@@ -159,7 +159,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
         }
 
         try {
-            return GeneralUtility::trimExplode(
+            return GeneralUtility::intExplode(
                 ',',
                 ArrayUtility::getValueByPath($flexform, 'data/sDEFAULT/lDEF/settings.organisationseinheiten.listItems/vDEF'),
                 true

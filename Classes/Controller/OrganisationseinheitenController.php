@@ -42,7 +42,11 @@ class OrganisationseinheitenController extends AbstractController
             $listItems = [];
         }
 
-        $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds($this->organisationseinheiten->findOrganisationseinheitenbaum(), $listItems);
+        $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
+            $this->organisationseinheiten->findOrganisationseinheitenbaum(),
+            $listItems
+        );
+
         $this->view->assign('organisationseinheitenbaum', $records);
     }
 

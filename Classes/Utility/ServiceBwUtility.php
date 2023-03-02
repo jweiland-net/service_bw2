@@ -32,8 +32,10 @@ class ServiceBwUtility
         int $depth = 0
     ): array {
         $filteredOrganisationseinheiten = [];
+        $allowedParentIds = array_map('intval', $allowedParentIds);
+
         foreach ($organisationseinheiten as $organisationseinheit) {
-            if (in_array((string)$organisationseinheit['id'], $allowedParentIds, true)) {
+            if (in_array((int)$organisationseinheit['id'], $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
             } elseif ($organisationseinheit['untergeordneteOrganisationseinheiten'] && $depth < $maxDepth) {
                 array_push(
