@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 6.0.2
+=============
+
+*   Do not try to index (EXT:solr) empty records
+*   Create own TYPO3 log file (var/log/typo3_servicebw2_[hash])
+*   Add flash messages to show actions, if a record could not be found
+
 Version 6.0.1
 =============
 
