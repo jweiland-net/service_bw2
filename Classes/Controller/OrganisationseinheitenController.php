@@ -53,7 +53,11 @@ class OrganisationseinheitenController extends AbstractController
     public function showAction(int $id): void
     {
         $organisationseinheit = $this->organisationseinheiten->findById($id);
-        $this->setPageTitle($organisationseinheit['name'] ?? '');
-        $this->view->assign('organisationseinheit', $organisationseinheit);
+        if ($organisationseinheit === []) {
+            $this->addFlashMessage('Requested Organisationseinheit could not be found for current language');
+        } else {
+            $this->setPageTitle($organisationseinheit['name'] ?? '');
+            $this->view->assign('organisationseinheit', $organisationseinheit);
+        }
     }
 }

@@ -36,7 +36,11 @@ class LebenslagenController extends AbstractController
     public function showAction(int $id): void
     {
         $lebenslage = $this->lebenslagen->findById($id);
-        $this->view->assign('lebenslage', $lebenslage);
-        $this->setPageTitle($lebenslage['name'] ?? '');
+        if ($lebenslage === []) {
+            $this->addFlashMessage('Requested Lebenslage could not be found for current language');
+        } else {
+            $this->view->assign('lebenslage', $lebenslage);
+            $this->setPageTitle($lebenslage['name'] ?? '');
+        }
     }
 }
