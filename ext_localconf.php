@@ -19,6 +19,17 @@ call_user_func(static function () {
         ]
     );
 
+    // Create our own logger file
+    if (!isset($GLOBALS['TYPO3_CONF_VARS']['LOG']['JWeiland']['ServiceBw2']['writerConfiguration'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['LOG']['JWeiland']['ServiceBw2']['writerConfiguration'] = [
+            \Psr\Log\LogLevel::INFO => [
+                \TYPO3\CMS\Core\Log\Writer\FileWriter::class => [
+                    'logFileInfix' => 'servicebw2',
+                ],
+            ],
+        ];
+    }
+
     // Register caches for requests to Service BW API.
     // Set group to system. So, pages cache can be flushed, without lost of Service BW data.
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'] = [

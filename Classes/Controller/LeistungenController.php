@@ -35,8 +35,12 @@ class LeistungenController extends AbstractController
     public function showAction(int $id): void
     {
         $leistung = $this->leistungen->findById($id);
-        $this->setPageTitle($leistung['name'] ?? '');
-        $this->view->assign('leistung', $leistung);
+        if ($leistung === []) {
+            $this->addFlashMessage('Requested Leistung could not be found for current language');
+        } else {
+            $this->setPageTitle($leistung['name'] ?? '');
+            $this->view->assign('leistung', $leistung);
+        }
     }
 
     public function listAction(): void

@@ -178,6 +178,14 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
         foreach ($recordsToIndex as $recordToIndex) {
             try {
                 $liveRecordWithFullData = $this->request->findById($recordToIndex['id']);
+                if ($liveRecordWithFullData === []) {
+                    $this->logger->warning(sprintf(
+                        'Record of type %s with ID %s could not be found',
+                        get_class($this->request),
+                        $recordToIndex['id']
+                    ));
+                    continue;
+                }
             } catch (ClientException $exception) {
                 continue;
             }
