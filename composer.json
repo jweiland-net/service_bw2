@@ -10,11 +10,6 @@
 			"name": "Stefan Froemken",
 			"email": "projects@jweiland.net",
 			"role": "Developer"
-		},
-		{
-			"name": "Markus Kugler",
-			"email": "projects@jweiland.net",
-			"role": "Developer"
 		}
 	],
 	"support": {
@@ -23,12 +18,11 @@
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^10.4.32 || ^11.5.16",
+		"typo3/cms-core": "^10.4.36 || ^11.5.23",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {
-		"roave/security-advisories": "dev-latest",
-		"friendsofphp/php-cs-fixer": "^3.0",
+		"friendsofphp/php-cs-fixer": "^3.14",
 		"nimut/testing-framework": "^6.0",
 		"phpunit/phpunit": "^9.5",
 		"phpspec/prophecy-phpunit": "^2.0"
