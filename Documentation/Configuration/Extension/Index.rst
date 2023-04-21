@@ -76,7 +76,7 @@ Default: <empty>
 
 German description of Service BW API:
 
-..  code-block::
+..  code-block::code
 
     Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation
     ausführen möchte.
@@ -90,7 +90,7 @@ Default: <empty>
 
 German description of Service BW API:
 
-..  code-block::
+..  code-block::code
 
     Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.
 

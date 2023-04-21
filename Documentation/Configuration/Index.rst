@@ -7,6 +7,13 @@
 Configuration
 =============
 
+..  toctree::
+    :maxdepth: 2
+    :titlesonly:
+
+    Extension/Index
+    TypoScript/Index
+
 Please follow these steps to configure `service_bw2`:
 
 ..  rst-class:: bignums

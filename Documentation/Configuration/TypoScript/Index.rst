@@ -94,7 +94,7 @@ Settings
 
 ..  confval:: overridePageTitle
 
-    :type: bool
+    :type: boolean
     :Default: 0 (false)
     :Path: plugin.tx_servicebw2.settings
 
@@ -104,7 +104,7 @@ Settings
 ..  confval:: organisationseinheiten.pidOfListPage
 
     :type: int
-    :Default: <empty>
+    :Default: (none)
     :Path: plugin.tx_servicebw2.settings
 
     If you need a link in a detail view to go back into list view please fill
@@ -114,7 +114,7 @@ Settings
 ..  confval:: organisationseinheiten.pidOfDetailPage
 
     :type: int
-    :Default: <empty>
+    :Default: (none)
     :Path: plugin.tx_servicebw2.settings
 
     For design resons it may make sense to link an Organisationseinheit onto
@@ -123,7 +123,7 @@ Settings
 ..  confval:: leistungen.pidOfListPage
 
     :type: int
-    :Default: <empty>
+    :Default: (none)
     :Path: plugin.tx_servicebw2.settings
 
     If you need a link in a detail view to go back into list view please fill
@@ -132,7 +132,7 @@ Settings
 ..  confval:: leistungen.pidOfDetailPage
 
     :type: int
-    :Default: <empty>
+    :Default: (none)
     :Path: plugin.tx_servicebw2.settings
 
     For design resons it may make sense to link a Leistung onto its
@@ -141,7 +141,7 @@ Settings
 ..  confval:: lebenslagen.pidOfListPage
 
     :type: int
-    :Default: <empty>
+    :Default: (none)
     :Path: plugin.tx_servicebw2.settings
 
     If you need a link in a detail view to go back into list view please fill
@@ -150,10 +150,10 @@ Settings
 ..  confval:: lebenslagen.pidOfDetailPage
 
     :type: int
-    :Default: <empty>
+    :Default: (none)
     :Path: plugin.tx_servicebw2.settings
 
-    For design resons it may make sense to link a Lebenslage onto its
+    For design reasons it may make sense to link a Lebenslage onto its
     own page UID.
 
 =====
