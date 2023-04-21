@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 6.0.3
+=============
+
+*   [DOCU] Update section how to configure service_bw2
+*   [TASK] Set TYPO3 scheduler as dependency
+*   [TASK] Update .gitignore and .editorconfig
+
 Version 6.0.2
 =============
 
