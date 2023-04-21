@@ -32,8 +32,8 @@ Service BW Extension
 
 ----
 
-This extensions provides the possibility to integrate parts of Service BW (https://www.service-bw.de/) to your
-website.
+This extensions provides the possibility to integrate parts of
+Service BW (https://www.service-bw.de/) to your website.
 
 ----
 
