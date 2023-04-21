@@ -13,7 +13,8 @@ Introduction
 What does it do?
 ================
 
-This extensions provides the possibility to integrate parts of Service BW (https://www.service-bw.de/) to your website.
+This extensions provides the possibility to integrate parts of
+Service BW (https://www.service-bw.de/) to your website.
 
 You can integrate the following parts:
 

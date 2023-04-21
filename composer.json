@@ -4,7 +4,7 @@
 	"description": "With this extension you can access service BW interface",
 	"license": "GPL-2.0-or-later",
 	"keywords": ["typo3", "TYPO3 CMS", "service", "bw"],
-	"homepage": "https://www.jweiland.net",
+	"homepage": "https://jweiland.net",
 	"authors": [
 		{
 			"name": "Stefan Froemken",
@@ -19,6 +19,7 @@
 	},
 	"require": {
 		"typo3/cms-core": "^10.4.36 || ^11.5.23",
+		"typo3/cms-scheduler": "^10.4.36 || ^11.5.23",
 		"jweiland/maps2": ">=8.0.0"
 	},
 	"require-dev": {

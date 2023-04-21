@@ -12,13 +12,14 @@ Developer Corner
 Important notes
 ===============
 
-We are using the german method names of the Service BW API in our extension to make it easier to extend/understand
-the extension.
+We are using the german method names of the Service BW API in our extension
+to make it easier to extend/understand the extension.
 
 API
 ===
 
-This extension provides APIs to use departments (Organisationseinheiten) in other extensions.
+This extension provides APIs to use departments (Organisationseinheiten) in
+other extensions.
 
 Use departments in TCA
 ----------------------
@@ -29,8 +30,9 @@ Use departments in TCA
 
     Departments inside a non service_bw2 extension TCA
 
-The TCAUtility makes the usage of departments in TCA very easy.
-You just need to use the static method getOrganisationseinheitenFieldTCAConfig in your TCA like shown below.
+The TCAUtility makes the usage of departments in TCA very easy. You just need
+to use the static method getOrganisationseinheitenFieldTCAConfig in your TCA
+like shown below.
 
 ..  code-block:: php
 
@@ -40,8 +42,8 @@ You just need to use the static method getOrganisationseinheitenFieldTCAConfig i
         'config' => \JWeiland\ServiceBw2\Utility\TCAUtility::getOrganisationseinheitenFieldTCAConfig()
     ],
 
-You can customize the default department TCA configuration even if you´re using the utility.
-For example if you only want one item maximum:
+You can customize the default department TCA configuration even if you´re
+using the utility. For example if you only want one item maximum:
 
 ..  code-block:: php
 
@@ -54,13 +56,15 @@ For example if you only want one item maximum:
 Get department item(s) by id
 ----------------------------
 
-The ModelUtility provides two public static methods to request either a single or multiple departments.
+The ModelUtility provides two public static methods to request either a single
+or multiple departments.
 
 Get a single department
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Use the method getOrganisationseinheit for that. The first parameter must be either the (int|string) id of the
-department to request or an array (this is very useful if you´re using the method inside a getter method).
+Use the method getOrganisationseinheit for that. The first parameter must be
+either the (int|string) id of the department to request or an array (this is
+very useful if you´re using the method inside a getter method).
 
 **Model example:**
 
@@ -88,8 +92,10 @@ department to request or an array (this is very useful if you´re using the meth
 Get multiple departments
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use the method getOrganisationseinheiten for that. The first parameter must be either a single id (int|string),
-multiple ids separated by comma (e.g. 12,45) or an array (this is very useful if you´re using the method inside a getter method).
+Use the method getOrganisationseinheiten for that. The first parameter must be
+either a single id (int|string), multiple ids separated by comma (e.g. 12,45)
+or an array (this is very useful if you´re using the method inside
+a getter method).
 
 **Model example**
 
@@ -116,9 +122,9 @@ multiple ids separated by comma (e.g. 12,45) or an array (this is very useful if
 
 ..  tip::
 
-    If you pass an array then both methods will return this array back without any modification. That
-    makes it possible to call the methods in the getter without adding logic around it.
-
+    If you pass an array then both methods will return this array back without
+    any modification. That makes it possible to call the methods in the getter
+    without adding logic around it.
 
 Hooks / Events
 ==============
@@ -126,8 +132,9 @@ Hooks / Events
 Modify response object
 ----------------------
 
-Use the `ModifyServiceBwResponseEvent` event to modify the response object of the Service BW API before it gets cached.
-The event dispatches before paginated requests are merged together.
+Use the `ModifyServiceBwResponseEvent` event to modify the response object of
+the Service BW API before it gets cached. The event dispatches before paginated
+requests are merged together.
 
 Add an event listener class that uses the event to modify the request.
 
@@ -160,7 +167,8 @@ Example: Modify the URL of Service BW online forms (called: Prozesse):
     }
 
 
-Then register the event in your own Site Package so TYPO3 is able to find the listener.
+Then register the event in your own Site Package so TYPO3 is able to find
+the listener.
 
 ..  code-block:: yaml
 

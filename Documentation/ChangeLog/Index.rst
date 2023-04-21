@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 6.0.3
+=============
+
+*   [DOCU] Update section how to configure service_bw2
+*   [TASK] Set TYPO3 scheduler as dependency
+*   [TASK] Update .gitignore and .editorconfig
+
 Version 6.0.2
 =============
 
@@ -25,7 +32,8 @@ Version 6.0.0
 *   Add TYPO3 11 compatibility
 *   Remove TYPO3 9 compatibility
 *   We keep PHP 7.3 compatibility for better migration
-*   Check TS path in OrganisationseinheitPoiCollectionUidViewHelper before using it
+*   Check TS path in OrganisationseinheitPoiCollectionUidViewHelper before
+    using it
 *   Migrate scheduler task to Symfony command
 *   Remove old repo2model mapping
 *   Rename TSConfig files to `*.tsconfig`
@@ -80,11 +88,13 @@ Version 5.0.0
 
     Updated Service BW API calls to the lot improved Version 2!
     There are a lot of changes but the public API classes
-    `JWeiland\\ServiceBw2\\Utility\\TCAUtility` and `JWeiland\\ServiceBw2\\Utility\\ModelUtility`
-    are compatible with earlier versions, so third party extensions that use service_bw2 should
-    continue to work.
+    `JWeiland\\ServiceBw2\\Utility\\TCAUtility` and
+    `JWeiland\\ServiceBw2\\Utility\\ModelUtility` are compatible with earlier
+    versions, so third party extensions that use service_bw2 should continue
+    to work.
 
-Text in quotation marks are original terms from Service BW and therefore in German language.
+Text in quotation marks are original terms from Service BW and therefore in
+German language.
 
 *   Rewrite ServiceBwClient to be easier to understand and easier to use
 *   Remove ServiceBwClient PostProcessors and ServiceBwClient PostProcessor hook
@@ -113,15 +123,19 @@ Version 4.0.0
 Version 3.0.1
 =============
 
-*   Region IDs will internally be used as arrays instead of comma separated values
-*   If Region IDs are not known you can add AGS or ZIP to help finding Region IDs.
+*   Region IDs will internally be used as arrays instead of comma separated
+    values
+*   If Region IDs are not known you can add AGS or ZIP to help finding
+    Region IDs.
 *   Update Documentation
 
 Version 3.0.0
 =============
 
-*   Breaking: Switched Plugin Namespace in TS from plugin.tx_servicebw2_servicebw to plugin.tx_servicebw2
-*   Add TypoScriptService to merge filled TS settings into empty FlexForm settings.
+*   Breaking: Switched Plugin Namespace in TS from
+    plugin.tx_servicebw2_servicebw to plugin.tx_servicebw2
+*   Add TypoScriptService to merge filled TS settings into empty
+    FlexForm settings.
 *   Add Fluid Namespace to all Fluid Templates
 *   Use AbstractViewHelper of Typo3Fluid package
 *   Add FlexForm overview to Page->show module
@@ -131,7 +145,8 @@ Version 3.0.0
 Version 2.1.1
 =============
 
-*   Remove strict type from processRequest in ServiceBwClient, as this method can also return
-    null, array and string
-*   Switch over from StringFrontend to VariableFrontend. You have to clear Cache completely.
+*   Remove strict type from processRequest in ServiceBwClient, as this method
+    can also return null, array and string
+*   Switch over from StringFrontend to VariableFrontend. You have to clear
+    Cache completely.
 *   Update Documentation
