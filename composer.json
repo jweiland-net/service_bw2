@@ -4,7 +4,7 @@
 	"description": "With this extension you can access service BW interface",
 	"license": "GPL-2.0-or-later",
 	"keywords": ["typo3", "TYPO3 CMS", "service", "bw"],
-	"homepage": "https://www.jweiland.net",
+	"homepage": "https://jweiland.net",
 	"authors": [
 		{
 			"name": "Stefan Froemken",
