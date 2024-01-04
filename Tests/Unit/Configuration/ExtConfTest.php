@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Unit\Configuration;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for class \JWeiland\ServiceBw2\Configuration\ExtConf

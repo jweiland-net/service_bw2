@@ -23,15 +23,9 @@ class LeistungenHelper
 {
     private const CACHE_IDENTIFIER = 'leistung_%d';
 
-    /**
-     * @var FrontendInterface
-     */
-    private $cache;
+    private FrontendInterface $cache;
 
-    /**
-     * @var Leistungen
-     */
-    private $leistungen;
+    private Leistungen $leistungen;
 
     public function __construct(FrontendInterface $cache, Leistungen $leistungen)
     {

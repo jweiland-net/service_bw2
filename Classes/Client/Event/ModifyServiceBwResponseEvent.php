@@ -18,25 +18,13 @@ namespace JWeiland\ServiceBw2\Client\Event;
  */
 final class ModifyServiceBwResponseEvent
 {
-    /**
-     * @var string
-     */
-    private $path;
+    private string $path;
 
-    /**
-     * @var array
-     */
-    private $responseBody;
+    private array $responseBody;
 
-    /**
-     * @var bool
-     */
-    private $paginatedRequest;
+    private bool $paginatedRequest;
 
-    /**
-     * @var bool
-     */
-    private $localizedRequest;
+    private bool $localizedRequest;
 
     public function __construct(
         string $path,

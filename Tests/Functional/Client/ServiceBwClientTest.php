@@ -11,20 +11,20 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
-use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
-use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
-use JWeiland\ServiceBw2\Client\ServiceBwClient;
-use JWeiland\ServiceBw2\Configuration\ExtConf;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory;
+use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
+use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
+use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class ServiceBwClientTest extends FunctionalTestCase
 {

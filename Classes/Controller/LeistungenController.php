@@ -13,26 +13,21 @@ namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class LeistungenController
  */
 class LeistungenController extends AbstractController
 {
-    /**
-     * @var Leistungen
-     */
-    protected $leistungen;
+    protected Leistungen $leistungen;
 
     public function injectLeistungen(Leistungen $leistungen): void
     {
         $this->leistungen = $leistungen;
     }
 
-    /**
-     * @param int $id of Leistung
-     */
-    public function showAction(int $id): void
+    public function showAction(int $id): ResponseInterface
     {
         $leistung = $this->leistungen->findById($id);
         if ($leistung === []) {
@@ -41,9 +36,11 @@ class LeistungenController extends AbstractController
             $this->setPageTitle($leistung['name'] ?? '');
             $this->view->assign('leistung', $leistung);
         }
+
+        return $this->htmlResponse();
     }
 
-    public function listAction(): void
+    public function listAction(): ResponseInterface
     {
         $sortedLetterList = [];
         $sortedRecordList = [];
@@ -55,5 +52,7 @@ class LeistungenController extends AbstractController
         );
         $this->view->assign('sortedLetterList', $sortedLetterList);
         $this->view->assign('sortedRecordList', $sortedRecordList);
+
+        return $this->htmlResponse();
     }
 }

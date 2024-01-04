@@ -11,16 +11,16 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
+use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use JWeiland\ServiceBw2\Listener\LeistungenListener;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class LeistungenHelperTest extends FunctionalTestCase
 {

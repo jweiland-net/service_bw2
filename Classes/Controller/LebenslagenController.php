@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 
 /**
@@ -18,22 +19,21 @@ use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
  */
 class LebenslagenController extends AbstractController
 {
-    /**
-     * @var Lebenslagen
-     */
-    protected $lebenslagen;
+    protected Lebenslagen $lebenslagen;
 
     public function injectLebenslagen(Lebenslagen $lebenslagen): void
     {
         $this->lebenslagen = $lebenslagen;
     }
 
-    public function listAction(): void
+    public function listAction(): ResponseInterface
     {
         $this->view->assign('lebenslagenbaum', $this->lebenslagen->findLebenslagenbaum());
+
+        return $this->htmlResponse();
     }
 
-    public function showAction(int $id): void
+    public function showAction(int $id): ResponseInterface
     {
         $lebenslage = $this->lebenslagen->findById($id);
         if ($lebenslage === []) {
@@ -42,5 +42,7 @@ class LebenslagenController extends AbstractController
             $this->view->assign('lebenslage', $lebenslage);
             $this->setPageTitle($lebenslage['name'] ?? '');
         }
+
+        return $this->htmlResponse();
     }
 }

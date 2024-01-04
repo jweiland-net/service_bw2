@@ -5,199 +5,159 @@
 	<sheets>
 		<sDEFAULT>
 			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_general</sheetTitle>
-				</TCEforms>
+				<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_general</sheetTitle>
 				<type>array</type>
 				<el>
 					<switchableControllerActions>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:display_mode</label>
-							<onChange>reload</onChange>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:display_mode</label><onChange>reload</onChange><config>
 								<type>select</type>
 								<renderType>selectSingle</renderType>
 								<items>
 									<numIndex index="0">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten.list
-										</numIndex>
-										<numIndex index="1">Organisationseinheiten->list</numIndex>
+										</label>
+										<value>Organisationseinheiten->list</value>
 									</numIndex>
 									<numIndex index="1">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten.show
-										</numIndex>
-										<numIndex index="1">Organisationseinheiten->show</numIndex>
+										</label>
+										<value>Organisationseinheiten->show</value>
 									</numIndex>
 									<numIndex index="2">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen.list
-										</numIndex>
-										<numIndex index="1">Leistungen->list</numIndex>
+										</label>
+										<value>Leistungen->list</value>
 									</numIndex>
 									<numIndex index="3">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen.show
-										</numIndex>
-										<numIndex index="1">Leistungen->show</numIndex>
+										</label>
+										<value>Leistungen->show</value>
 									</numIndex>
 									<numIndex index="4">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen.list
-										</numIndex>
-										<numIndex index="1">Lebenslagen->list</numIndex>
+										</label>
+										<value>Lebenslagen->list</value>
 									</numIndex>
 									<numIndex index="5">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen.show
-										</numIndex>
-										<numIndex index="1">Lebenslagen->show</numIndex>
+										</label>
+										<value>Lebenslagen->show</value>
 									</numIndex>
 									<numIndex index="6">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:prozesse.list
-										</numIndex>
-										<numIndex index="1">Prozesse->list</numIndex>
+										</label>
+										<value>Prozesse->list</value>
 									</numIndex>
 									<numIndex index="7">
-										<numIndex index="0">
+										<label>
 											LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:suche.list
-										</numIndex>
-										<numIndex index="1">Suche->list</numIndex>
+										</label>
+										<value>Suche->list</value>
 									</numIndex>
 								</items>
 								<default>Organisationseinheiten->list</default>
 							</config>
-						</TCEforms>
 					</switchableControllerActions>
 					<settings.organisationseinheiten.listItems>
-						<TCEforms>
-							<label>
+						<label>
 								LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.list_items
-							</label>
-							<displayCond>FIELD:switchableControllerActions:=:Organisationseinheiten->list</displayCond>
-							<config>
+							</label><displayCond>FIELD:switchableControllerActions:=:Organisationseinheiten->list</displayCond><config>
 								<type>select</type>
 								<enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
 								<renderType>selectMultipleSideBySide</renderType>
 								<itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems</itemsProcFunc>
 							</config>
-						</TCEforms>
 					</settings.organisationseinheiten.listItems>
 					<settings.organisationseinheiten.maps2Pid>
-						<TCEforms>
-							<label>
+						<label>
 								LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_pid
-							</label>
-							<displayCond>FIELD:switchableControllerActions:=:Organisationseinheiten->show</displayCond>
-							<config>
+							</label><displayCond>FIELD:switchableControllerActions:=:Organisationseinheiten->show</displayCond><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.organisationseinheiten.maps2Pid>
 					<settings.organisationseinheiten.maps2DetailPage>
-						<TCEforms>
-							<label>
+						<label>
 								LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_detail_page
-							</label>
-							<displayCond>FIELD:switchableControllerActions:=:Organisationseinheiten->show</displayCond>
-							<config>
+							</label><displayCond>FIELD:switchableControllerActions:=:Organisationseinheiten->show</displayCond><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.organisationseinheiten.maps2DetailPage>
 				</el>
 			</ROOT>
 		</sDEFAULT>
 		<sPagesList>
 			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_list_pages</sheetTitle>
-				</TCEforms>
+				<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_list_pages</sheetTitle>
 				<type>array</type>
 				<el>
 					<settings.organisationseinheiten.pidOfListPage>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.organisationseinheiten.pidOfListPage>
 					<settings.leistungen.pidOfListPage>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.leistungen.pidOfListPage>
 					<settings.lebenslagen.pidOfListPage>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.lebenslagen.pidOfListPage>
 				</el>
 			</ROOT>
 		</sPagesList>
 		<sPagesDetail>
 			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_detail_pages</sheetTitle>
-				</TCEforms>
+				<sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_detail_pages</sheetTitle>
 				<type>array</type>
 				<el>
 					<settings.organisationseinheiten.pidOfDetailPage>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.organisationseinheiten.pidOfDetailPage>
 					<settings.leistungen.pidOfDetailPage>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.leistungen.pidOfDetailPage>
 					<settings.lebenslagen.pidOfDetailPage>
-						<TCEforms>
-							<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
-							<config>
+						<label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label><config>
 								<type>group</type>
 								<internal_type>db</internal_type>
 								<allowed>pages</allowed>
 								<size>1</size>
 							</config>
-						</TCEforms>
 					</settings.lebenslagen.pidOfDetailPage>
 				</el>
 			</ROOT>
