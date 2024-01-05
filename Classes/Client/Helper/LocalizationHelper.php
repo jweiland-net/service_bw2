@@ -23,15 +23,9 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
  */
 class LocalizationHelper implements SingletonInterface
 {
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var string
-     */
-    protected $isoCode = '';
+    protected string $isoCode = '';
 
     public function __construct(ExtConf $extConf)
     {
@@ -61,7 +55,7 @@ class LocalizationHelper implements SingletonInterface
                 $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface
                 && $GLOBALS['TYPO3_REQUEST']->getAttribute('language') instanceof SiteLanguage
             ) {
-                $currentLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getTwoLetterIsoCode();
+                $currentLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getLocale()->getLanguageCode();
                 if (array_key_exists($currentLanguage, $allowedLanguages)) {
                     $this->isoCode = $currentLanguage;
                 }

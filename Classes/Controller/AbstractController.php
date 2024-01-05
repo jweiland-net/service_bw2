@@ -23,6 +23,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
 /**
@@ -35,7 +36,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
     /**
      * @var ExtConf
      */
-    protected $extConf;
+    protected ExtConf $extConf;
 
     public function injectExtConf(ExtConf $extConf): void
     {
@@ -65,6 +66,10 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $typoScriptSettings['settings']
         );
         $this->settings = $mergedFlexFormSettings;
+
+        if ($this->arguments === null) {
+            $this->arguments = GeneralUtility::makeInstance(Arguments::class);
+        }
     }
 
     /**
