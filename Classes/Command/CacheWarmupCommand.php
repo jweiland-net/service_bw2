@@ -92,7 +92,7 @@ class CacheWarmupCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
-        
+
         foreach ($this->getLanguages($input) as $language2letterIsoCode) {
             $output->writeln('Language for further requests: ' . $language2letterIsoCode);
 
