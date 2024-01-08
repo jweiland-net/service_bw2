@@ -18,10 +18,7 @@ use TYPO3\CMS\Core\Registry;
  */
 class ClearCacheHook
 {
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected Registry $registry;
 
     public function __construct(Registry $registry)
     {

@@ -33,9 +33,6 @@ abstract class AbstractController extends ActionController implements LoggerAwar
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var ExtConf
-     */
     protected ExtConf $extConf;
 
     public function injectExtConf(ExtConf $extConf): void
