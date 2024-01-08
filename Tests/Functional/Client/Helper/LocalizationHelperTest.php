@@ -25,8 +25,8 @@ class LocalizationHelperTest extends FunctionalTestCase
     /**
      * @var string[]
      */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/service_bw2'
+    protected array $testExtensionsToLoad = [
+        'jweiland/service_bw2'
     ];
 
     protected function setUp(): void

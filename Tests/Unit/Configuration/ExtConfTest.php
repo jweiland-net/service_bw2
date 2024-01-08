@@ -22,10 +22,7 @@ class ExtConfTest extends UnitTestCase
 {
     use ExtensionConfigurationMockTrait;
 
-    /**
-     * @var ExtConf
-     */
-    protected $subject;
+    protected ExtConf $subject;
 
     /**
      * set up.

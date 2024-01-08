@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client\Helper;
 
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\Http\RequestFactory;
@@ -23,13 +21,11 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class TokenHelperTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
-
     /**
      * @var string[]
      */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/service_bw2'
+    protected array $testExtensionsToLoad = [
+        'jweiland/service_bw2'
     ];
 
     /**
@@ -39,19 +35,19 @@ class TokenHelperTest extends FunctionalTestCase
      */
     public function fetchAndSaveTokenWithValidResponseFetchesAndSavesTheToken(): void
     {
-        $requestFactoryProphecy = $this->prophesize(RequestFactory::class);
+        $requestFactoryMock = $this->createMock(RequestFactory::class);
 
         $response = new Response();
         $response->getBody()->write('Bearer 123456789');
         $response->getBody()->rewind();
 
-        $requestFactoryProphecy
-            ->request(Argument::any(), Argument::cetera())
-            ->shouldBeCalled()
+        $requestFactoryMock
+            ->expects(self::atLeastOnce())
+            ->method('request')
             ->willReturn($response);
 
         $tokenHelper = new TokenHelper(
-            $requestFactoryProphecy->reveal(),
+            $requestFactoryMock,
             GeneralUtility::makeInstance(Registry::class),
             GeneralUtility::makeInstance(ExtConf::class)
         );

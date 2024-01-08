@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use JWeiland\ServiceBw2\Listener\LeistungenListener;
@@ -20,9 +18,9 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class LeistungenListenerTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
-
-    protected $testExtensionsToLoad = ['typo3conf/ext/service_bw2'];
+    protected array $testExtensionsToLoad = [
+        'jweiland/service_bw2'
+    ];
 
     public function eventDataProvider(): array
     {
@@ -58,12 +56,13 @@ class LeistungenListenerTest extends FunctionalTestCase
      */
     public function invokeSavesAdditionalData(ModifyServiceBwResponseEvent $event, array $expectedResult): void
     {
-        $leistungenHelperProphecy = $this->prophesize(LeistungenHelper::class);
-        $leistungenHelperProphecy->saveAdditionalData(
-            Argument::exact(1234),
-            $expectedResult
-        )->shouldBeCalled();
-        $leistungenListener = new LeistungenListener($leistungenHelperProphecy->reveal());
+        $leistungenHelperMock = $this->createMock(LeistungenHelper::class);
+        $leistungenHelperMock
+            ->expects(self::atLeastOnce())
+            ->method('saveAdditionalData')
+            ->with($this->equalTo(1234));
+
+        $leistungenListener = new LeistungenListener($leistungenHelperMock);
         $leistungenListener($event);
     }
 }
