@@ -54,14 +54,6 @@ call_user_func(static function () {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['servicebw2_clearcache']
         = \JWeiland\ServiceBw2\Hook\ClearCacheHook::class . '->clearCachePostProc';
 
-    // Register SVG Icon Identifier
-    $svgIcons = [
-        'ext-servicebw-wizard-icon' => 'plugin_wizard.svg',
-    ];
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    foreach ($svgIcons as $identifier => $fileName) {
-    }
-
     // Add service_bw2 to new element wizard
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
         '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:service_bw2/Configuration/TSconfig/ContentElementWizard.tsconfig">'
