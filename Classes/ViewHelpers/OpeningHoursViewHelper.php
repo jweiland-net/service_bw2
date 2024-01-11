@@ -123,8 +123,9 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                 'service_bw2'
             );
             $html[] = '</dt>';
+
             // show note if set
-            if ($structuredOpeningHours['hinweisText']) {
+            if (isset($structuredOpeningHours['hinweisText']) && $structuredOpeningHours['hinweisText']) {
                 $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
             }
             //todo: use StandaloneView to use a fluid template instead of manual rendering.
