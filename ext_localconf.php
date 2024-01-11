@@ -3,20 +3,75 @@ if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
+use JWeiland\ServiceBw2\Controller\LebenslagenController;
+use JWeiland\ServiceBw2\Controller\LeistungenController;
+use JWeiland\ServiceBw2\Controller\OrganisationseinheitenController;
+use JWeiland\ServiceBw2\Controller\SucheController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 call_user_func(static function () {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    // 1. Organizational Units List Plugin
+    ExtensionUtility::configurePlugin(
         'ServiceBw2',
-        'ServiceBw',
+        'OrganizationalUnitsList',
         [
-            \JWeiland\ServiceBw2\Controller\OrganisationseinheitenController::class => 'list,show',
-            \JWeiland\ServiceBw2\Controller\LebenslagenController::class => 'list,show',
-            \JWeiland\ServiceBw2\Controller\LeistungenController::class => 'list,show',
-            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
+            OrganisationseinheitenController::class => 'list, show',
         ],
-        // non-cacheable actions
+        []
+    );
+    // 2. Organizational Units Show Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'OrganizationalUnitsShow',
         [
-            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
-        ]
+            OrganisationseinheitenController::class => 'show',
+        ],
+        []
+    );
+    // 3. Services List Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'ServicesList',
+        [
+            LeistungenController::class => 'list, show',
+        ],
+        []
+    );
+    // 4. Services Show Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'ServicesShow',
+        [
+            LeistungenController::class => 'show',
+        ],
+        []
+    );
+    // 5. Life Situations List Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'LifeSituationsList',
+        [
+            LebenslagenController::class => 'list, show',
+        ],
+        []
+    );
+    // 6. Life Situations Show Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'LifeSituationsShow',
+        [
+            LebenslagenController::class => 'show',
+        ],
+        []
+    );
+    // 7. Search Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'ServiceBw2Search',
+        [
+            SucheController::class => 'list',
+        ],
+        []
     );
 
     // Create our own logger file
