@@ -9,6 +9,27 @@
 			<trans-unit id="plugin.servicebw.description">
 				<source>This plugin provides the possibility to list and show various kinds of entities of Service BW API onto your website.</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_organizationalunitslist.title">
+				<source>Service BW: Organizational Units List</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_organizationalunitsshow.title">
+				<source>Service BW: Organizational Units Show</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_serviceslist.title">
+				<source>Service BW: Services List</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_servicesshow.title">
+				<source>Service BW: Services Show</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_lifesituationslist.title">
+				<source>Service BW: Life Situations List</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_lifesituationsshow.title">
+				<source>Service BW: Life Situations Show</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_servicebw2search.title">
+				<source>Service BW: Search</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
