@@ -1,4 +1,4 @@
-mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
+mod.wizards.newContentElement.wizardItems.plugins {
   header = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw.title
   after = common
   elements {
@@ -13,7 +13,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
     }
 
     servicebw2_organizationalunitsshow {
-      iconIdentifier = ext-servicebw2-organizationalunitsshow-icon
+      iconIdentifier = ext-servicebw2_organizationalunitsshow-icon
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitsshow.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitsshow.description
       tt_content_defValues {
@@ -23,7 +23,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
     }
 
     servicebw2_lifesituationslist {
-      iconIdentifier = ext-servicebw2-lifesituationslist-icon
+      iconIdentifier = ext-servicebw2_lifesituationslist-icon
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationslist.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationslist.description
       tt_content_defValues {
@@ -33,7 +33,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
     }
 
     servicebw2_lifesituationsshow {
-      iconIdentifier = ext-servicebw2-lifesituationsshow-icon
+      iconIdentifier = ext-servicebw2_lifesituationsshow-icon
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationsshow.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationsshow.description
       tt_content_defValues {
@@ -43,7 +43,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
     }
 
     servicebw2_serviceslist {
-      iconIdentifier = ext-servicebw2-serviceslist-icon
+      iconIdentifier = ext-servicebw2_serviceslist-icon
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_serviceslist.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_serviceslist.description
       tt_content_defValues {
@@ -53,7 +53,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
     }
 
     servicebw2_servicesshow {
-      iconIdentifier = ext-servicebw2-servicesshow-icon
+      iconIdentifier = ext-servicebw2_servicesshow-icon
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicesshow.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicesshow.description
       tt_content_defValues {
@@ -63,7 +63,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
     }
 
     servicebw2_servicebw2search {
-      iconIdentifier = ext-servicebw2-servicebw2search-icon
+      iconIdentifier = ext-servicebw2_servicebw2search-icon
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicebw2search.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicebw2search.description
       tt_content_defValues {
