@@ -1,0 +1,25 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEFAULT>
+            <ROOT>
+                <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_general</sheetTitle>
+                <type>array</type>
+                <el>
+                    <settings.organisationseinheiten.pidOfDetailPage>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten.show
+                        </label>
+                        <config>
+                            <type>group</type>
+                            <internal_type>db</internal_type>
+                            <allowed>pages</allowed>
+                            <size>1</size>
+                        </config>
+                    </settings.organisationseinheiten.pidOfDetailPage>
+                </el>
+            </ROOT>
+        </sDEFAULT>
+    </sheets>
+</T3DataStructure>
