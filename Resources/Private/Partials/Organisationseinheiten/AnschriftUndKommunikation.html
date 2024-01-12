@@ -1,52 +1,52 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <dl>
-	<f:render partial="Organisationseinheiten/Anschrift"
-						arguments="{organisationseinheit: organisationseinheit, type: 'HAUSANSCHRIFT', maps2DetailPageUid: maps2DetailPageUid}"/>
-	<f:render partial="Organisationseinheiten/Anschrift"
-						arguments="{organisationseinheit: organisationseinheit, type: 'BESUCHERANSCHRIFT'}"/>
-	<f:render partial="Organisationseinheiten/Anschrift"
-						arguments="{organisationseinheit: organisationseinheit, type: 'GROSSEMPFAENGERPOSTFACH'}"/>
-	<f:render partial="Organisationseinheiten/Anschrift"
-						arguments="{organisationseinheit: organisationseinheit, type: 'POSTFACH'}"/>
+    <f:render partial="Organisationseinheiten/Anschrift"
+              arguments="{organisationseinheit: organisationseinheit, type: 'HAUSANSCHRIFT', maps2DetailPageUid: maps2DetailPageUid}"/>
+    <f:render partial="Organisationseinheiten/Anschrift"
+              arguments="{organisationseinheit: organisationseinheit, type: 'BESUCHERANSCHRIFT'}"/>
+    <f:render partial="Organisationseinheiten/Anschrift"
+              arguments="{organisationseinheit: organisationseinheit, type: 'GROSSEMPFAENGERPOSTFACH'}"/>
+    <f:render partial="Organisationseinheiten/Anschrift"
+              arguments="{organisationseinheit: organisationseinheit, type: 'POSTFACH'}"/>
 </dl>
 <f:if condition="{organisationseinheit.kommunikation}">
-	<dl>
-		<f:render partial="Organisationseinheiten/Kommunikation"
-							arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'TELEFON'}"/>
-		<f:render partial="Organisationseinheiten/Kommunikation"
-							arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'FAX'}"/>
-		<f:render partial="Organisationseinheiten/Kommunikation"
-							arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'EMAIL'}"/>
-	</dl>
+    <dl>
+        <f:render partial="Organisationseinheiten/Kommunikation"
+                  arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'TELEFON'}"/>
+        <f:render partial="Organisationseinheiten/Kommunikation"
+                  arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'FAX'}"/>
+        <f:render partial="Organisationseinheiten/Kommunikation"
+                  arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'EMAIL'}"/>
+    </dl>
 </f:if>
 
 <f:if condition="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert} || {organisationseinheit.oeffnungszeiten.text}">
-	<f:comment><!--
+    <f:comment><!--
 		This is a very weird system! Sometimes there is just the old "migrated" openingHours HTML field,
 		then we use this with an unknown HTML structure. In other cases the new structuredOpeningHours field is
 		available and can be used.
 		In later versions of Service BW API this will be changed!
 	--></f:comment>
-	<f:if condition="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert}">
-		<f:then>
-			<jw:openingHours oeffnungszeitenStrukturiert="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert}"/>
-		</f:then>
-		<f:else>
-			<f:if condition="{organisationseinheit.oeffnungszeiten.text}">
-				<dl>
-					<dt>
-						<f:translate key="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT"/>
-					</dt>
-					<dd class="opening-hours">
-						<f:format.html>{organisationseinheit.oeffnungszeiten.text}</f:format.html>
-					</dd>
-				</dl>
-			</f:if>
-		</f:else>
-	</f:if>
+    <f:if condition="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert}">
+        <f:then>
+            <jw:openingHours oeffnungszeitenStrukturiert="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert}"/>
+        </f:then>
+        <f:else>
+            <f:if condition="{organisationseinheit.oeffnungszeiten.text}">
+                <dl>
+                    <dt>
+                        <f:translate key="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT"/>
+                    </dt>
+                    <dd class="opening-hours">
+                        <f:format.html>{organisationseinheit.oeffnungszeiten.text}</f:format.html>
+                    </dd>
+                </dl>
+            </f:if>
+        </f:else>
+    </f:if>
 </f:if>
 </html>

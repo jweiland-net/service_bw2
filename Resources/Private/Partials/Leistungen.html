@@ -1,14 +1,14 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <ul class="ul-menu">
-	<f:for each="{leistungen}" as="leistung" iteration="iterator">
-		<li>
-			<f:link.action pageUid="{settings.leistungen.pidOfDetailPage}" controller="Leistungen" arguments="{id: leistung.id}" action="show">
-				{leistung.name}
-			</f:link.action>
-		</li>
-	</f:for>
+    <f:for each="{leistungen}" as="leistung" iteration="iterator">
+        <li>
+            <f:link.action pageUid="{settings.leistungen.pidOfDetailPage}" controller="Leistungen" arguments="{id: leistung.id}" action="show">
+                {leistung.name}
+            </f:link.action>
+        </li>
+    </f:for>
 </ul>
 </html>

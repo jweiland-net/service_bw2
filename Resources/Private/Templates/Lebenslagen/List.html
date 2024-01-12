@@ -1,17 +1,17 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<f:layout name="default" />
+<f:layout name="default"/>
 
 <f:section name="main">
-	<!--TYPO3SEARCH_end-->
-	<div class="frame-indent">
-		<f:for each="{lebenslagenbaum}" as="lebenslagenbaumItem">
-			<f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslagenbaumItem, pageUid: settings.lebenslagen.pidOfDetailPage}"/>
-		</f:for>
-	</div>
-	<!--TYPO3SEARCH_begin-->
+    <!--TYPO3SEARCH_end-->
+    <div class="frame-indent">
+        <f:for each="{lebenslagenbaum}" as="lebenslagenbaumItem">
+            <f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslagenbaumItem, pageUid: settings.lebenslagen.pidOfDetailPage}"/>
+        </f:for>
+    </div>
+    <!--TYPO3SEARCH_begin-->
 </f:section>
 </html>

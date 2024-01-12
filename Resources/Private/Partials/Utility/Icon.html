@@ -1,11 +1,19 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:comment><!-- Use this partial to override the icons in Service BW. This allows overriding the icons without copying the whole template! --></f:comment>
-<f:variable name="tooltipHtml"><f:if condition="{tooltipKey}">data-bs-toggle="tooltip" data-bs-placement="<f:if condition="{tooltipPosition}"><f:then>{tooltipPosition}</f:then><f:else>left</f:else></f:if>" data-tooltip-title="{f:translate(key: '{tooltipKey}')}"</f:if></f:variable>
+<f:variable name="tooltipHtml">
+    <f:if condition="{tooltipKey}">data-bs-toggle="tooltip" data-bs-placement="
+        <f:if condition="{tooltipPosition}">
+            <f:then>{tooltipPosition}</f:then>
+            <f:else>left</f:else>
+        </f:if>
+        " data-tooltip-title="{f:translate(key: '{tooltipKey}')}"
+    </f:if>
+</f:variable>
 <span class="service-bw-icon" {tooltipHtml -> f:format.raw()}>
-	<core:icon identifier="{identifier}" size="small" alternativeMarkupIdentifier="inline" />
+    <core:icon identifier="{identifier}" size="small" alternativeMarkupIdentifier="inline"/>
 </span>
 </html>

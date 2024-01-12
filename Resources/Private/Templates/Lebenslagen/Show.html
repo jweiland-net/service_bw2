@@ -1,33 +1,33 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<f:layout name="default" />
+<f:layout name="default"/>
 
 <f:section name="main">
-	<section>
-		<div class="width-max">
-			<header>
-				<h1>{lebenslage.name}</h1>
-			</header>
-		</div>
-	</section>
-	<f:render partial="Textbloecke" arguments="{textbloecke: lebenslage.textbloecke}" />
-	<aside>
-		<div class="width-max">
-			<div class="relations lebenslagenshow">
-				<f:if condition="{lebenslage.lebenslagenbaum}">
-					<h2><f:translate key="lebenslage.assigned_life_situations" /></h2>
-					<f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslage.lebenslagenbaum}" />
-				</f:if>
-			</div>
-			<div class="relations lebenslagenshow">
-				<f:if condition="{lebenslage.leistungen}">
-					<h2><f:translate key="lebenslage.related_verfahren" /></h2>
-					<f:render partial="Leistungen" arguments="{leistungen: lebenslage.leistungen}" />
-				</f:if>
-			</div>
-		</div>
-	</aside>
+    <section>
+        <div class="width-max">
+            <header>
+                <h1>{lebenslage.name}</h1>
+            </header>
+        </div>
+    </section>
+    <f:render partial="Textbloecke" arguments="{textbloecke: lebenslage.textbloecke}"/>
+    <aside>
+        <div class="width-max">
+            <div class="relations lebenslagenshow">
+                <f:if condition="{lebenslage.lebenslagenbaum}">
+                    <h2><f:translate key="lebenslage.assigned_life_situations"/></h2>
+                    <f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslage.lebenslagenbaum}"/>
+                </f:if>
+            </div>
+            <div class="relations lebenslagenshow">
+                <f:if condition="{lebenslage.leistungen}">
+                    <h2><f:translate key="lebenslage.related_verfahren"/></h2>
+                    <f:render partial="Leistungen" arguments="{leistungen: lebenslage.leistungen}"/>
+                </f:if>
+            </div>
+        </div>
+    </aside>
 </f:section>
 </html>

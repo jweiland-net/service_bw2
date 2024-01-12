@@ -1,24 +1,26 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:for each="{kommunikation}" as="item">
-	<f:if condition="{kanal} == {item.kanal}">
-		<dd class="icon-text">
-			<f:switch expression="{item.kanal}">
-				<f:case value="TELEFON">
-					<i class="fal fa-phone-alt fa-lg fa-fw" aria-hidden="true"></i><a href="tel:{item.kennung}">
-					<span itemprop="telephone">{item.kennung}</span>
-				</a>
-				</f:case>
-				<f:case value="FAX">
-					<i class="fal fa-fax fa-lg fa-fw" aria-hidden="true"></i><span>{item.kennung}</span>
-				</f:case>
-				<f:case value="EMAIL">
-					<i class="fal fa-envelope fa-lg fa-fw" aria-hidden="true"></i><f:link.email email="{item.kennung}"><f:translate key="organisationseinheit.mail" /></f:link.email>
-				</f:case>
-			</f:switch>
-		</dd>
-	</f:if>
+    <f:if condition="{kanal} == {item.kanal}">
+        <dd class="icon-text">
+            <f:switch expression="{item.kanal}">
+                <f:case value="TELEFON">
+                    <i class="fal fa-phone-alt fa-lg fa-fw" aria-hidden="true"></i><a href="tel:{item.kennung}">
+                    <span itemprop="telephone">{item.kennung}</span>
+                </a>
+                </f:case>
+                <f:case value="FAX">
+                    <i class="fal fa-fax fa-lg fa-fw" aria-hidden="true"></i>
+                    <span>{item.kennung}</span>
+                </f:case>
+                <f:case value="EMAIL">
+                    <i class="fal fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
+                    <f:link.email email="{item.kennung}"><f:translate key="organisationseinheit.mail"/></f:link.email>
+                </f:case>
+            </f:switch>
+        </dd>
+    </f:if>
 </f:for>
 </html>

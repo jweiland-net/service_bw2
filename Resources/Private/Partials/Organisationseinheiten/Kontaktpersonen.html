@@ -1,15 +1,15 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <div class="infobox">
-	<f:for each="{kontaktpersonen}" as="kontaktperson">
-		<dl>
-			<dt>{kontaktperson.vorname} {kontaktperson.nachname}</dt>
-			<f:render partial="Organisationseinheiten/Kommunikation" arguments="{kommunikation: kontaktperson.kommunikationsmoeglichkeiten, kanal: 'TELEFON'}" />
-			<f:render partial="Organisationseinheiten/Kommunikation" arguments="{kommunikation: kontaktperson.kommunikationsmoeglichkeiten, kanal: 'FAX'}" />
-			<f:render partial="Organisationseinheiten/Kommunikation" arguments="{kommunikation: kontaktperson.kommunikationsmoeglichkeiten, kanal: 'EMAIL'}" />
-		</dl>
-	</f:for>
+    <f:for each="{kontaktpersonen}" as="kontaktperson">
+        <dl>
+            <dt>{kontaktperson.vorname} {kontaktperson.nachname}</dt>
+            <f:render partial="Organisationseinheiten/Kommunikation" arguments="{kommunikation: kontaktperson.kommunikationsmoeglichkeiten, kanal: 'TELEFON'}"/>
+            <f:render partial="Organisationseinheiten/Kommunikation" arguments="{kommunikation: kontaktperson.kommunikationsmoeglichkeiten, kanal: 'FAX'}"/>
+            <f:render partial="Organisationseinheiten/Kommunikation" arguments="{kommunikation: kontaktperson.kommunikationsmoeglichkeiten, kanal: 'EMAIL'}"/>
+        </dl>
+    </f:for>
 </div>
 </html>
