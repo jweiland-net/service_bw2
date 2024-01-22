@@ -14,6 +14,8 @@ Version 7.0.0
 *   [TASK] Migrated Test Cases to TYPO3 Testing Framework
 *   [TASK] Replaced all the deprecated internal API calls to core
 *   [TASK] Implemented new Test Suite for git actions
+*   [TASK] Added new upgrade wizard for migrating old switchable controller
+    actions to separate plugins
 *   [TASK] Removed TYPO3 Compatibility for lower versions from 11 LTS
 
 Version 6.0.3
