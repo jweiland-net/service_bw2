@@ -87,15 +87,9 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
     public function executeUpdate(): bool
     {
         $records = $this->getMigrationRecords();
-
-        // Initialize the global $LANG object if it does not exist.
-        // This is needed by the ext:form flexforms hook in Core v11
-        //$GLOBALS['LANG'] = $GLOBALS['LANG'] ?? GeneralUtility::makeInstance(LanguageServiceFactory::class)->create('default');
-
         foreach ($records as $record) {
             $flexForm = $this->flexFormService->convertFlexFormContentToArray($record['pi_flexform']);
             $targetListType = $this->getTargetListType($flexForm['switchableControllerActions'] ?? '');
-            //unset($flexForm['switchableControllerActions']);
 
             if ($targetListType === '') {
                 continue;

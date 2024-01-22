@@ -27,7 +27,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class ServiceBwClientTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
-        'jweiland/service_bw2'
+        'jweiland/service-bw2'
     ];
 
     protected function setUp(): void
