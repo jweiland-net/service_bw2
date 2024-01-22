@@ -1,34 +1,79 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z"
+		  product-name="service_bw2">
 		<header/>
 		<body>
 			<trans-unit id="plugin.servicebw.title">
 				<source>Service BW</source>
 			</trans-unit>
 			<trans-unit id="plugin.servicebw.description">
-				<source>This plugin provides the possibility to list and show various kinds of entities of Service BW API onto your website.</source>
+				<source>This plugin provides the possibility to list and show various kinds of entities of Service BW
+					API onto your website.
+				</source>
 			</trans-unit>
 			<trans-unit id="plugin.servicebw2_organizationalunitslist.title">
-				<source>Service BW: Organizational Units List</source>
+				<source>Service BW: Organisationseinheiten Units List</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_organizationalunitslist.description">
+				<source>Organisationseinheiten List Plugin: Effectively organizes and lists organizational units,
+					ensuring straightforward access to relevant information.
+				</source>
+			</trans-unit>
+
 			<trans-unit id="plugin.servicebw2_organizationalunitsshow.title">
-				<source>Service BW: Organizational Units Show</source>
+				<source>Service BW: Organisationseinheiten Units Show</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_organizationalunitsshow.description">
+				<source>Organisationseinheiten Show Plugin: Presents organizational units with a user-friendly interface
+					for seamless exploration.
+				</source>
+			</trans-unit>
+
 			<trans-unit id="plugin.servicebw2_serviceslist.title">
 				<source>Service BW: Services List</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_serviceslist.description">
+				<source>Services List Plugin: Efficiently organizes and lists available services, ensuring
+					straightforward access to relevant information.
+				</source>
+			</trans-unit>
+
 			<trans-unit id="plugin.servicebw2_servicesshow.title">
 				<source>Service BW: Services Show</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_servicesshow.description">
+				<source>Services Show Plugin: Displays detailed information about services with a user-friendly
+					interface for easy exploration.
+				</source>
+			</trans-unit>
+
 			<trans-unit id="plugin.servicebw2_lifesituationslist.title">
-				<source>Service BW: Life Situations List</source>
+				<source>Service BW: Lebenslagen List</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_lifesituationslist.description">
+				<source>Lebenslagen List Plugin: Efficiently organizes and lists essential life scenarios, ensuring
+					straightforward access to relevant information.
+				</source>
+			</trans-unit>
+
+
 			<trans-unit id="plugin.servicebw2_lifesituationsshow.title">
-				<source>Service BW: Life Situations Show</source>
+				<source>Service BW: Lebenslagen Show</source>
 			</trans-unit>
+			<trans-unit id="plugin.servicebw2_lifesituationsshow.description">
+				<source>Lebenslagen Show Plugin: Displays crucial life situations with a user-friendly interface for
+					easy exploration.
+				</source>
+			</trans-unit>
+
 			<trans-unit id="plugin.servicebw2_servicebw2search.title">
 				<source>Service BW: Search</source>
+			</trans-unit>
+			<trans-unit id="plugin.servicebw2_servicebw2search.description">
+				<source>Specialized in swiftly retrieving information from the BW2 service entities, ensuring precise
+					and targeted results for an enhanced user experience.
+				</source>
 			</trans-unit>
 		</body>
 	</file>

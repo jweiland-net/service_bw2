@@ -17,7 +17,8 @@ call_user_func(static function () {
         [
             OrganisationseinheitenController::class => 'list, show',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     // 2. Organizational Units Show Plugin
     ExtensionUtility::configurePlugin(
@@ -26,7 +27,8 @@ call_user_func(static function () {
         [
             OrganisationseinheitenController::class => 'show',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     // 3. Services List Plugin
     ExtensionUtility::configurePlugin(
@@ -35,7 +37,8 @@ call_user_func(static function () {
         [
             LeistungenController::class => 'list, show',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     // 4. Services Show Plugin
     ExtensionUtility::configurePlugin(
@@ -44,7 +47,8 @@ call_user_func(static function () {
         [
             LeistungenController::class => 'show',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     // 5. Life Situations List Plugin
     ExtensionUtility::configurePlugin(
@@ -53,7 +57,8 @@ call_user_func(static function () {
         [
             LebenslagenController::class => 'list, show',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     // 6. Life Situations Show Plugin
     ExtensionUtility::configurePlugin(
@@ -62,7 +67,8 @@ call_user_func(static function () {
         [
             LebenslagenController::class => 'show',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     // 7. Search Plugin
     ExtensionUtility::configurePlugin(
@@ -71,7 +77,8 @@ call_user_func(static function () {
         [
             SucheController::class => 'list',
         ],
-        []
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 
     // Create our own logger file

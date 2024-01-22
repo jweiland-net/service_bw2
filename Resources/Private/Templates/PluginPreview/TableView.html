@@ -10,10 +10,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td><strong>View</strong></td>
-        <td>{pi_flexform_transformed.switchableControllerActions}</td>
-    </tr>
+    <f:if condition="{pi_flexform_transformed.settings.organisationseinheiten.listItems}">
+        <f:then>
+            <tr>
+                <td><strong>Org Selected Lists</strong></td>
+                <td>
+                    {pi_flexform_transformed.settings.organisationseinheiten.listItems}
+                </td>
+            </tr>
+        </f:then>
+    </f:if>
     <tr>
         <td><strong>Orga</strong></td>
         <td>

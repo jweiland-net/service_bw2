@@ -5,13 +5,13 @@ if (!defined('TYPO3')) {
 }
 
 $pluginConfig = [
-    'OrganizationalUnitsList',
-    'OrganizationalUnitsShow',
-    'ServicesList',
-    'ServicesShow',
-    'LifeSituationsList',
-    'LifeSituationsShow',
-    'ServiceBw2Search',
+    'organizational_units_list',
+    'organizational_units_show',
+    'services_list',
+    'services_show',
+    'life_situations_list',
+    'life_situations_show',
+    'service_bw2_search',
 ];
 
 foreach ($pluginConfig as $pluginName) {
@@ -28,17 +28,15 @@ foreach ($pluginConfig as $pluginName) {
     );
 
     // FlexForm Configurations
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$contentTypeName] = 'pi_flexform';
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$contentTypeName] = 'select_key';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-        $contentTypeName,
-        'FILE:EXT:service_bw2/Configuration/FlexForms/ServiceBw2' . $pluginName . '.xml'
+        '*',
+        'FILE:EXT:service_bw2/Configuration/FlexForms/ServiceBw2FlexFormConfiguration.xml',
+        $contentTypeName
     );
 
     // Plugin Icon
     $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$contentTypeName] = $iconIdentifier;
 
-    //$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'] = \GeorgRinger\News\Hooks\PluginPreviewRenderer::class;
     $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['showitem'] = '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
@@ -61,5 +59,5 @@ foreach ($pluginConfig as $pluginName) {
     ';
 
     // Remove fields pages and recursive
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$contentTypeName] = 'recursive, pages';
+    $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_excludelist'][$contentTypeName] = 'recursive, pages';
 }

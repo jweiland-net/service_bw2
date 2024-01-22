@@ -7,8 +7,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitslist.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitslist.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_organizationalunitslist
+        CType = servicebw2_organizationalunitslist
       }
     }
 
@@ -17,8 +16,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitsshow.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitsshow.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_organizationalunitsshow
+        CType = servicebw2_organizationalunitsshow
       }
     }
 
@@ -27,8 +25,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationslist.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationslist.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_lifesituationslist
+        CType = servicebw2_lifesituationslist
       }
     }
 
@@ -37,8 +34,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationsshow.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationsshow.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_lifesituationsshow
+        CType = servicebw2_lifesituationsshow
       }
     }
 
@@ -47,8 +43,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_serviceslist.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_serviceslist.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_serviceslist
+        CType = servicebw2_serviceslist
       }
     }
 
@@ -57,8 +52,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicesshow.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicesshow.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_servicesshow
+        CType = servicebw2_servicesshow
       }
     }
 
@@ -67,8 +61,7 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
       title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicebw2search.title
       description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicebw2search.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_servicebw2search
+        CType = servicebw2_servicebw2search
       }
     }
   }
@@ -77,4 +70,10 @@ mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
 }
 
 # Add CType Preview
-mod.web_layout.tt_content.preview.list.servicebw2_servicebw = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_organizationalunitslist = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_organizationalunitsshow = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_lifesituationslist = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_lifesituationsshow = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_serviceslist = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_servicesshow = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_servicebw2search = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
