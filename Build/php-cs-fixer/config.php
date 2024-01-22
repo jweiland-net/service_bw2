@@ -9,8 +9,8 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-use PhpCsFixer\Finder;
 use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
 
 if (PHP_SAPI !== 'cli') {
     die('This script supports command line usage only. Please check your command.');
