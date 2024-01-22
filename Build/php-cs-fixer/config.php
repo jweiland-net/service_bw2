@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Finder;
-use PhpCsFixer\Config;
-
 /*
  * This file is part of the package jweiland/service-bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
  */
+
+use PhpCsFixer\Finder;
+use PhpCsFixer\Config;
 
 if (PHP_SAPI !== 'cli') {
     die('This script supports command line usage only. Please check your command.');
