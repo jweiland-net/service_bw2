@@ -49,7 +49,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             'servicebw2',
             'servicebw2_servicebw' // invalid plugin name, to get fresh unmerged settings
         );
-        if (empty($typoScriptSettings['settings'])) {
+        if (!isset($typoScriptSettings['settings'])) {
             throw new \Exception('You have forgotten to add TS-Template of service_bw2', 1580294227);
         }
         $mergedFlexFormSettings = $this->configurationManager->getConfiguration(
@@ -110,7 +110,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
             $getterMethodName = 'get' . ucfirst($requiredSetting);
-            if (empty($this->extConf->{$getterMethodName}())) {
+            if ($this->extConf->{$getterMethodName}() === null) {
                 $missingSettings[] = $requiredSetting;
             }
         }
