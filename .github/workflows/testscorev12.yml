@@ -1,4 +1,4 @@
-name: Test service_bw2 for TYPO3 12 LTS
+name: CI TYPO3 12.4
 
 on: pull_request
 
