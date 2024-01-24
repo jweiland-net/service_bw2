@@ -116,11 +116,6 @@ call_user_func(static function () {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['servicebw2_clearcache']
         = \JWeiland\ServiceBw2\Hook\ClearCacheHook::class . '->clearCachePostProc';
 
-    // Add service_bw2 to new element wizard
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:service_bw2/Configuration/TSconfig/ContentElementWizard.tsconfig">'
-    );
-
     // Register an Aspect to map various ID of Service BW API to uid-title
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ServiceBwTitleMapper'] = \JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper::class;
 });

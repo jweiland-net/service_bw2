@@ -63,10 +63,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $typoScriptSettings['settings']
         );
         $this->settings = $mergedFlexFormSettings;
-
-        if ($this->arguments === null) {
-            $this->arguments = GeneralUtility::makeInstance(Arguments::class);
-        }
+        $this->arguments = GeneralUtility::makeInstance(Arguments::class);
     }
 
     /**
@@ -110,7 +107,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
             $getterMethodName = 'get' . ucfirst($requiredSetting);
-            if ($this->extConf->{$getterMethodName}() === null) {
+            if ($this->extConf->{$getterMethodName}() === '' || $this->extConf->{$getterMethodName}() === []) {
                 $missingSettings[] = $requiredSetting;
             }
         }

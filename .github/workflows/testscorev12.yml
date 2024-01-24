@@ -1,4 +1,4 @@
-name: Test service_bw2 for TYPO3 12 LTS
+name: CI TYPO3 12.4
 
 on: pull_request
 
@@ -49,3 +49,6 @@ jobs:
 
       - name: Functional tests with sqlite
         run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -d sqlite -s functional
+
+      - name: Functional tests with postgres
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -d postgres -s functional
