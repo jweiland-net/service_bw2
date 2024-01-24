@@ -12,12 +12,10 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Upgrades;
 
 use Doctrine\DBAL\Exception;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use JWeiland\ServiceBw2\Traits\QueryBuilderTrait;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Attribute\UpgradeWizard;
@@ -27,6 +25,8 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 #[UpgradeWizard('serviceBw2_pluginUpgaterWizard')]
 final class SwitchableControllerMigrationWizard implements UpgradeWizardInterface
 {
+    use QueryBuilderTrait;
+
     private const MIGRATION_SETTINGS = [
         [
             'switchableControllerActions' => 'Organisationseinheiten->list',
@@ -143,8 +143,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
 
     protected function getMigrationRecords(): array
     {
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $queryBuilder = $connectionPool->getQueryBuilderForTable('tt_content');
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
         try {
@@ -171,8 +170,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
     protected function getTargetListType(string $switchableControllerActions): string
     {
         foreach (self::MIGRATION_SETTINGS as $setting) {
-            if ($setting['switchableControllerActions'] === $switchableControllerActions
-            ) {
+            if ($setting['switchableControllerActions'] === $switchableControllerActions) {
                 return $setting['targetListType'];
             }
         }
@@ -203,7 +201,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
 
     protected function updateContentElement(int $uid, string $newCtype, string $flexform): void
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
         $queryBuilder->update('tt_content')
             ->set('CType', $newCtype)
             ->set('list_type', '')
