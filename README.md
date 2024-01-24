@@ -46,7 +46,7 @@ composer require jweiland/service-bw2
 
 ## Resources:
 
-- Extension URL: [Your Extension Repository Link]
+- Extension URL: [https://extensions.typo3.org/extension/service_bw2]
 - Service-BW Portal
 - AdminCenter Documentation
 - Government Account Information
