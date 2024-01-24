@@ -46,10 +46,9 @@ composer require jweiland/service-bw2
 
 ## Resources:
 
-- Extension URL: [https://extensions.typo3.org/extension/service_bw2]
-- Service-BW Portal
-- AdminCenter Documentation
-- Government Account Information
+- [Extension URL](https://extensions.typo3.org/extension/service_bw2)
+- [Service-BW Portal](https://bw-portal.bwl.de/service-bw)
+- [AdminCenter Documentation](https://www.service-bw.de/zufi/cms/informationsseite-zum-behoerdenkonto-und-besonderen-elektronischen-behoerdenpostfach-bebpo)
 
 For more details, refer to the documentation provided with the extension.
 
