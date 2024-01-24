@@ -6,6 +6,15 @@
 Upgrade
 =======
 
+Version 7.0.0
+-------------
+
+In this release, we've addressed compatibility issues with TYPO3 12 LTS and
+have streamlined compatibility by removing support for lower versions.
+A crucial step in this version upgrade is to execute the upgrade wizard,
+ensuring a smooth transition of all switchable controller actions to separate
+plugins.
+
 Version 6.0.0
 -------------
 
