@@ -61,10 +61,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ServiceBwTitleMapper implements StaticMappableAspectInterface
 {
-    /**
-     * @var array
-     */
-    protected $settings;
+    protected array $settings;
 
     public function __construct(array $settings)
     {

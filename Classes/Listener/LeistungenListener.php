@@ -20,10 +20,7 @@ use JWeiland\ServiceBw2\Helper\LeistungenHelper;
  */
 class LeistungenListener
 {
-    /**
-     * @var LeistungenHelper
-     */
-    protected $leistungenHelper;
+    protected LeistungenHelper $leistungenHelper;
 
     public function __construct(LeistungenHelper $leistungenHelper)
     {
@@ -46,7 +43,7 @@ class LeistungenListener
     protected function getAdditionalData(ModifyServiceBwResponseEvent $event): array
     {
         $additionalData = ['hasProzesse' => false, 'hasFormulare' => false];
-        if (!empty($event->getResponseBody()['prozesse'])) {
+        if ($event->getResponseBody()['prozesse'] ?? false) {
             $additionalData['hasProzesse'] = true;
         }
         $formulare = $event->getResponseBody()['formulare'] ?? [];

@@ -11,14 +11,12 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use JWeiland\ServiceBw2\Request\Portal\Suche;
 
 class SucheController extends AbstractController
 {
-    /**
-     * @var Suche
-     */
-    protected $suche;
+    protected Suche $suche;
 
     public function injectSuche(Suche $suche): void
     {
@@ -29,12 +27,14 @@ class SucheController extends AbstractController
         string $query = '',
         string $sort = Suche::SORT_RELEVANZ,
         string $typ = Suche::TYP_NONE
-    ): void {
+    ): ResponseInterface {
         $this->view->assignMultiple([
             'query' => $query,
             'result' => $query ? $this->suche->suche($query, $typ, $sort) : [],
             'sort' => $sort,
             'typ' => $typ,
         ]);
+
+        return $this->htmlResponse();
     }
 }

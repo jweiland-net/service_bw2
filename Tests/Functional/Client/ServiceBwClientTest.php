@@ -11,27 +11,23 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
+use SebastianBergmann\Comparator\ComparisonFailure;
+use SebastianBergmann\Comparator\Factory;
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use SebastianBergmann\Comparator\ComparisonFailure;
-use SebastianBergmann\Comparator\Factory;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class ServiceBwClientTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
-
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/service_bw2'
+    protected array $testExtensionsToLoad = [
+        'jweiland/service-bw2'
     ];
 
     protected function setUp(): void
@@ -122,12 +118,13 @@ class ServiceBwClientTest extends FunctionalTestCase
         $response->getBody()->write(json_encode($responseBody));
         $response->getBody()->rewind();
 
-        $requestFactoryProphecy = $this->prophesize(RequestFactory::class);
-        $requestFactoryProphecy
-            ->request(
-                Argument::any(),
-                Argument::exact('GET'),
-                Argument::that(static function ($argument) use ($expectedQuery) {
+        $requestFactoryMock = $this->createMock(RequestFactory::class);
+        $requestFactoryMock
+            ->method('request')
+            ->with(
+                $this->anything(),
+                $this->equalTo('GET'),
+                $this->callback(function ($argument) use ($expectedQuery) {
                     try {
                         Factory::getInstance()
                             ->getComparatorFor($expectedQuery, $argument['query'])
@@ -136,14 +133,14 @@ class ServiceBwClientTest extends FunctionalTestCase
                         echo $comparisonFailure->getDiff();
                         return false;
                     }
+
                     return true;
                 })
             )
-            ->willReturn($response)
-            ->shouldBeCalled();
+            ->willReturn($response);
 
         $serviceBwClient = new ServiceBwClient(
-            $requestFactoryProphecy->reveal(),
+            $requestFactoryMock,
             GeneralUtility::makeInstance(Registry::class),
             $extConf,
             GeneralUtility::makeInstance(EventDispatcher::class),

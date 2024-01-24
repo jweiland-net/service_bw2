@@ -12,7 +12,8 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Unit\Client\Event;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+
 
 /**
  * Test case.

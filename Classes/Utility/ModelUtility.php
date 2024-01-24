@@ -24,21 +24,20 @@ class ModelUtility
     /**
      * Returns an array with organisationseinheiten
      * This can be used in the getter of your extensions model e.g.
-     *
      * Important: define as string, so property mapper will fill that property with the ids e.g. 1245,565
      * protected $organisationseinheiten = '';
-     *
      * public function getOrganisationseinheiten(): array
      * {
      *     return $this->organisationseinheiten = ModelUtility::getOrganisationseinheiten($this->organisationseinheiten);
      * }
      *
-     * @param string|int|array comma separated list to get multiple records,
+     * @param array|int|string $organisationseinheiten comma separated list to get multiple records,
      *                         int to get one record, array will be returned as it is
      * @return array where key is the id of the record and the value is an array
      *         with fields of that organisationseinheit
+     * @throws \JsonException
      */
-    public static function getOrganisationseinheiten($organisationseinheiten): array
+    public static function getOrganisationseinheiten(array|int|string $organisationseinheiten): array
     {
         if (!is_array($organisationseinheiten)) {
             $ids = \json_decode('[' . $organisationseinheiten . ']', false, 512, JSON_THROW_ON_ERROR);

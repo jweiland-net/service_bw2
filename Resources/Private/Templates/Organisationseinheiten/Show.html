@@ -1,35 +1,45 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<f:layout name="default" />
+<f:layout name="default"/>
 
 <f:section name="main">
-	<div class="grid">
-		<div class="col-12">
-			<h1>{organisationseinheit.name}</h1>
-		</div>
-		<aside class="col-4_md-12">
-			<div class="infobox">
-				<f:render partial="Organisationseinheiten/AnschriftUndKommunikation" arguments="{organisationseinheit: organisationseinheit, maps2DetailPageUid: settings.organisationseinheiten.maps2DetailPage}" />
-			</div>
-		</aside>
-		<div class="col-8_md-12 float-right">
-			<f:render partial="Textbloecke" arguments="{textbloecke: organisationseinheit.textbloecke}" />
-			<f:if condition="{organisationseinheit.leistungen}">
-				<h2><f:translate key="organisationseinheit.leistungen" /></h2>
-				<f:render partial="Leistungen" arguments="{leistungen: organisationseinheit.leistungen}" />
-			</f:if>
-			<f:if condition="{organisationseinheit.kontaktpersonen}">
-					<h2><f:translate key="organisationseinheit.kontaktpersonen" /></h2>
-					<f:render partial="Organisationseinheiten/Kontaktpersonen" arguments="{kontaktpersonen: organisationseinheit.kontaktpersonen}" />
-			</f:if>
-			<f:render partial="FormulareProzesse" arguments="{formulare: organisationseinheit.formulare}" />
-			<f:if condition="{organisationseinheit.untergeordneteOEs}">
-				<h2><f:translate key="organisationseinheit.children"/></h2>
-				<f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit.untergeordneteOEs}" />
-			</f:if>
-		</div>
-	</div>
+    <div class="grid">
+        <div class="col-12">
+            <h1>{organisationseinheit.name}</h1>
+        </div>
+        <aside class="col-4_md-12">
+            <div class="infobox">
+                <f:render partial="Organisationseinheiten/AnschriftUndKommunikation" arguments="{organisationseinheit: organisationseinheit, maps2DetailPageUid: settings.organisationseinheiten.maps2DetailPage}"/>
+            </div>
+        </aside>
+        <div class="col-8_md-12 float-right">
+            <f:render partial="Textbloecke" arguments="{textbloecke: organisationseinheit.textbloecke}"/>
+            <f:if condition="{organisationseinheit.leistungen}">
+                <h2><f:translate key="organisationseinheit.leistungen"/></h2>
+                <f:render partial="Leistungen" arguments="{leistungen: organisationseinheit.leistungen}"/>
+            </f:if>
+            <f:if condition="{organisationseinheit.kontaktpersonen}">
+                <h2><f:translate key="organisationseinheit.kontaktpersonen"/></h2>
+                <f:render partial="Organisationseinheiten/Kontaktpersonen" arguments="{kontaktpersonen: organisationseinheit.kontaktpersonen}"/>
+            </f:if>
+            <f:render partial="FormulareProzesse" arguments="{formulare: organisationseinheit.formulare}"/>
+            <f:if condition="{organisationseinheit.untergeordneteOEs}">
+                <h2><f:translate key="organisationseinheit.children"/></h2>
+                <f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit.untergeordneteOEs}"/>
+            </f:if>
+        </div>
+        <f:if condition="{settings.organisationseinheiten.pidOfListPage}">
+            <f:then>
+                <div class="col-12">
+                    <f:link.page pageUid="{settings.organisationseinheiten.pidOfListPage}" class="link-primary">
+                        <f:translate key="button.back">Back</f:translate>>
+                    </f:link.page>
+                    >
+                </div>
+            </f:then>
+        </f:if>
+    </div>
 </f:section>
 </html>

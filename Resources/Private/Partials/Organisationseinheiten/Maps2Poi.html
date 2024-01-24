@@ -1,18 +1,18 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:if condition="{poiUid}">
-	<dd class="icon-text">
-		<i class="fal fa-map-marker-alt fa-fw" aria-hidden="true"></i>
-		<f:link.action pageUid="{detailPageUid}"
-									 extensionName="maps2"
-									 controller="PoiCollection"
-									 action="show"
-									 pluginName="maps2"
-									 arguments="{poiCollection: poiUid}">
-			<f:translate key="organisationseinheit.maps2_detail_view" />
-		</f:link.action>
-	</dd>
+    <dd class="icon-text">
+        <i class="fal fa-map-marker-alt fa-fw" aria-hidden="true"></i>
+        <f:link.action pageUid="{detailPageUid}"
+                       extensionName="maps2"
+                       controller="PoiCollection"
+                       action="show"
+                       pluginName="maps2"
+                       arguments="{poiCollection: poiUid}">
+            <f:translate key="organisationseinheit.maps2_detail_view"/>
+        </f:link.action>
+    </dd>
 </f:if>
 </html>

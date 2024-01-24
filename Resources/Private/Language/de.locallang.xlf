@@ -205,6 +205,9 @@
 			<trans-unit id="alphabetical_index.filter_prozesse">
 				<target>Nur Dienstleistungen mit Online-Formular anzeigen</target>
 			</trans-unit>
+			<trans-unit id="button.back">
+				<target>Zurück zur Liste</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

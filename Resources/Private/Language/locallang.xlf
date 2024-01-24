@@ -170,6 +170,9 @@
 			<trans-unit id="alphabetical_index.filter_prozesse">
 				<source>Show services with online forms only</source>
 			</trans-unit>
+			<trans-unit id="button.back">
+				<source>Back to List</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

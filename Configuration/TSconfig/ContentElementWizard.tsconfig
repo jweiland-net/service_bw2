@@ -1,16 +1,79 @@
-mod.wizards.newContentElement.wizardItems.plugins {
+mod.wizards.newContentElement.wizardItems.ext-service-bw2 {
+  header = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw.title
+  after = common
   elements {
-    servicebw {
-      iconIdentifier = ext-servicebw-wizard-icon
-      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw.title
-      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw.description
+    servicebw_organizationalunitslist {
+      iconIdentifier = ext-servicebw2-organizationalunitslist-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitslist.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitslist.description
       tt_content_defValues {
-        CType = list
-        list_type = servicebw2_servicebw
+        CType = servicebw2_organizationalunitslist
+      }
+    }
+
+    servicebw2_organizationalunitsshow {
+      iconIdentifier = ext-servicebw2-organizationalunitsshow-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitsshow.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_organizationalunitsshow.description
+      tt_content_defValues {
+        CType = servicebw2_organizationalunitsshow
+      }
+    }
+
+    servicebw2_lifesituationslist {
+      iconIdentifier = ext-servicebw2-lifesituationslist-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationslist.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationslist.description
+      tt_content_defValues {
+        CType = servicebw2_lifesituationslist
+      }
+    }
+
+    servicebw2_lifesituationsshow {
+      iconIdentifier = ext-servicebw2-lifesituationsshow-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationsshow.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_lifesituationsshow.description
+      tt_content_defValues {
+        CType = servicebw2_lifesituationsshow
+      }
+    }
+
+    servicebw2_serviceslist {
+      iconIdentifier = ext-servicebw2-serviceslist-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_serviceslist.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_serviceslist.description
+      tt_content_defValues {
+        CType = servicebw2_serviceslist
+      }
+    }
+
+    servicebw2_servicesshow {
+      iconIdentifier = ext-servicebw2-servicesshow-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicesshow.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicesshow.description
+      tt_content_defValues {
+        CType = servicebw2_servicesshow
+      }
+    }
+
+    servicebw2_servicebw2search {
+      iconIdentifier = ext-servicebw2-servicebw2search-icon
+      title = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicebw2search.title
+      description = LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.servicebw2_servicebw2search.description
+      tt_content_defValues {
+        CType = servicebw2_servicebw2search
       }
     }
   }
+
+  show = *
 }
 
 # Add CType Preview
-mod.web_layout.tt_content.preview.list.servicebw2_servicebw = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_organizationalunitslist = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_organizationalunitsshow = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_lifesituationslist = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_lifesituationsshow = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_serviceslist = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_servicesshow = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html
+mod.web_layout.tt_content.preview.servicebw2_servicebw2search = EXT:service_bw2/Resources/Private/Templates/PluginPreview/TableView.html

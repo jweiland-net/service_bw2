@@ -19,15 +19,9 @@ use JWeiland\ServiceBw2\Indexer\Indexer;
  */
 class SolrIndexService
 {
-    /**
-     * @var Indexer
-     */
-    protected $indexer;
+    protected Indexer $indexer;
 
-    /**
-     * @var array
-     */
-    protected $alreadyIndexed = [];
+    protected array $alreadyIndexed = [];
 
     public function __construct(Indexer $indexer)
     {

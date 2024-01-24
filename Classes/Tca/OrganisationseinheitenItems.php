@@ -24,10 +24,7 @@ class OrganisationseinheitenItems implements SingletonInterface, LoggerAwareInte
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var Organisationseinheiten
-     */
-    protected $organisationseinheiten;
+    protected Organisationseinheiten $organisationseinheiten;
 
     public function __construct(Organisationseinheiten $organisationseinheiten)
     {

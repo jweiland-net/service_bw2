@@ -11,26 +11,24 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
+use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use JWeiland\ServiceBw2\Listener\LeistungenListener;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class LeistungenHelperTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
-
     /**
      * @var string[]
      */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/service_bw2'
+    protected array $testExtensionsToLoad = [
+        'jweiland/service-bw2'
     ];
 
     /**
@@ -38,10 +36,10 @@ class LeistungenHelperTest extends FunctionalTestCase
      */
     public function saveAdditionalDataWritesDataToCache(): void
     {
-        $leistungenProhphecy = $this->prophesize(Leistungen::class);
+        $leistungenMock = $this->createMock(Leistungen::class);
         $data = ['hello' => 'world', 'time' => time()];
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
-        $leistungenHelper = new LeistungenHelper($cache, $leistungenProhphecy->reveal());
+        $leistungenHelper = new LeistungenHelper($cache, $leistungenMock);
         $leistungenHelper->saveAdditionalData(1234, $data);
 
         self::assertEquals(
@@ -55,11 +53,16 @@ class LeistungenHelperTest extends FunctionalTestCase
      */
     public function getAdditionalDataCallsFindByIdIfCacheIsNotSet(): void
     {
-        $leistungenProhphecy = $this->prophesize(Leistungen::class);
-        $leistungenProhphecy->findById(Argument::exact(1234))->willReturn(['got' => 'called'])->shouldBeCalled();
+        $leistungenMock = $this->createMock(Leistungen::class);
+        $leistungenMock
+            ->expects(self::atLeastOnce())
+            ->method('findById')
+            ->with($this->equalTo(1234))
+            ->willReturn(['got' => 'called']);
+
         $leistungenHelper = new LeistungenHelper(
             new VariableFrontend(__FUNCTION__, new NullBackend('')),
-            $leistungenProhphecy->reveal()
+            $leistungenMock
         );
         $leistungenHelper->getAdditionalData(1234);
     }
@@ -70,22 +73,28 @@ class LeistungenHelperTest extends FunctionalTestCase
     public function getAdditionalDataReturnsArrayFromFindByIdIfCacheIsNotSet(): void
     {
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
-        $leistungenProhphecy = $this->prophesize(Leistungen::class);
-        $leistungenProhphecy->findById(Argument::exact(1234))->will(function () use ($cache, $leistungenProhphecy) {
-            $leistungenListener = new LeistungenListener(new LeistungenHelper(
-                $cache,
-                $leistungenProhphecy->reveal()
-            ));
-            $leistungenListener(new ModifyServiceBwResponseEvent(
-                '/portal/leistungsdetails/1234',
-                []
-            ));
-            return [];
-        });
+        $leistungenMock = $this->createMock(Leistungen::class);
+        $leistungenMock
+            ->expects(self::atLeastOnce())
+            ->method('findById')
+            ->with($this->equalTo(1234))
+            ->willReturnCallback(function () use ($cache, $leistungenMock) {
+                $leistungenListener = new LeistungenListener(new LeistungenHelper(
+                    $cache,
+                    $leistungenMock // Using $this refers to the mock object itself
+                ));
+                $leistungenListener(new ModifyServiceBwResponseEvent(
+                    '/portal/leistungsdetails/1234',
+                    []
+                ));
+                return [];
+            });
+
         $leistungenHelper = new LeistungenHelper(
             $cache,
-            $leistungenProhphecy->reveal()
+            $leistungenMock
         );
+
         self::assertEquals(
             ['hasFormulare' => false, 'hasProzesse' => false],
             $leistungenHelper->getAdditionalData(1234)
@@ -97,10 +106,10 @@ class LeistungenHelperTest extends FunctionalTestCase
      */
     public function getAdditionalDataReturnsEmptyArrayWithFetchIfMissingFalseAndCacheIsNotSet(): void
     {
-        $leistungenProhphecy = $this->prophesize(Leistungen::class);
+        $leistungenMock = $this->createMock(Leistungen::class);
         $leistungenHelper = new LeistungenHelper(
             new VariableFrontend(__FUNCTION__, new NullBackend('')),
-            $leistungenProhphecy->reveal()
+            $leistungenMock
         );
         self::assertEquals(
             [],
@@ -113,13 +122,14 @@ class LeistungenHelperTest extends FunctionalTestCase
      */
     public function getAdditionalDataReturnsPreviouslySavedAdditionalDataFromCache(): void
     {
-        $leistungenProhphecy = $this->prophesize(Leistungen::class);
+        $leistungenMock = $this->createMock(Leistungen::class);
         $data = ['important' => 'data'];
         $leistungenHelper = new LeistungenHelper(
             new VariableFrontend(__FUNCTION__, new TransientMemoryBackend('')),
-            $leistungenProhphecy->reveal()
+            $leistungenMock
         );
         $leistungenHelper->saveAdditionalData(1234, $data);
+
         self::assertEquals(
             $data,
             $leistungenHelper->getAdditionalData(1234)

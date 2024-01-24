@@ -9,6 +9,9 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 if (PHP_SAPI !== 'cli') {
     die('This script supports command line usage only. Please check your command.');
 }
@@ -20,12 +23,12 @@ For the full copyright and license information, please read the
 LICENSE file that was distributed with this source code.
 COMMENT;
 
-$finder = PhpCsFixer\Finder::create()
+$finder = Finder::create()
     ->name('*.php')
     ->exclude('.build')
     ->in(__DIR__);
 
-return (new \PhpCsFixer\Config())
+return (new Config())
     ->setFinder($finder)
     ->setRiskyAllowed(true)
     ->setRules([

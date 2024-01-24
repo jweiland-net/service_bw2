@@ -1,34 +1,34 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:for each="{organisationseinheit.anschriften}" as="anschriftItem">
-	<f:if condition="{anschriftItem.type} == {type}">
-		<dt class="margin-top">
-			<f:translate key="organisationseinheit.anschrift.{type}"/>
-		</dt>
-		<dd>
-			<f:if condition="{anschriftItem.postfach}">
-				{anschriftItem.postfach}
-				<br />
-			</f:if>
-			<f:if condition="{anschriftItem.strasse} && {anschriftItem.hausnummer}">
-				{anschriftItem.strasse} {anschriftItem.hausnummer}
-				<br/>
-			</f:if>
-			<f:if condition="{anschriftItem.postleitzahl} && {anschriftItem.ort}">
-				{anschriftItem.postleitzahl} {anschriftItem.ort}
-			</f:if>
-		</dd>
+    <f:if condition="{anschriftItem.type} == {type}">
+        <dt class="margin-top">
+            <f:translate key="organisationseinheit.anschrift.{type}"/>
+        </dt>
+        <dd>
+            <f:if condition="{anschriftItem.postfach}">
+                {anschriftItem.postfach}
+                <br/>
+            </f:if>
+            <f:if condition="{anschriftItem.strasse} && {anschriftItem.hausnummer}">
+                {anschriftItem.strasse} {anschriftItem.hausnummer}
+                <br/>
+            </f:if>
+            <f:if condition="{anschriftItem.postleitzahl} && {anschriftItem.ort}">
+                {anschriftItem.postleitzahl} {anschriftItem.ort}
+            </f:if>
+        </dd>
 
-		<f:if condition="{anschriftItem.type} == 'HAUSANSCHRIFT'">
-			<dd>
-				<f:render partial="Organisationseinheiten/Maps2Poi"
-									arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(organisationseinheit: \'{organisationseinheit}\')}', detailPageUid: maps2DetailPageUid}"
-				/>
-			</dd>
-		</f:if>
-	</f:if>
+        <f:if condition="{anschriftItem.type} == 'HAUSANSCHRIFT'">
+            <dd>
+                <f:render partial="Organisationseinheiten/Maps2Poi"
+                          arguments="{poiUid: '{jw:organisationseinheitPoiCollectionUid(organisationseinheit: \'{organisationseinheit}\')}', detailPageUid: maps2DetailPageUid}"
+                />
+            </dd>
+        </f:if>
+    </f:if>
 </f:for>
 </html>

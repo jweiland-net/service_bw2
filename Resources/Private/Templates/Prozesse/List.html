@@ -1,15 +1,15 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<f:layout name="default" />
+<f:layout name="default"/>
 
 <f:section name="main">
-	<!--TYPO3SEARCH_end-->
-	<f:render
-		partial="Utility/AlphabeticalIndex"
-		arguments="{linkField: 'url', titleField: 'name', sortedLetterList: '{sortedLetterList}', sortedRecordList: '{sortedRecordList}', controller: 'Leistungen', action: 'show'}"/>
-	<!--TYPO3SEARCH_begin-->
+    <!--TYPO3SEARCH_end-->
+    <f:render
+        partial="Utility/AlphabeticalIndex"
+        arguments="{linkField: 'url', titleField: 'name', sortedLetterList: '{sortedLetterList}', sortedRecordList: '{sortedRecordList}', controller: 'Leistungen', action: 'show'}"/>
+    <!--TYPO3SEARCH_begin-->
 </f:section>
 </html>

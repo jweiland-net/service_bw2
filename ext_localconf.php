@@ -1,22 +1,84 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
+use JWeiland\ServiceBw2\Controller\LebenslagenController;
+use JWeiland\ServiceBw2\Controller\LeistungenController;
+use JWeiland\ServiceBw2\Controller\OrganisationseinheitenController;
+use JWeiland\ServiceBw2\Controller\SucheController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 call_user_func(static function () {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    // 1. Organizational Units List Plugin
+    ExtensionUtility::configurePlugin(
         'ServiceBw2',
-        'ServiceBw',
+        'OrganizationalUnitsList',
         [
-            \JWeiland\ServiceBw2\Controller\OrganisationseinheitenController::class => 'list,show',
-            \JWeiland\ServiceBw2\Controller\LebenslagenController::class => 'list,show',
-            \JWeiland\ServiceBw2\Controller\LeistungenController::class => 'list,show',
-            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
+            OrganisationseinheitenController::class => 'list, show',
         ],
-        // non-cacheable actions
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    );
+    // 2. Organizational Units Show Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'OrganizationalUnitsShow',
         [
-            \JWeiland\ServiceBw2\Controller\SucheController::class => 'list',
-        ]
+            OrganisationseinheitenController::class => 'show',
+        ],
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    );
+    // 3. Services List Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'ServicesList',
+        [
+            LeistungenController::class => 'list, show',
+        ],
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    );
+    // 4. Services Show Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'ServicesShow',
+        [
+            LeistungenController::class => 'show',
+        ],
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    );
+    // 5. Life Situations List Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'LifeSituationsList',
+        [
+            LebenslagenController::class => 'list, show',
+        ],
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    );
+    // 6. Life Situations Show Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'LifeSituationsShow',
+        [
+            LebenslagenController::class => 'show',
+        ],
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    );
+    // 7. Search Plugin
+    ExtensionUtility::configurePlugin(
+        'ServiceBw2',
+        'ServiceBw2Search',
+        [
+            SucheController::class => 'list',
+        ],
+        [],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 
     // Create our own logger file
@@ -53,24 +115,6 @@ call_user_func(static function () {
     // Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['servicebw2_clearcache']
         = \JWeiland\ServiceBw2\Hook\ClearCacheHook::class . '->clearCachePostProc';
-
-    // Register SVG Icon Identifier
-    $svgIcons = [
-        'ext-servicebw-wizard-icon' => 'plugin_wizard.svg',
-    ];
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    foreach ($svgIcons as $identifier => $fileName) {
-        $iconRegistry->registerIcon(
-            $identifier,
-            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-            ['source' => 'EXT:service_bw2/Resources/Public/Icons/' . $fileName]
-        );
-    }
-
-    // Add service_bw2 to new element wizard
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:service_bw2/Configuration/TSconfig/ContentElementWizard.tsconfig">'
-    );
 
     // Register an Aspect to map various ID of Service BW API to uid-title
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ServiceBwTitleMapper'] = \JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper::class;

@@ -23,6 +23,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
 /**
@@ -32,10 +33,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
     public function injectExtConf(ExtConf $extConf): void
     {
@@ -51,7 +49,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             'servicebw2',
             'servicebw2_servicebw' // invalid plugin name, to get fresh unmerged settings
         );
-        if (empty($typoScriptSettings['settings'])) {
+        if (!isset($typoScriptSettings['settings'])) {
             throw new \Exception('You have forgotten to add TS-Template of service_bw2', 1580294227);
         }
         $mergedFlexFormSettings = $this->configurationManager->getConfiguration(
@@ -65,6 +63,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $typoScriptSettings['settings']
         );
         $this->settings = $mergedFlexFormSettings;
+        $this->arguments = GeneralUtility::makeInstance(Arguments::class);
     }
 
     /**
@@ -108,7 +107,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
             $getterMethodName = 'get' . ucfirst($requiredSetting);
-            if (empty($this->extConf->{$getterMethodName}())) {
+            if ($this->extConf->{$getterMethodName}() === '' || $this->extConf->{$getterMethodName}() === []) {
                 $missingSettings[] = $requiredSetting;
             }
         }

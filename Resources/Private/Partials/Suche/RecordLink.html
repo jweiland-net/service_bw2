@@ -1,23 +1,23 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:switch expression="{record.typ}">
-	<f:case value="LEISTUNG">
-		<f:variable name="recordLinkController"><f:translate key="leistung" /></f:variable>
-		<f:variable name="recordLinkPid">{settings.leistungen.pidOfDetailPage}</f:variable>
-	</f:case>
-	<f:case value="LEBENSLAGE">
-		<f:variable name="recordLinkController"><f:translate key="lebenslage" /></f:variable>
-		<f:variable name="recordLinkPid">{settings.lebenslagen.pidOfDetailPage}</f:variable>
-	</f:case>
-	<f:case value="ORGANISATIONSEINHEIT">
-		<f:variable name="recordLinkController"><f:translate key="organisationseinheit" /></f:variable>
-		<f:variable name="recordLinkPid">{settings.organisationseinheiten.pidOfDetailPage}</f:variable>
-	</f:case>
+    <f:case value="LEISTUNG">
+        <f:variable name="recordLinkController"><f:translate key="leistung"/></f:variable>
+        <f:variable name="recordLinkPid">{settings.leistungen.pidOfDetailPage}</f:variable>
+    </f:case>
+    <f:case value="LEBENSLAGE">
+        <f:variable name="recordLinkController"><f:translate key="lebenslage"/></f:variable>
+        <f:variable name="recordLinkPid">{settings.lebenslagen.pidOfDetailPage}</f:variable>
+    </f:case>
+    <f:case value="ORGANISATIONSEINHEIT">
+        <f:variable name="recordLinkController"><f:translate key="organisationseinheit"/></f:variable>
+        <f:variable name="recordLinkPid">{settings.organisationseinheiten.pidOfDetailPage}</f:variable>
+    </f:case>
 </f:switch>
 
 <f:if condition="{recordLinkController}">
-	<f:link.action action="show" controller="{recordLinkController}" arguments="{id: record.id}" pageUid="{recordLinkPid}">{record.name}</f:link.action>
+    <f:link.action action="show" controller="{recordLinkController}" arguments="{id: record.id}" pageUid="{recordLinkPid}">{record.name}</f:link.action>
 </f:if>
 </html>

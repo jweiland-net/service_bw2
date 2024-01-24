@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 
@@ -19,17 +20,14 @@ use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
  */
 class OrganisationseinheitenController extends AbstractController
 {
-    /**
-     * @var Organisationseinheiten
-     */
-    protected $organisationseinheiten;
+    protected Organisationseinheiten $organisationseinheiten;
 
     public function injectOrganisationseinheiten(Organisationseinheiten $organisationseinheiten): void
     {
         $this->organisationseinheiten = $organisationseinheiten;
     }
 
-    public function listAction(): void
+    public function listAction(): ResponseInterface
     {
         try {
             $listItems = json_decode(
@@ -48,9 +46,11 @@ class OrganisationseinheitenController extends AbstractController
         );
 
         $this->view->assign('organisationseinheitenbaum', $records);
+
+        return $this->htmlResponse();
     }
 
-    public function showAction(int $id): void
+    public function showAction(int $id): ResponseInterface
     {
         $organisationseinheit = $this->organisationseinheiten->findById($id);
         if ($organisationseinheit === []) {
@@ -59,5 +59,7 @@ class OrganisationseinheitenController extends AbstractController
             $this->setPageTitle($organisationseinheit['name'] ?? '');
             $this->view->assign('organisationseinheit', $organisationseinheit);
         }
+
+        return $this->htmlResponse();
     }
 }

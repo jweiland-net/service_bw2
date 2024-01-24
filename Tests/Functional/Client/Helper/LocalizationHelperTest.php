@@ -13,10 +13,10 @@ namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class LocalizationHelperTest extends FunctionalTestCase
 {
@@ -25,8 +25,8 @@ class LocalizationHelperTest extends FunctionalTestCase
     /**
      * @var string[]
      */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/service_bw2'
+    protected array $testExtensionsToLoad = [
+        'jweiland/service-bw2'
     ];
 
     protected function setUp(): void

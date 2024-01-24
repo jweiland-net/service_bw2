@@ -45,60 +45,30 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         'headerParameter' => 'Accept-Language',
     ];
 
-    /**
-     * @var string
-     */
-    protected $path = '';
+    protected string $path = '';
 
-    /**
-     * @var bool
-     */
-    protected $isPaginatedRequest = false;
+    protected bool $isPaginatedRequest = false;
 
-    /**
-     * @var array
-     */
-    protected $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
+    protected array $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
 
-    /**
-     * @var bool
-     */
-    protected $isLocalizedRequest = false;
+    protected bool $isLocalizedRequest = false;
 
     /**
      * @var string[]
      */
-    protected $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
+    protected array $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
 
-    /**
-     * @var RequestFactory
-     */
-    protected $requestFactory;
+    protected RequestFactory $requestFactory;
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected Registry $registry;
 
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var LocalizationHelper
-     */
-    protected $localizationHelper;
+    protected LocalizationHelper $localizationHelper;
 
-    /**
-     * @var FrontendInterface
-     */
-    protected $cache;
+    protected FrontendInterface $cache;
 
     public function __construct(
         RequestFactory $requestFactory,

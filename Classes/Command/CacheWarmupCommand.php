@@ -32,10 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheWarmupCommand extends Command
 {
-    /**
-     * @var array[]
-     */
-    protected $types = [
+    protected array $types = [
         'lebenslagen' => [
             'option' => 'include-lebenslagen',
             'class' => Lebenslagen::class,
@@ -49,15 +46,10 @@ class CacheWarmupCommand extends Command
             'class' => Organisationseinheiten::class,
         ],
     ];
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
 
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
+    protected ExtConf $extConf;
+
+    protected OutputInterface $output;
 
     public function injectExtConf(ExtConf $extConf): void
     {

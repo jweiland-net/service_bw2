@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #000842;
+      }
+    </style>
+  </defs>
+  <g id="Ebene_10" data-name="Ebene 10">
+    <rect class="cls-2" width="150" height="150"/>
+  </g>
+  <g id="organisationseinheiten">
+    <rect class="cls-1" x="10.12" y="10.44" width="30" height="30"/>
+    <rect class="cls-1" x="60" y="10.44" width="30" height="30"/>
+    <rect class="cls-1" x="109.49" y="10.44" width="30" height="30"/>
+    <rect class="cls-1" x="10.32" y="60" width="30" height="30"/>
+    <rect class="cls-1" x="60.2" y="60" width="30" height="30"/>
+    <rect class="cls-1" x="109.68" y="60" width="30" height="30"/>
+    <rect class="cls-1" x="10.32" y="109.56" width="30" height="30"/>
+    <rect class="cls-1" x="60.2" y="109.56" width="30" height="30"/>
+    <rect class="cls-1" x="109.68" y="109.56" width="30" height="30"/>
+  </g>
+</svg>

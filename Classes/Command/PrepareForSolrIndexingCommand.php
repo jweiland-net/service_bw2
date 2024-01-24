@@ -43,7 +43,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
      *
      * @var array
      */
-    protected $classMapping = [
+    protected array $classMapping = [
         'Lebenslagen' => Lebenslagen::class,
         'Leistungen' => Leistungen::class,
         'Organisationseinheiten' => Organisationseinheiten::class,
@@ -51,10 +51,8 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
 
     /**
      * This is an object of one of the service_bw2 request types
-     *
-     * @var EntityRequestInterface
      */
-    protected $request;
+    protected EntityRequestInterface $request;
 
     protected function configure(): void
     {
@@ -144,7 +142,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
                 ['pi_flexform'],
                 'tt_content',
                 ['uid' => $contentUid]
-            )->fetch();
+            )->fetchOne();
 
         if (
             !is_array($ttContentRecord)

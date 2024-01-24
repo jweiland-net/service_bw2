@@ -1,40 +1,46 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <table class="table">
-	<thead>
-	<tr>
-		<th>Config</th>
-		<th>Value</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td><strong>View</strong></td>
-		<td>{pi_flexform_transformed.switchableControllerActions}</td>
-	</tr>
-	<tr>
-		<td><strong>Orga</strong></td>
-		<td>
-			List: {pi_flexform_transformed.settings.organisationseinheiten.pidOfListPage}<br>
-			Detail: {pi_flexform_transformed.settings.organisationseinheiten.pidOfDetailPage}
-		</td>
-	</tr>
-	<tr>
-		<td><strong>Service</strong></td>
-		<td>
-			List: {pi_flexform_transformed.settings.leistungen.pidOfListPage}<br>
-			Detail: {pi_flexform_transformed.settings.leistungen.pidOfDetailPage}
-		</td>
-	</tr>
-	<tr>
-		<td><strong>Living</strong></td>
-		<td>
-			List: {pi_flexform_transformed.settings.lebenslagen.pidOfListPage}<br>
-			Detail: {pi_flexform_transformed.settings.lebenslagen.pidOfDetailPage}
-		</td>
-	</tr>
-	</tbody>
+    <thead>
+    <tr>
+        <th>Config</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <f:if condition="{pi_flexform_transformed.settings.organisationseinheiten.listItems}">
+        <f:then>
+            <tr>
+                <td><strong>Org Selected Lists</strong></td>
+                <td>
+                    {pi_flexform_transformed.settings.organisationseinheiten.listItems}
+                </td>
+            </tr>
+        </f:then>
+    </f:if>
+    <tr>
+        <td><strong>Orga</strong></td>
+        <td>
+            List: {pi_flexform_transformed.settings.organisationseinheiten.pidOfListPage}<br>
+            Detail: {pi_flexform_transformed.settings.organisationseinheiten.pidOfDetailPage}
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Service</strong></td>
+        <td>
+            List: {pi_flexform_transformed.settings.leistungen.pidOfListPage}<br>
+            Detail: {pi_flexform_transformed.settings.leistungen.pidOfDetailPage}
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Living</strong></td>
+        <td>
+            List: {pi_flexform_transformed.settings.lebenslagen.pidOfListPage}<br>
+            Detail: {pi_flexform_transformed.settings.lebenslagen.pidOfDetailPage}
+        </td>
+    </tr>
+    </tbody>
 </table>
 </html>
