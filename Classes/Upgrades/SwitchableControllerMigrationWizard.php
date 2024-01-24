@@ -107,7 +107,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
             // Remove flexform data which do not exist in flexform of new plugin
             foreach ($flexFormData['data'] as $sheetKey => $sheetData) {
                 // Remove empty sheets
-                if ((!count($flexFormData['data'][$sheetKey]['lDEF'])) > 0) {
+                if (count($flexFormData['data'][$sheetKey]['lDEF']) === 0) {
                     unset($flexFormData['data'][$sheetKey]);
                 }
             }
