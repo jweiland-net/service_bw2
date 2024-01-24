@@ -21,7 +21,7 @@ This TYPO3 extension integrates with service-bw, providing authorities with valu
 
 ## Installation:
 
-#### Installation using Composer
+### Installation using Composer
 
 The recommended way to install the extension is using Composer.
 
@@ -31,7 +31,7 @@ Run the following command within your Composer based TYPO3 project:
 composer require jweiland/service-bw2
 ```
 
-#### Installation using classic way
+### Installation using classic way
 
 1. Install the extension via TYPO3 Extension Manager.
 2. Configure access to the internal BW portal within TYPO3 settings.
