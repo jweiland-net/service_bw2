@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Upgrades;
 
 use Doctrine\DBAL\Exception;
-use JWeiland\ServiceBw2\Trait\QueryBuilderTrait;
+use JWeiland\ServiceBw2\Traits\QueryBuilderTrait;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
