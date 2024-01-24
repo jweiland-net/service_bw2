@@ -25,7 +25,7 @@ class TokenHelperTest extends FunctionalTestCase
      * @var string[]
      */
     protected array $testExtensionsToLoad = [
-        'jweiland/service_bw2'
+        'jweiland/service-bw2'
     ];
 
     /**
