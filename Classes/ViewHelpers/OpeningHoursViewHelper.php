@@ -125,12 +125,12 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             $html[] = '</dt>';
 
             // show note if set
-            if (isset($structuredOpeningHours['hinweisText']) && $structuredOpeningHours['hinweisText']) {
+            if ($structuredOpeningHours['hinweisText'] ?? false) {
                 $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
             }
             //todo: use StandaloneView to use a fluid template instead of manual rendering.
             foreach (self::DAYS as $dayInGerman) {
-                $afternoon = $afternoonOpeningHours[$dayInGerman] ?? false;
+                $afternoon = !empty($afternoonOpeningHours[$dayInGerman]);
                 $isWorkday = in_array($dayInGerman, self::WORKDAYS, true);
                 if (($isWorkday && $forenoonOpeningHoursWorkdays) || $afternoon) {
                     $html[] = '<dd class="structured-opening-hours">';

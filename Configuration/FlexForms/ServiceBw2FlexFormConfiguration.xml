@@ -1,7 +1,4 @@
 <T3DataStructure>
-    <meta>
-        <langDisable>1</langDisable>
-    </meta>
     <sheets>
         <sDEFAULT>
             <ROOT>
@@ -20,8 +17,7 @@
                                 <type>select</type>
                                 <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
                                 <renderType>selectMultipleSideBySide</renderType>
-                                <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems
-                                </itemsProcFunc>
+                                <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems</itemsProcFunc>
                             </config>
                         </TCEforms>
                     </settings.organisationseinheiten.listItems>
@@ -33,10 +29,9 @@
                             <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitsshow</displayCond>
                             <config>
                                 <type>group</type>
-                                <internal_type>db</internal_type>
                                 <allowed>pages</allowed>
                                 <size>1</size>
-                            </config>
+                            </config>y
                         </TCEforms>
                     </settings.organisationseinheiten.maps2Pid>
                     <settings.organisationseinheiten.maps2DetailPage>
@@ -59,15 +54,13 @@
         <sPagesList>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_list_pages
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_list_pages</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <settings.organisationseinheiten.pidOfListPage>
                         <TCEforms>
-                            <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten
-                            </label>
+                            <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -104,15 +97,13 @@
         <sPagesDetail>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_detail_pages
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:sheet_detail_pages</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <settings.organisationseinheiten.pidOfDetailPage>
                         <TCEforms>
-                            <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten
-                            </label>
+                            <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
