@@ -3,9 +3,9 @@
 
 ..  _solr:
 
-===================
-Solr Configurations
-===================
+==================
+Solr Configuration
+==================
 
 The Solr integration in the ServiceBW extension allows indexing and searching
 of service portal content. It covers indexer configuration and logging
