@@ -13,6 +13,8 @@ Configuration
 
     Extension/Index
     TypoScript/Index
+    Maps2/Index
+    Solr/Index
 
 Please follow these steps to configure `service_bw2`:
 
