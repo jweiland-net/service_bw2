@@ -4,7 +4,7 @@
 
 <ul class="{f:if(condition: '{isRecursiveCall}', then: '', else: 'ul-menu')}">
     <li>
-        <f:link.action pageUid="{pageUid}" arguments="{id: lebenslagenbaum.id}" action="show">
+        <f:link.action pageUid="{pageUid}" pluginName="LifeSituationsShow" arguments="{id: lebenslagenbaum.id}" action="show">
             {lebenslagenbaum.name}
         </f:link.action>
         <f:if condition="{lebenslagenbaum.untergeordneteLebenslagen}">
