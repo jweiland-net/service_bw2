@@ -1,36 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T10:23:00Z" product-name="service_bw2">
-		<header/>
-		<body>
-			<trans-unit id="username" xml:space="preserve">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T10:23:00Z" product-name="service_bw2" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="username" xml:space="preserve">
 				<source>Username for Service BW API: The username to get a token for further API requests. Normally starts with ws_.</source>
-				<target>Benutzername für die Service BW API: Benutzername, um einen Token zu erhalten, der für weitere API Anfragen wiederverwendet wird. Der Benutzername startet üblicherweise mit ws_</target>
-			</trans-unit>
-			<trans-unit id="password" xml:space="preserve">
+			<target state="needs-translation">Username for Service BW API: The username to get a token for further API requests. Normally starts with ws_.</target></trans-unit>
+      <trans-unit id="password" xml:space="preserve">
 				<source>Password for Service BW API: Password to receive a token, which will be used for further API requests.</source>
-				<target>Passwort für die Service BW API: Passwort, um einen Token zu erhalten, der für weitere API Anfragen wiederverwendet wird.</target>
-			</trans-unit>
-			<trans-unit id="mandant" xml:space="preserve">
+			<target state="needs-translation">Password for Service BW API: Password to receive a token, which will be used for further API requests.</target></trans-unit>
+      <trans-unit id="mandant" xml:space="preserve">
 				<source>Mandant: Place the number of the mandant of the city (only BW).</source>
-				<target>Mandant: Tragen Sie hier die Nummer des Mandanten der Stadt (nur BW) ein.</target>
-			</trans-unit>
-			<trans-unit id="baseUrl" xml:space="preserve">
+			<target state="needs-translation">Mandant: Place the number of the mandant of the city (only BW).</target></trans-unit>
+      <trans-unit id="baseUrl" xml:space="preserve">
 				<source>URI of Service BW API: To which URI the API requests should be send?. Normally: https://sgw.service-bw.de:443/</source>
-				<target>URI der Service BW API: An welche URI sollen die Anfragen geschickt werden?. Normalerweise: https://sgw.service-bw.de:443/</target>
-			</trans-unit>
-			<trans-unit id="allowedLanguages" xml:space="preserve">
+			<target state="needs-translation">URI of Service BW API: To which URI the API requests should be send?. Normally: https://sgw.service-bw.de:443/</target></trans-unit>
+      <trans-unit id="allowedLanguages" xml:space="preserve">
 				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</source>
-				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code]=0. Angabe mehrer Sprachen mit ";". Beispiel: de=0;en=0. Der erste Wert wird immer als Standardwert verwendet. Die null ist nur noch aus Kompatibilitätsgründen notwendig.</target>
-			</trans-unit>
-			<trans-unit id="gebietId">
-				<source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
-				<target>Beschreibung von der Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optionaler Parameter! Leer lassen, um diese Filterung nicht zu nutzen.</target>
-			</trans-unit>
-			<trans-unit id="ags">
-				<source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
-				<target>Beschreibung von der Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optionaler Parameter! Leer lassen, um diese Filterung nicht zu nutzen.</target>
-			</trans-unit>
-		</body>
-	</file>
+			<target state="needs-translation">Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</target></trans-unit>
+      <trans-unit id="gebietId">
+        <source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
+        <target state="needs-translation">Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</target>
+      </trans-unit>
+      <trans-unit id="ags">
+        <source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
+        <target state="needs-translation">Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
