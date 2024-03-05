@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2" target-language="pt-PT">
+    <header/>
+    <body>
+      <trans-unit id="scheduler.pid">
+        <source>Storage PID</source>
+        <target state="needs-translation">Storage PID</target>
+      </trans-unit>
+      <trans-unit id="api_error.head">
+        <source>An error has occurred</source>
+        <target state="needs-translation">An error has occurred</target>
+      </trans-unit>
+      <trans-unit id="api_error.default">
+        <source>There was an error while fetching records. Please try again or contact an admin if the error message
+					appears again!
+				</source>
+        <target state="needs-translation">There was an error while fetching records. Please try again or contact an admin if the error message
+					appears again!
+				</target>
+      </trans-unit>
+      <trans-unit id="api_error.404">
+        <source>The requested record was not found. Maybe the URL has changed. Try to use the search. </source>
+        <target state="needs-translation">The requested record was not found. Maybe the URL has changed. Try to use the search. </target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
+        <source>Home address</source>
+        <target state="needs-translation">Home address</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
+        <source>Visitor address</source>
+        <target state="needs-translation">Visitor address</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+        <source>Mailing address</source>
+        <target state="needs-translation">Mailing address</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.POSTFACH">
+        <source>Post office box</source>
+        <target state="needs-translation">Post office box</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.mail">
+        <source>e-mail</source>
+        <target state="needs-translation">e-mail</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
+        <source>Opening hours</source>
+        <target state="needs-translation">Opening hours</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
+        <source>Registration time</source>
+        <target state="needs-translation">Registration time</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
+        <source>Visiting hours</source>
+        <target state="needs-translation">Visiting hours</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
+        <source>Operational time</source>
+        <target state="needs-translation">Operational time</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
+        <source>Core hours</source>
+        <target state="needs-translation">Core hours</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
+        <source>Engineering time</source>
+        <target state="needs-translation">Engineering time</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
+        <source>Accessibility by phone</source>
+        <target state="needs-translation">Accessibility by phone</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.leistungen">
+        <source>Services</source>
+        <target state="needs-translation">Services</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.kontaktpersonen">
+        <source>Contact persons</source>
+        <target state="needs-translation">Contact persons</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.assigned_life_situations">
+        <source>Assigned life situations</source>
+        <target state="needs-translation">Assigned life situations</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.related_verfahren">
+        <source>Related Procedure</source>
+        <target state="needs-translation">Related Procedure</target>
+      </trans-unit>
+      <trans-unit id="formulare_prozesse">
+        <source>Related forms and processes</source>
+        <target state="needs-translation">Related forms and processes</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.zugehoerige_behoerde">
+        <source>Related Organisationseinheit</source>
+        <target state="needs-translation">Related Organisationseinheit</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.maps2_detail_view">
+        <source>Show on card</source>
+        <target state="needs-translation">Show on card</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.children">
+        <source>Subordinate Organisationseinheiten</source>
+        <target state="needs-translation">Subordinate Organisationseinheiten</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.to_top">
+        <source>To top</source>
+        <target state="needs-translation">To top</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MONTAG">
+        <source>Mon</source>
+        <target state="needs-translation">Mon</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DIENSTAG">
+        <source>Tues</source>
+        <target state="needs-translation">Tues</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MITTWOCH">
+        <source>Weds</source>
+        <target state="needs-translation">Weds</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DONNERSTAG">
+        <source>Thurs</source>
+        <target state="needs-translation">Thurs</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.FREITAG">
+        <source>Fri</source>
+        <target state="needs-translation">Fri</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.SAMSTAG">
+        <source>Sat</source>
+        <target state="needs-translation">Sat</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.SONNTAG">
+        <source>Sun</source>
+        <target state="needs-translation">Sun</target>
+      </trans-unit>
+      <trans-unit id="leistungen.organisationseinheiten.head">
+        <source>Competent Organisationseinheiten</source>
+        <target state="needs-translation">Competent Organisationseinheiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.internetadressen">
+        <source>Related URLs</source>
+        <target state="needs-translation">Related URLs</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy">
+        <source>Sort by</source>
+        <target state="needs-translation">Sort by</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy.name">
+        <source>Name</source>
+        <target state="needs-translation">Name</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy.relevanz">
+        <source>Relevance</source>
+        <target state="needs-translation">Relevance</target>
+      </trans-unit>
+      <trans-unit id="suche.typ">
+        <source>Show type</source>
+        <target state="needs-translation">Show type</target>
+      </trans-unit>
+      <trans-unit id="suche.typ.all">
+        <source>All</source>
+        <target state="needs-translation">All</target>
+      </trans-unit>
+      <trans-unit id="suche.result">
+        <source>Result</source>
+        <target state="needs-translation">Result</target>
+      </trans-unit>
+      <trans-unit id="suche.results">
+        <source>Results</source>
+        <target state="needs-translation">Results</target>
+      </trans-unit>
+      <!-- For general use in ext:service_bw2. Used english words from service-bw.de! -->
+      <trans-unit id="leistung">
+        <source>Service</source>
+        <target state="needs-translation">Service</target>
+      </trans-unit>
+      <trans-unit id="lebenslage">
+        <source>Life situation</source>
+        <target state="needs-translation">Life situation</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit">
+        <source>Organisational unit</source>
+        <target state="needs-translation">Organisational unit</target>
+      </trans-unit>
+      <trans-unit id="leistungen">
+        <source>Services</source>
+        <target state="needs-translation">Services</target>
+      </trans-unit>
+      <trans-unit id="lebenslagen">
+        <source>Life situations</source>
+        <target state="needs-translation">Life situations</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheiten">
+        <source>Organisational units</source>
+        <target state="needs-translation">Organisational units</target>
+      </trans-unit>
+      <trans-unit id="has_prozesse">
+        <source>This service includes processes that allow you to fill out an interactive online form</source>
+        <target state="needs-translation">This service includes processes that allow you to fill out an interactive online form</target>
+      </trans-unit>
+      <trans-unit id="has_formulare">
+        <source>This service includes PDF forms</source>
+        <target state="needs-translation">This service includes PDF forms</target>
+      </trans-unit>
+      <trans-unit id="prozess.description">
+        <source>Interactive online form. May require an Service BW Account.</source>
+        <target state="needs-translation">Interactive online form. May require an Service BW Account.</target>
+      </trans-unit>
+      <trans-unit id="formular.description">
+        <source>PDF form to download and print out</source>
+        <target state="needs-translation">PDF form to download and print out</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.search_leistungen">
+        <source>Search for a service</source>
+        <target state="needs-translation">Search for a service</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.filter_prozesse">
+        <source>Show services with online forms only</source>
+        <target state="needs-translation">Show services with online forms only</target>
+      </trans-unit>
+      <trans-unit id="button.back">
+        <source>Back to List</source>
+        <target state="needs-translation">Back to List</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
