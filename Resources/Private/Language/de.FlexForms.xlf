@@ -3,77 +3,77 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z" product-name="service_bw2" target-language="de">
     <header/>
     <body>
-      <trans-unit id="sheet_general">
+      <trans-unit id="sheet_general" approved="yes">
         <source>General</source>
-        <target state="translated">Allgemein</target>
+        <target state="final">Allgemein</target>
       </trans-unit>
-      <trans-unit id="display_mode">
+      <trans-unit id="display_mode" approved="yes">
         <source>Display mode</source>
-        <target state="translated">Ausgabe</target>
+        <target state="final">Ausgabe</target>
       </trans-unit>
-      <trans-unit id="organisationseinheiten.list">
+      <trans-unit id="organisationseinheiten.list" approved="yes">
         <source>Organisationseinheiten list view</source>
-        <target state="translated">Organisationseinheiten Listenansicht</target>
+        <target state="final">Organisationseinheiten Listenansicht</target>
       </trans-unit>
-      <trans-unit id="organisationseinheiten.show">
+      <trans-unit id="organisationseinheiten.show" approved="yes">
         <source>Organisationseinheiten detail view</source>
-        <target state="translated">Organisationseinheiten Detailansicht</target>
+        <target state="final">Organisationseinheiten Detailansicht</target>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.list_items">
+      <trans-unit id="settings.organisationseinheiten.list_items" approved="yes">
         <source>Choose items to display (recursive)</source>
-        <target state="translated">Zeige folgende Organisationseinheiten davon an (rekursiv)</target>
+        <target state="final">Zeige folgende Organisationseinheiten davon an (rekursiv)</target>
       </trans-unit>
-      <trans-unit id="sheet_list_pages">
+      <trans-unit id="sheet_list_pages" approved="yes">
         <source>Pages (list view)</source>
-        <target state="translated">Seiten (Listenansicht)</target>
+        <target state="final">Seiten (Listenansicht)</target>
       </trans-unit>
-      <trans-unit id="sheet_detail_pages">
+      <trans-unit id="sheet_detail_pages" approved="yes">
         <source>Pages (detail view)</source>
-        <target state="translated">Seiten (Detailansicht)</target>
+        <target state="final">Seiten (Detailansicht)</target>
       </trans-unit>
-      <trans-unit id="organisationseinheiten">
+      <trans-unit id="organisationseinheiten" approved="yes">
         <source>Organisationseinheiten</source>
-        <target state="needs-translation">Organisationseinheiten</target>
+        <target state="final">Organisationseinheiten</target>
       </trans-unit>
-      <trans-unit id="leistungen">
+      <trans-unit id="leistungen" approved="yes">
         <source>Leistungen</source>
-        <target state="needs-translation">Leistungen</target>
+        <target state="final">Leistungen</target>
       </trans-unit>
-      <trans-unit id="leistungen.list">
+      <trans-unit id="leistungen.list" approved="yes">
         <source>Leistungen list view</source>
-        <target state="translated">Leistungen Listenansicht</target>
+        <target state="final">Leistungen Listenansicht</target>
       </trans-unit>
-      <trans-unit id="leistungen.show">
+      <trans-unit id="leistungen.show" approved="yes">
         <source>Leistungen detail view</source>
-        <target state="translated">Leistungen Detailansicht</target>
+        <target state="final">Leistungen Detailansicht</target>
       </trans-unit>
-      <trans-unit id="lebenslagen">
+      <trans-unit id="lebenslagen" approved="yes">
         <source>Lebenslagen</source>
-        <target state="needs-translation">Lebenslagen</target>
+        <target state="final">Lebenslagen</target>
       </trans-unit>
-      <trans-unit id="lebenslagen.list">
+      <trans-unit id="lebenslagen.list" approved="yes">
         <source>Lebenslagen list view</source>
-        <target state="needs-translation">Lebenslagen list view</target>
+        <target state="final">Lebenslagen Listenansicht</target>
       </trans-unit>
-      <trans-unit id="lebenslagen.show">
+      <trans-unit id="lebenslagen.show" approved="yes">
         <source>Lebenslagen detail view</source>
-        <target state="needs-translation">Lebenslagen detail view</target>
+        <target state="final">Lebenslagen Detailansicht</target>
       </trans-unit>
-      <trans-unit id="prozesse.list">
+      <trans-unit id="prozesse.list" approved="yes">
         <source>DEPRECATED Prozesse list view</source>
-        <target state="translated">VERALTET Prozesse Listenansicht</target>
+        <target state="final">VERALTET Prozesse Listenansicht</target>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.maps2_pid">
+      <trans-unit id="settings.organisationseinheiten.maps2_pid" approved="yes">
         <source>Where to store maps2 records of Organisationseinheit items?</source>
-        <target state="translated">Speicherort für maps2 Datensätze von Organisationseinheiten</target>
+        <target state="final">Speicherort für maps2 Datensätze von Organisationseinheiten</target>
       </trans-unit>
-      <trans-unit id="settings.organisationseinheiten.maps2_detail_page">
+      <trans-unit id="settings.organisationseinheiten.maps2_detail_page" approved="yes">
         <source>Detail page for maps2 poi collection</source>
-        <target state="translated">Seite für die maps2 Detailansicht </target>
+        <target state="final">Seite für die maps2 Detailansicht </target>
       </trans-unit>
-      <trans-unit id="suche.list">
+      <trans-unit id="suche.list" approved="yes">
         <source>Search</source>
-        <target state="translated">Suche</target>
+        <target state="final">Suche</target>
       </trans-unit>
     </body>
   </file>
