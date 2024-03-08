@@ -3,25 +3,25 @@
   <file source-language="en" datatype="plaintext" original="messages" product-name="service_bw2" target-language="de">
     <header/>
     <body>
-      <trans-unit id="typeToIndex">
+      <trans-unit id="typeToIndex" approved="yes">
         <source>Type to index</source>
-        <target state="needs-translation">Type to index</target>
+        <target state="final">Zu indexierende Tabelle</target>
       </trans-unit>
-      <trans-unit id="solrConfig">
+      <trans-unit id="solrConfig" approved="yes">
         <source>Solr type</source>
-        <target state="needs-translation">Solr type</target>
+        <target state="final">Solr type</target>
       </trans-unit>
-      <trans-unit id="pluginTtContentUid">
+      <trans-unit id="pluginTtContentUid" approved="yes">
         <source>Uid of plugin tt_content</source>
-        <target state="needs-translation">Uid of plugin tt_content</target>
+        <target state="final">Uid des tt_content Elementes</target>
       </trans-unit>
-      <trans-unit id="rootPage">
+      <trans-unit id="rootPage" approved="yes">
         <source>Root page uid</source>
-        <target state="needs-translation">Root page uid</target>
+        <target state="final">Root Page UID</target>
       </trans-unit>
-      <trans-unit id="initialRecordIds">
+      <trans-unit id="initialRecordIds" approved="yes">
         <source>Intial record ids</source>
-        <target state="needs-translation">Intial record ids</target>
+        <target state="final">Initial record ids</target>
       </trans-unit>
     </body>
   </file>
