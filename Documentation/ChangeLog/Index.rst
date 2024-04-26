@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 7.0.1
+=============
+
+*   [BUGFIX] Cast maps2Uid in ViewHelper to INT
+
 Version 7.0.0
 =============
 
