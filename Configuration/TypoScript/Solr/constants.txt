@@ -1,8 +1,2 @@
-plugin.tx_servicebw2.solr {
-  # cat=plugin.tx_tx_servicebw2//a; type=int+; label=Page uid of organisationsEinheiten detail page
-  organisationsEinheiten.detailPage =
-  # cat=plugin.tx_tx_servicebw2//b; type=int+; label=Page uid of lebenslagen detail page
-  lebenslagen.detailPage =
-  # cat=plugin.tx_tx_servicebw2//c; type=int+; label=Page uid of leistungen detail page
-  leistungen.detailPage =
-}
+# Important: This file is deprecated and will removed in future
+@import 'EXT:service_bw2/Configuration/TypoScript/Solr/constants.typoscript'
