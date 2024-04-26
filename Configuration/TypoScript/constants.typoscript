@@ -1,0 +1,34 @@
+plugin.tx_servicebw2 {
+  view {
+    # cat=plugin.tx_servicebw2/file; type=string; label=Path to template root (FE)
+    templateRootPath = EXT:service_bw2/Resources/Private/Templates/
+    # cat=plugin.tx_servicebw2/file; type=string; label=Path to template partials (FE)
+    partialRootPath = EXT:service_bw2/Resources/Private/Partials/
+    # cat=plugin.tx_servicebw2/file; type=string; label=Path to template layouts (FE)
+    layoutRootPath = EXT:service_bw2/Resources/Private/Layouts/
+  }
+
+  settings {
+    # cat=plugin.tx_servicebw2/enable/a; type=boolean; label=Override the page title in show actions with item name.
+    overridePageTitle = 0
+
+    organisationseinheiten {
+      # cat=plugin.tx_servicebw2/enable/b; type=int; label=Set PID where organisationseinheiten should be listed
+      pidOfListPage =
+      # cat=plugin.tx_servicebw2/enable/b; type=int; label=Set PID where organisationseinheit should be displayed
+      pidOfDetailPage =
+    }
+    leistungen {
+      # cat=plugin.tx_servicebw2/enable/c; type=int; label=Set PID where leistungen should be listed
+      pidOfListPage =
+      # cat=plugin.tx_servicebw2/enable/c; type=int; label=Set PID where leistungen should be displayed
+      pidOfDetailPage =
+    }
+    lebenslagen {
+      # cat=plugin.tx_servicebw2/enable/d; type=int; label=Set PID where lebenslagen should be listed
+      pidOfListPage =
+      # cat=plugin.tx_servicebw2/enable/d; type=int; label=Set PID where lebenslagen should be displayed
+      pidOfDetailPage =
+    }
+  }
+}
