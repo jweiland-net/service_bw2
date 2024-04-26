@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 7.0.2
+=============
+
+*   [BUGFIX] Activate default configuration for solr index queue
+
 Version 7.0.1
 =============
 
