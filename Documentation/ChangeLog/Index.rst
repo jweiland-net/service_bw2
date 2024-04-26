@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.0.6
+=============
+
+*   [BUGFIX] Use correct URL for service BW 2 links in solr ResultSet
+
 Version 6.0.5
 =============
 
