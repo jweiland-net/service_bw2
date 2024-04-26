@@ -67,9 +67,9 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     {
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         self::$geoCodeService = GeneralUtility::makeInstance(GeoCodeService::class);
-        self::$maps2Pid = self::$configurationManager->getConfiguration(
+        self::$maps2Pid = (int)(self::$configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        )['settings']['organisationseinheiten']['maps2Pid'] ?? 0;
+        )['settings']['organisationseinheiten']['maps2Pid'] ?? 0);
 
         self::$id = $organisationseinheitId;
     }
