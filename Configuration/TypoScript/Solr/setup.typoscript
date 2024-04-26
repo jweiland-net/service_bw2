@@ -14,7 +14,7 @@ plugin.tx_solr.index.queue {
       url = TEXT
       url {
         typolink.parameter = {$plugin.tx_servicebw2.solr.organisationsEinheiten.detailPage}
-        typolink.additionalParams = &tx_servicebw2_organizationalunitsshow[id]={field:uid}&tx_servicebw2_organizationalunitsshow[action]=show&tx_servicebw2_organizationalunitsshow[controller]=Organisationseinheiten
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=Organisationseinheiten
         typolink.additionalParams.insertData = 1
         typolink.useCacheHash = 1
         typolink.returnLast = url
@@ -35,7 +35,7 @@ plugin.tx_solr.index.queue {
       url = TEXT
       url {
         typolink.parameter = {$plugin.tx_servicebw2.solr.lebenslagen.detailPage}
-        typolink.additionalParams = &tx_servicebw2_lifesituationsshow[id]={field:uid}&tx_servicebw2_lifesituationsshow[action]=show&tx_servicebw2_lifesituationsshow[controller]=Lebenslagen
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=Lebenslagen
         typolink.additionalParams.insertData = 1
         typolink.useCacheHash = 1
         typolink.returnLast = url
@@ -56,7 +56,7 @@ plugin.tx_solr.index.queue {
       url = TEXT
       url {
         typolink.parameter = {$plugin.tx_servicebw2.solr.leistungen.detailPage}
-        typolink.additionalParams = &tx_servicebw2_servicesshow[id]={field:uid}&tx_servicebw2_servicesshow[action]=show&tx_servicebw2_servicesshow[controller]=Leistungen
+        typolink.additionalParams = &tx_servicebw2_servicebw[id]={field:uid}&tx_servicebw2_servicebw[action]=show&tx_servicebw2_servicebw[controller]=Leistungen
         typolink.additionalParams.insertData = 1
         typolink.useCacheHash = 1
         typolink.returnLast = url
