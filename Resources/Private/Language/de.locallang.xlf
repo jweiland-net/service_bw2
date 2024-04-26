@@ -1,213 +1,227 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2">
-		<header/>
-		<body>
-			<trans-unit id="scheduler.pid" xml:space="preserve">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="scheduler.pid" approved="yes">
         <source>Storage PID</source>
-        <target>Speicherordner</target>
+        <target state="final">Speicherordner</target>
       </trans-unit>
-			<trans-unit id="api_error.head">
-				<source>An error has occurred</source>
-				<target>Ein Fehler ist aufgetreten</target>
-			</trans-unit>
-			<trans-unit id="api_error.default">
-				<source>There was an error while fetching records. Please try again or contact an admin if the error message
+      <trans-unit id="api_error.head" approved="yes">
+        <source>An error has occurred</source>
+        <target state="final">Ein Fehler ist aufgetreten</target>
+      </trans-unit>
+      <trans-unit id="api_error.default" approved="yes">
+        <source>There was an error while fetching records. Please try again or contact an admin if the error message
 					appears again!
 				</source>
-				<target>Bei der Verbindung mit Service BW ist ein Fehler aufgetreten. Bitte erneut versuchen oder
-					einen Administrator kontaktieren, falls die Fehlermeldung erneut erscheint.
-				</target>
-			</trans-unit>
-			<trans-unit id="api_error.404">
-				<source>The requested record was not found. Maybe the URL has changed. Try to use the search. </source>
-				<target>Der angeforderte Datensatz konnte nicht gefunden werden. Verwenden Sie bitte die Suche, da die Informationen vermutlich an einer anderen Stelle zu finden sind.</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
-				<source>Home address</source>
-				<target>Hausanschrift</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
-				<source>Visitor address</source>
-				<target>Besucheranschrift</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
-				<source>Mailing address</source>
-				<target>Postanschrift</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.anschrift.POSTFACH">
-				<source>Post office box</source>
-				<target>Postfach</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.mail">
-				<source>e-mail</source>
-				<target>E-Mail</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
-				<source>Opening hours</source>
-				<target>Öffnungszeiten</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
-				<source>Registration time</source>
-				<target>Anmeldezeiten</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
-				<source>Visiting hours</source>
-				<target>Besuchszeiten</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
-				<source>Operational time</source>
-				<target>Funktionszeiten</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
-				<source>Core hours</source>
-				<target>Kernzeiten</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
-				<source>Engineering time</source>
-				<target>Servicezeiten</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
-				<source>Accessibility by phone</source>
-				<target>Telefonische Erreichbarkeit</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.leistungen">
-				<source>Services</source>
-				<target>Betreute Verfahren</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.kontaktpersonen">
-				<source>Contact persons</source>
-				<target>Kontaktpersonen</target>
-			</trans-unit>
-
-			<trans-unit id="lebenslage.assigned_life_situations">
-				<source>Assigned life situations</source>
-				<target>Zugeordnete Lebenslagen</target>
-			</trans-unit>
-			<trans-unit id="lebenslage.related_verfahren">
-				<source>Related Procedure</source>
-				<target>Verwandte Verfahren</target>
-			</trans-unit>
-
-			<trans-unit id="formulare_prozesse">
-				<target>Onlineantrag und Formulare</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.zugehoerige_behoerde">
-				<source>Related Organisationseinheit</source>
-				<target>Zuständige Verwaltungsstellen</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.maps2_detail_view">
-				<source>Show on card</source>
-				<target>Karte anzeigen</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.children">
-				<source>Subordinate Organisationseinheiten</source>
-				<target>Zugeordnete Stellen</target>
-			</trans-unit>
-			<trans-unit id="alphabetical_index.to_top">
-				<source>To top</source>
-				<target>Nach oben</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.MONTAG">
-				<source>Mon</source>
-				<target>Mo</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.DIENSTAG">
-				<source>Tues</source>
-				<target>Di</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.MITTWOCH">
-				<source>Weds</source>
-				<target>Mi</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.DONNERSTAG">
-				<source>Thurs</source>
-				<target>Do</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.FREITAG">
-				<source>Fri</source>
-				<target>Fr</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.SAMSTAG">
-				<source>Sat</source>
-				<target>Sa</target>
-			</trans-unit>
-			<trans-unit id="opening_hours.short-form.SONNTAG">
-				<source>Sun</source>
-				<target>So</target>
-			</trans-unit>
-			<trans-unit id="leistungen.organisationseinheiten.head">
-				<source>Competent Organisationseinheiten</source>
-				<target>Zuständige Verwaltungsstellen</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit.internetadressen">
-				<source>Related URLs</source>
-				<target>Internetadressen</target>
-			</trans-unit>
-
-			<trans-unit id="suche.sortBy">
-				<target>Sortieren nach</target>
-			</trans-unit>
-			<trans-unit id="suche.sortBy.name">
-				<target>Name</target>
-			</trans-unit>
-			<trans-unit id="suche.sortBy.relevanz">
-				<target>Relevanz</target>
-			</trans-unit>
-			<trans-unit id="suche.typ">
-				<target>Zeige Kategorie</target>
-			</trans-unit>
-			<trans-unit id="suche.typ.all">
-				<target>-</target>
-			</trans-unit>
-			<trans-unit id="suche.result">
-				<target>Ergebnis</target>
-			</trans-unit>
-			<trans-unit id="suche.results">
-				<target>Ergebnisse</target>
-			</trans-unit>
-
-			<!-- For general use in ext:service_bw2 -->
-			<trans-unit id="leistung">
-				<target>Leistung</target>
-			</trans-unit>
-			<trans-unit id="lebenslage">
-				<target>Lebenslage</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheit">
-				<target>Organisationseinheit</target>
-			</trans-unit>
-			<trans-unit id="leistungen">
-				<target>Leistungen</target>
-			</trans-unit>
-			<trans-unit id="lebenslagen">
-				<target>Lebenslagen</target>
-			</trans-unit>
-			<trans-unit id="organisationseinheiten">
-				<target>Organisationseinheiten</target>
-			</trans-unit>
-
-			<trans-unit id="has_prozesse">
-				<target>Diese Leistung beinhaltet Prozesse, mit denen Sie ein interaktives Online-Formular ausfüllen können.</target>
-			</trans-unit>
-			<trans-unit id="has_formulare">
-				<target>Diese Leistung beinhaltet PDF Formulare.</target>
-			</trans-unit>
-			<trans-unit id="prozess.description">
-				<target>Interaktives Online-Formular. Kann einen Service BW Account voraussetzen.</target>
-			</trans-unit>
-			<trans-unit id="formular.description">
-				<target>PDF Formular zum herunterladen und ausdrucken.</target>
-			</trans-unit>
-			<trans-unit id="alphabetical_index.search_leistungen">
-				<target>Dienstleistungen durchsuchen...</target>
-			</trans-unit>
-			<trans-unit id="alphabetical_index.filter_prozesse">
-				<target>Nur Dienstleistungen mit Online-Formular anzeigen</target>
-			</trans-unit>
-			<trans-unit id="button.back">
-				<target>Zurück zur Liste</target>
-			</trans-unit>
-		</body>
-	</file>
+        <target state="final">Bei der Verbindung mit Service BW ist ein Fehler aufgetreten. Bitte erneut versuchen oder einen Administrator kontaktieren, falls die Fehlermeldung erneut erscheint!</target>
+      </trans-unit>
+      <trans-unit id="api_error.404" approved="yes">
+        <source>The requested record was not found. Maybe the URL has changed. Try to use the search. </source>
+        <target state="final">Der angeforderte Datensatz konnte nicht gefunden werden. Verwenden Sie bitte die Suche, da die Informationen vermutlich an einer anderen Stelle zu finden sind.</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT" approved="yes">
+        <source>Home address</source>
+        <target state="final">Hausanschrift</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT" approved="yes">
+        <source>Visitor address</source>
+        <target state="final">Besucheranschrift</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH" approved="yes">
+        <source>Mailing address</source>
+        <target state="final">Postanschrift</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.POSTFACH" approved="yes">
+        <source>Post office box</source>
+        <target state="final">Postfach</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.mail" approved="yes">
+        <source>e-mail</source>
+        <target state="final">E-Mail</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT" approved="yes">
+        <source>Opening hours</source>
+        <target state="final">Öffnungszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT" approved="yes">
+        <source>Registration time</source>
+        <target state="final">Anmeldezeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT" approved="yes">
+        <source>Visiting hours</source>
+        <target state="final">Besuchszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT" approved="yes">
+        <source>Operational time</source>
+        <target state="final">Funktionszeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT" approved="yes">
+        <source>Core hours</source>
+        <target state="final">Kernzeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT" approved="yes">
+        <source>Engineering time</source>
+        <target state="final">Servicezeiten</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT" approved="yes">
+        <source>Accessibility by phone</source>
+        <target state="final">Telefonische Erreichbarkeit</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.leistungen" approved="yes">
+        <source>Services</source>
+        <target state="final">Betreute Verfahren</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.kontaktpersonen" approved="yes">
+        <source>Contact persons</source>
+        <target state="final">Kontaktpersonen</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.assigned_life_situations" approved="yes">
+        <source>Assigned life situations</source>
+        <target state="final">Zugeordnete Lebenslagen</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.related_verfahren" approved="yes">
+        <source>Related Procedure</source>
+        <target state="final">Verwandte Verfahren</target>
+      </trans-unit>
+      <trans-unit id="formulare_prozesse" approved="yes">
+        <source>Related forms and processes</source>
+        <target state="final">Onlineantrag und Formulare</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.zugehoerige_behoerde" approved="yes">
+        <source>Related Organisationseinheit</source>
+        <target state="final">Zuständige Verwaltungsstellen</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.maps2_detail_view" approved="yes">
+        <source>Show on card</source>
+        <target state="final">Auf der Karte anzeigen</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.children" approved="yes">
+        <source>Subordinate Organisationseinheiten</source>
+        <target state="final">Zugeordnete Stellen</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.to_top" approved="yes">
+        <source>To top</source>
+        <target state="final">Nach oben</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MONTAG" approved="yes">
+        <source>Mon</source>
+        <target state="final">Mo</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DIENSTAG" approved="yes">
+        <source>Tues</source>
+        <target state="final">Di</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MITTWOCH" approved="yes">
+        <source>Weds</source>
+        <target state="final">Mi</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DONNERSTAG" approved="yes">
+        <source>Thurs</source>
+        <target state="final">Do</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.FREITAG" approved="yes">
+        <source>Fri</source>
+        <target state="final">Fr</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.SAMSTAG" approved="yes">
+        <source>Sat</source>
+        <target state="final">Sa</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.SONNTAG" approved="yes">
+        <source>Sun</source>
+        <target state="final">So</target>
+      </trans-unit>
+      <trans-unit id="leistungen.organisationseinheiten.head" approved="yes">
+        <source>Competent Organisationseinheiten</source>
+        <target state="final">Zuständige Verwaltungsstellen</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.internetadressen" approved="yes">
+        <source>Related URLs</source>
+        <target state="final">Internetadressen</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy" approved="yes">
+        <source>Sort by</source>
+        <target state="final">Sortieren nach</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy.name" approved="yes">
+        <source>Name</source>
+        <target state="final">Name</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy.relevanz" approved="yes">
+        <source>Relevance</source>
+        <target state="final">Relevanz</target>
+      </trans-unit>
+      <trans-unit id="suche.typ" approved="yes">
+        <source>Show type</source>
+        <target state="final">Zeige Kategorie</target>
+      </trans-unit>
+      <trans-unit id="suche.typ.all" approved="yes">
+        <source>All</source>
+        <target state="final">Alle</target>
+      </trans-unit>
+      <trans-unit id="suche.result" approved="yes">
+        <source>Result</source>
+        <target state="final">Ergebnis</target>
+      </trans-unit>
+      <trans-unit id="suche.results" approved="yes">
+        <source>Results</source>
+        <target state="final">Ergebnisse</target>
+      </trans-unit>
+      <!-- For general use in ext:service_bw2. Used english words from service-bw.de! -->
+      <trans-unit id="leistung" approved="yes">
+        <source>Service</source>
+        <target state="final">Leistung</target>
+      </trans-unit>
+      <trans-unit id="lebenslage" approved="yes">
+        <source>Life situation</source>
+        <target state="final">Lebenslage</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit" approved="yes">
+        <source>Organisational unit</source>
+        <target state="final">Organisationseinheit</target>
+      </trans-unit>
+      <trans-unit id="leistungen" approved="yes">
+        <source>Services</source>
+        <target state="final">Leistungen</target>
+      </trans-unit>
+      <trans-unit id="lebenslagen" approved="yes">
+        <source>Life situations</source>
+        <target state="final">Lebenslagen</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheiten" approved="yes">
+        <source>Organisational units</source>
+        <target state="final">Organisationseinheiten</target>
+      </trans-unit>
+      <trans-unit id="has_prozesse" approved="yes">
+        <source>This service includes processes that allow you to fill out an interactive online form</source>
+        <target state="final">Diese Leistung beinhaltet Prozesse, mit denen Sie ein interaktives Online-Formular ausfüllen können.</target>
+      </trans-unit>
+      <trans-unit id="has_formulare" approved="yes">
+        <source>This service includes PDF forms</source>
+        <target state="final">Diese Leistung beinhaltet PDF Formulare.</target>
+      </trans-unit>
+      <trans-unit id="prozess.description" approved="yes">
+        <source>Interactive online form. May require an Service BW Account.</source>
+        <target state="final">Interaktives Online-Formular. Kann einen Service BW Account voraussetzen.</target>
+      </trans-unit>
+      <trans-unit id="formular.description" approved="yes">
+        <source>PDF form to download and print out</source>
+        <target state="final">PDF Formular zum herunterladen und ausdrucken.</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.search_leistungen" approved="yes">
+        <source>Search for a service</source>
+        <target state="final">Dienstleistungen durchsuchen...</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.filter_prozesse" approved="yes">
+        <source>Show services with online forms only</source>
+        <target state="final">Nur Dienstleistungen mit Online-Formular anzeigen</target>
+      </trans-unit>
+      <trans-unit id="button.back" approved="yes">
+        <source>Back to List</source>
+        <target state="final">Zurück zur Liste</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

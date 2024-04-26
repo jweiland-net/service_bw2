@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T08:56:04Z" product-name="service_bw2" target-language="ru">
+    <header/>
+    <body>
+      <trans-unit id="sheet_general">
+        <source>General</source>
+        <target state="needs-translation">General</target>
+      </trans-unit>
+      <trans-unit id="display_mode">
+        <source>Display mode</source>
+        <target state="needs-translation">Display mode</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheiten.list">
+        <source>Organisationseinheiten list view</source>
+        <target state="needs-translation">Organisationseinheiten list view</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheiten.show">
+        <source>Organisationseinheiten detail view</source>
+        <target state="needs-translation">Organisationseinheiten detail view</target>
+      </trans-unit>
+      <trans-unit id="settings.organisationseinheiten.list_items">
+        <source>Choose items to display (recursive)</source>
+        <target state="needs-translation">Choose items to display (recursive)</target>
+      </trans-unit>
+      <trans-unit id="sheet_list_pages">
+        <source>Pages (list view)</source>
+        <target state="needs-translation">Pages (list view)</target>
+      </trans-unit>
+      <trans-unit id="sheet_detail_pages">
+        <source>Pages (detail view)</source>
+        <target state="needs-translation">Pages (detail view)</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheiten">
+        <source>Organisationseinheiten</source>
+        <target state="needs-translation">Organisationseinheiten</target>
+      </trans-unit>
+      <trans-unit id="leistungen">
+        <source>Leistungen</source>
+        <target state="needs-translation">Leistungen</target>
+      </trans-unit>
+      <trans-unit id="leistungen.list">
+        <source>Leistungen list view</source>
+        <target state="needs-translation">Leistungen list view</target>
+      </trans-unit>
+      <trans-unit id="leistungen.show">
+        <source>Leistungen detail view</source>
+        <target state="needs-translation">Leistungen detail view</target>
+      </trans-unit>
+      <trans-unit id="lebenslagen">
+        <source>Lebenslagen</source>
+        <target state="needs-translation">Lebenslagen</target>
+      </trans-unit>
+      <trans-unit id="lebenslagen.list">
+        <source>Lebenslagen list view</source>
+        <target state="needs-translation">Lebenslagen list view</target>
+      </trans-unit>
+      <trans-unit id="lebenslagen.show">
+        <source>Lebenslagen detail view</source>
+        <target state="needs-translation">Lebenslagen detail view</target>
+      </trans-unit>
+      <trans-unit id="prozesse.list">
+        <source>DEPRECATED Prozesse list view</source>
+        <target state="needs-translation">DEPRECATED Prozesse list view</target>
+      </trans-unit>
+      <trans-unit id="settings.organisationseinheiten.maps2_pid">
+        <source>Where to store maps2 records of Organisationseinheit items?</source>
+        <target state="needs-translation">Where to store maps2 records of Organisationseinheit items?</target>
+      </trans-unit>
+      <trans-unit id="settings.organisationseinheiten.maps2_detail_page">
+        <source>Detail page for maps2 poi collection</source>
+        <target state="needs-translation">Detail page for maps2 poi collection</target>
+      </trans-unit>
+      <trans-unit id="suche.list">
+        <source>Search</source>
+        <target state="needs-translation">Search</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
