@@ -1,13 +1,20 @@
 <?php
-if (!defined('TYPO3')) {
-    die('Access denied.');
-}
 
+use Psr\Log\LogLevel;
 use JWeiland\ServiceBw2\Controller\LebenslagenController;
 use JWeiland\ServiceBw2\Controller\LeistungenController;
 use JWeiland\ServiceBw2\Controller\OrganisationseinheitenController;
 use JWeiland\ServiceBw2\Controller\SucheController;
+use JWeiland\ServiceBw2\Hook\ClearCacheHook;
+use JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
+use TYPO3\CMS\Core\Log\Writer\FileWriter;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
+if (!defined('TYPO3')) {
+    die('Access denied.');
+}
 
 call_user_func(static function () {
     // 1. Organizational Units List Plugin
@@ -84,8 +91,8 @@ call_user_func(static function () {
     // Create our own logger file
     if (!isset($GLOBALS['TYPO3_CONF_VARS']['LOG']['JWeiland']['ServiceBw2']['writerConfiguration'])) {
         $GLOBALS['TYPO3_CONF_VARS']['LOG']['JWeiland']['ServiceBw2']['writerConfiguration'] = [
-            \Psr\Log\LogLevel::INFO => [
-                \TYPO3\CMS\Core\Log\Writer\FileWriter::class => [
+            LogLevel::INFO => [
+                FileWriter::class => [
                     'logFileInfix' => 'servicebw2',
                 ],
             ],
@@ -95,8 +102,8 @@ call_user_func(static function () {
     // Register caches for requests to Service BW API.
     // Set group to system. So, pages cache can be flushed, without lost of Service BW data.
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'] = [
-        'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
-        'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
+        'frontend' => VariableFrontend::class,
+        'backend' => Typo3DatabaseBackend::class,
         'options' => [],
         'groups' => [
             0 => 'system',
@@ -104,8 +111,8 @@ call_user_func(static function () {
     ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
-        'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
-        'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
+        'frontend' => VariableFrontend::class,
+        'backend' => Typo3DatabaseBackend::class,
         'options' => [],
         'groups' => [
             0 => 'system',
@@ -114,8 +121,8 @@ call_user_func(static function () {
 
     // Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['servicebw2_clearcache']
-        = \JWeiland\ServiceBw2\Hook\ClearCacheHook::class . '->clearCachePostProc';
+        = ClearCacheHook::class . '->clearCachePostProc';
 
     // Register an Aspect to map various ID of Service BW API to uid-title
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ServiceBwTitleMapper'] = \JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ServiceBwTitleMapper'] = ServiceBwTitleMapper::class;
 });
