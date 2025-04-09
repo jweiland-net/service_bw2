@@ -1,5 +1,9 @@
 <?php
 
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 if (!defined('TYPO3')) {
     die('Access denied.');
 }
@@ -19,16 +23,16 @@ foreach ($pluginConfig as $pluginName) {
     $iconIdentifier = 'ext-' . str_replace('_', '-', $contentTypeName) . '-icon';
 
     // Plugin Registration
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    ExtensionUtility::registerPlugin(
         'ServiceBw2',
-        \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($pluginName),
+        GeneralUtility::underscoredToUpperCamelCase($pluginName),
         'LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.' . $contentTypeName . '.title',
         $iconIdentifier,
         'ServiceBw2'
     );
 
     // FlexForm Configurations
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+    ExtensionManagementUtility::addPiFlexFormValue(
         '*',
         'FILE:EXT:service_bw2/Configuration/FlexForms/ServiceBw2FlexFormConfiguration.xml',
         $contentTypeName

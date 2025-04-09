@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $container, ContainerBuilder $containerBuilder) {
     try {
-        if ($containerBuilder->get(\ApacheSolrForTypo3\Solr\IndexQueue\Indexer::class)) {
+        if ($containerBuilder->get(\ApacheSolrForTypo3\Solr\IndexQueue\Indexer::class) !== null) {
             $definition = new Definition();
             $definition->setPublic(true);
             $definition->setAutowired(true);
