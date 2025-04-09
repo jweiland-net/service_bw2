@@ -176,6 +176,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
                     if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
                         $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
                     }
+
                     array_push($items, ...$responseBody['items']);
                 }
             } catch (\Exception $exception) {
@@ -216,6 +217,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         if ($this->isLocalizedRequest) {
             $headers[$this->localizationConfiguration['headerParameter']] = $this->localizationHelper->getFrontendLanguageIsoCode();
         }
+
         return $headers;
     }
 

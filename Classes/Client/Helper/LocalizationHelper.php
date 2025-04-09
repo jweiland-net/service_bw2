@@ -45,10 +45,9 @@ class LocalizationHelper implements SingletonInterface
     {
         if ($this->isoCode === '') {
             $allowedLanguages = $this->extConf->getAllowedLanguages();
-            reset($allowedLanguages);
 
             // Set a default for CLI requests
-            $this->isoCode = key($allowedLanguages);
+            $this->isoCode = array_key_first($allowedLanguages);
 
             // Override language, if we are in a web request
             if (
