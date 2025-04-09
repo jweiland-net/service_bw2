@@ -30,7 +30,7 @@ class SucheController extends AbstractController
     ): ResponseInterface {
         $this->view->assignMultiple([
             'query' => $query,
-            'result' => $query ? $this->suche->suche($query, $typ, $sort) : [],
+            'result' => $query !== '' && $query !== '0' ? $this->suche->suche($query, $typ, $sort) : [],
             'sort' => $sort,
             'typ' => $typ,
         ]);
