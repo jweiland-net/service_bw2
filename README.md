@@ -7,7 +7,6 @@
 
 ![Build Status](https://github.com/jweiland-net/service_bw2/actions/workflows/ci.yml/badge.svg)
 
-
 Interface for Service BW
 
 ## Description:
