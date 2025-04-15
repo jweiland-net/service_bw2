@@ -52,7 +52,6 @@ class LeistungenListenerTest extends FunctionalTestCase
      * @test
      * @dataProvider eventDataProvider
      * @param ModifyServiceBwResponseEvent $event
-     * @param array $expectedResult
      */
     public function invokeSavesAdditionalData(ModifyServiceBwResponseEvent $event, array $expectedResult): void
     {

@@ -91,9 +91,6 @@ class ServiceBwClientTest extends FunctionalTestCase
     /**
      * @test
      * @dataProvider requestVariantsDataProvider
-     * @param bool $isPaginatedRequest
-     * @param array $getParameters
-     * @param array $expectedQuery
      */
     public function requestAddsQueryParameters(
         bool $isPaginatedRequest,

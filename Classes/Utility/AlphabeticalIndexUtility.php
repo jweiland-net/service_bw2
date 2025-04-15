@@ -85,6 +85,7 @@ class AlphabeticalIndexUtility
             $sortedLetterList[self::getFirstLetterOfRecordTitle($record[$titleField])] = true;
             $sortedRecordList[self::getFirstLetterOfRecordTitle($record[$titleField])][] = $record;
         }
+
         ksort($sortedRecordList);
     }
 

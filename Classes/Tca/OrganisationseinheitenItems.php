@@ -38,11 +38,11 @@ class OrganisationseinheitenItems implements SingletonInterface, LoggerAwareInte
     {
         try {
             $records = $this->organisationseinheiten->findOrganisationseinheitenbaum();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error(
-                'Could not get organisationseinheiten: ' . $e->getMessage(),
+                'Could not get organisationseinheiten: ' . $exception->getMessage(),
                 [
-                    'exception' => $e,
+                    'exception' => $exception,
                     'extKey' => 'service_bw2',
                 ]
             );

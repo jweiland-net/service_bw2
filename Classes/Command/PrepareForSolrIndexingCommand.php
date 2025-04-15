@@ -40,8 +40,6 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
     /**
      * Argument to class mapping
      * Helps to prevent inserting the FQCN of one of the request types on CLI
-     *
-     * @var array
      */
     protected array $classMapping = [
         'Lebenslagen' => Lebenslagen::class,

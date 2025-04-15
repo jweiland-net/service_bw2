@@ -46,10 +46,11 @@ class LeistungenListener
         if ($event->getResponseBody()['prozesse'] ?? false) {
             $additionalData['hasProzesse'] = true;
         }
+
         $formulare = $event->getResponseBody()['formulare'] ?? [];
         while (
             ($form = array_shift($formulare))
-            && !($additionalData['hasProzesse'] === true && $additionalData['hasFormulare'] === true)) {
+            && !($additionalData['hasProzesse'] && $additionalData['hasFormulare'])) {
             if (is_array($form) && isset($form['typ']) && $form['typ'] === 'ONLINEDIENST') {
                 $additionalData['hasProzesse'] = true;
             } else {

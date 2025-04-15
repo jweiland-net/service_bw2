@@ -64,11 +64,6 @@ class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Returns the opening hours for a given opening hours array
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string
      */
     public static function renderStatic(
         array $arguments,
@@ -128,6 +123,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             if ($structuredOpeningHours['hinweisText'] ?? false) {
                 $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
             }
+
             //todo: use StandaloneView to use a fluid template instead of manual rendering.
             foreach (self::DAYS as $dayInGerman) {
                 $afternoon = isset($afternoonOpeningHours[$dayInGerman]);
@@ -139,18 +135,22 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                         ksort($forenoonOpeningHoursWorkdays);
                         $html[] = ' ' . implode(', ', $forenoonOpeningHoursWorkdays);
                     }
+
                     if ($isWorkday && $forenoonOpeningHoursWorkdays && $afternoon) {
                         $html[] = ',';
                     }
+
                     if ($afternoon) {
                         // sort by key because the key should be the start time
                         ksort($afternoonOpeningHours[$dayInGerman]);
                         $html[] = ' ';
                         $html[] = implode(', ', $afternoonOpeningHours[$dayInGerman]);
                     }
+
                     $html[] = '</dd>';
                 }
             }
+
             $html[] = '</dl>';
         }
 

@@ -77,11 +77,10 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
     {
         $description = 'This extension, service_bw2, has undergone a restructuring process. The old plugin that utilized switchableControllerActions has been refactored into distinct, standalone plugins. ';
         $description .= 'This update wizard facilitates the seamless migration of all existing plugin configurations, ensuring a smooth transition to the new plugin structure. ';
-        $description .= 'The update process will automatically adapt and apply the necessary changes. The total count of plugins affected by this migration is: ' . count(
-                $this->getMigrationRecords()
-            );
 
-        return $description;
+        return $description . ('The update process will automatically adapt and apply the necessary changes. The total count of plugins affected by this migration is: ' . count(
+                $this->getMigrationRecords()
+            ));
     }
 
     public function executeUpdate(): bool
@@ -112,11 +111,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
                 }
             }
 
-            if (count($flexFormData['data']) > 0) {
-                $newFlexform = $this->array2xml($flexFormData);
-            } else {
-                $newFlexform = '';
-            }
+            $newFlexform = count($flexFormData['data']) > 0 ? $this->array2xml($flexFormData) : '';
 
             $this->updateContentElement($record['uid'], $targetListType, $newFlexform);
         }
@@ -138,7 +133,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
 
     public function checkIfWizardIsRequired(): bool
     {
-        return count($this->getMigrationRecords()) > 0;
+        return $this->getMigrationRecords() !== [];
     }
 
     protected function getMigrationRecords(): array
@@ -162,7 +157,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
                 )
                 ->executeQuery()
                 ->fetchAllAssociative();
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             return [];
         }
     }
@@ -195,8 +190,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         ];
         $spaceInd = 4;
         $output = GeneralUtility::array2xml($input, '', 0, 'T3FlexForms', $spaceInd, $options);
-        $output = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' . LF . $output;
-        return $output;
+        return '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' . LF . $output;
     }
 
     protected function updateContentElement(int $uid, string $newCtype, string $flexform): void

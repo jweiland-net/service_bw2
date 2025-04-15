@@ -47,7 +47,7 @@ class ModelUtility
                 try {
                     $record = $requestClass->findById((int)$id);
                 } catch (\Exception $exception) {
-                    $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+                    $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(self::class);
                     $logger->error(
                         'Exception in ModelUtility while executing findById() with id' . $id,
                         [
@@ -57,6 +57,7 @@ class ModelUtility
                     );
                     continue;
                 }
+
                 $organisationseinheiten[$id] = $record;
             }
         }
@@ -85,7 +86,7 @@ class ModelUtility
         try {
             $organisationseinheit = $requestClass->findById($organisationseinheitUid);
         } catch (\Exception $exception) {
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(self::class);
             $logger->error(
                 'Exception in ModelUtility while executing findById() with id' . $organisationseinheitUid,
                 [

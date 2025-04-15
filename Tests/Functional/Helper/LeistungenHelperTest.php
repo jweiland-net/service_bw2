@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use JWeiland\ServiceBw2\Listener\LeistungenListener;

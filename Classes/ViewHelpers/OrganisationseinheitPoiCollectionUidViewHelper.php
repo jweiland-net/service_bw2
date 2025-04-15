@@ -89,7 +89,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
         $maps2Relation = self::findMaps2Relation();
         $address = self::getAddress($arguments['organisationseinheit']);
         $hashedAddress = md5($address);
-        if (is_array($maps2Relation) && !empty($maps2Relation)) {
+        if (is_array($maps2Relation) && $maps2Relation !== []) {
             if ($maps2Relation['hashed_address'] === $hashedAddress) {
                 $maps2PoiUid = $maps2Relation['tx_maps2_poi'];
             } else {

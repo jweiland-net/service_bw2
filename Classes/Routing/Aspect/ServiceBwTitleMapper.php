@@ -101,7 +101,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
             throw new InvalidPathException('Could not find id by path for service_bw2 RouteEnhancer!', 1525782342);
         }
 
-        return (string)$id;
+        return $id;
     }
 
     /**

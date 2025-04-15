@@ -152,6 +152,7 @@ class CacheWarmupCommand extends Command
             $request->findById($record['id']);
             $progressBar->advance();
         }
+
         $progressBar->finish();
 
         $this->output->writeln('');

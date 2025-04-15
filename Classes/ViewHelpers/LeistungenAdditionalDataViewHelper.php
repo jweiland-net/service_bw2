@@ -31,8 +31,6 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
 
     public function initializeArguments(): void
     {
-        parent::initializeArguments();
-
         $this->registerArgument(
             'id',
             'int',
