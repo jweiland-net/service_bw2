@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -76,7 +76,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         ExtConf $extConf,
         EventDispatcherInterface $eventDispatcher,
         LocalizationHelper $localizationHelper,
-        TokenHelper $tokenHelper
+        TokenHelper $tokenHelper,
     ) {
         $this->requestFactory = $requestFactory;
         $this->registry = $registry;
@@ -98,7 +98,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         bool $isPaginatedRequest = false,
         ?string $body = null,
         array $overridePaginationConfiguration = [],
-        array $overrideLocalizationConfiguration = []
+        array $overrideLocalizationConfiguration = [],
     ): array {
         $cacheIdentifier = $this->getCacheIdentifier([
             $path,
@@ -120,17 +120,17 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         $this->isLocalizedRequest = $isLocalizedRequest;
         $this->paginationConfiguration = array_merge(
             self::DEFAULT_PAGINATION_CONFIGURATION,
-            $overridePaginationConfiguration
+            $overridePaginationConfiguration,
         );
         $this->localizationConfiguration = array_merge(
             self::DEFAULT_LOCALIZATION_CONFIGURATION,
-            $overrideLocalizationConfiguration
+            $overrideLocalizationConfiguration,
         );
 
         $query = array_merge(
             $this->getQueryForDefaultParameters(),
             $getParameters,
-            $isPaginatedRequest ? $this->getQueryForPaginatedRequest() : []
+            $isPaginatedRequest ? $this->getQueryForPaginatedRequest() : [],
         );
 
         $items = [];
@@ -146,7 +146,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
                         'headers' => $this->getHeaders(),
                         'body' => $body,
                         'query' => $query,
-                    ]
+                    ],
                 );
 
                 if ($response->getStatusCode() !== 200) {
@@ -166,7 +166,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
                     $path,
                     $responseBody,
                     $isPaginatedRequest,
-                    $isLocalizedRequest
+                    $isLocalizedRequest,
                 ));
 
                 $responseBody = $event->getResponseBody();
@@ -188,7 +188,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         $this->cache->set(
             $cacheIdentifier,
             $isPaginatedRequest ? $items : $responseBody,
-            ['service_bw2_request']
+            ['service_bw2_request'],
         );
 
         return $isPaginatedRequest ? $items : $responseBody;

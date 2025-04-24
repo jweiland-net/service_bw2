@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -79,8 +79,8 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         $description .= 'This update wizard facilitates the seamless migration of all existing plugin configurations, ensuring a smooth transition to the new plugin structure. ';
 
         return $description . ('The update process will automatically adapt and apply the necessary changes. The total count of plugins affected by this migration is: ' . count(
-                $this->getMigrationRecords()
-            ));
+            $this->getMigrationRecords(),
+        ));
     }
 
     public function executeUpdate(): bool
@@ -148,12 +148,12 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
                 ->where(
                     $queryBuilder->expr()->eq(
                         'CType',
-                        $queryBuilder->createNamedParameter('list')
+                        $queryBuilder->createNamedParameter('list'),
                     ),
                     $queryBuilder->expr()->eq(
                         'list_type',
-                        $queryBuilder->createNamedParameter('servicebw2_servicebw')
-                    )
+                        $queryBuilder->createNamedParameter('servicebw2_servicebw'),
+                    ),
                 )
                 ->executeQuery()
                 ->fetchAllAssociative();
@@ -203,8 +203,8 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
             ->where(
                 $queryBuilder->expr()->in(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-                )
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT),
+                ),
             )
             ->executeStatement();
     }

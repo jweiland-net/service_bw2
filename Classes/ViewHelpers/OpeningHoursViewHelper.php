@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -68,7 +68,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ): string {
         $html = [];
         $allowedTypes = [
@@ -108,14 +108,14 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             self::processOpeningHours(
                 $structuredOpeningHours['regulaereZeiten'],
                 $forenoonOpeningHoursWorkdays,
-                $afternoonOpeningHours
+                $afternoonOpeningHours,
             );
 
             $html[] = '<dl class="extdl clearfix">';
             $html[] = '<dt>';
             $html[] = LocalizationUtility::translate(
                 'organisationseinheit.opening_hours.' . $structuredOpeningHours['typ'],
-                'service_bw2'
+                'service_bw2',
             );
             $html[] = '</dt>';
 
@@ -163,7 +163,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
     protected static function processOpeningHours(
         array $regulaereZeiten,
         array &$forenoonOpeningHoursWorkdays,
-        array &$afternoonOpeningHours
+        array &$afternoonOpeningHours,
     ): void {
         foreach ($regulaereZeiten as $regulaereZeitenDay) {
             if (

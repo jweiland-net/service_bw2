@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -65,27 +65,27 @@ class CacheWarmupCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Warmup caches of Lebenslagen (Life situations)',
-                true
+                true,
             )
             ->addOption(
                 'include-leistungen',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Warmup caches of Leistungen (Services)',
-                true
+                true,
             )
             ->addOption(
                 'include-organisationseinheiten',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Warmup caches of Organisationseinheiten (Organisational units)',
-                true
+                true,
             )
             ->addOption(
                 'locales',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Comma separated list of locales for warmup e.g. "de,en,fr". All allowed languages will be used by default!'
+                'Comma separated list of locales for warmup e.g. "de,en,fr". All allowed languages will be used by default!',
             );
     }
 
@@ -117,7 +117,7 @@ class CacheWarmupCommand extends Command
         $configuredLanguages = GeneralUtility::trimExplode(
             ',',
             $input->getOption('locales'),
-            true
+            true,
         );
 
         // If no languages are configured for command, use all allowed languages configured in extension settings
@@ -133,7 +133,7 @@ class CacheWarmupCommand extends Command
             1,
             $language2letterIsoCode,
             GeneralUtility::makeInstance(Uri::class, '/' . $language2letterIsoCode),
-            ['iso-639-1' => $language2letterIsoCode]
+            ['iso-639-1' => $language2letterIsoCode],
         );
 
         return $typo3Request->withAttribute('language', $siteLanguage);
@@ -157,7 +157,6 @@ class CacheWarmupCommand extends Command
 
         $this->output->writeln('');
     }
-
 
     protected function getRequestObject(string $className): EntityRequestInterface
     {

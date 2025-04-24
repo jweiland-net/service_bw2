@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -89,7 +89,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
         return sprintf(
             '%d-%s',
             (int)$value,
-            $this->getSlugHelper()->sanitize($title)
+            $this->getSlugHelper()->sanitize($title),
         );
     }
 
@@ -122,7 +122,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
             default:
                 throw new \InvalidArgumentException(
                     'Could not find request class for selected controller type "' . $controllerType . '"!',
-                    1523960421
+                    1523960421,
                 );
         }
 
@@ -140,7 +140,7 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
             [
                 'fallbackCharacter' => '-',
                 'prependSlash' => false,
-            ]
+            ],
         );
     }
 }

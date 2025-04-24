@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -42,21 +42,21 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $typoScriptSettings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
             'servicebw2',
-            'servicebw2_servicebw' // invalid plugin name, to get fresh unmerged settings
+            'servicebw2_servicebw', // invalid plugin name, to get fresh unmerged settings
         );
         if (!isset($typoScriptSettings['settings'])) {
             throw new \Exception('You have forgotten to add TS-Template of service_bw2', 1580294227);
         }
 
         $mergedFlexFormSettings = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
         );
 
         // start override
         $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         $typoScriptService->override(
             $mergedFlexFormSettings,
-            $typoScriptSettings['settings']
+            $typoScriptSettings['settings'],
         );
         $this->settings = $mergedFlexFormSettings;
         $this->arguments = GeneralUtility::makeInstance(Arguments::class);
@@ -114,7 +114,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
                 . implode(', ', $requiredSettings) . '". The following settings are missing: "'
                 . implode(', ', $missingSettings) . '"! Please check your configuration in TYPO3'
                 . ' backend > Extensions > service_bw2 > Configure.',
-                1525787713
+                1525787713,
             );
         }
     }
