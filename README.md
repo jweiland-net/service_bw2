@@ -1,11 +1,12 @@
 # TYPO3 Extension `service_bw2`
+[![Packagist][packagist-logo-stable]][extension-packagist-url]
+[![Latest Stable Version][extension-build-shield]][extension-ter-url]
+[![Total Downloads][extension-downloads-badge]][extension-packagist-url]
+[![Monthly Downloads][extension-monthly-downloads]][extension-packagist-url]
+[![TYPO3 13.4][TYPO3-shield]][TYPO3-13-url]
 
-[![Latest Stable Version](https://poser.pugx.org/jweiland/service-bw2/v/stable.svg)](https://packagist.org/packages/jweiland/service-bw2)
-[![TYPO3 12.4](https://img.shields.io/badge/TYPO3-12.4-green.svg)](https://get.typo3.org/version/12)
-[![License](http://poser.pugx.org/jweiland/service-bw2/license)](https://packagist.org/packages/jweiland/service-bw2)
-[![Total Downloads](https://poser.pugx.org/jweiland/service-bw2/downloads.svg)](https://packagist.org/packages/jweiland/service-bw2)
-[![Monthly Downloads](https://poser.pugx.org/jweiland/service-bw2/d/monthly)](https://packagist.org/packages/jweiland/service-bw2)
-![Build Status](https://github.com/jweiland-net/service_bw2/actions/workflows/testscorev12.yml/badge.svg)
+![Build Status](https://github.com/jweiland-net/service_bw2/actions/workflows/ci.yml/badge.svg)
+
 
 Interface for Service BW
 
@@ -55,3 +56,22 @@ For more details, refer to the documentation provided with the extension.
 **Note:** Ensure proper configuration of network access for authorities participating in LVN or KVN. Contact the network service provider for assistance.
 
 This extension simplifies the interaction between TYPO3 and service-bw, enhancing the efficiency of authorities in accessing and utilizing valuable information.
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[extension-build-shield]: https://poser.pugx.org/jweiland/service-bw2/v/stable.svg?style=for-the-badge
+
+[extension-downloads-badge]: https://poser.pugx.org/jweiland/service-bw2/d/total.svg?style=for-the-badge
+
+[extension-monthly-downloads]: https://poser.pugx.org/jweiland/service-bw2/d/monthly?style=for-the-badge
+
+[extension-ter-url]: https://extensions.typo3.org/extension/service_bw2/
+
+[extension-packagist-url]: https://packagist.org/packages/jweiland/service-bw2/
+
+[packagist-logo-stable]: https://img.shields.io/badge/--grey.svg?style=for-the-badge&logo=packagist&logoColor=white
+
+[TYPO3-13-url]: https://get.typo3.org/version/13
+
+[TYPO3-shield]: https://img.shields.io/badge/TYPO3-13.4-green.svg?style=for-the-badge&logo=typo3
