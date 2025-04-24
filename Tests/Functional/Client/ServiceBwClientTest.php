@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -11,12 +11,14 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
-use SebastianBergmann\Comparator\ComparisonFailure;
-use SebastianBergmann\Comparator\Factory;
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use SebastianBergmann\Comparator\ComparisonFailure;
+use SebastianBergmann\Comparator\Factory;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Response;
@@ -27,7 +29,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class ServiceBwClientTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
-        'jweiland/service-bw2'
+        'jweiland/service-bw2',
     ];
 
     protected function setUp(): void
@@ -47,8 +49,8 @@ class ServiceBwClientTest extends FunctionalTestCase
                 [
                     'mandantId' => 'testMandant',
                     'gebietAgs' => 1234,
-                    'gebietId' => 'testGebietId'
-                ]
+                    'gebietId' => 'testGebietId',
+                ],
             ],
             'default paginated query' => [
                 true,
@@ -58,44 +60,42 @@ class ServiceBwClientTest extends FunctionalTestCase
                     'gebietAgs' => 1234,
                     'gebietId' => 'testGebietId',
                     'page' => 0,
-                    'pageSize' => 1000
-                ]
+                    'pageSize' => 1000,
+                ],
             ],
             'query with additional parameters' => [
                 false,
                 [
-                    'coca' => 'cola'
+                    'coca' => 'cola',
                 ],
                 [
                     'mandantId' => 'testMandant',
                     'gebietAgs' => 1234,
                     'gebietId' => 'testGebietId',
-                    'coca' => 'cola'
-                ]
+                    'coca' => 'cola',
+                ],
             ],
             'paginated query with additional parameters' => [
                 false,
                 [
-                    'pepsi' => 'cola'
+                    'pepsi' => 'cola',
                 ],
                 [
                     'mandantId' => 'testMandant',
                     'gebietAgs' => 1234,
                     'gebietId' => 'testGebietId',
-                    'pepsi' => 'cola'
-                ]
+                    'pepsi' => 'cola',
+                ],
             ],
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider requestVariantsDataProvider
-     */
+    #[Test]
+    #[DataProvider('requestVariantsDataProvider')]
     public function requestAddsQueryParameters(
         bool $isPaginatedRequest,
         array $getParameters,
-        array $expectedQuery
+        array $expectedQuery,
     ): void {
         $extConf = new ExtConf();
         $extConf->setMandant('testMandant');
@@ -104,7 +104,7 @@ class ServiceBwClientTest extends FunctionalTestCase
 
         $responseBody = [
             0 => [
-                'hello' => 'world'
+                'hello' => 'world',
             ],
         ];
         if ($isPaginatedRequest) {
@@ -119,9 +119,9 @@ class ServiceBwClientTest extends FunctionalTestCase
         $requestFactoryMock
             ->method('request')
             ->with(
-                $this->anything(),
-                $this->equalTo('GET'),
-                $this->callback(function ($argument) use ($expectedQuery) {
+                self::anything(),
+                self::equalTo('GET'),
+                self::callback(function ($argument) use ($expectedQuery) {
                     try {
                         Factory::getInstance()
                             ->getComparatorFor($expectedQuery, $argument['query'])
@@ -132,7 +132,7 @@ class ServiceBwClientTest extends FunctionalTestCase
                     }
 
                     return true;
-                })
+                }),
             )
             ->willReturn($response);
 
@@ -149,16 +149,16 @@ class ServiceBwClientTest extends FunctionalTestCase
             (string)time(),
             $getParameters,
             true,
-            $isPaginatedRequest
+            $isPaginatedRequest,
         );
 
         self::assertEquals(
             [
                 0 => [
-                    'hello' => 'world'
+                    'hello' => 'world',
                 ],
             ],
-            $result
+            $result,
         );
     }
 }

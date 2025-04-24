@@ -1,14 +1,21 @@
 <?php
 
-use Psr\Log\LogLevel;
+/*
+ * This file is part of the package jweiland/service_bw2.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
 use JWeiland\ServiceBw2\Controller\LebenslagenController;
 use JWeiland\ServiceBw2\Controller\LeistungenController;
 use JWeiland\ServiceBw2\Controller\OrganisationseinheitenController;
 use JWeiland\ServiceBw2\Controller\SucheController;
 use JWeiland\ServiceBw2\Hook\ClearCacheHook;
 use JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Log\Writer\FileWriter;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -25,7 +32,7 @@ call_user_func(static function () {
             OrganisationseinheitenController::class => 'list, show',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
     // 2. Organizational Units Show Plugin
     ExtensionUtility::configurePlugin(
@@ -35,7 +42,7 @@ call_user_func(static function () {
             OrganisationseinheitenController::class => 'show',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
     // 3. Services List Plugin
     ExtensionUtility::configurePlugin(
@@ -45,7 +52,7 @@ call_user_func(static function () {
             LeistungenController::class => 'list, show',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
     // 4. Services Show Plugin
     ExtensionUtility::configurePlugin(
@@ -55,7 +62,7 @@ call_user_func(static function () {
             LeistungenController::class => 'show',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
     // 5. Life Situations List Plugin
     ExtensionUtility::configurePlugin(
@@ -65,7 +72,7 @@ call_user_func(static function () {
             LebenslagenController::class => 'list, show',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
     // 6. Life Situations Show Plugin
     ExtensionUtility::configurePlugin(
@@ -75,7 +82,7 @@ call_user_func(static function () {
             LebenslagenController::class => 'show',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
     // 7. Search Plugin
     ExtensionUtility::configurePlugin(
@@ -85,7 +92,7 @@ call_user_func(static function () {
             SucheController::class => 'list',
         ],
         [],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
 
     // Create our own logger file

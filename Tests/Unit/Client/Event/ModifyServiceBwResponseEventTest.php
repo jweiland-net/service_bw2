@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -12,115 +12,103 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Unit\Client\Event;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-
 
 /**
  * Test case.
  */
 class ModifyServiceBwResponseEventTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function getPathGetsPath(): void
     {
         $subject = new ModifyServiceBwResponseEvent(
             'path',
-            []
+            [],
         );
 
         self::assertSame(
             'path',
-            $subject->getPath()
+            $subject->getPath(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setResponseBodySetsResponseBody(): void
     {
         $array = [
-            0 => 'TestValue'
+            0 => 'TestValue',
         ];
 
         $subject = new ModifyServiceBwResponseEvent(
             'path',
-            $array
+            $array,
         );
 
         $subject->setResponseBody($array);
 
         self::assertSame(
             $array,
-            $subject->getResponseBody()
+            $subject->getResponseBody(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setPaginatedRequestSetsPaginatedRequestToTrue(): void
     {
         $subject = new ModifyServiceBwResponseEvent(
             'path',
             [],
-            true
+            true,
         );
 
         self::assertTrue(
-            $subject->isPaginatedRequest()
+            $subject->isPaginatedRequest(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setPaginatedRequestSetsPaginatedRequestToFalse(): void
     {
         $subject = new ModifyServiceBwResponseEvent(
             'path',
             [],
-            false
+            false,
         );
 
         self::assertFalse(
-            $subject->isPaginatedRequest()
+            $subject->isPaginatedRequest(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setLocalizedRequestSetsLocalizedRequestToTrue(): void
     {
         $subject = new ModifyServiceBwResponseEvent(
             'path',
             [],
             false,
-            true
+            true,
         );
 
         self::assertTrue(
-            $subject->isLocalizedRequest()
+            $subject->isLocalizedRequest(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setLocalizedRequestSetsLocalizedRequestToFalse(): void
     {
         $subject = new ModifyServiceBwResponseEvent(
             'path',
             [],
             false,
-            false
+            false,
         );
 
         self::assertFalse(
-            $subject->isLocalizedRequest()
+            $subject->isLocalizedRequest(),
         );
     }
 }

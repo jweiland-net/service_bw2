@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -13,6 +13,8 @@ namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
@@ -26,7 +28,7 @@ class LocalizationHelperTest extends FunctionalTestCase
      * @var string[]
      */
     protected array $testExtensionsToLoad = [
-        'jweiland/service-bw2'
+        'jweiland/service-bw2',
     ];
 
     protected function setUp(): void
@@ -34,7 +36,7 @@ class LocalizationHelperTest extends FunctionalTestCase
         parent::setUp();
 
         $this->subject = new LocalizationHelper(
-            new ExtConf()
+            new ExtConf(),
         );
     }
 
@@ -42,7 +44,7 @@ class LocalizationHelperTest extends FunctionalTestCase
     {
         unset(
             $this->extConf,
-            $this->subject
+            $this->subject,
         );
 
         parent::tearDown();
@@ -58,11 +60,8 @@ class LocalizationHelperTest extends FunctionalTestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider frontendLanguageDataProvider
-     */
+    #[Test]
+    #[DataProvider('frontendLanguageDataProvider')]
     public function getFrontendLanguageIsoCodeReturnsIsoCode(string $locale, string $expected, string $message): void
     {
         $siteLanguage = new SiteLanguage(1, $locale, new Uri('/' . $locale), ['iso-639-1' => $locale]);
@@ -72,7 +71,7 @@ class LocalizationHelperTest extends FunctionalTestCase
         self::assertEquals(
             $expected,
             $this->subject->getFrontendLanguageIsoCode(),
-            $message
+            $message,
         );
     }
 }
