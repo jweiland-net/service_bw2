@@ -19,10 +19,13 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Registry;
+use TYPO3\CMS\Core\Routing\Route;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -30,17 +33,24 @@ class ServiceBwClientTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
         'jweiland/service-bw2',
+        'jweiland/maps2',
+        'typo3/cms-scheduler',
     ];
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $request = (new ServerRequest('https://example.com/typo3/'))
+            ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE)
+            ->withAttribute('route', new Route('path', ['packageName' => 'typo3/cms-backend']));
+        $GLOBALS['TYPO3_REQUEST'] = $request;
+
         GeneralUtility::makeInstance(Registry::class)
             ->set('ServiceBw', 'token', '123456');
     }
 
-    public function requestVariantsDataProvider(): array
+    public static function requestVariantsDataProvider(): array
     {
         return [
             'default query' => [

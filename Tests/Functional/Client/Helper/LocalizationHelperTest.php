@@ -29,6 +29,8 @@ class LocalizationHelperTest extends FunctionalTestCase
      */
     protected array $testExtensionsToLoad = [
         'jweiland/service-bw2',
+        'jweiland/maps2',
+        'typo3/cms-scheduler',
     ];
 
     protected function setUp(): void
@@ -50,7 +52,7 @@ class LocalizationHelperTest extends FunctionalTestCase
         parent::tearDown();
     }
 
-    public function frontendLanguageDataProvider(): array
+    public static function frontendLanguageDataProvider(): array
     {
         return [
             ['en', 'en', 'get allowed language'],

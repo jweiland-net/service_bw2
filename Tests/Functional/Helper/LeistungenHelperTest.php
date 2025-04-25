@@ -28,6 +28,8 @@ class LeistungenHelperTest extends FunctionalTestCase
      */
     protected array $testExtensionsToLoad = [
         'jweiland/service-bw2',
+        'jweiland/maps2',
+        'typo3/cms-scheduler',
     ];
 
     #[Test]

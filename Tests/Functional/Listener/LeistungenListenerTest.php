@@ -22,9 +22,11 @@ class LeistungenListenerTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
         'jweiland/service-bw2',
+        'jweiland/maps2',
+        'typo3/cms-scheduler',
     ];
 
-    public function eventDataProvider(): array
+    public static function eventDataProvider(): array
     {
         return [
             [
@@ -56,7 +58,7 @@ class LeistungenListenerTest extends FunctionalTestCase
     {
         $leistungenHelperMock = $this->createMock(LeistungenHelper::class);
         $leistungenHelperMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('saveAdditionalData')
             ->with(self::equalTo(1234));
 
