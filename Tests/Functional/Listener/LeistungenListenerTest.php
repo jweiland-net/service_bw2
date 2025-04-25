@@ -58,7 +58,7 @@ class LeistungenListenerTest extends FunctionalTestCase
     {
         $leistungenHelperMock = $this->createMock(LeistungenHelper::class);
         $leistungenHelperMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('saveAdditionalData')
             ->with(self::equalTo(1234));
 
