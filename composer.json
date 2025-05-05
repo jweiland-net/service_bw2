@@ -1,10 +1,14 @@
 {
 	"name": "jweiland/service-bw2",
-	"type": "typo3-cms-extension",
 	"description": "With this extension you can access service BW interface",
 	"license": "GPL-2.0-or-later",
-	"keywords": ["typo3", "TYPO3 CMS", "service", "bw"],
-	"homepage": "https://jweiland.net",
+	"type": "typo3-cms-extension",
+	"keywords": [
+		"typo3",
+		"TYPO3 CMS",
+		"service",
+		"bw"
+	],
 	"authors": [
 		{
 			"name": "Stefan Froemken",
@@ -17,22 +21,23 @@
 			"role": "Senior Developer"
 		}
 	],
+	"homepage": "https://jweiland.net",
 	"support": {
 		"email": "projects@jweiland.net",
 		"issues": "https://github.com/jweiland-net/service_bw2/issues",
 		"source": "https://github.com/jweiland-net/service_bw2"
 	},
 	"require": {
-		"typo3/cms-core": "^12.4.9",
-		"typo3/cms-scheduler": "^v12.4.9",
-		"jweiland/maps2": ">=11.0.0"
+		"jweiland/maps2": ">=12.0.0",
+		"typo3/cms-core": "^13.4.0",
+		"typo3/cms-scheduler": "^13.4.0"
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^3.14",
-		"phpunit/phpunit": "^9.6",
+		"ergebnis/composer-normalize": "^2.44",
 		"roave/security-advisories": "dev-latest",
-		"typo3/coding-standards": "^0.6",
-		"typo3/testing-framework": "^7.0.2"
+		"sjbr/static-info-tables": "^13.4",
+		"typo3/coding-standards": "^0.8",
+		"typo3/testing-framework": "^9.0.1"
 	},
 	"replace": {
 		"typo3-ter/service_bw2": "self.version"
@@ -48,18 +53,19 @@
 		}
 	},
 	"config": {
-		"sort-packages": true,
-		"vendor-dir": ".Build/vendor",
-		"bin-dir": ".Build/bin",
 		"allow-plugins": {
+			"ergebnis/composer-normalize": true,
 			"typo3/class-alias-loader": true,
 			"typo3/cms-composer-installers": true
-		}
+		},
+		"bin-dir": ".Build/bin",
+		"sort-packages": true,
+		"vendor-dir": ".Build/vendor"
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "service_bw2",
 			"app-dir": ".Build",
+			"extension-key": "service_bw2",
 			"web-dir": ".Build/public"
 		}
 	}

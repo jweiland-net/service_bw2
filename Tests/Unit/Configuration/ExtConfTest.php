@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Unit\Configuration;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -41,161 +42,133 @@ class ExtConfTest extends UnitTestCase
         unset($this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getUsernameInitiallyReturnsEmptyString()
     {
         self::assertSame(
             '',
-            $this->subject->getUsername()
+            $this->subject->getUsername(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setUsernameSetsUsername()
     {
         $this->subject->setUsername('foo bar');
 
         self::assertSame(
             'foo bar',
-            $this->subject->getUsername()
+            $this->subject->getUsername(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getPasswordInitiallyReturnsEmptyString()
     {
         self::assertSame(
             '',
-            $this->subject->getPassword()
+            $this->subject->getPassword(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setPasswordSetsPassword()
     {
         $this->subject->setPassword('foo bar');
 
         self::assertSame(
             'foo bar',
-            $this->subject->getPassword()
+            $this->subject->getPassword(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getMandantInitiallyReturnsEmptyString()
     {
         self::assertSame(
             '',
-            $this->subject->getMandant()
+            $this->subject->getMandant(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setMandantSetsMandant()
     {
         $this->subject->setMandant('foo bar');
 
         self::assertSame(
             'foo bar',
-            $this->subject->getMandant()
+            $this->subject->getMandant(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getBaseUrlInitiallyReturnsEmptyString()
     {
         self::assertSame(
             '',
-            $this->subject->getBaseUrl()
+            $this->subject->getBaseUrl(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setBaseUrlSetsBaseUrl()
     {
         $this->subject->setBaseUrl('foo bar');
 
         self::assertSame(
             'foo bar',
-            $this->subject->getBaseUrl()
+            $this->subject->getBaseUrl(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAllowedLanguagesInitiallyReturnsEmptyArray()
     {
         self::assertSame(
             [],
-            $this->subject->getAllowedLanguages()
+            $this->subject->getAllowedLanguages(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setEmptyLanguagesResultsInEmptyArray()
     {
         $this->subject->setAllowedLanguages('');
 
         self::assertSame(
             [],
-            $this->subject->getAllowedLanguages()
+            $this->subject->getAllowedLanguages(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setAllowedLanguagesWithInvalidStringResultsInEmptyArray()
     {
         $this->subject->setAllowedLanguages('12?42.fr');
         self::assertSame([], $this->subject->getAllowedLanguages());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setAllowedLanguagesWithViceVersaConfigurationResultsInEmptyArray()
     {
         $this->subject->setAllowedLanguages('0=de;1=en;2=fr');
         self::assertSame([], $this->subject->getAllowedLanguages());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setAllowedLanguageResultsInLanguageArray()
     {
         $this->subject->setAllowedLanguages('de=0');
         self::assertSame(
             [
-                'de' => 0
+                'de' => 0,
             ],
-            $this->subject->getAllowedLanguages()
+            $this->subject->getAllowedLanguages(),
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setAllowedLanguagesResultsInLanguageArray()
     {
         $this->subject->setAllowedLanguages('de=0;en=1;fr=2');
@@ -203,9 +176,9 @@ class ExtConfTest extends UnitTestCase
             [
                 'de' => 0,
                 'en' => 1,
-                'fr' => 2
+                'fr' => 2,
             ],
-            $this->subject->getAllowedLanguages()
+            $this->subject->getAllowedLanguages(),
         );
     }
 }

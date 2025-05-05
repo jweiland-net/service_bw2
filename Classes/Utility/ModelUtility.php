@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -47,16 +47,17 @@ class ModelUtility
                 try {
                     $record = $requestClass->findById((int)$id);
                 } catch (\Exception $exception) {
-                    $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+                    $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(self::class);
                     $logger->error(
                         'Exception in ModelUtility while executing findById() with id' . $id,
                         [
                             'exception' => $exception,
                             'extKey' => 'service_bw2',
-                        ]
+                        ],
                     );
                     continue;
                 }
+
                 $organisationseinheiten[$id] = $record;
             }
         }
@@ -85,13 +86,13 @@ class ModelUtility
         try {
             $organisationseinheit = $requestClass->findById($organisationseinheitUid);
         } catch (\Exception $exception) {
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(self::class);
             $logger->error(
                 'Exception in ModelUtility while executing findById() with id' . $organisationseinheitUid,
                 [
                     'exception' => $exception,
                     'extKey' => 'service_bw2',
-                ]
+                ],
             );
             $organisationseinheit = [];
         }

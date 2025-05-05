@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -36,7 +36,7 @@ class LeistungenListener
         $pathSegments = explode('/', $event->getPath());
         $this->leistungenHelper->saveAdditionalData(
             (int)end($pathSegments),
-            $this->getAdditionalData($event)
+            $this->getAdditionalData($event),
         );
     }
 
@@ -46,10 +46,11 @@ class LeistungenListener
         if ($event->getResponseBody()['prozesse'] ?? false) {
             $additionalData['hasProzesse'] = true;
         }
+
         $formulare = $event->getResponseBody()['formulare'] ?? [];
         while (
             ($form = array_shift($formulare))
-            && !($additionalData['hasProzesse'] === true && $additionalData['hasFormulare'] === true)) {
+            && !($additionalData['hasProzesse'] && $additionalData['hasFormulare'])) {
             if (is_array($form) && isset($form['typ']) && $form['typ'] === 'ONLINEDIENST') {
                 $additionalData['hasProzesse'] = true;
             } else {

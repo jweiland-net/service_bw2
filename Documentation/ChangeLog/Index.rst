@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+
+Version 8.0.0
+=============
+
+*   [TASK] Compatibility for TYPO3 13 LTS
+*   [TASK] Removed Compatibility for lower versions from 12 LTS
+
 Version 7.0.2
 =============
 

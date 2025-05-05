@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -38,13 +38,13 @@ class OrganisationseinheitenItems implements SingletonInterface, LoggerAwareInte
     {
         try {
             $records = $this->organisationseinheiten->findOrganisationseinheitenbaum();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error(
-                'Could not get organisationseinheiten: ' . $e->getMessage(),
+                'Could not get organisationseinheiten: ' . $exception->getMessage(),
                 [
-                    'exception' => $e,
+                    'exception' => $exception,
                     'extKey' => 'service_bw2',
-                ]
+                ],
             );
             return;
         }

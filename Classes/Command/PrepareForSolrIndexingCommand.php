@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -40,8 +40,6 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
     /**
      * Argument to class mapping
      * Helps to prevent inserting the FQCN of one of the request types on CLI
-     *
-     * @var array
      */
     protected array $classMapping = [
         'Lebenslagen' => Lebenslagen::class,
@@ -61,24 +59,24 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             ->addArgument(
                 'request-class',
                 InputArgument::REQUIRED,
-                'Enter one of the service_bw2 request types. Choose one of "Leistungen", "Lebenslagen" or "Organisationseinheiten"'
+                'Enter one of the service_bw2 request types. Choose one of "Leistungen", "Lebenslagen" or "Organisationseinheiten"',
             )
             ->addArgument(
                 'root-page',
                 InputArgument::REQUIRED,
-                'Enter the TYPO3 root page UID. This is needed to use the correct EXT:solr configuration for indexing'
+                'Enter the TYPO3 root page UID. This is needed to use the correct EXT:solr configuration for indexing',
             )
             ->addArgument(
                 'solr-index-type',
                 InputArgument::REQUIRED,
-                'Enter the EXT:solr index type which should be used to index the records of the chosen request-class'
+                'Enter the EXT:solr index type which should be used to index the records of the chosen request-class',
             )
             ->addOption(
                 'content-uid',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Enter the tt_content UID of the service_bw2 plugin where you have assigned the ' .
-                'Organisationseinheiten. Only needed, if request-class is set to: "' . Organisationseinheiten::class . '"'
+                'Organisationseinheiten. Only needed, if request-class is set to: "' . Organisationseinheiten::class . '"',
             );
     }
 
@@ -92,7 +90,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             if ($input->getOption('content-uid')) {
                 $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
                     $recordList,
-                    $this->getInitialRecords((int)$input->getOption('content-uid'))
+                    $this->getInitialRecords((int)$input->getOption('content-uid')),
                 );
             } else {
                 $message = 'In case of request-class = ' . Organisationseinheiten::class . ' you also have to set content-uid';
@@ -141,7 +139,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             ->select(
                 ['pi_flexform'],
                 'tt_content',
-                ['uid' => $contentUid]
+                ['uid' => $contentUid],
             )->fetchOne();
 
         if (
@@ -160,7 +158,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             return GeneralUtility::intExplode(
                 ',',
                 ArrayUtility::getValueByPath($flexform, 'data/sDEFAULT/lDEF/settings.organisationseinheiten.listItems/vDEF'),
-                true
+                true,
             );
         } catch (\InvalidArgumentException | \RuntimeException $e) {
             return [];
@@ -180,7 +178,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
                     $this->logger->warning(sprintf(
                         'Record of type %s with ID %s could not be found',
                         get_class($this->request),
-                        $recordToIndex['id']
+                        $recordToIndex['id'],
                     ));
                     continue;
                 }
@@ -190,7 +188,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
 
             if (isset($liveRecordWithFullData['textbloecke']) && is_array($liveRecordWithFullData['textbloecke'])) {
                 $liveRecordWithFullData['processed_textbloecke'] = $this->buildCSVListOfTextBloecke(
-                    $liveRecordWithFullData['textbloecke']
+                    $liveRecordWithFullData['textbloecke'],
                 );
             }
 
@@ -208,9 +206,9 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             implode(
                 ',',
                 array_filter(
-                    array_column($textBloecke, 'text')
-                )
-            )
+                    array_column($textBloecke, 'text'),
+                ),
+            ),
         );
     }
 

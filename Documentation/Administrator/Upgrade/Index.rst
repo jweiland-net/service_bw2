@@ -6,6 +6,12 @@
 Upgrade
 =======
 
+Version 8.0.0
+-------------
+
+In this release, we've addressed compatibility issues with TYPO3 13 LTS and
+have streamlined compatibility by removing support for lower versions.
+
 Version 7.0.0
 -------------
 

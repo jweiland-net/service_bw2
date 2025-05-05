@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -68,7 +68,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
         self::$configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         self::$geoCodeService = GeneralUtility::makeInstance(GeoCodeService::class);
         self::$maps2Pid = (int)(self::$configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
         )['settings']['organisationseinheiten']['maps2Pid'] ?? 0);
 
         self::$id = $organisationseinheitId;
@@ -83,13 +83,13 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ): int {
         self::init($arguments['organisationseinheit']['id']);
         $maps2Relation = self::findMaps2Relation();
         $address = self::getAddress($arguments['organisationseinheit']);
         $hashedAddress = md5($address);
-        if (is_array($maps2Relation) && !empty($maps2Relation)) {
+        if (is_array($maps2Relation) && $maps2Relation !== []) {
             if ($maps2Relation['hashed_address'] === $hashedAddress) {
                 $maps2PoiUid = $maps2Relation['tx_maps2_poi'];
             } else {
@@ -118,7 +118,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
             ->select(
                 ['hashed_address', 'tx_maps2_poi'],
                 'tx_servicebw2_organisationseinheit',
-                ['id' => self::$id]
+                ['id' => self::$id],
             )
             ->fetch(\PDO::FETCH_ASSOC);
     }
@@ -169,7 +169,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
                         $anschrift['strasse'],
                         $anschrift['hausnummer'],
                         $anschrift['postleitzahl'],
-                        $anschrift['ort']
+                        $anschrift['ort'],
                     );
                 }
             }
@@ -195,7 +195,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
                 [
                     'title' => $poiTitle,
                     'address' => $address,
-                ]
+                ],
             );
         }
 

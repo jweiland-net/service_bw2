@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -64,16 +64,11 @@ class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Returns the opening hours for a given opening hours array
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string
      */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ): string {
         $html = [];
         $allowedTypes = [
@@ -113,14 +108,14 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             self::processOpeningHours(
                 $structuredOpeningHours['regulaereZeiten'],
                 $forenoonOpeningHoursWorkdays,
-                $afternoonOpeningHours
+                $afternoonOpeningHours,
             );
 
             $html[] = '<dl class="extdl clearfix">';
             $html[] = '<dt>';
             $html[] = LocalizationUtility::translate(
                 'organisationseinheit.opening_hours.' . $structuredOpeningHours['typ'],
-                'service_bw2'
+                'service_bw2',
             );
             $html[] = '</dt>';
 
@@ -128,6 +123,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
             if ($structuredOpeningHours['hinweisText'] ?? false) {
                 $html[] = '<dd class="structured-opening-hours">' . $structuredOpeningHours['hinweisText'] . '</dd>';
             }
+
             //todo: use StandaloneView to use a fluid template instead of manual rendering.
             foreach (self::DAYS as $dayInGerman) {
                 $afternoon = isset($afternoonOpeningHours[$dayInGerman]);
@@ -139,18 +135,22 @@ class OpeningHoursViewHelper extends AbstractViewHelper
                         ksort($forenoonOpeningHoursWorkdays);
                         $html[] = ' ' . implode(', ', $forenoonOpeningHoursWorkdays);
                     }
+
                     if ($isWorkday && $forenoonOpeningHoursWorkdays && $afternoon) {
                         $html[] = ',';
                     }
+
                     if ($afternoon) {
                         // sort by key because the key should be the start time
                         ksort($afternoonOpeningHours[$dayInGerman]);
                         $html[] = ' ';
                         $html[] = implode(', ', $afternoonOpeningHours[$dayInGerman]);
                     }
+
                     $html[] = '</dd>';
                 }
             }
+
             $html[] = '</dl>';
         }
 
@@ -163,7 +163,7 @@ class OpeningHoursViewHelper extends AbstractViewHelper
     protected static function processOpeningHours(
         array $regulaereZeiten,
         array &$forenoonOpeningHoursWorkdays,
-        array &$afternoonOpeningHours
+        array &$afternoonOpeningHours,
     ): void {
         foreach ($regulaereZeiten as $regulaereZeitenDay) {
             if (

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -13,6 +13,7 @@ namespace JWeiland\ServiceBw2\Tests\Functional\Client\Helper;
 
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Registry;
@@ -25,14 +26,15 @@ class TokenHelperTest extends FunctionalTestCase
      * @var string[]
      */
     protected array $testExtensionsToLoad = [
-        'jweiland/service-bw2'
+        'jweiland/service-bw2',
+        'jweiland/maps2',
+        'typo3/cms-scheduler',
     ];
 
     /**
      * Valid response = return code is 200!
-     *
-     * @test
      */
+    #[Test]
     public function fetchAndSaveTokenWithValidResponseFetchesAndSavesTheToken(): void
     {
         $requestFactoryMock = $this->createMock(RequestFactory::class);
@@ -49,13 +51,13 @@ class TokenHelperTest extends FunctionalTestCase
         $tokenHelper = new TokenHelper(
             $requestFactoryMock,
             GeneralUtility::makeInstance(Registry::class),
-            GeneralUtility::makeInstance(ExtConf::class)
+            GeneralUtility::makeInstance(ExtConf::class),
         );
         $tokenHelper->fetchAndSaveToken();
 
         self::assertEquals(
             'Bearer 123456789',
-            GeneralUtility::makeInstance(Registry::class)->get('ServiceBw', 'token')
+            GeneralUtility::makeInstance(Registry::class)->get('ServiceBw', 'token'),
         );
     }
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/service-bw2.
+ * This file is part of the package jweiland/service_bw2.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -31,32 +31,30 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
 
     public function initializeArguments(): void
     {
-        parent::initializeArguments();
-
         $this->registerArgument(
             'id',
             'int',
             'ID of the Leistung record',
-            true
+            true,
         );
 
         $this->registerArgument(
             'as',
             'string',
             'Name of the variable that contains the additional data',
-            true
+            true,
         );
     }
 
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $templateVariableContainer = $renderingContext->getVariableProvider();
         $templateVariableContainer->add(
             $arguments['as'],
-            self::getLeistungenHelper()->getAdditionalData((int)$arguments['id'])
+            self::getLeistungenHelper()->getAdditionalData((int)$arguments['id']),
         );
         $output = $renderChildrenClosure();
         $templateVariableContainer->remove($arguments['as']);

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the package jweiland/service_bw2.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 if (!defined('TYPO3')) {
     die('Access denied.');
 }
@@ -19,19 +30,19 @@ foreach ($pluginConfig as $pluginName) {
     $iconIdentifier = 'ext-' . str_replace('_', '-', $contentTypeName) . '-icon';
 
     // Plugin Registration
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    ExtensionUtility::registerPlugin(
         'ServiceBw2',
-        \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($pluginName),
+        GeneralUtility::underscoredToUpperCamelCase($pluginName),
         'LLL:EXT:service_bw2/Resources/Private/Language/locallang_db.xlf:plugin.' . $contentTypeName . '.title',
         $iconIdentifier,
-        'ServiceBw2'
+        'ServiceBw2',
     );
 
     // FlexForm Configurations
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+    ExtensionManagementUtility::addPiFlexFormValue(
         '*',
         'FILE:EXT:service_bw2/Configuration/FlexForms/ServiceBw2FlexFormConfiguration.xml',
-        $contentTypeName
+        $contentTypeName,
     );
 
     // Plugin Icon

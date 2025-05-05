@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the package jweiland/service_bw2.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace TYPO3\CMS\Backend;
 
 use JWeiland\ServiceBw2\Indexer\Indexer;
@@ -12,7 +19,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $container, ContainerBuilder $containerBuilder) {
     try {
-        if ($containerBuilder->get(\ApacheSolrForTypo3\Solr\IndexQueue\Indexer::class)) {
+        if ($containerBuilder->get(\ApacheSolrForTypo3\Solr\IndexQueue\Indexer::class) !== null) {
             $definition = new Definition();
             $definition->setPublic(true);
             $definition->setAutowired(true);
