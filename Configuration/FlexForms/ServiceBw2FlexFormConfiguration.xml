@@ -12,7 +12,6 @@
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitslist</displayCond>
                         <config>
                             <type>select</type>
-                            <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
                             <renderType>selectMultipleSideBySide</renderType>
                             <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems</itemsProcFunc>
                         </config>
@@ -35,7 +34,6 @@
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitsshow</displayCond>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -53,7 +51,6 @@
                         </label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -62,7 +59,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -71,7 +67,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -89,7 +84,6 @@
                         </label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -98,7 +92,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -107,7 +100,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
