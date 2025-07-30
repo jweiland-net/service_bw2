@@ -11,6 +11,7 @@ Version 8.0.1
 =============
 
 *   [BUGFIX] Removed internal_type from FlexForm configuration
+*   [BUGFIX] Removed enableMultiSelectFilterTextfield from FlexForm configuration
 *   [TASK] Documentation updated migration from Settings to guides.xml
 
 Version 8.0.0

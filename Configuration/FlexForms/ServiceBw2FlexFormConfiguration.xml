@@ -12,7 +12,6 @@
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitslist</displayCond>
                         <config>
                             <type>select</type>
-                            <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
                             <renderType>selectMultipleSideBySide</renderType>
                             <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems</itemsProcFunc>
                         </config>
