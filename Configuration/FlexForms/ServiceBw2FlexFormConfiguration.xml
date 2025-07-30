@@ -35,7 +35,6 @@
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitsshow</displayCond>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -53,7 +52,6 @@
                         </label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -62,7 +60,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -71,7 +68,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -89,7 +85,6 @@
                         </label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -98,7 +93,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:leistungen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
@@ -107,7 +101,6 @@
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:lebenslagen</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                         </config>
