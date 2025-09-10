@@ -56,6 +56,11 @@ For more details, refer to the documentation provided with the extension.
 
 This extension simplifies the interaction between TYPO3 and service-bw, enhancing the efficiency of authorities in accessing and utilizing valuable information.
 
+## Support
+
+Free Support is available via [GitHub Issue Tracker](https://github.com/jweiland-net/service_bw2/issues).
+
+For commercial support, please contact us at [support@jweiland.net](support@jweiland.net).
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
