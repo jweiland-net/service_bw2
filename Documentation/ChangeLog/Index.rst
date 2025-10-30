@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 8.0.2
+=============
+
+*   [BUGFIX] Fixed DB Call with invalid PDO argument
+
 Version 8.0.1
 =============
 
