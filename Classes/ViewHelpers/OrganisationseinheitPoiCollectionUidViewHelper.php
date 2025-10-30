@@ -120,7 +120,7 @@ class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewHelper
                 'tx_servicebw2_organisationseinheit',
                 ['id' => self::$id],
             )
-            ->fetch(\PDO::FETCH_ASSOC);
+            ->fetchAssociative();
     }
 
     /**
