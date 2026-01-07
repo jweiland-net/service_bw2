@@ -70,7 +70,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
 
     public function getTitle(): string
     {
-        return 'EXT:service_bw2: Migrate Switchable Controller Actions to Plugins';
+        return '[service_bw2] Migrate Switchable Controller Actions to Plugins';
     }
 
     public function getDescription(): string
