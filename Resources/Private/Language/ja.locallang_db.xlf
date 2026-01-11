@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2" target-language="ja">
+    <header/>
+    <body>
+      <trans-unit id="plugin.servicebw.title">
+        <source>Service BW</source>
+        <target state="needs-translation">Service BW</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw.description">
+        <source>This plugin provides the possibility to list and show various kinds of entities of Service BW
+					API onto your website.
+				</source>
+        <target state="needs-translation">This plugin provides the possibility to list and show various kinds of entities of Service BW
+					API onto your website.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitslist.title">
+        <source>Service BW: Organisationseinheiten Units List</source>
+        <target state="needs-translation">Service BW: Organisationseinheiten Units List</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitslist.description">
+        <source>Organisationseinheiten List Plugin: Effectively organizes and lists organizational units,
+					ensuring straightforward access to relevant information.
+				</source>
+        <target state="needs-translation">Organisationseinheiten List Plugin: Effectively organizes and lists organizational units,
+					ensuring straightforward access to relevant information.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitsshow.title">
+        <source>Service BW: Organisationseinheiten Units Show</source>
+        <target state="needs-translation">Service BW: Organisationseinheiten Units Show</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitsshow.description">
+        <source>Organisationseinheiten Show Plugin: Presents organizational units with a user-friendly interface
+					for seamless exploration.
+				</source>
+        <target state="needs-translation">Organisationseinheiten Show Plugin: Presents organizational units with a user-friendly interface
+					for seamless exploration.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_serviceslist.title">
+        <source>Service BW: Services List</source>
+        <target state="needs-translation">Service BW: Services List</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_serviceslist.description">
+        <source>Services List Plugin: Efficiently organizes and lists available services, ensuring
+					straightforward access to relevant information.
+				</source>
+        <target state="needs-translation">Services List Plugin: Efficiently organizes and lists available services, ensuring
+					straightforward access to relevant information.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicesshow.title">
+        <source>Service BW: Services Show</source>
+        <target state="needs-translation">Service BW: Services Show</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicesshow.description">
+        <source>Services Show Plugin: Displays detailed information about services with a user-friendly
+					interface for easy exploration.
+				</source>
+        <target state="needs-translation">Services Show Plugin: Displays detailed information about services with a user-friendly
+					interface for easy exploration.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationslist.title">
+        <source>Service BW: Lebenslagen List</source>
+        <target state="needs-translation">Service BW: Lebenslagen List</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationslist.description">
+        <source>Lebenslagen List Plugin: Efficiently organizes and lists essential life scenarios, ensuring
+					straightforward access to relevant information.
+				</source>
+        <target state="needs-translation">Lebenslagen List Plugin: Efficiently organizes and lists essential life scenarios, ensuring
+					straightforward access to relevant information.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationsshow.title">
+        <source>Service BW: Lebenslagen Show</source>
+        <target state="needs-translation">Service BW: Lebenslagen Show</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationsshow.description">
+        <source>Lebenslagen Show Plugin: Displays crucial life situations with a user-friendly interface for
+					easy exploration.
+				</source>
+        <target state="needs-translation">Lebenslagen Show Plugin: Displays crucial life situations with a user-friendly interface for
+					easy exploration.
+				</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicebw2search.title">
+        <source>Service BW: Search</source>
+        <target state="needs-translation">Service BW: Search</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicebw2search.description">
+        <source>Specialized in swiftly retrieving information from the BW2 service entities, ensuring precise
+					and targeted results for an enhanced user experience.
+				</source>
+        <target state="needs-translation">Specialized in swiftly retrieving information from the BW2 service entities, ensuring precise
+					and targeted results for an enhanced user experience.
+				</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
