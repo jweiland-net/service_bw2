@@ -13,6 +13,7 @@ use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
 use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
 use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
 use GuzzleHttp\Exception\ClientException;
+use JWeiland\Jwtools2\Domain\Repository\SolrRepository;
 use JWeiland\ServiceBw2\Request\EntityRequestInterface;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
@@ -53,8 +54,6 @@ class PrepareForSolrIndexingCommand extends Command
     protected EntityRequestInterface $request;
 
     public function __construct(
-        protected readonly SolrIndexService $solrIndexService,
-        protected readonly SiteRepository $siteRepository,
         protected readonly LoggerInterface $logger,
     ) {
         parent::__construct();
@@ -114,22 +113,24 @@ class PrepareForSolrIndexingCommand extends Command
             try {
                 $solrIndexType = $input->getArgument('solr-index-type');
                 $rootPageUid = (int)$input->getArgument('root-page');
-                $solrSite = $this->siteRepository->getSiteByRootPageId($rootPageUid);
+                $solrSite = $this->getSiteRepository()->getSiteByRootPageId($rootPageUid);
             } catch (InvalidArgumentException | SiteNotFoundException $e) {
                 return Command::INVALID;
             }
 
             try {
+                $solrIndexService = $this->getSiteIndexService();
+
                 // Keep that at first. If there is an error because of solr type or root page,
                 // it will throw an exception and prevents collecting all the records from API,
                 // which can be really slow
-                $this->solrIndexService->clearSolrIndexByType($solrIndexType, $solrSite);
+                $solrIndexService->clearSolrIndexByType($solrIndexType, $solrSite);
 
                 // The following method can take a very long time, as it retrieves details from the API call
                 // for each record. The result of each API call will be cached for better performance in the frontend.
                 // To speed up this process, you can call CacheWarmupCommand before.
                 foreach ($this->generatorForLiveRecords($recordList) as $liveRecord) {
-                    $this->solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
+                    $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
                     $progressBar->advance();
                 }
             } catch (\RuntimeException | InvalidConnectionException $e) {
@@ -252,5 +253,23 @@ class PrepareForSolrIndexingCommand extends Command
         $message = 'Invalid classname ' . $className . ' for request detected';
         $this->logger->error($message);
         throw new \InvalidArgumentException($message);
+    }
+
+    /**
+     * Do not add this method as a constructor argument, as it is unclear
+     * if TYPO3 extension "solr" is loaded or not.
+     */
+    protected function getSiteIndexService(): SolrIndexService
+    {
+        return GeneralUtility::makeInstance(SolrIndexService::class);
+    }
+
+    /**
+     * Do not add this method as a constructor argument, as it is unclear
+     * if TYPO3 extension "solr" is loaded or not.
+     */
+    protected function getSiteRepository(): SiteRepository
+    {
+        return GeneralUtility::makeInstance(SiteRepository::class);
     }
 }
