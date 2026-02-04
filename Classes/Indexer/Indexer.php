@@ -21,39 +21,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
 {
-    /**
-     * Adjust index item
-     */
-    protected function indexItem(Item $item, int $language = 0): bool
-    {
-        $itemIndexed = false;
-        $documents = [];
-
-        $itemDocument = $this->itemToDocument($item, $language);
-        if ($itemDocument === null) {
-            /*
-             * If there is no itemDocument, this means there was no translation
-             * for this record. This should not stop the current item to count as
-             * being valid because not-indexing not-translated items is perfectly
-             * fine.
-             */
-            return true;
-        }
-
-        $documents[] = $itemDocument;
-        $documents = array_merge($documents, $this->getAdditionalDocuments($item, $language, $itemDocument));
-        $documents = $this->processDocuments($item, $documents);
-        $documents = $this->preAddModifyDocuments($item, $language, $documents);
-
-        $response = $this->solr->getWriteService()->addDocuments($documents);
-        if ($response->getHttpStatus() === 200) {
-            $itemIndexed = true;
-        }
-
-        $this->log($item, $documents, $response);
-
-        return $itemIndexed;
-    }
 
     /**
      * Deletes items by type
