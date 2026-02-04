@@ -116,7 +116,7 @@ class CacheWarmupCommand extends Command
     {
         $configuredLanguages = GeneralUtility::trimExplode(
             ',',
-            $input->getOption('locales'),
+            (string)$input->getOption('locales'),
             true,
         );
 
