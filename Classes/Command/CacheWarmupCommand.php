@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheWarmupCommand extends Command
 {
-    protected array $types = [
+    protected const TYPES = [
         'lebenslagen' => [
             'option' => 'include-lebenslagen',
             'class' => Lebenslagen::class,
@@ -99,7 +99,7 @@ class CacheWarmupCommand extends Command
             // We're using the ServerRequest for the SiteLanguage only! Maybe use an alternative way in later versions
             $GLOBALS['TYPO3_REQUEST'] = $this->getTypo3Request($language2letterIsoCode);
 
-            foreach ($this->types as $type) {
+            foreach (self::TYPES as $type) {
                 if ($input->getOption($type['option'])) {
                     $this->warmupType($type['class']);
                 }
