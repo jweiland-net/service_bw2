@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 8.0.4
+=============
+
+*   [TASK] Repair solr implementation to index service bw records
+
 Version 8.0.3
 =============
 
