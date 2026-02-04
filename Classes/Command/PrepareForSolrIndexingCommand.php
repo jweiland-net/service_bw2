@@ -13,7 +13,6 @@ use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
 use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
 use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
 use GuzzleHttp\Exception\ClientException;
-use JWeiland\Jwtools2\Domain\Repository\SolrRepository;
 use JWeiland\ServiceBw2\Request\EntityRequestInterface;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
