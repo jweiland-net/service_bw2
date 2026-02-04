@@ -108,14 +108,14 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             $rootPageUid = (int)$input->getArgument('root-page');
 
             try {
-                // Keep that at first. If there is an error because of solr type or root page
-                // it will throw an exception and prevents collecting all the records from API
+                // Keep that at first. If there is an error because of solr type or root page,
+                // it will throw an exception and prevents collecting all the records from API,
                 // which can be really slow
                 $solrIndexService->indexerDeleteByType($solrIndexType, $rootPageUid);
 
-                // Following method can take a very long time, as it retrieves details from API call for each record.
+                // The following method can take a very long time, as it retrieves details from API call for each record.
                 // The result of each API call will be cached for better performance in frontend.
-                // To speed up this process you can call CacheWarmupCommand before.
+                // To speed up this process, you can call CacheWarmupCommand before.
                 foreach ($this->generatorForLiveRecords($recordList) as $liveRecord) {
                     $solrIndexService->indexRecord($liveRecord, $solrIndexType, $rootPageUid);
                     $progressBar->advance();

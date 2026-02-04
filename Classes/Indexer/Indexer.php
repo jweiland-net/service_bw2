@@ -11,35 +11,31 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Indexer;
 
-use ApacheSolrForTypo3\Solr\IndexQueue\Item;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class Indexer
- */
 class Indexer extends \ApacheSolrForTypo3\Solr\IndexQueue\Indexer
 {
-
-    /**
-     * Deletes items by type
-     */
     public function deleteItemsByType(string $type, int $rootPageId): void
     {
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
         try {
-            $site = $siteFinder->getSiteByRootPageId($rootPageId);
+            $site = $this->getSiteFinder()->getSiteByRootPageId($rootPageId);
             foreach ($site->getLanguages() as $siteLanguage) {
-                $this->solr = $this->connectionManager->getConnectionByRootPageId(
+                $solrConnection = $this->connectionManager->getConnectionByRootPageId(
                     $rootPageId,
                     $siteLanguage->getLanguageId(),
                 );
-                $this->solr->getWriteService()->deleteByType($type);
+                $solrConnection->getWriteService()->deleteByType($type);
             }
         } catch (SiteNotFoundException $siteNotFoundException) {
-            $this->solr = $this->connectionManager->getConnectionByRootPageId($rootPageId);
-            $this->solr->getWriteService()->deleteByType($type);
+            $solrConnection = $this->connectionManager->getConnectionByRootPageId($rootPageId);
+            $solrConnection->getWriteService()->deleteByType($type);
         }
+    }
+
+    protected function getSiteFinder(): SiteFinder
+    {
+        return GeneralUtility::makeInstance(SiteFinder::class);
     }
 }
