@@ -69,7 +69,6 @@ readonly class ExtConf implements SingletonInterface
             // Sometimes this value is prefixed with 0, which is not valid
             // for requests. That's why we cast this value to int.
             ags: (int)$extensionSettings['ags'],
-
             gebietId: (string)$extensionSettings['gebietId'],
         );
     }
