@@ -14,27 +14,19 @@ namespace JWeiland\ServiceBw2\Client\Helper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Registry;
-use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * Helper class to fetch a token and add it to sys_registry.
  *
  * @internal
  */
-class TokenHelper implements SingletonInterface
+readonly class TokenHelper
 {
-    protected RequestFactory $requestFactory;
-
-    protected Registry $registry;
-
-    protected ExtConf $extConf;
-
-    public function __construct(RequestFactory $requestFactory, Registry $registry, ExtConf $extConf)
-    {
-        $this->requestFactory = $requestFactory;
-        $this->registry = $registry;
-        $this->extConf = $extConf;
-    }
+    public function __construct(
+        protected RequestFactory $requestFactory,
+        protected Registry $registry,
+        protected ExtConf $extConf,
+    ) {}
 
     public function fetchAndSaveToken(): void
     {

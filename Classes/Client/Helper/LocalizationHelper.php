@@ -21,10 +21,10 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
  *
  * @internal
  */
-class LocalizationHelper implements SingletonInterface
+readonly class LocalizationHelper implements SingletonInterface
 {
     public function __construct(
-        protected readonly ExtConf $extConf,
+        protected ExtConf $extConf,
     ) {}
 
     /**
