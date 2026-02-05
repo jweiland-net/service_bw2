@@ -42,12 +42,6 @@ services:
   JWeiland\ServiceBw2\Hook\ClearCacheHook:
     public: true
 
-  JWeiland\ServiceBw2\Listener\LeistungenListener:
-    tags:
-    - name: event.listener
-      identifier: 'leistungenListener'
-      event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
-
   # To allow GeneralUtility::makeInstance
   JWeiland\ServiceBw2\Request\:
     resource: '../Classes/Request/*'

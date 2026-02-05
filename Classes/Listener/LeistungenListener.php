@@ -13,19 +13,20 @@ namespace JWeiland\ServiceBw2\Listener;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 /**
  * Listener that analyzes a Leistung record response and caches some additional information
- * that can not be fetched otherwise.
+ * that cannot be fetched otherwise.
  */
-class LeistungenListener
+#[AsEventListener(
+    identifier: 'leistungenListener',
+)]
+readonly class LeistungenListener
 {
-    protected LeistungenHelper $leistungenHelper;
-
-    public function __construct(LeistungenHelper $leistungenHelper)
-    {
-        $this->leistungenHelper = $leistungenHelper;
-    }
+    public function __construct(
+        private LeistungenHelper $leistungenHelper,
+    ) {}
 
     public function __invoke(ModifyServiceBwResponseEvent $event): void
     {
