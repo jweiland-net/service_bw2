@@ -19,7 +19,7 @@ use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
  * Class ServiceBwUtility
  * Utility for general static methods
  */
-class ServiceBwUtility
+readonly class ServiceBwUtility
 {
     /**
      * This method filters the organisationseinheiten tree by passed parent ids. All matching parents

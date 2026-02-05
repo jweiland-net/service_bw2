@@ -14,7 +14,7 @@ namespace JWeiland\ServiceBw2\Utility;
 /**
  * Class AlphabeticalIndexUtility
  */
-class AlphabeticalIndexUtility
+readonly class AlphabeticalIndexUtility
 {
     /**
      * German alphabet

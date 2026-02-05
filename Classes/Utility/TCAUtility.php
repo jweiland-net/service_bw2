@@ -20,7 +20,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  * This utility will simplify the way how to configure TCA fields for service_bw2 items in other extensions.
  * @api feel free to use this utility on your own extension that depends on service_bw2
  */
-class TCAUtility
+readonly class TCAUtility
 {
     /**
      * Gets the TCA configuration for a field handling Organisationseinheiten items.
