@@ -35,7 +35,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function saveAdditionalDataWritesDataToCache(): void
     {
-        $leistungenMock = $this->createMock(Leistungen::class);
+        $leistungenMock = $this->createStub(Leistungen::class);
         $data = ['hello' => 'world', 'time' => time()];
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
         $leistungenHelper = new LeistungenHelper($cache, $leistungenMock);
@@ -99,7 +99,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function getAdditionalDataReturnsEmptyArrayWithFetchIfMissingFalseAndCacheIsNotSet(): void
     {
-        $leistungenMock = $this->createMock(Leistungen::class);
+        $leistungenMock = $this->createStub(Leistungen::class);
         $leistungenHelper = new LeistungenHelper(
             new VariableFrontend(__FUNCTION__, new NullBackend('')),
             $leistungenMock,
@@ -113,7 +113,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function getAdditionalDataReturnsPreviouslySavedAdditionalDataFromCache(): void
     {
-        $leistungenMock = $this->createMock(Leistungen::class);
+        $leistungenMock = $this->createStub(Leistungen::class);
         $data = ['important' => 'data'];
         $leistungenHelper = new LeistungenHelper(
             new VariableFrontend(__FUNCTION__, new TransientMemoryBackend('')),

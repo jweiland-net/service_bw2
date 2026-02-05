@@ -19,6 +19,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\RequestFactory;
@@ -107,10 +109,18 @@ class ServiceBwClientTest extends FunctionalTestCase
         array $getParameters,
         array $expectedQuery,
     ): void {
-        $extConf = new ExtConf();
-        $extConf->setMandant('testMandant');
-        $extConf->setAgs('1234');
-        $extConf->setGebietId('testGebietId');
+        $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
+        $extensionConfigurationMock
+            ->expects(self::once())
+            ->method('get')
+            ->with('service_bw2')
+            ->willReturn([
+                'mandant' => 'testMandant',
+                'ags' => '1234',
+                'gebietId' => 'testGebietId',
+            ]);
+
+        $extConf = ExtConf::create($extensionConfigurationMock);
 
         $responseBody = [
             0 => [
@@ -127,6 +137,7 @@ class ServiceBwClientTest extends FunctionalTestCase
 
         $requestFactoryMock = $this->createMock(RequestFactory::class);
         $requestFactoryMock
+            ->expects(self::atLeastOnce())
             ->method('request')
             ->with(
                 self::anything(),
@@ -153,6 +164,7 @@ class ServiceBwClientTest extends FunctionalTestCase
             GeneralUtility::makeInstance(EventDispatcher::class),
             GeneralUtility::makeInstance(LocalizationHelper::class),
             GeneralUtility::makeInstance(TokenHelper::class),
+            self::createStub(VariableFrontend::class),
         );
 
         $result = $serviceBwClient->request(
