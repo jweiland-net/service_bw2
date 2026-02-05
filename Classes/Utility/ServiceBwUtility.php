@@ -37,7 +37,10 @@ readonly class ServiceBwUtility
         foreach ($organisationseinheiten as $organisationseinheit) {
             if (in_array((int)$organisationseinheit['id'], $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
-            } elseif ($organisationseinheit['untergeordneteOrganisationseinheiten'] && $depth < $maxDepth) {
+            } elseif (
+                ($organisationseinheit['untergeordneteOrganisationseinheiten'] ?? []) !== []
+                && $depth < $maxDepth
+            ) {
                 array_push(
                     $filteredOrganisationseinheiten,
                     ...static::filterOrganisationseinheitenByParentIds(

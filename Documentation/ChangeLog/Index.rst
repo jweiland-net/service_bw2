@@ -10,7 +10,18 @@ ChangeLog
 Version 8.0.4
 =============
 
-*   [TASK] Repair solr implementation to index service bw records
+*   [TASK] Repair Solr implementation for indexing service bw records
+*   [TASK] Update version to 8.0.4 and require typo3/cms-install
+*   [TASK] Prevent Solr class loading in Command constructors
+*   [TASK] Refactor commands to use local variables instead of class properties
+*   [TASK] Modernize code using readonly classes and constructor promotion
+*   [TASK] Register LeistungenListener via PHP attributes and rename to EventListener
+*   [TASK] Improve SolrIndexService visibility and manual instantiation
+*   [TASK] Remove CompileableRenderStatic trait from ViewHelpers
+*   [TASK] Clean up TokenHelper (remove Singleton) and update logger injection
+*   [TASK] Repair warmup command and functional tests
+*   [TASK] Remove indexItem from Indexer (alignment with EXT:solr)
+*   [TASK] Apply Coding Guidelines (CGL) and clean up test messages
 
 Version 8.0.3
 =============
