@@ -16,27 +16,14 @@ namespace JWeiland\ServiceBw2\Client\Event;
  *
  * The event will be fired before the response gets cached and before paginated requests get merged.
  */
-final class ModifyServiceBwResponseEvent
+final readonly class ModifyServiceBwResponseEvent
 {
-    private string $path;
-
-    private array $responseBody;
-
-    private bool $paginatedRequest;
-
-    private bool $localizedRequest;
-
     public function __construct(
-        string $path,
-        array $responseBody,
-        bool $paginatedRequest = false,
-        bool $localizedRequest = false,
-    ) {
-        $this->path = $path;
-        $this->responseBody = $responseBody;
-        $this->paginatedRequest = $paginatedRequest;
-        $this->localizedRequest = $localizedRequest;
-    }
+        private string $path,
+        private array $responseBody,
+        private bool $paginatedRequest = false,
+        private bool $localizedRequest = false,
+    ) {}
 
     public function getPath(): string
     {
@@ -56,10 +43,5 @@ final class ModifyServiceBwResponseEvent
     public function getResponseBody(): array
     {
         return $this->responseBody;
-    }
-
-    public function setResponseBody(array $responseBody): void
-    {
-        $this->responseBody = $responseBody;
     }
 }
