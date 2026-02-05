@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * This utility can be used inside domain models.
  * @api
  */
-class ModelUtility
+readonly class ModelUtility
 {
     /**
      * Returns an array with organisationseinheiten

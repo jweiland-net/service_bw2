@@ -21,46 +21,41 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
  *
  * @internal
  */
-class LocalizationHelper implements SingletonInterface
+readonly class LocalizationHelper implements SingletonInterface
 {
-    protected ExtConf $extConf;
-
-    protected string $isoCode = '';
-
-    public function __construct(ExtConf $extConf)
-    {
-        $this->extConf = $extConf;
-    }
+    public function __construct(
+        protected ExtConf $extConf,
+    ) {}
 
     /**
-     * Get frontend language iso code
+     * Retrieves the ISO code of the current frontend language.
      *
-     * Validates if current frontend language is an allowed language (extConf)
-     * If TSFE is not initialized or current frontend language is not allowed,
-     * returns the default language
-     *
-     * @return string current language or default language e.g. en
+     * Validates that the active frontend language is listed among the allowed languages
+     * configured via extension settings (extConf). If the SiteLanguage is not available
+     * or the active language is not permitted, the default language is returned. If no
+     * allowed languages are configured, an empty string is returned.
      */
     public function getFrontendLanguageIsoCode(): string
     {
-        if ($this->isoCode === '') {
-            $allowedLanguages = $this->extConf->getAllowedLanguages();
+        $allowedLanguages = $this->extConf->getAllowedLanguages();
+        if ($allowedLanguages === []) {
+            return '';
+        }
 
-            // Set a default for CLI requests
-            $this->isoCode = array_key_first($allowedLanguages);
+        // Set a default for CLI requests
+        $isoCode = array_key_first($allowedLanguages);
 
-            // Override language, if we are in a web request
-            if (
-                $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface
-                && $GLOBALS['TYPO3_REQUEST']->getAttribute('language') instanceof SiteLanguage
-            ) {
-                $currentLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getLocale()->getLanguageCode();
-                if (array_key_exists($currentLanguage, $allowedLanguages)) {
-                    $this->isoCode = $currentLanguage;
-                }
+        // Override language if we are in a web request
+        if (
+            $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface
+            && $GLOBALS['TYPO3_REQUEST']->getAttribute('language') instanceof SiteLanguage
+        ) {
+            $currentLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language')->getLocale()->getLanguageCode();
+            if (array_key_exists($currentLanguage, $allowedLanguages)) {
+                $isoCode = $currentLanguage;
             }
         }
 
-        return $this->isoCode;
+        return $isoCode;
     }
 }

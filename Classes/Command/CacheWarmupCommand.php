@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheWarmupCommand extends Command
 {
-    protected array $types = [
+    protected const TYPES = [
         'lebenslagen' => [
             'option' => 'include-lebenslagen',
             'class' => Lebenslagen::class,
@@ -47,13 +47,10 @@ class CacheWarmupCommand extends Command
         ],
     ];
 
-    protected ExtConf $extConf;
-
-    protected OutputInterface $output;
-
-    public function injectExtConf(ExtConf $extConf): void
-    {
-        $this->extConf = $extConf;
+    public function __construct(
+        protected ExtConf $extConf,
+    ) {
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -91,17 +88,15 @@ class CacheWarmupCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->output = $output;
-
         foreach ($this->getLanguages($input) as $language2letterIsoCode) {
             $output->writeln('Language for further requests: ' . $language2letterIsoCode);
 
             // We're using the ServerRequest for the SiteLanguage only! Maybe use an alternative way in later versions
             $GLOBALS['TYPO3_REQUEST'] = $this->getTypo3Request($language2letterIsoCode);
 
-            foreach ($this->types as $type) {
+            foreach (self::TYPES as $type) {
                 if ($input->getOption($type['option'])) {
-                    $this->warmupType($type['class']);
+                    $this->warmupType($type['class'], $output);
                 }
             }
         }
@@ -116,7 +111,7 @@ class CacheWarmupCommand extends Command
     {
         $configuredLanguages = GeneralUtility::trimExplode(
             ',',
-            $input->getOption('locales'),
+            (string)$input->getOption('locales'),
             true,
         );
 
@@ -139,14 +134,14 @@ class CacheWarmupCommand extends Command
         return $typo3Request->withAttribute('language', $siteLanguage);
     }
 
-    protected function warmupType(string $className): void
+    protected function warmupType(string $className, OutputInterface $output): void
     {
-        $this->output->writeln('Warmup caches for "' . $className . '"');
+        $output->writeln('Warmup caches for "' . $className . '"');
 
         $request = $this->getRequestObject($className);
         $allRecords = $request->findAll();
 
-        $progressBar = new ProgressBar($this->output, count($allRecords));
+        $progressBar = new ProgressBar($output, count($allRecords));
         $progressBar->start();
         foreach ($allRecords as $record) {
             $request->findById($record['id']);
@@ -155,7 +150,7 @@ class CacheWarmupCommand extends Command
 
         $progressBar->finish();
 
-        $this->output->writeln('');
+        $output->writeln('');
     }
 
     protected function getRequestObject(string $className): EntityRequestInterface

@@ -36,6 +36,7 @@
 		"ergebnis/composer-normalize": "^2.44",
 		"roave/security-advisories": "dev-latest",
 		"sjbr/static-info-tables": "^13.4",
+		"typo3/cms-install": "^13.4.0",
 		"typo3/coding-standards": "^0.8",
 		"typo3/testing-framework": "^9.0.1"
 	},

@@ -19,7 +19,7 @@ use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
  * Class ServiceBwUtility
  * Utility for general static methods
  */
-class ServiceBwUtility
+readonly class ServiceBwUtility
 {
     /**
      * This method filters the organisationseinheiten tree by passed parent ids. All matching parents
@@ -37,7 +37,10 @@ class ServiceBwUtility
         foreach ($organisationseinheiten as $organisationseinheit) {
             if (in_array((int)$organisationseinheit['id'], $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
-            } elseif ($organisationseinheit['untergeordneteOrganisationseinheiten'] && $depth < $maxDepth) {
+            } elseif (
+                ($organisationseinheit['untergeordneteOrganisationseinheiten'] ?? []) !== []
+                && $depth < $maxDepth
+            ) {
                 array_push(
                     $filteredOrganisationseinheiten,
                     ...static::filterOrganisationseinheitenByParentIds(

@@ -12,22 +12,18 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\ViewHelpers;
 
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
  * Get additional data for a Leistung record.
  */
-class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
+final class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
-    /**
-     * @var bool
-     */
     protected $escapeOutput = false;
+
+    public function __construct(
+        private LeistungenHelper $leistungenHelper,
+    ) {}
 
     public function initializeArguments(): void
     {
@@ -46,24 +42,16 @@ class LeistungenAdditionalDataViewHelper extends AbstractViewHelper
         );
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext,
-    ) {
-        $templateVariableContainer = $renderingContext->getVariableProvider();
+    public function render()
+    {
+        $templateVariableContainer = $this->renderingContext->getVariableProvider();
         $templateVariableContainer->add(
-            $arguments['as'],
-            self::getLeistungenHelper()->getAdditionalData((int)$arguments['id']),
+            $this->arguments['as'],
+            $this->leistungenHelper->getAdditionalData((int)$this->arguments['id']),
         );
-        $output = $renderChildrenClosure();
-        $templateVariableContainer->remove($arguments['as']);
+        $output = $this->renderChildren();
+        $templateVariableContainer->remove($this->arguments['as']);
 
         return $output;
-    }
-
-    protected static function getLeistungenHelper(): LeistungenHelper
-    {
-        return GeneralUtility::makeInstance(LeistungenHelper::class);
     }
 }

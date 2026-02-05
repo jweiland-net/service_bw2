@@ -21,11 +21,11 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ModifyServiceBwResponseEventTest extends UnitTestCase
 {
     #[Test]
-    public function getPathGetsPath(): void
+    public function setPathSetsPath(): void
     {
         $subject = new ModifyServiceBwResponseEvent(
-            'path',
-            [],
+            path: 'path',
+            responseBody: [],
         );
 
         self::assertSame(
@@ -37,19 +37,17 @@ class ModifyServiceBwResponseEventTest extends UnitTestCase
     #[Test]
     public function setResponseBodySetsResponseBody(): void
     {
-        $array = [
-            0 => 'TestValue',
-        ];
-
         $subject = new ModifyServiceBwResponseEvent(
-            'path',
-            $array,
+            path: 'path',
+            responseBody: [
+                'foo' => 'bar',
+            ],
         );
 
-        $subject->setResponseBody($array);
-
         self::assertSame(
-            $array,
+            [
+                'foo' => 'bar',
+            ],
             $subject->getResponseBody(),
         );
     }

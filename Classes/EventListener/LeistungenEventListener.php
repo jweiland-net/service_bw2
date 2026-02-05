@@ -9,23 +9,24 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\ServiceBw2\Listener;
+namespace JWeiland\ServiceBw2\EventListener;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 /**
  * Listener that analyzes a Leistung record response and caches some additional information
- * that can not be fetched otherwise.
+ * that cannot be fetched otherwise.
  */
-class LeistungenListener
+#[AsEventListener(
+    identifier: 'service_bw2_leistungen',
+)]
+readonly class LeistungenEventListener
 {
-    protected LeistungenHelper $leistungenHelper;
-
-    public function __construct(LeistungenHelper $leistungenHelper)
-    {
-        $this->leistungenHelper = $leistungenHelper;
-    }
+    public function __construct(
+        private LeistungenHelper $leistungenHelper,
+    ) {}
 
     public function __invoke(ModifyServiceBwResponseEvent $event): void
     {

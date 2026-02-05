@@ -11,68 +11,194 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Service;
 
+use ApacheSolrForTypo3\Solr\ConnectionManager;
+use ApacheSolrForTypo3\Solr\Domain\Site\Site;
+use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
+use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
+use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
+use ApacheSolrForTypo3\Solr\IndexQueue\Indexer;
 use ApacheSolrForTypo3\Solr\IndexQueue\Item;
-use JWeiland\ServiceBw2\Indexer\Indexer;
+use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
+use ApacheSolrForTypo3\Solr\System\Configuration\TypoScriptConfiguration;
+use Doctrine\DBAL\Exception as DBALException;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class SolrIndexService
- */
-class SolrIndexService
+readonly class SolrIndexService
 {
-    protected Indexer $indexer;
+    public function __construct(
+        protected SiteRepository $siteRepository,
+        protected Queue $indexQueue,
+        protected ConnectionManager $connectionManager,
+    ) {}
 
-    protected array $alreadyIndexed = [];
-
-    public function __construct(Indexer $indexer)
+    /**
+     * Orchestrates a targeted cleanup of Solr documents for a specific record type.
+     *
+     * This wrapper is required because:
+     * 1. API Gap: SolrWriteService::deleteByType() only targets the 'type' field.
+     * It does not account for related file metadata indexed by EXT:solrfal.
+     * 2. Data Integrity: Ensures that when a service_bw2 entity is removed or
+     * reset, its associated 'fileReferenceType' entries are also purged to
+     * prevent orphaned search results.
+     * 3. Scope Control: Provides a safe entry point for custom Commands to
+     * manipulate the index at the table/type level without triggering
+     * global site-wide indexing resets.
+     *
+     * @param string $type The specific record type (usually the DB table name).
+     * @param Site $site The site context used to resolve the Solr connection.
+     *
+     * @throws InvalidConnectionException
+     */
+    public function clearSolrIndexByType(string $type, Site $site): void
     {
-        $this->indexer = $indexer;
-    }
+        // Safety: Do not allow accidental global deletion
+        if ($type === '') {
+            return;
+        }
 
-    public function indexRecords(array $records, string $type, int $rootPageUid): void
-    {
-        foreach ($records as $record) {
-            if (
-                is_array($record)
-                && !in_array($record['id'], $this->alreadyIndexed, true)
-                && $this->indexRecord($record, $type, $rootPageUid)
-            ) {
-                $this->alreadyIndexed[] = $record['id'];
+        $tableName = $site->getSolrConfiguration()->getIndexQueueTypeOrFallbackToConfigurationName($type);
+
+        $solrServers = $this->connectionManager->getConnectionsBySite($site);
+        foreach ($solrServers as $solrServer) {
+            // Delete solr documents
+            $solrServer->getWriteService()->deleteByType($tableName);
+
+            // Delete file references queued by solrfal
+            if (ExtensionManagementUtility::isLoaded('solrfal')) {
+                $solrServer->getWriteService()->deleteByQuery('fileReferenceType:' . $tableName);
             }
         }
     }
 
-    /**
-     * Index service bw2 records
-     */
-    public function indexRecord(array $record, string $type, int $rootPageUid): bool
+    public function indexServiceBWRecord(array $record, string $type, Site $solrSite): bool
     {
-        $record['pid'] = $rootPageUid;
+        $record['pid'] = $solrSite->getRootPageId();
         $record['uid'] = $record['id'];
 
         $item = new Item([
             'uid' => $record['id'],
             'item_uid' => $record['id'],
-            'root' => $rootPageUid,
+            'root' => $solrSite->getRootPageId(),
             'item_type' => $type,
             'indexing_configuration' => $type,
         ], $record);
 
-        $indexed = $this->indexer->index($item);
+        try {
+            $indexed = $this->indexItem($item, $solrSite->getSolrConfiguration());
+        } catch (\Throwable $e) {
+            return false;
+        }
 
         if ($record['_children']) {
-            $this->indexRecords($record['_children'], $type, $rootPageUid);
+            $this->indexServiceBWRecords($record['_children'], $type, $solrSite);
         }
 
         return $indexed;
     }
 
+    protected function indexServiceBWRecords(
+        array $records,
+        string $type,
+        Site $solrSite,
+    ): void {
+        foreach ($records as $record) {
+            if (!is_array($record)) {
+                continue;
+            }
+
+            $this->indexServiceBWRecord($record, $type, $solrSite);
+        }
+    }
+
     /**
-     * Wrapper for delete by type
+     * This method is adapted from EXT:solr's IndexService::indexItem().
+     * Since the original method is protected, it is replicated here
+     * to provide access for this extension.
+     *
+     * @throws \Throwable
      */
-    public function indexerDeleteByType(string $type, int $rootPage): void
+    protected function indexItem(Item $item, TypoScriptConfiguration $configuration): bool
     {
-        $tsfe = $GLOBALS['TSFE'] ?? null;
-        $this->indexer->deleteItemsByType($type, $rootPage);
-        $GLOBALS['TSFE'] = $tsfe;
+        $indexer = $this->getSolrIndexer($configuration);
+
+        // Remember original http host value
+        $originalHttpHost = $_SERVER['HTTP_HOST'] ?? null;
+
+        $itemChangedDate = $item->getChanged();
+        $itemChangedDateAfterIndex = 0;
+
+        try {
+            $this->initializeHttpServerEnvironment($item);
+            $itemIndexed = $indexer->index($item);
+
+            // update IQ item so that the IQ can determine what's been indexed already
+            if ($itemIndexed) {
+                $this->indexQueue->updateIndexTimeByItem($item);
+                $itemChangedDateAfterIndex = $item->getChanged();
+            }
+
+            if ($itemChangedDateAfterIndex > $itemChangedDate && $itemChangedDateAfterIndex > time()) {
+                $this->indexQueue->setForcedChangeTimeByItem($item, $itemChangedDateAfterIndex);
+            }
+        } catch (\Throwable $e) {
+            $this->restoreOriginalHttpHost($originalHttpHost);
+            throw $e;
+        }
+
+        $this->restoreOriginalHttpHost($originalHttpHost);
+
+        return $itemIndexed;
+    }
+
+    /**
+     * All following methods are copies of EXT:solr IndexService methods
+     * to get the indexItem method from above working.
+     */
+
+    /**
+     * Initializes the $_SERVER['HTTP_HOST'] environment variable in CLI
+     * environments dependent on the Index Queue item's root page.
+     * When the Index Queue Worker task is executed by a cron job there is no
+     * HTTP_HOST since we are in a CLI environment. RealURL needs the host
+     * information to generate a proper URL, though. Using the Index Queue item's
+     * root page information, we can determine the correct host although being
+     * in a CLI environment.
+     *
+     * @param Item $item
+     * @throws DBALException
+     * @throws InvalidArgumentException
+     */
+    protected function initializeHttpServerEnvironment(Item $item): void
+    {
+        static $hosts = [];
+        $rootPageId = $item->getRootPageUid();
+        $hostFound = !empty($hosts[$rootPageId]);
+
+        if (!$hostFound) {
+            $hosts[$rootPageId] = $item->getSite()->getDomain();
+        }
+
+        $_SERVER['HTTP_HOST'] = $hosts[$rootPageId];
+
+        // needed since TYPO3 7.5
+        GeneralUtility::flushInternalRuntimeCaches();
+    }
+
+    protected function restoreOriginalHttpHost(?string $originalHttpHost): void
+    {
+        if (!is_null($originalHttpHost)) {
+            $_SERVER['HTTP_HOST'] = $originalHttpHost;
+        } else {
+            unset($_SERVER['HTTP_HOST']);
+        }
+
+        // needed since TYPO3 7.5
+        GeneralUtility::flushInternalRuntimeCaches();
+    }
+
+    protected function getSolrIndexer(TypoScriptConfiguration $solrConfiguration): Indexer
+    {
+        return GeneralUtility::makeInstance(Indexer::class, $solrConfiguration);
     }
 }

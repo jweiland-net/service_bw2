@@ -7,39 +7,48 @@ services:
   JWeiland\ServiceBw2\:
     resource: '../Classes/*'
 
-  # To allow GeneralUtility::makeInstance
-  JWeiland\ServiceBw2\Request\:
-    resource: '../Classes/Request/*'
-    public: true
+  cache.servicebw_additionalstuff:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['servicebw_additionalstuff']
 
-  # Will be called by GeneralUtility::makeInstance in a hook of DataHandler
-  JWeiland\ServiceBw2\Hook\ClearCacheHook:
-    public: true
+  cache.servicebw_request:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['servicebw_request']
+
+  JWeiland\ServiceBw2\Client\ServiceBwClient:
+    arguments:
+      $cache: '@cache.servicebw_request'
+
+  JWeiland\ServiceBw2\Command\CacheWarmupCommand:
+    tags:
+      - name: 'console.command'
+        command: 'servicebw:cachewarmup'
+        description: 'Warmup the caches of Service BW to improve loading times'
+
+  JWeiland\ServiceBw2\Command\PrepareForSolrIndexingCommand:
+    tags:
+      - name: 'console.command'
+        command: 'servicebw:preparesolrindex'
+        description: 'Prepare records of service_bw2 to be indexed by EXT:solr'
 
   JWeiland\ServiceBw2\Helper\LeistungenHelper:
     public: true
     arguments:
       $cache: '@cache.servicebw_additionalstuff'
 
-  JWeiland\ServiceBw2\Listener\LeistungenListener:
-    tags:
-    - name: event.listener
-      identifier: 'leistungenListener'
-      event: JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent
+  # Will be called by GeneralUtility::makeInstance in a hook of DataHandler
+  JWeiland\ServiceBw2\Hook\ClearCacheHook:
+    public: true
 
-  JWeiland\ServiceBw2\Command\CacheWarmupCommand:
-    tags:
-    - name: 'console.command'
-      command: 'servicebw:cachewarmup'
-      description: 'Warmup the caches of Service BW to improve loading times'
+  # To allow GeneralUtility::makeInstance
+  JWeiland\ServiceBw2\Request\:
+    resource: '../Classes/Request/*'
+    public: true
 
-  JWeiland\ServiceBw2\Command\PrepareForSolrIndexingCommand:
-    tags:
-    - name: 'console.command'
-      command: 'servicebw:preparesolrindex'
-      description: 'Prepare records of service_bw2 to be indexed by EXT:solr'
-
-  cache.servicebw_additionalstuff:
-    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
-    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
-    arguments: ['servicebw_additionalstuff']
+  # TYPO3 extension solr might not be loaded. So, instantiation via GeneralUtility must be possible
+  JWeiland\ServiceBw2\Service\SolrIndexService:
+    autowire: false
+    autoconfigure: false
+    public: true

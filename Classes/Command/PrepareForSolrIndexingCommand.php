@@ -9,16 +9,19 @@
 
 namespace JWeiland\ServiceBw2\Command;
 
+use ApacheSolrForTypo3\Solr\ConnectionManager;
+use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
+use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
+use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
+use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
 use GuzzleHttp\Exception\ClientException;
-use JWeiland\ServiceBw2\Indexer\Indexer;
 use JWeiland\ServiceBw2\Request\EntityRequestInterface;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,6 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -33,24 +37,23 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Command to prepare service_bw2 records for EXT:solr index
  */
-class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterface
+class PrepareForSolrIndexingCommand extends Command
 {
-    use LoggerAwareTrait;
-
     /**
      * Argument to class mapping
      * Helps to prevent inserting the FQCN of one of the request types on CLI
      */
-    protected array $classMapping = [
+    protected const CLASS_MAPPING = [
         'Lebenslagen' => Lebenslagen::class,
         'Leistungen' => Leistungen::class,
         'Organisationseinheiten' => Organisationseinheiten::class,
     ];
 
-    /**
-     * This is an object of one of the service_bw2 request types
-     */
-    protected EntityRequestInterface $request;
+    public function __construct(
+        protected readonly LoggerInterface $logger,
+    ) {
+        parent::__construct();
+    }
 
     protected function configure(): void
     {
@@ -83,9 +86,9 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $requestClassName = $this->getRequestClass($input);
-        $this->request = $this->getRequestObject($requestClassName);
+        $serviceBwRequest = $this->getRequestObject($requestClassName);
 
-        $recordList = $this->request->findAll();
+        $recordList = $serviceBwRequest->findAll();
         if ($requestClassName === Organisationseinheiten::class) {
             if ($input->getOption('content-uid')) {
                 $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
@@ -103,24 +106,30 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
             $progressBar = new ProgressBar($output, count($recordList));
             $progressBar->start();
 
-            $solrIndexService = $this->getSolrIndexService();
-            $solrIndexType = $input->getArgument('solr-index-type');
-            $rootPageUid = (int)$input->getArgument('root-page');
+            try {
+                $solrIndexType = $input->getArgument('solr-index-type');
+                $rootPageUid = (int)$input->getArgument('root-page');
+                $solrSite = $this->getSiteRepository()->getSiteByRootPageId($rootPageUid);
+            } catch (InvalidArgumentException | SiteNotFoundException $e) {
+                return Command::INVALID;
+            }
 
             try {
-                // Keep that at first. If there is an error because of solr type or root page
-                // it will throw an exception and prevents collecting all the records from API
-                // which can be really slow
-                $solrIndexService->indexerDeleteByType($solrIndexType, $rootPageUid);
+                $solrIndexService = $this->getSiteIndexService();
 
-                // Following method can take a very long time, as it retrieves details from API call for each record.
-                // The result of each API call will be cached for better performance in frontend.
-                // To speed up this process you can call CacheWarmupCommand before.
-                foreach ($this->generatorForLiveRecords($recordList) as $liveRecord) {
-                    $solrIndexService->indexRecord($liveRecord, $solrIndexType, $rootPageUid);
+                // Keep that at first. If there is an error because of solr type or root page,
+                // it will throw an exception and prevents collecting all the records from API,
+                // which can be really slow
+                $solrIndexService->clearSolrIndexByType($solrIndexType, $solrSite);
+
+                // The following method can take a very long time, as it retrieves details from the API call
+                // for each record. The result of each API call will be cached for better performance in the frontend.
+                // To speed up this process, you can call CacheWarmupCommand before.
+                foreach ($this->generatorForLiveRecords($recordList, $serviceBwRequest) as $liveRecord) {
+                    $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
                     $progressBar->advance();
                 }
-            } catch (\RuntimeException $runtimeException) {
+            } catch (\RuntimeException | InvalidConnectionException $e) {
                 $this->logger->error(
                     'Skip EXT:solr index because of given solr configuration "' . $solrIndexType . '"could not be found',
                 );
@@ -169,15 +178,17 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
      * Loop through all records and request individual data from Service BW API.
      * The individual response data will be stored in Cache for faster response in FE.
      */
-    protected function generatorForLiveRecords(array $recordsToIndex): \Generator
-    {
+    protected function generatorForLiveRecords(
+        array $recordsToIndex,
+        EntityRequestInterface $serviceBwRequest,
+    ): \Generator {
         foreach ($recordsToIndex as $recordToIndex) {
             try {
-                $liveRecordWithFullData = $this->request->findById($recordToIndex['id']);
+                $liveRecordWithFullData = $serviceBwRequest->findById($recordToIndex['id']);
                 if ($liveRecordWithFullData === []) {
                     $this->logger->warning(sprintf(
                         'Record of type %s with ID %s could not be found',
-                        get_class($this->request),
+                        get_class($serviceBwRequest),
                         $recordToIndex['id'],
                     ));
                     continue;
@@ -217,9 +228,9 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
         if (
             $input->hasArgument('request-class')
             && ($requestClass = $input->getArgument('request-class'))
-            && array_key_exists($requestClass, $this->classMapping)
+            && array_key_exists($requestClass, self::CLASS_MAPPING)
         ) {
-            return $this->classMapping[$requestClass];
+            return self::CLASS_MAPPING[$requestClass];
         }
 
         $message = 'Given request-type is not allowed';
@@ -242,9 +253,26 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
         throw new \InvalidArgumentException($message);
     }
 
-    protected function getSolrIndexService(): SolrIndexService
+    /**
+     * Do not add this method as a constructor argument, as it is unclear
+     * if TYPO3 extension "solr" is loaded or not.
+     */
+    protected function getSiteIndexService(): SolrIndexService
     {
-        $indexer = GeneralUtility::makeInstance(Indexer::class);
-        return GeneralUtility::makeInstance(SolrIndexService::class, $indexer);
+        return GeneralUtility::makeInstance(
+            SolrIndexService::class,
+            $this->getSiteRepository(),
+            GeneralUtility::makeInstance(Queue::class),
+            GeneralUtility::makeInstance(ConnectionManager::class),
+        );
+    }
+
+    /**
+     * Do not add this method as a constructor argument, as it is unclear
+     * if TYPO3 extension "solr" is loaded or not.
+     */
+    protected function getSiteRepository(): SiteRepository
+    {
+        return GeneralUtility::makeInstance(SiteRepository::class);
     }
 }

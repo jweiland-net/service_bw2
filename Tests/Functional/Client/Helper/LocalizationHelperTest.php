@@ -45,7 +45,6 @@ class LocalizationHelperTest extends FunctionalTestCase
     protected function tearDown(): void
     {
         unset(
-            $this->extConf,
             $this->subject,
         );
 
@@ -55,25 +54,24 @@ class LocalizationHelperTest extends FunctionalTestCase
     public static function frontendLanguageDataProvider(): array
     {
         return [
-            ['en', 'en', 'get allowed language'],
-            ['de', 'de', 'get allowed language'],
-            ['fr', 'fr', 'get allowed language'],
-            ['xy', 'de', 'get default language because page locale is not allowed'],
+            'Get allowed language EN' => ['en', 'en'],
+            'Get allowed language DE' => ['de', 'de'],
+            'Get allowed language FR' => ['fr', 'fr'],
+            'Get allowed default language' => ['xy', 'de'],
         ];
     }
 
     #[Test]
     #[DataProvider('frontendLanguageDataProvider')]
-    public function getFrontendLanguageIsoCodeReturnsIsoCode(string $locale, string $expected, string $message): void
+    public function getFrontendLanguageIsoCodeReturnsIsoCode(string $locale, string $expected): void
     {
         $siteLanguage = new SiteLanguage(1, $locale, new Uri('/' . $locale), ['iso-639-1' => $locale]);
         $GLOBALS['TYPO3_REQUEST'] = new ServerRequest();
         $GLOBALS['TYPO3_REQUEST'] = $GLOBALS['TYPO3_REQUEST']->withAttribute('language', $siteLanguage);
 
-        self::assertEquals(
+        self::assertSame(
             $expected,
             $this->subject->getFrontendLanguageIsoCode(),
-            $message,
         );
     }
 }

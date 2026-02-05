@@ -16,22 +16,16 @@ use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
 use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use TYPO3\CMS\Core\Cache\CacheManager;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Registry;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Client to be used for all Service BW API v2 requests
  */
-class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
+class ServiceBwClient
 {
-    use LoggerAwareTrait;
-
     protected const API_ENDPOINT = '/rest-v2/api';
 
     protected const DEFAULT_PAGINATION_CONFIGURATION = [
@@ -58,36 +52,18 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
      */
     protected array $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
 
-    protected RequestFactory $requestFactory;
-
-    protected Registry $registry;
-
-    protected ExtConf $extConf;
-
-    protected EventDispatcherInterface $eventDispatcher;
-
-    protected LocalizationHelper $localizationHelper;
-
-    protected FrontendInterface $cache;
-
     public function __construct(
-        RequestFactory $requestFactory,
-        Registry $registry,
-        ExtConf $extConf,
-        EventDispatcherInterface $eventDispatcher,
-        LocalizationHelper $localizationHelper,
-        TokenHelper $tokenHelper,
+        protected readonly RequestFactory $requestFactory,
+        protected readonly Registry $registry,
+        protected readonly ExtConf $extConf,
+        protected readonly EventDispatcherInterface $eventDispatcher,
+        protected readonly LocalizationHelper $localizationHelper,
+        protected readonly TokenHelper $tokenHelper,
+        protected readonly FrontendInterface $cache,
+        protected readonly LoggerInterface $logger,
     ) {
-        $this->requestFactory = $requestFactory;
-        $this->registry = $registry;
-        $this->extConf = $extConf;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->localizationHelper = $localizationHelper;
-
-        $this->cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('servicebw_request');
-
         if (!$this->registry->get('ServiceBw', 'token', false)) {
-            $tokenHelper->fetchAndSaveToken();
+            $this->tokenHelper->fetchAndSaveToken();
         }
     }
 
@@ -203,7 +179,7 @@ class ServiceBwClient implements LoggerAwareInterface, SingletonInterface
         }
 
         if ($requestArguments[2]) {
-            $value .= GeneralUtility::makeInstance(LocalizationHelper::class)->getFrontendLanguageIsoCode();
+            $value .= $this->localizationHelper->getFrontendLanguageIsoCode();
         }
 
         return md5($value);

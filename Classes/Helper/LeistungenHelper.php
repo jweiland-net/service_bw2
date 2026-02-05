@@ -19,19 +19,14 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
  *
  * @internal
  */
-class LeistungenHelper
+readonly class LeistungenHelper
 {
     private const CACHE_IDENTIFIER = 'leistung_%d';
 
-    private FrontendInterface $cache;
-
-    private Leistungen $leistungen;
-
-    public function __construct(FrontendInterface $cache, Leistungen $leistungen)
-    {
-        $this->cache = $cache;
-        $this->leistungen = $leistungen;
-    }
+    public function __construct(
+        protected Leistungen $leistungen,
+        protected FrontendInterface $cache,
+    ) {}
 
     public function getAdditionalData(int $id, bool $fetchIfMissing = true): array
     {

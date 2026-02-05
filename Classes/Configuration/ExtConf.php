@@ -11,47 +11,66 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Configuration;
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class, which contains the configuration from ExtensionManager
+ * This class streamlines all settings from the extension manager
  */
-class ExtConf implements SingletonInterface
+#[Autoconfigure(constructor: 'create')]
+readonly class ExtConf implements SingletonInterface
 {
-    protected string $username = '';
+    private const EXT_KEY = 'service_bw2';
 
-    protected string $password = '';
+    private const DEFAULT_SETTINGS = [
+        'username' => '',
+        'password' => '',
+        'mandant' => '',
+        'baseUrl' => 'https://sgw.service-bw.de:443/',
+        'allowedLanguages' => 'de=0;en=1;fr=2',
+        'ags' => 0,
+        'gebietId' => '',
+    ];
 
-    protected string $mandant = '';
+    public function __construct(
+        private string $username = self::DEFAULT_SETTINGS['username'],
+        private string $password = self::DEFAULT_SETTINGS['password'],
+        private string $mandant = self::DEFAULT_SETTINGS['mandant'],
+        private string $baseUrl = self::DEFAULT_SETTINGS['baseUrl'],
+        private string $allowedLanguages = self::DEFAULT_SETTINGS['allowedLanguages'],
+        private int $ags = self::DEFAULT_SETTINGS['ags'],
+        private string $gebietId = self::DEFAULT_SETTINGS['gebietId'],
+    ) {}
 
-    protected string $baseUrl = '';
-
-    /**
-     * Allowed languages.
-     * First defined language = default language
-     *
-     * @var int[]
-     */
-    protected array $allowedLanguages = [];
-
-    protected int $ags = 0;
-
-    protected string $gebietId = '';
-
-    public function __construct()
+    public static function create(ExtensionConfiguration $extensionConfiguration): self
     {
-        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('service_bw2');
-        if (is_array($extConf)) {
-            // call setter method foreach configuration entry
-            foreach ($extConf as $key => $value) {
-                $methodName = 'set' . ucfirst($key);
-                if (method_exists($this, $methodName)) {
-                    $this->$methodName($value);
-                }
-            }
+        $extensionSettings = self::DEFAULT_SETTINGS;
+
+        // Overwrite default extension settings with values from EXT_CONF
+        try {
+            $extensionSettings = array_merge(
+                $extensionSettings,
+                $extensionConfiguration->get(self::EXT_KEY),
+            );
+        } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
         }
+
+        return new self(
+            username: (string)$extensionSettings['username'],
+            password: (string)$extensionSettings['password'],
+            mandant: (string)$extensionSettings['mandant'],
+            baseUrl: $extensionSettings['baseUrl'],
+            allowedLanguages: (string)$extensionSettings['allowedLanguages'],
+
+            // Sometimes this value is prefixed with 0, which is not valid
+            // for requests. That's why we cast this value to int.
+            ags: (int)$extensionSettings['ags'],
+            gebietId: (string)$extensionSettings['gebietId'],
+        );
     }
 
     public function getUsername(): string
@@ -59,19 +78,9 @@ class ExtConf implements SingletonInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): void
-    {
-        $this->username = trim($username);
-    }
-
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password = trim($password);
     }
 
     public function getMandant(): string
@@ -79,61 +88,39 @@ class ExtConf implements SingletonInterface
         return $this->mandant;
     }
 
-    public function setMandant(string $mandant): void
-    {
-        $this->mandant = trim($mandant);
-    }
-
     public function getBaseUrl(): string
     {
-        return $this->baseUrl;
-    }
-
-    public function setBaseUrl(string $baseUrl): void
-    {
-        $baseUrl = trim($baseUrl);
-        $this->baseUrl = rtrim($baseUrl, '/');
+        return rtrim(trim((string)$this->baseUrl), '/');
     }
 
     public function getAllowedLanguages(): array
     {
-        return $this->allowedLanguages;
-    }
-
-    public function setAllowedLanguages(string $allowedLanguages): void
-    {
-        if (preg_match('@^([a-z]{2,2}=\d+;?)+$@', $allowedLanguages)) {
-            $languageConfigurations = GeneralUtility::trimExplode(';', $allowedLanguages, true);
-            foreach ($languageConfigurations as $languageConfiguration) {
-                [$language, $sysLanguageUid] = GeneralUtility::trimExplode('=', $languageConfiguration, true);
-                $this->allowedLanguages[$language] = (int)$sysLanguageUid;
-            }
+        // The first assigned language is the default language
+        $languagesToProcess = $this->allowedLanguages;
+        if (!preg_match('@^([a-z]{2,2}=\d+;?)+$@', $this->allowedLanguages)) {
+            $languagesToProcess = self::DEFAULT_SETTINGS['allowedLanguages'];
         }
+
+        $allowedLanguages = [];
+        $languageConfigurations = GeneralUtility::trimExplode(';', $languagesToProcess, true);
+        foreach ($languageConfigurations as $languageConfiguration) {
+            [$language, $sysLanguageUid] = explode('=', $languageConfiguration);
+            $allowedLanguages[$language] = (int)$sysLanguageUid;
+        }
+
+        return $allowedLanguages;
     }
 
+    /**
+     * Return "Amtlicher Gemeindeschluessel"
+     */
     public function getAgs(): int
     {
         return $this->ags;
     }
 
-    /**
-     * Amtlicher Gemeindeschluessel
-     *
-     * Sometimes this value is prefixed with 0 which is not valid
-     * for requests. That's why we cast this value to int.
-     */
-    public function setAgs(string $ags): void
-    {
-        $this->ags = (int)$ags;
-    }
-
     public function getGebietId(): string
     {
         return $this->gebietId;
-    }
-
-    public function setGebietId(string $gebietId): void
-    {
-        $this->gebietId = $gebietId;
     }
 }

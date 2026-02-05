@@ -12,27 +12,21 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tca;
 
 use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
-use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * Class OrganisationseinheitenItems
  */
-class OrganisationseinheitenItems implements SingletonInterface, LoggerAwareInterface
+readonly class OrganisationseinheitenItems
 {
-    use LoggerAwareTrait;
-
-    protected Organisationseinheiten $organisationseinheiten;
-
-    public function __construct(Organisationseinheiten $organisationseinheiten)
-    {
-        $this->organisationseinheiten = $organisationseinheiten;
-    }
+    public function __construct(
+        protected Organisationseinheiten $organisationseinheiten,
+        protected LoggerInterface $logger,
+    ) {}
 
     /**
-     * Get items for select field
+     * Get items for a select field
      */
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider): void
     {
@@ -53,7 +47,7 @@ class OrganisationseinheitenItems implements SingletonInterface, LoggerAwareInte
     }
 
     /**
-     * Create item list
+     * Create an item list
      */
     protected function createList(array &$items, array $records): void
     {

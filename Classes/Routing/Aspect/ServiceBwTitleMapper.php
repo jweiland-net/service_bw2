@@ -21,7 +21,7 @@ use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/*
+/**
  * Mapper to map an ID of service_bw API to title.
  *
  * routeEnhancers:
