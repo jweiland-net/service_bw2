@@ -180,7 +180,7 @@ class PrepareForSolrIndexingCommand extends Command
      */
     protected function generatorForLiveRecords(
         array $recordsToIndex,
-        EntityRequestInterface $serviceBwRequest
+        EntityRequestInterface $serviceBwRequest,
     ): \Generator {
         foreach ($recordsToIndex as $recordToIndex) {
             try {

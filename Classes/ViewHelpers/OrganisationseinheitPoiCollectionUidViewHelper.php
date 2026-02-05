@@ -115,7 +115,7 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
                 $data,
                 [
                     'id' => $this->id,
-                ]
+                ],
             );
     }
 

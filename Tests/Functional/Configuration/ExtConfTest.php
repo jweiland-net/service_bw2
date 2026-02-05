@@ -118,7 +118,7 @@ class ExtConfTest extends FunctionalTestCase
         );
     }
 
-    static public function baseUrlDataProvider(): array
+    public static function baseUrlDataProvider(): array
     {
         return [
             'Base URL' => ['https://jweiland.net', 'https://jweiland.net'],
@@ -164,7 +164,7 @@ class ExtConfTest extends FunctionalTestCase
         );
     }
 
-    static public function allowedLanguagesDataProvider(): array
+    public static function allowedLanguagesDataProvider(): array
     {
         return [
             'Empty' => ['', ['de' => 0, 'en' => 1, 'fr' => 2]],

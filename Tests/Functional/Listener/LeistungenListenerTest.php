@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
-use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use JWeiland\ServiceBw2\EventListener\LeistungenEventListener;
+use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
