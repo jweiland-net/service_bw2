@@ -47,11 +47,6 @@ class PrepareForSolrIndexingCommand extends Command
         'Organisationseinheiten' => Organisationseinheiten::class,
     ];
 
-    /**
-     * This is an object of one of the service_bw2 request types
-     */
-    protected EntityRequestInterface $request;
-
     public function __construct(
         protected readonly LoggerInterface $logger,
     ) {
@@ -89,9 +84,9 @@ class PrepareForSolrIndexingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $requestClassName = $this->getRequestClass($input);
-        $this->request = $this->getRequestObject($requestClassName);
+        $serviceBwRequest = $this->getRequestObject($requestClassName);
 
-        $recordList = $this->request->findAll();
+        $recordList = $serviceBwRequest->findAll();
         if ($requestClassName === Organisationseinheiten::class) {
             if ($input->getOption('content-uid')) {
                 $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
@@ -128,7 +123,7 @@ class PrepareForSolrIndexingCommand extends Command
                 // The following method can take a very long time, as it retrieves details from the API call
                 // for each record. The result of each API call will be cached for better performance in the frontend.
                 // To speed up this process, you can call CacheWarmupCommand before.
-                foreach ($this->generatorForLiveRecords($recordList) as $liveRecord) {
+                foreach ($this->generatorForLiveRecords($recordList, $serviceBwRequest) as $liveRecord) {
                     $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
                     $progressBar->advance();
                 }
@@ -181,15 +176,17 @@ class PrepareForSolrIndexingCommand extends Command
      * Loop through all records and request individual data from Service BW API.
      * The individual response data will be stored in Cache for faster response in FE.
      */
-    protected function generatorForLiveRecords(array $recordsToIndex): \Generator
-    {
+    protected function generatorForLiveRecords(
+        array $recordsToIndex,
+        EntityRequestInterface $serviceBwRequest
+    ): \Generator {
         foreach ($recordsToIndex as $recordToIndex) {
             try {
-                $liveRecordWithFullData = $this->request->findById($recordToIndex['id']);
+                $liveRecordWithFullData = $serviceBwRequest->findById($recordToIndex['id']);
                 if ($liveRecordWithFullData === []) {
                     $this->logger->warning(sprintf(
                         'Record of type %s with ID %s could not be found',
-                        get_class($this->request),
+                        get_class($serviceBwRequest),
                         $recordToIndex['id'],
                     ));
                     continue;
