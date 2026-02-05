@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\ServiceBw2\Listener;
+namespace JWeiland\ServiceBw2\EventListener;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
@@ -20,9 +20,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
  * that cannot be fetched otherwise.
  */
 #[AsEventListener(
-    identifier: 'leistungenListener',
+    identifier: 'service_bw2_leistungen',
 )]
-readonly class LeistungenListener
+readonly class LeistungenEventListener
 {
     public function __construct(
         private LeistungenHelper $leistungenHelper,

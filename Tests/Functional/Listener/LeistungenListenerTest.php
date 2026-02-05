@@ -13,7 +13,7 @@ namespace JWeiland\ServiceBw2\Tests\Functional;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
-use JWeiland\ServiceBw2\Listener\LeistungenListener;
+use JWeiland\ServiceBw2\EventListener\LeistungenEventListener;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -62,7 +62,7 @@ class LeistungenListenerTest extends FunctionalTestCase
             ->method('saveAdditionalData')
             ->with(self::equalTo(1234));
 
-        $leistungenListener = new LeistungenListener($leistungenHelperMock);
+        $leistungenListener = new LeistungenEventListener($leistungenHelperMock);
         $leistungenListener($event);
     }
 }
