@@ -9,10 +9,6 @@
          colors="true"
          failOnRisky="true"
          failOnWarning="true"
-         displayDetailsOnTestsThatTriggerNotices="true"
-         displayDetailsOnTestsThatTriggerWarnings="true"
-         displayDetailsOnPhpunitNotices="true"
-         displayDetailsOnPhpunitDeprecations="true"
 >
     <testsuites>
         <testsuite name="Functional tests">
