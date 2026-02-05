@@ -9,9 +9,11 @@
 
 namespace JWeiland\ServiceBw2\Command;
 
+use ApacheSolrForTypo3\Solr\ConnectionManager;
 use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
 use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
 use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
+use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
 use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Request\EntityRequestInterface;
 use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
@@ -257,7 +259,12 @@ class PrepareForSolrIndexingCommand extends Command
      */
     protected function getSiteIndexService(): SolrIndexService
     {
-        return GeneralUtility::makeInstance(SolrIndexService::class);
+        return GeneralUtility::makeInstance(
+            SolrIndexService::class,
+            $this->getSiteRepository(),
+            GeneralUtility::makeInstance(Queue::class),
+            GeneralUtility::makeInstance(ConnectionManager::class),
+        );
     }
 
     /**
