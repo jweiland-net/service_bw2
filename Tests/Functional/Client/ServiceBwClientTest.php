@@ -26,6 +26,7 @@ use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Routing\Route;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -163,8 +164,9 @@ class ServiceBwClientTest extends FunctionalTestCase
             $extConf,
             GeneralUtility::makeInstance(EventDispatcher::class),
             GeneralUtility::makeInstance(LocalizationHelper::class),
-            GeneralUtility::makeInstance(TokenHelper::class),
+            self::createStub(TokenHelper::class),
             self::createStub(VariableFrontend::class),
+            self::createStub(Logger::class),
         );
 
         $result = $serviceBwClient->request(

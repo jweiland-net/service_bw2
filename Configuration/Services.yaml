@@ -53,6 +53,8 @@ services:
     resource: '../Classes/Request/*'
     public: true
 
-  # TYPO3 extension solr meight not be loaded. So, instanciation via GeneralUtility must be possible
+  # TYPO3 extension solr might not be loaded. So, instantiation via GeneralUtility must be possible
   JWeiland\ServiceBw2\Service\SolrIndexService:
+    autowire: false
+    autoconfigure: false
     public: true
