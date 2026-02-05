@@ -58,8 +58,8 @@ class LeistungenHelperTest extends FunctionalTestCase
             ->willReturn(['got' => 'called']);
 
         $leistungenHelper = new LeistungenHelper(
-            new VariableFrontend(__FUNCTION__, new NullBackend('')),
             $leistungenMock,
+            new VariableFrontend(__FUNCTION__, new NullBackend('')),
         );
         $leistungenHelper->getAdditionalData(1234);
     }
@@ -75,8 +75,8 @@ class LeistungenHelperTest extends FunctionalTestCase
             ->with(self::equalTo(1234))
             ->willReturnCallback(function () use ($cache, $leistungenMock) {
                 $leistungenListener = new LeistungenEventListener(new LeistungenHelper(
-                    $cache,
                     $leistungenMock, // Using $this refers to the mock object itself
+                    $cache,
                 ));
                 $leistungenListener(new ModifyServiceBwResponseEvent(
                     '/portal/leistungsdetails/1234',
@@ -86,8 +86,8 @@ class LeistungenHelperTest extends FunctionalTestCase
             });
 
         $leistungenHelper = new LeistungenHelper(
-            $cache,
             $leistungenMock,
+            $cache,
         );
 
         self::assertEquals(
