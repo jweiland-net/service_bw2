@@ -7,7 +7,7 @@
                project-repository="https://github.com/jweiland-net/service_bw2"
                project-issues="https://github.com/jweiland-net/service_bw2/issues" edit-on-github-branch="main"
                edit-on-github="jweiland/service-bw2" typo3-core-preferred="stable"/>
-    <project title="service_bw2 (Service BW 2)" release="8.0" version="8.0.4" copyright="since 2013 by jweiland.net"/>
+    <project title="service_bw2 (Service BW 2)" release="8.0" version="8.0.5" copyright="since 2013 by jweiland.net"/>
     <inventory id="t3coreapi" url="https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/"/>
     <inventory id="t3install" url="https://docs.typo3.org/m/typo3/guide-installation/main/en-us/"/>
     <inventory id="t3sitepackage" url="https://docs.typo3.org/m/typo3/tutorial-sitepackage/main/en-us/"/>

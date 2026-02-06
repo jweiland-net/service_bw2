@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 8.0.5
+=============
+
+*   [TASK] Do not execute unit/func tests on push (main)
+*   [TASK] Mark OrganisationseinheitenItems as public
+*   [TASK] Make ServiceBwClient stateless
+
 Version 8.0.4
 =============
 
