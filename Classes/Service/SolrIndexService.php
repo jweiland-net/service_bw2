@@ -120,7 +120,7 @@ readonly class SolrIndexService
      */
     protected function indexItem(Item $item, TypoScriptConfiguration $configuration): bool
     {
-        $indexer = $this->getSolrIndexer($configuration);
+        $indexer = $this->getSolrIndexer($item, $configuration);
 
         // Remember original http host value
         $originalHttpHost = $_SERVER['HTTP_HOST'] ?? null;
@@ -197,8 +197,16 @@ readonly class SolrIndexService
         GeneralUtility::flushInternalRuntimeCaches();
     }
 
-    protected function getSolrIndexer(TypoScriptConfiguration $solrConfiguration): Indexer
+    protected function getSolrIndexer(Item $item, TypoScriptConfiguration $solrConfiguration): Indexer
     {
-        return GeneralUtility::makeInstance(Indexer::class, $solrConfiguration);
+        $indexerClass = $solrConfiguration->getIndexQueueIndexerByConfigurationName(
+            $item->getIndexingConfigurationName(),
+        );
+
+        $indexerConfiguration = $solrConfiguration->getIndexQueueIndexerConfigurationByConfigurationName(
+            $item->getIndexingConfigurationName(),
+        );
+
+        return GeneralUtility::makeInstance($indexerClass, $indexerConfiguration);
     }
 }
