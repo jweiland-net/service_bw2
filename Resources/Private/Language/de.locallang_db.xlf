@@ -27,7 +27,7 @@
       </trans-unit>
       <trans-unit id="plugin.servicebw2_organizationalunitsshow.title" approved="yes">
         <source>Service BW: Organisationseinheiten Units Show</source>
-        <target state="final">Service BW: Einheiten für Organisationseinheiten Liste</target>
+        <target state="final">Service BW: Organisationseinheiten anzeigen</target>
       </trans-unit>
       <trans-unit id="plugin.servicebw2_organizationalunitsshow.description" approved="yes">
         <source>Organisationseinheiten Show Plugin: Presents organizational units with a user-friendly interface
@@ -39,7 +39,7 @@
       </trans-unit>
       <trans-unit id="plugin.servicebw2_serviceslist.title" approved="yes">
         <source>Service BW: Services List</source>
-        <target state="final">Service BW: Service-Liste</target>
+        <target state="final">Service BW: Liste der Dienstleistungen</target>
       </trans-unit>
       <trans-unit id="plugin.servicebw2_serviceslist.description" approved="yes">
         <source>Services List Plugin: Efficiently organizes and lists available services, ensuring
@@ -51,7 +51,7 @@
       </trans-unit>
       <trans-unit id="plugin.servicebw2_servicesshow.title" approved="yes">
         <source>Service BW: Services Show</source>
-        <target state="final">Service BW: Service-Liste</target>
+        <target state="final">Service BW: Dienstleistungen anzeigen</target>
       </trans-unit>
       <trans-unit id="plugin.servicebw2_servicesshow.description" approved="yes">
         <source>Services Show Plugin: Displays detailed information about services with a user-friendly
@@ -75,7 +75,7 @@
       </trans-unit>
       <trans-unit id="plugin.servicebw2_lifesituationsshow.title" approved="yes">
         <source>Service BW: Lebenslagen Show</source>
-        <target state="final">Service BW: Lebenslagen Liste</target>
+        <target state="final">Service BW: Lebenslagen anzeigen</target>
       </trans-unit>
       <trans-unit id="plugin.servicebw2_lifesituationsshow.description" approved="yes">
         <source>Lebenslagen Show Plugin: Displays crucial life situations with a user-friendly interface for
