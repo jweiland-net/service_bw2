@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 8.0.6
+=============
+
+*   [Task] Implement an indexer, aligned with the approach used in the "solr" extension.
+
 Version 8.0.5
 =============
 
