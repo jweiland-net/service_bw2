@@ -123,4 +123,21 @@ readonly class ExtConf implements SingletonInterface
     {
         return $this->gebietId;
     }
+
+    public function getDefaultQueryForRequest(): array
+    {
+        $query = [
+            'mandantId' => $this->getMandant(),
+        ];
+
+        if ($this->getAgs()) {
+            $query['gebietAgs'] = $this->getAgs();
+        }
+
+        if ($this->getGebietId()) {
+            $query['gebietId'] = $this->getGebietId();
+        }
+
+        return $query;
+    }
 }

@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Registry;
 /**
  * Client to be used for all Service BW API v2 requests
  */
-class ServiceBwClient
+readonly class ServiceBwClient
 {
     protected const API_ENDPOINT = '/rest-v2/api';
 
@@ -39,28 +39,18 @@ class ServiceBwClient
         'headerParameter' => 'Accept-Language',
     ];
 
-    protected string $path = '';
-
-    protected bool $isPaginatedRequest = false;
-
-    protected array $paginationConfiguration = self::DEFAULT_PAGINATION_CONFIGURATION;
-
-    protected bool $isLocalizedRequest = false;
-
     /**
      * @var string[]
      */
-    protected array $localizationConfiguration = self::DEFAULT_LOCALIZATION_CONFIGURATION;
-
     public function __construct(
-        protected readonly RequestFactory $requestFactory,
-        protected readonly Registry $registry,
-        protected readonly ExtConf $extConf,
-        protected readonly EventDispatcherInterface $eventDispatcher,
-        protected readonly LocalizationHelper $localizationHelper,
-        protected readonly TokenHelper $tokenHelper,
-        protected readonly FrontendInterface $cache,
-        protected readonly LoggerInterface $logger,
+        protected RequestFactory $requestFactory,
+        protected Registry $registry,
+        protected ExtConf $extConf,
+        protected EventDispatcherInterface $eventDispatcher,
+        protected LocalizationHelper $localizationHelper,
+        protected TokenHelper $tokenHelper,
+        protected FrontendInterface $cache,
+        protected LoggerInterface $logger,
     ) {
         if (!$this->registry->get('ServiceBw', 'token', false)) {
             $this->tokenHelper->fetchAndSaveToken();
@@ -91,22 +81,12 @@ class ServiceBwClient
             return $this->cache->get($cacheIdentifier);
         }
 
-        $this->path = $path;
-        $this->isPaginatedRequest = $isPaginatedRequest;
-        $this->isLocalizedRequest = $isLocalizedRequest;
-        $this->paginationConfiguration = array_merge(
-            self::DEFAULT_PAGINATION_CONFIGURATION,
-            $overridePaginationConfiguration,
-        );
-        $this->localizationConfiguration = array_merge(
-            self::DEFAULT_LOCALIZATION_CONFIGURATION,
-            $overrideLocalizationConfiguration,
-        );
-
-        $query = array_merge(
-            $this->getQueryForDefaultParameters(),
+        $paginationConfiguration = $this->getPaginationConfiguration($overridePaginationConfiguration);
+        $localizationConfiguration = $this->getLocalizationConfiguration($overrideLocalizationConfiguration);
+        $queryPartForRequest = $this->getQueryPartForRequest(
             $getParameters,
-            $isPaginatedRequest ? $this->getQueryForPaginatedRequest() : [],
+            $isPaginatedRequest,
+            $paginationConfiguration
         );
 
         $items = [];
@@ -116,12 +96,12 @@ class ServiceBwClient
                 $responseBody = [];
 
                 $response = $this->requestFactory->request(
-                    $this->extConf->getBaseUrl() . self::API_ENDPOINT . $this->path,
+                    $this->extConf->getBaseUrl() . self::API_ENDPOINT . $path,
                     'GET',
                     [
-                        'headers' => $this->getHeaders(),
+                        'headers' => $this->getHeaders($isLocalizedRequest, $localizationConfiguration),
                         'body' => $body,
-                        'query' => $query,
+                        'query' => $queryPartForRequest,
                     ],
                 );
 
@@ -149,8 +129,8 @@ class ServiceBwClient
 
                 $isNextPageSet = false;
                 if ($isPaginatedRequest) {
-                    if ($isNextPageSet = array_key_exists($this->paginationConfiguration['nextItem'], $responseBody)) {
-                        $query[$this->paginationConfiguration['pageParameter']] = $responseBody[$this->paginationConfiguration['nextItem']];
+                    if ($isNextPageSet = array_key_exists($paginationConfiguration['nextItem'], $responseBody)) {
+                        $queryPartForRequest[$paginationConfiguration['pageParameter']] = $responseBody[$paginationConfiguration['nextItem']];
                     }
 
                     array_push($items, ...$responseBody['items']);
@@ -185,40 +165,52 @@ class ServiceBwClient
         return md5($value);
     }
 
-    protected function getHeaders(): array
+    protected function getHeaders(bool $isLocalizedRequest, array $localizationConfiguration): array
     {
         $headers = [
             'Authorization' => $this->registry->get('ServiceBw', 'token', ''),
         ];
-        if ($this->isLocalizedRequest) {
-            $headers[$this->localizationConfiguration['headerParameter']] = $this->localizationHelper->getFrontendLanguageIsoCode();
+
+        if ($isLocalizedRequest) {
+            $headers[$localizationConfiguration['headerParameter']] = $this->localizationHelper->getFrontendLanguageIsoCode();
         }
 
         return $headers;
     }
 
-    protected function getQueryForPaginatedRequest(): array
+    protected function getQueryForPaginatedRequest(array $paginationConfiguration): array
     {
         return [
-            $this->paginationConfiguration['pageParameter'] => 0,
-            $this->paginationConfiguration['pageSizeParameter'] => $this->paginationConfiguration['pageSize'],
+            $paginationConfiguration['pageParameter'] => 0,
+            $paginationConfiguration['pageSizeParameter'] => $paginationConfiguration['pageSize'],
         ];
     }
 
-    protected function getQueryForDefaultParameters(): array
+    protected function getPaginationConfiguration(array $overridePaginationConfiguration): array
     {
-        $query = [
-            'mandantId' => $this->extConf->getMandant(),
-        ];
+        return array_merge(
+            self::DEFAULT_PAGINATION_CONFIGURATION,
+            $overridePaginationConfiguration,
+        );
+    }
 
-        if ($this->extConf->getAgs()) {
-            $query['gebietAgs'] = $this->extConf->getAgs();
-        }
+    protected function getLocalizationConfiguration(array $overrideLocalizationConfiguration): array
+    {
+        return array_merge(
+            self::DEFAULT_LOCALIZATION_CONFIGURATION,
+            $overrideLocalizationConfiguration,
+        );
+    }
 
-        if ($this->extConf->getGebietId()) {
-            $query['gebietId'] = $this->extConf->getGebietId();
-        }
-
-        return $query;
+    protected function getQueryPartForRequest(
+        array $getParameters,
+        bool $isPaginatedRequest,
+        array $paginationConfiguration
+    ): array {
+        return array_merge(
+            $this->extConf->getDefaultQueryForRequest(),
+            $getParameters,
+            $isPaginatedRequest ? $this->getQueryForPaginatedRequest($paginationConfiguration) : [],
+        );
     }
 }
