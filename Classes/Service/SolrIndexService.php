@@ -200,11 +200,11 @@ readonly class SolrIndexService
     protected function getSolrIndexer(Item $item, TypoScriptConfiguration $solrConfiguration): Indexer
     {
         $indexerClass = $solrConfiguration->getIndexQueueIndexerByConfigurationName(
-            $item->getIndexingConfigurationName()
+            $item->getIndexingConfigurationName(),
         );
 
         $indexerConfiguration = $solrConfiguration->getIndexQueueIndexerConfigurationByConfigurationName(
-            $item->getIndexingConfigurationName()
+            $item->getIndexingConfigurationName(),
         );
 
         return GeneralUtility::makeInstance($indexerClass, $indexerConfiguration);
