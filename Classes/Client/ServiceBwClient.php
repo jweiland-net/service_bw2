@@ -86,7 +86,7 @@ readonly class ServiceBwClient
         $queryPartForRequest = $this->getQueryPartForRequest(
             $getParameters,
             $isPaginatedRequest,
-            $paginationConfiguration
+            $paginationConfiguration,
         );
 
         $items = [];
@@ -205,7 +205,7 @@ readonly class ServiceBwClient
     protected function getQueryPartForRequest(
         array $getParameters,
         bool $isPaginatedRequest,
-        array $paginationConfiguration
+        array $paginationConfiguration,
     ): array {
         return array_merge(
             $this->extConf->getDefaultQueryForRequest(),
