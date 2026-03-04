@@ -6,6 +6,18 @@
 Upgrade
 =======
 
+Version 8.1.0
+-------------
+
+The cache warmup console command now requires selecting at least one cache type.
+If no cache type is selected, the command will exit early with an error.
+
+*   CLI usage: pass at least one ``--include-*`` option (for example ``--include-leistungen``),
+    or use ``--all`` to warm up all cache types.
+*   TYPO3 Scheduler: if you run the warmup via a scheduler task of type
+    ``Execute console command``, make sure to configure the task arguments as well
+    (add ``--all`` or at least one ``--include-*`` option). Otherwise the task will fail.
+
 Version 8.0.0
 -------------
 
