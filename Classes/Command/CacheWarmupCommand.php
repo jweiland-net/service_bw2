@@ -56,38 +56,70 @@ class CacheWarmupCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Configurable command to warmup the caches of Service BW to improve loading times')
+            ->setDescription('Warm up Service BW caches (API prefetch) to improve frontend loading times')
+            ->setHelp(
+                <<<'HELP'
+Warms up Service BW caches by pre-fetching records via the Service BW API. This reduces waiting time for website visitors,
+because without warmup the first frontend request may take noticeably longer while data is fetched and cached.
+
+Select at least one cache type (or use --all). If you also run "servicebw:preparesolrindex", run this warmup first so the
+indexer can benefit from already warmed caches.
+
+Examples:
+  servicebw:cachewarmup --include-lebenslagen
+  servicebw:cachewarmup --include-leistungen --locales=de,en
+  servicebw:cachewarmup --all
+HELP
+            )
+            ->addOption(
+                'all',
+                'a',
+                InputOption::VALUE_NONE,
+                'Warm up all cache types',
+            )
             ->addOption(
                 'include-lebenslagen',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Warmup caches of Lebenslagen (Life situations)',
-                true,
+                'leb',
+                InputOption::VALUE_NONE,
+                'Warm up caches for Lebenslagen (life situations)',
             )
             ->addOption(
                 'include-leistungen',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Warmup caches of Leistungen (Services)',
-                true,
+                'lei',
+                InputOption::VALUE_NONE,
+                'Warm up caches for Leistungen (services)',
             )
             ->addOption(
                 'include-organisationseinheiten',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Warmup caches of Organisationseinheiten (Organisational units)',
-                true,
+                'org',
+                InputOption::VALUE_NONE,
+                'Warm up caches for Organisationseinheiten (organisational units)',
             )
             ->addOption(
                 'locales',
-                null,
+                'loc',
                 InputOption::VALUE_OPTIONAL,
-                'Comma separated list of locales for warmup e.g. "de,en,fr". All allowed languages will be used by default!',
+                'Comma-separated list of locales to warm up (e.g. "de,en"). Defaults to all allowed languages.',
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $warmupAll = (bool)$input->getOption('all');
+
+        $selectedAnyType = $warmupAll;
+        foreach (self::TYPES as $type) {
+            if ($input->getOption($type['option'])) {
+                $selectedAnyType = true;
+                break;
+            }
+        }
+
+        if (!$selectedAnyType) {
+            $output->writeln('<error>Please select at least one cache type (e.g. --include-leistungen) or use --all.</error>');
+            return Command::INVALID;
+        }
+
         foreach ($this->getLanguages($input) as $language2letterIsoCode) {
             $output->writeln('Language for further requests: ' . $language2letterIsoCode);
 
@@ -95,13 +127,13 @@ class CacheWarmupCommand extends Command
             $GLOBALS['TYPO3_REQUEST'] = $this->getTypo3Request($language2letterIsoCode);
 
             foreach (self::TYPES as $type) {
-                if ($input->getOption($type['option'])) {
+                if ($warmupAll || $input->getOption($type['option'])) {
                     $this->warmupType($type['class'], $output);
                 }
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

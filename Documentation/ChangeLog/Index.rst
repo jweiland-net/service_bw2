@@ -7,10 +7,17 @@
 ChangeLog
 =========
 
+Version 8.1.0
+=============
+
+*   [Task] Cache warmup command: add `--all` option and fail early if no
+    cache type is selected.
+
 Version 8.0.6
 =============
 
-*   [Task] Implement an indexer, aligned with the approach used in the "solr" extension.
+*   [Task] Implement an indexer, aligned with the approach used in
+    the "solr" extension.
 
 Version 8.0.5
 =============
