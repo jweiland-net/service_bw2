@@ -11,12 +11,13 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Utility;
 
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This utility can be used inside domain models.
+ *
  * @api
  */
 readonly class ModelUtility
@@ -40,9 +41,16 @@ readonly class ModelUtility
     public static function getOrganisationseinheiten(array|int|string $organisationseinheiten): array
     {
         if (!is_array($organisationseinheiten)) {
-            $ids = \json_decode('[' . $organisationseinheiten . ']', false, 512, JSON_THROW_ON_ERROR);
+            $ids = \json_decode(
+                '[' . $organisationseinheiten . ']',
+                false,
+                512,
+                JSON_THROW_ON_ERROR,
+            );
+
             $organisationseinheiten = [];
-            $requestClass = GeneralUtility::makeInstance(Organisationseinheiten::class);
+            $requestClass = GeneralUtility::makeInstance(OrganisationseinheitenRepository::class);
+
             foreach ($ids as $id) {
                 try {
                     $record = $requestClass->findById((int)$id);
@@ -82,7 +90,7 @@ readonly class ModelUtility
      */
     public static function getOrganisationseinheit(int $organisationseinheitUid): array
     {
-        $requestClass = GeneralUtility::makeInstance(Organisationseinheiten::class);
+        $requestClass = GeneralUtility::makeInstance(OrganisationseinheitenRepository::class);
         try {
             $organisationseinheit = $requestClass->findById($organisationseinheitUid);
         } catch (\Exception $exception) {

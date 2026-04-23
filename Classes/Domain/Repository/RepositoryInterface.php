@@ -9,14 +9,12 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\ServiceBw2\Request;
+namespace JWeiland\ServiceBw2\Domain\Repository;
 
-/**
- * There are several types (in Service BW Search called "typ") of entities in Service BW.
- * This abstract class adds the minimal required methods for it.
- */
-interface EntityRequestInterface
+interface RepositoryInterface
 {
+    public const CONTROLLER_TYPE = 'INVALID';
+
     public function findById(int $id): array;
 
     public function findAll(): array;

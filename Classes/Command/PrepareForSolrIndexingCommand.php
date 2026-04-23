@@ -15,10 +15,10 @@ use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
 use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
 use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
 use GuzzleHttp\Exception\ClientException;
-use JWeiland\ServiceBw2\Request\EntityRequestInterface;
-use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
-use JWeiland\ServiceBw2\Request\Portal\Leistungen;
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
+use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use Psr\Log\LoggerInterface;
@@ -39,18 +39,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class PrepareForSolrIndexingCommand extends Command
 {
-    /**
-     * Argument to class mapping
-     * Helps to prevent inserting the FQCN of one of the request types on CLI
-     */
-    protected const CLASS_MAPPING = [
-        'Lebenslagen' => Lebenslagen::class,
-        'Leistungen' => Leistungen::class,
-        'Organisationseinheiten' => Organisationseinheiten::class,
-    ];
-
     public function __construct(
         protected readonly LoggerInterface $logger,
+        protected readonly RepositoryFactory $repositoryFactory,
     ) {
         parent::__construct();
     }
@@ -78,25 +69,27 @@ class PrepareForSolrIndexingCommand extends Command
                 'content-uid',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Enter the tt_content UID of the service_bw2 plugin where you have assigned the ' .
-                'Organisationseinheiten. Only needed, if request-class is set to: "' . Organisationseinheiten::class . '"',
+                'Enter the tt_content UID of the service_bw2 plugin where you have assigned the '
+                    . 'Organisationseinheiten. Only needed, if request-class is set to: "' . OrganisationseinheitenRepository::class . '"',
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $requestClassName = $this->getRequestClass($input);
-        $serviceBwRequest = $this->getRequestObject($requestClassName);
+        $repository = $this->repositoryFactory->getRepository(
+            ControllerTypeEnum::from(strtolower($input->getArgument('request-class'))),
+        );
 
-        $recordList = $serviceBwRequest->findAll();
-        if ($requestClassName === Organisationseinheiten::class) {
+        $recordList = $repository->findAll();
+
+        if (get_class($repository) === OrganisationseinheitenRepository::class) {
             if ($input->getOption('content-uid')) {
                 $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
                     $recordList,
                     $this->getInitialRecords((int)$input->getOption('content-uid')),
                 );
             } else {
-                $message = 'In case of request-class = ' . Organisationseinheiten::class . ' you also have to set content-uid';
+                $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
                 $this->logger->error($message);
                 throw new \InvalidArgumentException($message);
             }
@@ -125,7 +118,7 @@ class PrepareForSolrIndexingCommand extends Command
                 // The following method can take a very long time, as it retrieves details from the API call
                 // for each record. The result of each API call will be cached for better performance in the frontend.
                 // To speed up this process, you can call CacheWarmupCommand before.
-                foreach ($this->generatorForLiveRecords($recordList, $serviceBwRequest) as $liveRecord) {
+                foreach ($this->generatorForLiveRecords($recordList, $repository) as $liveRecord) {
                     $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
                     $progressBar->advance();
                 }
@@ -180,20 +173,20 @@ class PrepareForSolrIndexingCommand extends Command
      */
     protected function generatorForLiveRecords(
         array $recordsToIndex,
-        EntityRequestInterface $serviceBwRequest,
+        RepositoryInterface $repository,
     ): \Generator {
         foreach ($recordsToIndex as $recordToIndex) {
             try {
-                $liveRecordWithFullData = $serviceBwRequest->findById($recordToIndex['id']);
+                $liveRecordWithFullData = $repository->findById($recordToIndex['id']);
                 if ($liveRecordWithFullData === []) {
                     $this->logger->warning(sprintf(
                         'Record of type %s with ID %s could not be found',
-                        get_class($serviceBwRequest),
+                        get_class($repository),
                         $recordToIndex['id'],
                     ));
                     continue;
                 }
-            } catch (ClientException $exception) {
+            } catch (ClientException) {
                 continue;
             }
 
@@ -221,36 +214,6 @@ class PrepareForSolrIndexingCommand extends Command
                 ),
             ),
         );
-    }
-
-    protected function getRequestClass(InputInterface $input): string
-    {
-        if (
-            $input->hasArgument('request-class')
-            && ($requestClass = $input->getArgument('request-class'))
-            && array_key_exists($requestClass, self::CLASS_MAPPING)
-        ) {
-            return self::CLASS_MAPPING[$requestClass];
-        }
-
-        $message = 'Given request-type is not allowed';
-        $this->logger->error($message);
-        throw new \InvalidArgumentException($message);
-    }
-
-    protected function getRequestObject(string $className): EntityRequestInterface
-    {
-        if (
-            class_exists($className)
-            && ($requestObject = GeneralUtility::makeInstance($className))
-            && $requestObject instanceof EntityRequestInterface
-        ) {
-            return $requestObject;
-        }
-
-        $message = 'Invalid classname ' . $className . ' for request detected';
-        $this->logger->error($message);
-        throw new \InvalidArgumentException($message);
     }
 
     /**

@@ -43,9 +43,10 @@ services:
     public: true
 
   # To allow GeneralUtility::makeInstance
-  JWeiland\ServiceBw2\Request\:
-    resource: '../Classes/Request/*'
+  JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory:
     public: true
+    arguments:
+      $repositoryClasses: !tagged_iterator { tag: 'service-bw2.repository' }
 
   # TYPO3 extension solr might not be loaded. So, instantiation via GeneralUtility must be possible
   JWeiland\ServiceBw2\Service\SolrIndexService:

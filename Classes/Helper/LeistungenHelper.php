@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Helper;
 
-use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 
 /**
@@ -24,7 +24,7 @@ readonly class LeistungenHelper
     private const CACHE_IDENTIFIER = 'leistung_%d';
 
     public function __construct(
-        protected Leistungen $leistungen,
+        protected LeistungenRepository $leistungenRepository,
         protected FrontendInterface $cache,
     ) {}
 
@@ -36,7 +36,7 @@ readonly class LeistungenHelper
                 return [];
             }
 
-            $this->leistungen->findById($id);
+            $this->leistungenRepository->findById($id);
 
             return $this->getAdditionalData($id, false);
         }

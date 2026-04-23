@@ -32,11 +32,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 final class OpeningHoursViewHelper extends AbstractViewHelper
 {
     /**
-     * As this ViewHelper renders HTML, the output must not be escaped.
-     */
-    protected $escapeOutput = false;
-
-    /**
      * Days provided by Service BW API
      * Yes in german -_-
      */
@@ -49,8 +44,10 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
     public const WORKDAYS = ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG'];
 
     /**
-     * Initializes the arguments
+     * As this ViewHelper renders HTML, the output must not be escaped.
      */
+    protected $escapeOutput = false;
+
     public function initializeArguments(): void
     {
         $this->registerArgument('oeffnungszeitenStrukturiert', 'array', 'Opening hours array', true);

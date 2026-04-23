@@ -11,9 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Utility;
 
-/**
- * Class AlphabeticalIndexUtility
- */
 readonly class AlphabeticalIndexUtility
 {
     /**

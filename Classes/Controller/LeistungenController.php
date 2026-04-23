@@ -11,25 +11,20 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class LeistungenController
- */
 class LeistungenController extends AbstractController
 {
-    protected Leistungen $leistungen;
-
-    public function injectLeistungen(Leistungen $leistungen): void
-    {
-        $this->leistungen = $leistungen;
-    }
+    public function __construct(
+        protected LeistungenRepository $leistungenRepository,
+    ) {}
 
     public function showAction(int $id): ResponseInterface
     {
-        $leistung = $this->leistungen->findById($id);
+        $leistung = $this->leistungenRepository->findById($id);
+
         if ($leistung === []) {
             $this->addFlashMessage('Requested Leistung could not be found for current language');
         } else {
@@ -45,11 +40,12 @@ class LeistungenController extends AbstractController
         $sortedLetterList = [];
         $sortedRecordList = [];
         AlphabeticalIndexUtility::createAlphabeticalIndex(
-            $this->leistungen->findAll(),
+            $this->leistungenRepository->findAll(),
             'name',
             $sortedLetterList,
             $sortedRecordList,
         );
+
         $this->view->assign('sortedLetterList', $sortedLetterList);
         $this->view->assign('sortedRecordList', $sortedRecordList);
 

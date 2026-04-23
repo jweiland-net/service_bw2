@@ -11,31 +11,29 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class LebenslagenController
- */
 class LebenslagenController extends AbstractController
 {
-    protected Lebenslagen $lebenslagen;
-
-    public function injectLebenslagen(Lebenslagen $lebenslagen): void
-    {
-        $this->lebenslagen = $lebenslagen;
-    }
+    public function __construct(
+        protected LebenslagenRepository $lebenslagenRepository,
+    ) {}
 
     public function listAction(): ResponseInterface
     {
-        $this->view->assign('lebenslagenbaum', $this->lebenslagen->findLebenslagenbaum());
+        $this->view->assign(
+            'lebenslagenbaum',
+            $this->lebenslagenRepository->findLebenslagenbaum(),
+        );
 
         return $this->htmlResponse();
     }
 
     public function showAction(int $id): ResponseInterface
     {
-        $lebenslage = $this->lebenslagen->findById($id);
+        $lebenslage = $this->lebenslagenRepository->findById($id);
+
         if ($lebenslage === []) {
             $this->addFlashMessage('Requested Lebenslage could not be found for current language');
         } else {

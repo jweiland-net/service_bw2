@@ -12,10 +12,8 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Command;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
-use JWeiland\ServiceBw2\Request\EntityRequestInterface;
-use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
-use JWeiland\ServiceBw2\Request\Portal\Leistungen;
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
+use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -32,23 +30,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheWarmupCommand extends Command
 {
-    protected const TYPES = [
-        'lebenslagen' => [
-            'option' => 'include-lebenslagen',
-            'class' => Lebenslagen::class,
-        ],
-        'leistungen' => [
-            'option' => 'include-leistungen',
-            'class' => Leistungen::class,
-        ],
-        'organisationseinheiten' => [
-            'option' => 'include-organisationseinheiten',
-            'class' => Organisationseinheiten::class,
-        ],
-    ];
-
     public function __construct(
         protected ExtConf $extConf,
+        protected RepositoryFactory $repositoryFactory,
     ) {
         parent::__construct();
     }
@@ -94,9 +78,9 @@ class CacheWarmupCommand extends Command
             // We're using the ServerRequest for the SiteLanguage only! Maybe use an alternative way in later versions
             $GLOBALS['TYPO3_REQUEST'] = $this->getTypo3Request($language2letterIsoCode);
 
-            foreach (self::TYPES as $type) {
-                if ($input->getOption($type['option'])) {
-                    $this->warmupType($type['class'], $output);
+            foreach ($this->repositoryFactory->getRepositories() as $repository) {
+                if ($input->getOption('include-' . $repository::CONTROLLER_TYPE)) {
+                    $this->warmupType($repository, $output);
                 }
             }
         }
@@ -121,7 +105,7 @@ class CacheWarmupCommand extends Command
 
     protected function getTypo3Request(string $language2letterIsoCode): ServerRequestInterface
     {
-        $typo3Request = GeneralUtility::makeInstance(ServerRequest::class);
+        $typo3Request = new ServerRequest();
 
         $siteLanguage = GeneralUtility::makeInstance(
             SiteLanguage::class,
@@ -134,35 +118,21 @@ class CacheWarmupCommand extends Command
         return $typo3Request->withAttribute('language', $siteLanguage);
     }
 
-    protected function warmupType(string $className, OutputInterface $output): void
+    protected function warmupType(RepositoryInterface $repository, OutputInterface $output): void
     {
-        $output->writeln('Warmup caches for "' . $className . '"');
+        $output->writeln('Warmup caches for "' . get_class($repository) . '"');
 
-        $request = $this->getRequestObject($className);
-        $allRecords = $request->findAll();
+        $allRecords = $repository->findAll();
 
         $progressBar = new ProgressBar($output, count($allRecords));
         $progressBar->start();
         foreach ($allRecords as $record) {
-            $request->findById($record['id']);
+            $repository->findById($record['id']);
             $progressBar->advance();
         }
 
         $progressBar->finish();
 
         $output->writeln('');
-    }
-
-    protected function getRequestObject(string $className): EntityRequestInterface
-    {
-        if (
-            class_exists($className)
-            && ($requestObject = GeneralUtility::makeInstance($className))
-            && $requestObject instanceof EntityRequestInterface
-        ) {
-            return $requestObject;
-        }
-
-        throw new \InvalidArgumentException('Invalid classname ' . $className . ' for request detected');
     }
 }

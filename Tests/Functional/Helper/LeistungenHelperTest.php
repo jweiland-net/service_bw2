@@ -14,7 +14,7 @@ namespace JWeiland\ServiceBw2\Tests\Functional;
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\EventListener\LeistungenEventListener;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
-use JWeiland\ServiceBw2\Request\Portal\Leistungen;
+use JWeiland\ServiceBw2\Request\Portal\LeistungenRepository;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
@@ -35,7 +35,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function saveAdditionalDataWritesDataToCache(): void
     {
-        $leistungenMock = self::createStub(Leistungen::class);
+        $leistungenMock = self::createStub(LeistungenRepository::class);
         $data = ['hello' => 'world', 'time' => time()];
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
         $leistungenHelper = new LeistungenHelper($leistungenMock, $cache);
@@ -50,7 +50,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function getAdditionalDataCallsFindByIdIfCacheIsNotSet(): void
     {
-        $leistungenMock = self::createMock(Leistungen::class);
+        $leistungenMock = self::createMock(LeistungenRepository::class);
         $leistungenMock
             ->expects(self::atLeastOnce())
             ->method('findById')
@@ -68,7 +68,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     public function getAdditionalDataReturnsArrayFromFindByIdIfCacheIsNotSet(): void
     {
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
-        $leistungenMock = self::createMock(Leistungen::class);
+        $leistungenMock = self::createMock(LeistungenRepository::class);
         $leistungenMock
             ->expects(self::atLeastOnce())
             ->method('findById')
@@ -99,7 +99,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function getAdditionalDataReturnsEmptyArrayWithFetchIfMissingFalseAndCacheIsNotSet(): void
     {
-        $leistungenMock = self::createStub(Leistungen::class);
+        $leistungenMock = self::createStub(LeistungenRepository::class);
         $leistungenHelper = new LeistungenHelper(
             $leistungenMock,
             new VariableFrontend(__FUNCTION__, new NullBackend('')),
@@ -113,7 +113,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     #[Test]
     public function getAdditionalDataReturnsPreviouslySavedAdditionalDataFromCache(): void
     {
-        $leistungenMock = self::createStub(Leistungen::class);
+        $leistungenMock = self::createStub(LeistungenRepository::class);
         $data = ['important' => 'data'];
         $leistungenHelper = new LeistungenHelper(
             $leistungenMock,

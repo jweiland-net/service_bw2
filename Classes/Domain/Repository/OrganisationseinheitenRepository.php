@@ -9,16 +9,22 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\ServiceBw2\Request\Portal;
+namespace JWeiland\ServiceBw2\Domain\Repository;
 
-use JWeiland\ServiceBw2\Request\AbstractRequest;
-use JWeiland\ServiceBw2\Request\EntityRequestInterface;
+use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-/**
- * Request class for Organisationseinheiten
- */
-class Organisationseinheiten extends AbstractRequest implements EntityRequestInterface
+#[AutoconfigureTag(
+    name: 'service-bw2.repository',
+)]
+readonly class OrganisationseinheitenRepository implements RepositoryInterface
 {
+    public const CONTROLLER_TYPE = 'organisationseinheiten';
+
+    public function __construct(
+        protected ServiceBwClient $client,
+    ) {}
+
     public function findById(int $id): array
     {
         return $this->client->request('/portal/organisationseinheitsdetails/' . $id);

@@ -11,21 +11,15 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class OrganisationseinheitenController
- */
 class OrganisationseinheitenController extends AbstractController
 {
-    protected Organisationseinheiten $organisationseinheiten;
-
-    public function injectOrganisationseinheiten(Organisationseinheiten $organisationseinheiten): void
-    {
-        $this->organisationseinheiten = $organisationseinheiten;
-    }
+    public function __construct(
+        protected OrganisationseinheitenRepository $organisationseinheitenRepository,
+    ) {}
 
     public function listAction(): ResponseInterface
     {
@@ -41,7 +35,7 @@ class OrganisationseinheitenController extends AbstractController
         }
 
         $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
-            $this->organisationseinheiten->findOrganisationseinheitenbaum(),
+            $this->organisationseinheitenRepository->findOrganisationseinheitenbaum(),
             $listItems,
         );
 
@@ -52,7 +46,8 @@ class OrganisationseinheitenController extends AbstractController
 
     public function showAction(int $id): ResponseInterface
     {
-        $organisationseinheit = $this->organisationseinheiten->findById($id);
+        $organisationseinheit = $this->organisationseinheitenRepository->findById($id);
+
         if ($organisationseinheit === []) {
             $this->addFlashMessage('Requested Organisationseinheit could not be found for current language');
         } else {

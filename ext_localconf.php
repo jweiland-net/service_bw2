@@ -10,7 +10,7 @@
 use JWeiland\ServiceBw2\Controller\LebenslagenController;
 use JWeiland\ServiceBw2\Controller\LeistungenController;
 use JWeiland\ServiceBw2\Controller\OrganisationseinheitenController;
-use JWeiland\ServiceBw2\Controller\SucheController;
+use JWeiland\ServiceBw2\Controller\SearchController;
 use JWeiland\ServiceBw2\Hook\ClearCacheHook;
 use JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper;
 use Psr\Log\LogLevel;
@@ -33,6 +33,7 @@ ExtensionUtility::configurePlugin(
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
 // 2. Organizational Units Show Plugin
 ExtensionUtility::configurePlugin(
     'ServiceBw2',
@@ -43,6 +44,7 @@ ExtensionUtility::configurePlugin(
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
 // 3. Services List Plugin
 ExtensionUtility::configurePlugin(
     'ServiceBw2',
@@ -53,6 +55,7 @@ ExtensionUtility::configurePlugin(
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
 // 4. Services Show Plugin
 ExtensionUtility::configurePlugin(
     'ServiceBw2',
@@ -63,6 +66,7 @@ ExtensionUtility::configurePlugin(
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
 // 5. Life Situations List Plugin
 ExtensionUtility::configurePlugin(
     'ServiceBw2',
@@ -73,6 +77,7 @@ ExtensionUtility::configurePlugin(
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
 // 6. Life Situations Show Plugin
 ExtensionUtility::configurePlugin(
     'ServiceBw2',
@@ -83,12 +88,13 @@ ExtensionUtility::configurePlugin(
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
 // 7. Search Plugin
 ExtensionUtility::configurePlugin(
     'ServiceBw2',
     'ServiceBw2Search',
     [
-        SucheController::class => 'list',
+        SearchController::class => 'list',
     ],
     [],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,

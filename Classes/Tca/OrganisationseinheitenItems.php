@@ -11,17 +11,14 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tca;
 
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
 
-/**
- * Class OrganisationseinheitenItems
- */
 readonly class OrganisationseinheitenItems
 {
     public function __construct(
-        protected Organisationseinheiten $organisationseinheiten,
+        protected OrganisationseinheitenRepository $organisationseinheitenRepository,
         protected LoggerInterface $logger,
     ) {}
 
@@ -31,7 +28,7 @@ readonly class OrganisationseinheitenItems
     public function getItems(array $processorParameters, AbstractItemProvider $itemProvider): void
     {
         try {
-            $records = $this->organisationseinheiten->findOrganisationseinheitenbaum();
+            $records = $this->organisationseinheitenRepository->findOrganisationseinheitenbaum();
         } catch (\Exception $exception) {
             $this->logger->error(
                 'Could not get organisationseinheiten: ' . $exception->getMessage(),
