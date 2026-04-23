@@ -112,7 +112,7 @@ class ServiceBwClientTest extends FunctionalTestCase
     ): void {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -138,7 +138,7 @@ class ServiceBwClientTest extends FunctionalTestCase
 
         $requestFactoryMock = $this->createMock(RequestFactory::class);
         $requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->with(
                 self::anything(),

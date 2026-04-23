@@ -133,7 +133,7 @@ class ExtConfTest extends FunctionalTestCase
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -187,7 +187,7 @@ class ExtConfTest extends FunctionalTestCase
     ) {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -219,7 +219,7 @@ class ExtConfTest extends FunctionalTestCase
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([

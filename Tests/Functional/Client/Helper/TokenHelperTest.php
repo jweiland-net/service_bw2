@@ -44,7 +44,7 @@ class TokenHelperTest extends FunctionalTestCase
         $response->getBody()->rewind();
 
         $requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->willReturn($response);
 

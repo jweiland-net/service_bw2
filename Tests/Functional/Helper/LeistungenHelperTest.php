@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
 use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
+use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\EventListener\LeistungenEventListener;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
-use JWeiland\ServiceBw2\Request\Portal\LeistungenRepository;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
@@ -52,7 +52,7 @@ class LeistungenHelperTest extends FunctionalTestCase
     {
         $leistungenMock = self::createMock(LeistungenRepository::class);
         $leistungenMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('findById')
             ->with(self::equalTo(1234))
             ->willReturn(['got' => 'called']);
@@ -70,7 +70,7 @@ class LeistungenHelperTest extends FunctionalTestCase
         $cache = new VariableFrontend(__FUNCTION__, new TransientMemoryBackend(''));
         $leistungenMock = self::createMock(LeistungenRepository::class);
         $leistungenMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('findById')
             ->with(self::equalTo(1234))
             ->willReturnCallback(function () use ($cache, $leistungenMock) {

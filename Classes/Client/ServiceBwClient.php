@@ -138,7 +138,6 @@ readonly class ServiceBwClient
             } catch (\Exception $exception) {
                 $this->logger->error('SKIP record because of error: ' . $exception->getMessage());
             }
-
         } while ($isPaginatedRequest && $isNextPageSet);
 
         $this->cache->set(
