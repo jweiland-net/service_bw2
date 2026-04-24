@@ -13,7 +13,6 @@ namespace JWeiland\ServiceBw2\Tca;
 
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
 
 readonly class OrganisationseinheitenItems
 {
@@ -25,7 +24,7 @@ readonly class OrganisationseinheitenItems
     /**
      * Get items for a select field
      */
-    public function getItems(array $processorParameters, AbstractItemProvider $itemProvider): void
+    public function getItems(array $processorParameters): void
     {
         try {
             $records = $this->organisationseinheitenRepository->findOrganisationseinheitenbaum();
