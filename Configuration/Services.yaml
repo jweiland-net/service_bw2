@@ -54,6 +54,6 @@ services:
     autoconfigure: false
     public: true
 
-  # Will be called by GeneralUtility::makeInstance from FlexForm
+  # Will be called by GeneralUtility::makeInstance from FlexForm/TCA
   JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems:
     public: true
