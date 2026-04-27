@@ -16,19 +16,19 @@ use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
 final readonly class RepositoryFactory
 {
     public function __construct(
-        protected iterable $repositoryClasses,
+        protected iterable $repositories,
     ) {}
 
     public function getRepository(ControllerTypeEnum $controllerType): RepositoryInterface
     {
-        foreach ($this->repositoryClasses as $repositoryClass) {
-            if ($repositoryClass::CONTROLLER_TYPE === $controllerType->value) {
-                return $repositoryClass;
+        foreach ($this->repositories as $repository) {
+            if ($repository::CONTROLLER_TYPE === $controllerType->value) {
+                return $repository;
             }
         }
 
         throw new \InvalidArgumentException(
-            'Could not find repository class for selected controller type "' . $controllerType->value . '"!',
+            'Could not find repository for selected controller type "' . $controllerType->value . '"!',
             1523960421,
         );
     }
@@ -38,6 +38,6 @@ final readonly class RepositoryFactory
      */
     public function getRepositories(): iterable
     {
-        return $this->repositoryClasses;
+        return $this->repositories;
     }
 }
