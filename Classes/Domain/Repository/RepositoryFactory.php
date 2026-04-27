@@ -16,7 +16,7 @@ use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
 final readonly class RepositoryFactory
 {
     public function __construct(
-        protected iterable $repositories,
+        private iterable $repositories,
     ) {}
 
     public function getRepository(ControllerTypeEnum $controllerType): RepositoryInterface
