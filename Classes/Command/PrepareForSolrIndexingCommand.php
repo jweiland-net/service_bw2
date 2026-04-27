@@ -82,7 +82,7 @@ class PrepareForSolrIndexingCommand extends Command
 
         $recordList = $repository->findAll();
 
-        if (get_class($repository) === OrganisationseinheitenRepository::class) {
+        if ($repository::class === OrganisationseinheitenRepository::class) {
             if ($input->getOption('content-uid')) {
                 $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
                     $recordList,
@@ -181,7 +181,7 @@ class PrepareForSolrIndexingCommand extends Command
                 if ($liveRecordWithFullData === []) {
                     $this->logger->warning(sprintf(
                         'Record of type %s with ID %s could not be found',
-                        get_class($repository),
+                        $repository::class,
                         $recordToIndex['id'],
                     ));
                     continue;
