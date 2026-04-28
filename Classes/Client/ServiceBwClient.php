@@ -62,18 +62,12 @@ readonly class ServiceBwClient
         array $getParameters = [],
         bool $isLocalizedRequest = true,
         bool $isPaginatedRequest = false,
-        ?string $body = null,
-        array $overridePaginationConfiguration = [],
-        array $overrideLocalizationConfiguration = [],
     ): array {
         $cacheIdentifier = $this->getCacheIdentifier([
             $path,
             $getParameters,
             $isLocalizedRequest,
             $isPaginatedRequest,
-            $body,
-            $overridePaginationConfiguration,
-            $overrideLocalizationConfiguration,
         ]);
 
         // Early return, if data exists in cache
@@ -81,12 +75,10 @@ readonly class ServiceBwClient
             return $this->cache->get($cacheIdentifier);
         }
 
-        $paginationConfiguration = $this->getPaginationConfiguration($overridePaginationConfiguration);
-        $localizationConfiguration = $this->getLocalizationConfiguration($overrideLocalizationConfiguration);
         $queryPartForRequest = $this->getQueryPartForRequest(
             $getParameters,
             $isPaginatedRequest,
-            $paginationConfiguration,
+            self::DEFAULT_PAGINATION_CONFIGURATION,
         );
 
         $items = [];
@@ -99,8 +91,8 @@ readonly class ServiceBwClient
                     $this->extConf->getBaseUrl() . self::API_ENDPOINT . $path,
                     'GET',
                     [
-                        'headers' => $this->getHeaders($isLocalizedRequest, $localizationConfiguration),
-                        'body' => $body,
+                        'headers' => $this->getHeaders($isLocalizedRequest, self::DEFAULT_LOCALIZATION_CONFIGURATION),
+                        'body' => null,
                         'query' => $queryPartForRequest,
                     ],
                 );
@@ -129,8 +121,8 @@ readonly class ServiceBwClient
 
                 $isNextPageSet = false;
                 if ($isPaginatedRequest) {
-                    if ($isNextPageSet = array_key_exists($paginationConfiguration['nextItem'], $responseBody)) {
-                        $queryPartForRequest[$paginationConfiguration['pageParameter']] = $responseBody[$paginationConfiguration['nextItem']];
+                    if ($isNextPageSet = array_key_exists(self::DEFAULT_PAGINATION_CONFIGURATION['nextItem'], $responseBody)) {
+                        $queryPartForRequest[self::DEFAULT_PAGINATION_CONFIGURATION['pageParameter']] = $responseBody[self::DEFAULT_PAGINATION_CONFIGURATION['nextItem']];
                     }
 
                     array_push($items, ...$responseBody['items']);
@@ -153,7 +145,7 @@ readonly class ServiceBwClient
     {
         try {
             $value = json_encode($requestArguments, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $jsonException) {
+        } catch (\JsonException) {
             return '';
         }
 
@@ -183,22 +175,6 @@ readonly class ServiceBwClient
             $paginationConfiguration['pageParameter'] => 0,
             $paginationConfiguration['pageSizeParameter'] => $paginationConfiguration['pageSize'],
         ];
-    }
-
-    protected function getPaginationConfiguration(array $overridePaginationConfiguration): array
-    {
-        return array_merge(
-            self::DEFAULT_PAGINATION_CONFIGURATION,
-            $overridePaginationConfiguration,
-        );
-    }
-
-    protected function getLocalizationConfiguration(array $overrideLocalizationConfiguration): array
-    {
-        return array_merge(
-            self::DEFAULT_LOCALIZATION_CONFIGURATION,
-            $overrideLocalizationConfiguration,
-        );
     }
 
     protected function getQueryPartForRequest(
