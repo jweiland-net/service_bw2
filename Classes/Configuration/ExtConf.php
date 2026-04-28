@@ -27,9 +27,8 @@ readonly class ExtConf implements SingletonInterface
     private const EXT_KEY = 'service_bw2';
 
     private const DEFAULT_SETTINGS = [
-        'username' => '',
-        'password' => '',
         'mandant' => '',
+        'token' => '',
         'baseUrl' => 'https://sgw.service-bw.de:443/',
         'allowedLanguages' => 'de=0;en=1;fr=2',
         'ags' => 0,
@@ -37,9 +36,8 @@ readonly class ExtConf implements SingletonInterface
     ];
 
     public function __construct(
-        private string $username = self::DEFAULT_SETTINGS['username'],
-        private string $password = self::DEFAULT_SETTINGS['password'],
         private string $mandant = self::DEFAULT_SETTINGS['mandant'],
+        private string $token = self::DEFAULT_SETTINGS['token'],
         private string $baseUrl = self::DEFAULT_SETTINGS['baseUrl'],
         private string $allowedLanguages = self::DEFAULT_SETTINGS['allowedLanguages'],
         private int $ags = self::DEFAULT_SETTINGS['ags'],
@@ -60,9 +58,8 @@ readonly class ExtConf implements SingletonInterface
         }
 
         return new self(
-            username: (string)$extensionSettings['username'],
-            password: (string)$extensionSettings['password'],
             mandant: (string)$extensionSettings['mandant'],
+            token: (string)$extensionSettings['token'],
             baseUrl: $extensionSettings['baseUrl'],
             allowedLanguages: (string)$extensionSettings['allowedLanguages'],
 
@@ -73,19 +70,14 @@ readonly class ExtConf implements SingletonInterface
         );
     }
 
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
     public function getMandant(): string
     {
         return $this->mandant;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
     }
 
     public function getBaseUrl(): string

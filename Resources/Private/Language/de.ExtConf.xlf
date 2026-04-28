@@ -3,17 +3,13 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T10:23:00Z" product-name="service_bw2">
 		<header/>
 		<body>
-			<trans-unit id="username" xml:space="preserve">
-				<source>Username for Service BW API: The username to get a token for further API requests. Normally starts with ws_.</source>
-				<target>Benutzername für die Service BW API: Benutzername, um einen Token zu erhalten, der für weitere API Anfragen wiederverwendet wird. Der Benutzername startet üblicherweise mit ws_</target>
-			</trans-unit>
-			<trans-unit id="password" xml:space="preserve">
-				<source>Password for Service BW API: Password to receive a token, which will be used for further API requests.</source>
-				<target>Passwort für die Service BW API: Passwort, um einen Token zu erhalten, der für weitere API Anfragen wiederverwendet wird.</target>
-			</trans-unit>
 			<trans-unit id="mandant" xml:space="preserve">
 				<source>Mandant: Place the number of the mandant of the city (only BW).</source>
 				<target>Mandant: Tragen Sie hier die Nummer des Mandanten der Stadt (nur BW) ein.</target>
+			</trans-unit>
+			<trans-unit id="token" xml:space="preserve">
+				<source>Token: Enter the Bearer Authorization Token. You can generate one here: https://sgw.service-bw.de/rest-v2/documentation/</source>
+				<target>Token: Tragen Sie den Bearer Zugangstoken ein. Sie können sich hier einen erstellen lassen: https://sgw.service-bw.de/rest-v2/documentation/</target>
 			</trans-unit>
 			<trans-unit id="baseUrl" xml:space="preserve">
 				<source>URI of Service BW API: To which URI the API requests should be send?. Normally: https://sgw.service-bw.de:443/</source>
