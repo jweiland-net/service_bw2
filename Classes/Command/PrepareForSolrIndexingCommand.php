@@ -22,6 +22,7 @@ use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -37,6 +38,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Command to prepare service_bw2 records for EXT:solr index
  */
+#[AsCommand(
+    name: 'servicebw:preparesolrindex',
+    description: 'Prepare records of service_bw2 to be indexed by EXT:solr',
+)]
 class PrepareForSolrIndexingCommand extends Command
 {
     public function __construct(

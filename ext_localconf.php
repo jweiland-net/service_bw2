@@ -111,29 +111,5 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['LOG']['JWeiland']['ServiceBw2']['writerC
     ];
 }
 
-// Register caches for requests to Service BW API.
-// Set group to system. So, pages cache can be flushed, without lost of Service BW data.
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_request'] = [
-    'frontend' => VariableFrontend::class,
-    'backend' => Typo3DatabaseBackend::class,
-    'options' => [],
-    'groups' => [
-        0 => 'system',
-    ],
-];
-
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['servicebw_additionalstuff'] = [
-    'frontend' => VariableFrontend::class,
-    'backend' => Typo3DatabaseBackend::class,
-    'options' => [],
-    'groups' => [
-        0 => 'system',
-    ],
-];
-
-// Remove sys_registry entry, if System Cache was cleared, to allow switching the Authentication
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['servicebw2_clearcache']
-    = ClearCacheHook::class . '->clearCachePostProc';
-
 // Register an Aspect to map various ID of Service BW API to uid-title
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ServiceBwTitleMapper'] = ServiceBwTitleMapper::class;

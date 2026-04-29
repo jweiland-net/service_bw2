@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\ViewHelpers;
 
-use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**

@@ -18,6 +18,7 @@ use JWeiland\ServiceBw2\Domain\Provider\ProviderInterface;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,6 +29,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Configurable command to warmup caches of Service BW
  */
+#[AsCommand(
+    name: 'servicebw:cachewarmup',
+    description: 'Warmup the caches of Service BW to improve loading times',
+)]
 class CacheWarmupCommand extends Command
 {
     public function __construct(
