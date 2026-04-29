@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Exception;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -26,55 +28,77 @@ abstract readonly class AbstractRepository implements RepositoryInterface
         protected ConnectionPool $connectionPool,
     ) {}
 
-    public function findById(int $id): ?array
+    public function findById(int $id): ?Record
     {
         $queryBuilder = $this->getQueryBuilder();
 
-        $record = $queryBuilder
-            ->select('*')
-            ->from(self::TABLE)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'id',
-                    $queryBuilder->createNamedParameter($id, Connection::PARAM_INT),
-                ),
-                $queryBuilder->expr()->eq(
-                    'type',
-                    $queryBuilder->createNamedParameter(static::CONTROLLER_TYPE),
-                ),
-            )
-            ->executeQuery()
-            ->fetchOne();
+        try {
+            $record = $queryBuilder
+                ->select('*')
+                ->from(self::TABLE)
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'id',
+                        $queryBuilder->createNamedParameter($id, Connection::PARAM_INT),
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'type',
+                        $queryBuilder->createNamedParameter(static::CONTROLLER_TYPE),
+                    ),
+                )
+                ->executeQuery()
+                ->fetchOne();
+        } catch (Exception $e) {
+            return null;
+        }
 
-        return is_array($record) ? $record : null;
+        if (!is_array($record)) {
+            return null;
+        }
+
+        return new Record(
+            $record['id'],
+            $record['name'],
+            $record['type'],
+            $record['language'],
+            json_decode($record['data'], true),
+        );
     }
 
     public function hasId(int $id): bool
     {
         $queryBuilder = $this->getQueryBuilder();
 
-        return (bool)$queryBuilder
-            ->count('id')
-            ->from(self::TABLE)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'id',
-                    $queryBuilder->createNamedParameter($id, Connection::PARAM_INT),
-                ),
-                $queryBuilder->expr()->eq(
-                    'type',
-                    $queryBuilder->createNamedParameter(static::CONTROLLER_TYPE),
-                ),
-            )
-            ->executeQuery()
-            ->fetchOne();
+        try {
+            return (bool)$queryBuilder
+                ->count('id')
+                ->from(self::TABLE)
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'id',
+                        $queryBuilder->createNamedParameter($id, Connection::PARAM_INT),
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'type',
+                        $queryBuilder->createNamedParameter(static::CONTROLLER_TYPE),
+                    ),
+                )
+                ->executeQuery()
+                ->fetchOne();
+        } catch (Exception $e) {
+        }
+
+        return false;
     }
 
+    /**
+     * @return Record[]
+     */
     public function findAll(string $language): array
     {
         $queryBuilder = $this->getQueryBuilder();
 
-        return $queryBuilder
+        $queryResult = $queryBuilder
             ->select('*')
             ->from(self::TABLE)
             ->where(
@@ -83,8 +107,23 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                     $queryBuilder->createNamedParameter(static::CONTROLLER_TYPE),
                 ),
             )
-            ->executeQuery()
-            ->fetchAllAssociative();
+            ->executeQuery();
+
+        $records = [];
+        try {
+            while ($record = $queryResult->fetchAssociative()) {
+                $records[] = new Record(
+                    $record['id'],
+                    $record['name'],
+                    $record['type'],
+                    $record['language'],
+                    json_decode($record['data'], true),
+                );
+            }
+        } catch (Exception) {
+        }
+
+        return $records;
     }
 
     public function addOrUpdate(array $record, string $language): void

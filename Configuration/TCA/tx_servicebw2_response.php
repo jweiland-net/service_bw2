@@ -24,7 +24,8 @@ return [
         'id' => [
             'label' => 'ID',
             'config' => [
-                'type' => 'input',
+                'type' => 'number',
+                'format' => 'integer',
                 'size' => 30,
             ],
         ],

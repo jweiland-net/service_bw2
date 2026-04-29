@@ -11,11 +11,13 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
+
 interface RepositoryInterface
 {
     public const CONTROLLER_TYPE = 'INVALID';
 
-    public function findById(int $id): ?array;
+    public function findById(int $id): ?Record;
 
     public function hasId(int $id): bool;
 

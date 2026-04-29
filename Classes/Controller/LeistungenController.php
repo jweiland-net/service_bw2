@@ -12,20 +12,24 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
-use JWeiland\ServiceBw2\Utility\AlphabeticalIndexUtility;
+use JWeiland\ServiceBw2\Helper\LanguageHelper;
+use JWeiland\ServiceBw2\Service\AlphabeticalIndexService;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 class LeistungenController extends AbstractController
 {
     public function __construct(
         protected LeistungenRepository $leistungenRepository,
+        protected LanguageHelper $languageHelper,
+        protected AlphabeticalIndexService $alphabeticalIndexService,
     ) {}
 
     public function showAction(int $id): ResponseInterface
     {
         $leistung = $this->leistungenRepository->findById($id);
 
-        if ($leistung === []) {
+        if ($leistung === null) {
             $this->addFlashMessage('Requested Leistung could not be found for current language');
         } else {
             $this->setPageTitle($leistung['name'] ?? '');
@@ -37,18 +41,23 @@ class LeistungenController extends AbstractController
 
     public function listAction(): ResponseInterface
     {
-        $sortedLetterList = [];
-        $sortedRecordList = [];
-        AlphabeticalIndexUtility::createAlphabeticalIndex(
-            $this->leistungenRepository->findAll(),
+        $alphabeticalIndex = $this->alphabeticalIndexService->createAlphabeticalIndex(
+            $this->leistungenRepository->findAll(
+                $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request),
+            ),
             'name',
-            $sortedLetterList,
-            $sortedRecordList,
         );
 
-        $this->view->assign('sortedLetterList', $sortedLetterList);
-        $this->view->assign('sortedRecordList', $sortedRecordList);
+        $this->view->assignMultiple([
+            'alphabeticalIndex' => $alphabeticalIndex,
+            'request' => $this->request->getAttribute('extbase'),
+        ]);
 
         return $this->htmlResponse();
+    }
+
+    protected function getSiteLanguage(): SiteLanguage
+    {
+        return $this->request->getAttribute('language');
     }
 }
