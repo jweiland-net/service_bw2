@@ -32,7 +32,7 @@ class LeistungenController extends AbstractController
         if ($record === null) {
             $this->addFlashMessage('Requested Leistung could not be found for current language');
         } else {
-            $this->setPageTitle($record['name'] ?? '');
+            $this->setPageTitle($record->getName());
             $this->view->assign('leistung', $record);
         }
 
