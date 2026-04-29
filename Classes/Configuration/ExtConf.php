@@ -105,7 +105,7 @@ readonly class ExtConf implements SingletonInterface
         $languageConfigurations = GeneralUtility::trimExplode(';', $languagesToProcess, true);
         foreach ($languageConfigurations as $languageConfiguration) {
             [$typo3LanguageCode, $serviceBwLanguageCode] = explode('=', $languageConfiguration);
-            $allowedLanguages[$typo3LanguageCode] = (int)$serviceBwLanguageCode;
+            $allowedLanguages[$typo3LanguageCode] = $serviceBwLanguageCode;
         }
 
         return $allowedLanguages;
