@@ -70,7 +70,7 @@ class CacheWarmupCommand extends Command
                 'locales',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Comma separated list of locales for warmup e.g. "de,en,fr". All allowed languages will be used by default!',
+                'Comma-separated list of Service BW language codes to warm up, e.g. "de,en,fr". If omitted or invalid, all allowed Service BW languages will be used.',
             );
     }
 
