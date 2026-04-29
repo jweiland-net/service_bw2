@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the package jweiland/service_bw2.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
+namespace JWeiland\ServiceBw2\Client\Request\Portal;
+
+use JWeiland\ServiceBw2\Client\Request\RequestInterface;
+
+final readonly class Organisationseinheitsdetails implements RequestInterface
+{
+    public const SUPPORTS_PAGINATION = false;
+
+    private const URL = '/portal/organisationseinheitsdetails/%s';
+
+    public function __construct(
+        private int $id,
+    ) {}
+
+    public function getUrl(): string
+    {
+        return sprintf(
+            self::URL,
+            $this->id,
+        );
+    }
+
+    public function getQuery(): array
+    {
+        // Keep "Leistungen". With "true" we not only prevent the Leistungen records,
+        // we also prevent the relation IDs of the Leistungen.
+        return [
+            'excludeLeistung' => false,
+        ];
+    }
+
+    public function getHeaders(): array
+    {
+        return [
+            'Accept' => 'application/json',
+        ];
+    }
+
+    public function getBody(): ?string
+    {
+        return null;
+    }
+}

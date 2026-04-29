@@ -1,6 +1,5 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="default"/>
@@ -11,28 +10,28 @@
             <div class="width-max">
                 <header>
                     <h1>{leistung.name}</h1>
-                    <f:if condition="{leistung.textbloecke.0.typ} == 'preamble'">
-                        <f:format.raw>{leistung.textbloecke.0.text}</f:format.raw>
+                    <f:if condition="{leistung.data.textbloecke.0.typ} == 'preamble'">
+                        <f:format.raw>{leistung.data.textbloecke.0.text}</f:format.raw>
                     </f:if>
                 </header>
             </div>
         </section>
-        <f:if condition="{leistung.formulare} || {leistung.prozesse}">
+        <f:if condition="{leistung.data.formulare} || {leistung.data.prozesse}">
             <section>
                 <div class="width-max">
-                    <f:render partial="FormulareProzesse" arguments="{formulare: leistung.formulare, prozesse: leistung.prozesse}"/>
+                    <f:render partial="FormulareProzesse" arguments="{formulare: leistung.data.formulare, prozesse: leistung.data.prozesse}"/>
                 </div>
             </section>
         </f:if>
-        <f:if condition="{leistung.organisationseinheiten}">
+        <f:if condition="{leistung.data.organisationseinheiten}">
             <section>
                 <div class="width-max">
                     <h2><f:translate key="leistungen.organisationseinheiten.head"/></h2>
-                    <f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: leistung.organisationseinheiten}"/>
+                    <f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: leistung.data.organisationseinheiten}"/>
                 </div>
             </section>
         </f:if>
-        <f:render partial="Textbloecke" arguments="{textbloecke: leistung.textbloecke, exclude: 'preamble'}"/>
+        <f:render partial="Textbloecke" arguments="{textbloecke: leistung.data.textbloecke, exclude: 'preamble'}"/>
     </div>
 </f:section>
 </html>

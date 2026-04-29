@@ -13,36 +13,36 @@
     <f:render partial="Organisationseinheiten/Anschrift"
               arguments="{organisationseinheit: organisationseinheit, type: 'POSTFACH'}"/>
 </dl>
-<f:if condition="{organisationseinheit.kommunikation}">
+<f:if condition="{organisationseinheit.data.kommunikation}">
     <dl>
         <f:render partial="Organisationseinheiten/Kommunikation"
-                  arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'TELEFON'}"/>
+                  arguments="{kommunikation: organisationseinheit.data.kommunikation, kanal: 'TELEFON'}"/>
         <f:render partial="Organisationseinheiten/Kommunikation"
-                  arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'FAX'}"/>
+                  arguments="{kommunikation: organisationseinheit.data.kommunikation, kanal: 'FAX'}"/>
         <f:render partial="Organisationseinheiten/Kommunikation"
-                  arguments="{kommunikation: organisationseinheit.kommunikation, kanal: 'EMAIL'}"/>
+                  arguments="{kommunikation: organisationseinheit.data.kommunikation, kanal: 'EMAIL'}"/>
     </dl>
 </f:if>
 
-<f:if condition="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert} || {organisationseinheit.oeffnungszeiten.text}">
+<f:if condition="{organisationseinheit.data.oeffnungszeiten.oeffnungszeitenStrukturiert} || {organisationseinheit.data.oeffnungszeiten.text}">
     <f:comment><!--
 		This is a very weird system! Sometimes there is just the old "migrated" openingHours HTML field,
 		then we use this with an unknown HTML structure. In other cases the new structuredOpeningHours field is
 		available and can be used.
 		In later versions of Service BW API this will be changed!
 	--></f:comment>
-    <f:if condition="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert}">
+    <f:if condition="{organisationseinheit.data.oeffnungszeiten.oeffnungszeitenStrukturiert}">
         <f:then>
-            <jw:openingHours oeffnungszeitenStrukturiert="{organisationseinheit.oeffnungszeiten.oeffnungszeitenStrukturiert}"/>
+            <jw:openingHours oeffnungszeitenStrukturiert="{organisationseinheit.data.oeffnungszeiten.oeffnungszeitenStrukturiert}"/>
         </f:then>
         <f:else>
-            <f:if condition="{organisationseinheit.oeffnungszeiten.text}">
+            <f:if condition="{organisationseinheit.data.oeffnungszeiten.text}">
                 <dl>
                     <dt>
-                        <f:translate key="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT"/>
+                        <f:translate key="organisationseinheit.data.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT"/>
                     </dt>
                     <dd class="opening-hours">
-                        <f:format.html>{organisationseinheit.oeffnungszeiten.text}</f:format.html>
+                        <f:format.html>{organisationseinheit.data.oeffnungszeiten.text}</f:format.html>
                     </dd>
                 </dl>
             </f:if>

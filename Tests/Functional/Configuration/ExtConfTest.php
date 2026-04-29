@@ -29,58 +29,6 @@ class ExtConfTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getUsernameInitiallyReturnsEmptyString()
-    {
-        $config = [];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            '',
-            $subject->getUsername(),
-        );
-    }
-
-    #[Test]
-    public function setUsernameSetsUsername()
-    {
-        $config = [
-            'username' => 'jweiland',
-        ];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            'jweiland',
-            $subject->getUsername(),
-        );
-    }
-
-    #[Test]
-    public function getPasswordInitiallyReturnsEmptyString()
-    {
-        $config = [];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            '',
-            $subject->getPassword(),
-        );
-    }
-
-    #[Test]
-    public function setPasswordSetsPassword()
-    {
-        $config = [
-            'password' => 'crypted',
-        ];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            'crypted',
-            $subject->getPassword(),
-        );
-    }
-
-    #[Test]
     public function getMandantInitiallyReturnsEmptyString()
     {
         $config = [];
@@ -103,6 +51,32 @@ class ExtConfTest extends FunctionalTestCase
         self::assertSame(
             'jweiland.net',
             $subject->getMandant(),
+        );
+    }
+
+    #[Test]
+    public function getTokenInitiallyReturnsEmptyString()
+    {
+        $config = [];
+        $subject = new ExtConf(...$config);
+
+        self::assertSame(
+            '',
+            $subject->getToken(),
+        );
+    }
+
+    #[Test]
+    public function setTokenSetsToken()
+    {
+        $config = [
+            'token' => 'Bearer abc',
+        ];
+        $subject = new ExtConf(...$config);
+
+        self::assertSame(
+            'Bearer abc',
+            $subject->getToken(),
         );
     }
 
@@ -133,7 +107,7 @@ class ExtConfTest extends FunctionalTestCase
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -187,7 +161,7 @@ class ExtConfTest extends FunctionalTestCase
     ) {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -219,7 +193,7 @@ class ExtConfTest extends FunctionalTestCase
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([

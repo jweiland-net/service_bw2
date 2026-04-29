@@ -27,19 +27,17 @@ readonly class ExtConf implements SingletonInterface
     private const EXT_KEY = 'service_bw2';
 
     private const DEFAULT_SETTINGS = [
-        'username' => '',
-        'password' => '',
         'mandant' => '',
-        'baseUrl' => 'https://sgw.service-bw.de:443/',
-        'allowedLanguages' => 'de=0;en=1;fr=2',
+        'token' => '',
+        'baseUrl' => 'https://sgw.service-bw.de:443/rest-v2/api/',
+        'allowedLanguages' => 'de=de;en=en;fr=fr',
         'ags' => 0,
         'gebietId' => '',
     ];
 
     public function __construct(
-        private string $username = self::DEFAULT_SETTINGS['username'],
-        private string $password = self::DEFAULT_SETTINGS['password'],
         private string $mandant = self::DEFAULT_SETTINGS['mandant'],
+        private string $token = self::DEFAULT_SETTINGS['token'],
         private string $baseUrl = self::DEFAULT_SETTINGS['baseUrl'],
         private string $allowedLanguages = self::DEFAULT_SETTINGS['allowedLanguages'],
         private int $ags = self::DEFAULT_SETTINGS['ags'],
@@ -60,9 +58,8 @@ readonly class ExtConf implements SingletonInterface
         }
 
         return new self(
-            username: (string)$extensionSettings['username'],
-            password: (string)$extensionSettings['password'],
             mandant: (string)$extensionSettings['mandant'],
+            token: (string)$extensionSettings['token'],
             baseUrl: $extensionSettings['baseUrl'],
             allowedLanguages: (string)$extensionSettings['allowedLanguages'],
 
@@ -73,19 +70,14 @@ readonly class ExtConf implements SingletonInterface
         );
     }
 
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
     public function getMandant(): string
     {
         return $this->mandant;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
     }
 
     public function getBaseUrl(): string
@@ -93,19 +85,27 @@ readonly class ExtConf implements SingletonInterface
         return rtrim(trim((string)$this->baseUrl), '/');
     }
 
+    /**
+     * Returns allowed languages mapped from Service BW language codes to configured TYPO3 language codes.
+     *
+     * The array key contains the language code of the configured TYPO3 language, and the
+     * array value contains the Service BW language code.
+     *
+     * @return array<string, string>
+     */
     public function getAllowedLanguages(): array
     {
         // The first assigned language is the default language
         $languagesToProcess = $this->allowedLanguages;
-        if (!preg_match('@^([a-z]{2,2}=\d+;?)+$@', $this->allowedLanguages)) {
+        if (!preg_match('@^([a-z]{2,2}=[a-z]{2,2};?)+$@', $this->allowedLanguages)) {
             $languagesToProcess = self::DEFAULT_SETTINGS['allowedLanguages'];
         }
 
         $allowedLanguages = [];
         $languageConfigurations = GeneralUtility::trimExplode(';', $languagesToProcess, true);
         foreach ($languageConfigurations as $languageConfiguration) {
-            [$language, $sysLanguageUid] = explode('=', $languageConfiguration);
-            $allowedLanguages[$language] = (int)$sysLanguageUid;
+            [$typo3LanguageCode, $serviceBwLanguageCode] = explode('=', $languageConfiguration);
+            $allowedLanguages[$typo3LanguageCode] = $serviceBwLanguageCode;
         }
 
         return $allowedLanguages;

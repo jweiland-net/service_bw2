@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
 use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
-use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -112,7 +111,7 @@ class ServiceBwClientTest extends FunctionalTestCase
     ): void {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -138,7 +137,7 @@ class ServiceBwClientTest extends FunctionalTestCase
 
         $requestFactoryMock = $this->createMock(RequestFactory::class);
         $requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->with(
                 self::anything(),
@@ -164,7 +163,6 @@ class ServiceBwClientTest extends FunctionalTestCase
             $extConf,
             GeneralUtility::makeInstance(EventDispatcher::class),
             GeneralUtility::makeInstance(LocalizationHelper::class),
-            self::createStub(TokenHelper::class),
             self::createStub(VariableFrontend::class),
             self::createStub(Logger::class),
         );

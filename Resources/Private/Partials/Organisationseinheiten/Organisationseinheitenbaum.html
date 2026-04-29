@@ -7,8 +7,9 @@
         <f:link.action pageUid="{pageUid}" pluginName="OrganizationalUnitsShow" arguments="{id: organisationseinheitenbaum.id}" action="show">
             {organisationseinheitenbaum.name}
         </f:link.action>
-        <f:if condition="{organisationseinheitenbaum.untergeordneteOrganisationseinheiten}">
-            <f:for each="{organisationseinheitenbaum.untergeordneteOrganisationseinheiten}" as="organisationseinheitenbaumItem">
+
+        <f:if condition="{organisationseinheitenbaum.data.untergeordneteOrganisationseinheiten}">
+            <f:for each="{organisationseinheitenbaum.data.untergeordneteOrganisationseinheiten}" as="organisationseinheitenbaumItem">
                 <f:render partial="Organisationseinheiten/Organisationseinheitenbaum" arguments="{organisationseinheitenbaum: organisationseinheitenbaumItem, pageUid: pageUid, noClass: 'true'}"/>
             </f:for>
         </f:if>
