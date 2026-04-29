@@ -13,7 +13,7 @@
 				<source>URI of Service BW API: To which URI the API requests should be send?. Normally: https://sgw.service-bw.de:443/</source>
 			</trans-unit>
 			<trans-unit id="allowedLanguages" xml:space="preserve">
-				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</source>
+				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code of Service BW]=[2 letters language ISO code of TYPO3 locale]. Assign multiple languages with ";". Example: de=de;en=en. First value will be used as default language</source>
 			</trans-unit>
 			<trans-unit id="gebietId">
 				<source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>

@@ -16,8 +16,8 @@
 				<target>URI der Service BW API: An welche URI sollen die Anfragen geschickt werden?. Normalerweise: https://sgw.service-bw.de:443/</target>
 			</trans-unit>
 			<trans-unit id="allowedLanguages" xml:space="preserve">
-				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code]=0. Assign multiple languages with ";". Example: de=0;en=0. First value will be used as default language. The zero is present for compatibility reasons.</source>
-				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code]=0. Angabe mehrer Sprachen mit ";". Beispiel: de=0;en=0. Der erste Wert wird immer als Standardwert verwendet. Die null ist nur noch aus Kompatibilitätsgründen notwendig.</target>
+				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code of Service BW]=[2 letters language ISO code of TYPO3 locale]. Assign multiple languages with ";". Example: de=de;en=en. First value will be used as default language</source>
+				<target>Erlaubt Sprachen: Welche Sprachen sollen die verfügbaren Daten abgerufen werden? Format: [2 Zeichen für Sprachen ISO code aus Service BW]=[2 Zeichen für Sprachen ISO code aus TYPO3 Locales]. Angabe mehrer Sprachen mit ";". Beispiel: de=de;en=en. Der erste Wert wird immer als Standardwert verwendet.</target>
 			</trans-unit>
 			<trans-unit id="gebietId">
 				<source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
