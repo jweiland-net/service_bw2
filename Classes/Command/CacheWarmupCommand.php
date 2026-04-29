@@ -146,7 +146,7 @@ class CacheWarmupCommand extends Command
                 unset($existingIds[$id]);
             }
 
-            $this->deleteStaleRecords($existingIds, $repository, $io);
+            $this->deleteStaleRecords($existingIds, $language, $repository, $io);
         } catch (\Throwable $throwable) {
             $this->logger->error(
                 sprintf(
@@ -179,17 +179,19 @@ class CacheWarmupCommand extends Command
 
     protected function deleteStaleRecords(
         array $staleRecords,
+        string $language,
         RepositoryInterface $repository,
         SymfonyStyle $io,
     ): void {
         if ($staleRecords !== []) {
             $io->writeln(sprintf(
-                '    <comment>↯</comment> Deleting <comment>%d</comment> stale record(s): <comment>%s</comment>',
+                '    <comment>↯</comment> Deleting <comment>%d</comment> stale record(s) for language <comment>%s</comment>: <comment>%s</comment>',
                 count($staleRecords),
+                $language,
                 implode(', ', array_keys($staleRecords)),
             ));
 
-            $repository->deleteIds(array_keys($staleRecords));
+            $repository->deleteIds(array_keys($staleRecords), $language);
         }
     }
 }
