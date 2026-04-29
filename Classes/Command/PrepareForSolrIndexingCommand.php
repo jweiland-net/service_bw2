@@ -20,7 +20,7 @@ use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
-use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
+use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -44,6 +44,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 )]
 class PrepareForSolrIndexingCommand extends Command
 {
+    use FilterOrganisationseinheitenTrait;
+
     public function __construct(
         protected readonly LoggerInterface $logger,
         protected readonly RepositoryFactory $repositoryFactory,
@@ -89,7 +91,7 @@ class PrepareForSolrIndexingCommand extends Command
 
         if ($repository::class === OrganisationseinheitenRepository::class) {
             if ($input->getOption('content-uid')) {
-                $recordList = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
+                $recordList = $this->filterOrganisationseinheitenByParentIds(
                     $recordList,
                     $this->getInitialRecords((int)$input->getOption('content-uid')),
                 );

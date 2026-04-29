@@ -9,15 +9,15 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\ServiceBw2\Utility;
+namespace JWeiland\ServiceBw2\Traits;
 
-readonly class ServiceBwUtility
+trait FilterOrganisationseinheitenTrait
 {
     /**
      * This method filters the organisationseinheiten tree by passed parent ids. All matching parents
      * will be added to the result arrays root including all of their children.
      */
-    public static function filterOrganisationseinheitenByParentIds(
+    protected function filterOrganisationseinheitenByParentIds(
         array $organisationseinheiten,
         array $allowedParentIds,
         int $maxDepth = 2,

@@ -12,11 +12,13 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
-use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
+use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Http\Message\ResponseInterface;
 
 class OrganisationseinheitenController extends AbstractController
 {
+    use FilterOrganisationseinheitenTrait;
+
     public function __construct(
         protected OrganisationseinheitenRepository $organisationseinheitenRepository,
     ) {}
@@ -34,7 +36,7 @@ class OrganisationseinheitenController extends AbstractController
             $listItems = [];
         }
 
-        $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
+        $records = $this->filterOrganisationseinheitenByParentIds(
             $this->organisationseinheitenRepository->findOrganisationseinheitenbaum(),
             $listItems,
         );
