@@ -47,7 +47,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                     ),
                 )
                 ->executeQuery()
-                ->fetchOne();
+                ->fetchAssociative();
         } catch (Exception $e) {
             return null;
         }
