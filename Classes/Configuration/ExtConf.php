@@ -30,7 +30,7 @@ readonly class ExtConf implements SingletonInterface
         'mandant' => '',
         'token' => '',
         'baseUrl' => 'https://sgw.service-bw.de:443/rest-v2/api/',
-        'allowedLanguages' => 'de=0;en=1;fr=2',
+        'allowedLanguages' => 'de=de;en=en;fr=fr',
         'ags' => 0,
         'gebietId' => '',
     ];
@@ -85,19 +85,27 @@ readonly class ExtConf implements SingletonInterface
         return rtrim(trim((string)$this->baseUrl), '/');
     }
 
+    /**
+     * Returns allowed languages mapped from Service BW language codes to configured TYPO3 language codes.
+     *
+     * The array key contains the language code of the configured TYPO3 language, and the
+     * array value contains the Service BW language code.
+     *
+     * @return array<string, string>
+     */
     public function getAllowedLanguages(): array
     {
         // The first assigned language is the default language
         $languagesToProcess = $this->allowedLanguages;
-        if (!preg_match('@^([a-z]{2,2}=\d+;?)+$@', $this->allowedLanguages)) {
+        if (!preg_match('@^([a-z]{2,2}=[a-z]{2,2};?)+$@', $this->allowedLanguages)) {
             $languagesToProcess = self::DEFAULT_SETTINGS['allowedLanguages'];
         }
 
         $allowedLanguages = [];
         $languageConfigurations = GeneralUtility::trimExplode(';', $languagesToProcess, true);
         foreach ($languageConfigurations as $languageConfiguration) {
-            [$language, $sysLanguageUid] = explode('=', $languageConfiguration);
-            $allowedLanguages[$language] = (int)$sysLanguageUid;
+            [$typo3LanguageCode, $serviceBwLanguageCode] = explode('=', $languageConfiguration);
+            $allowedLanguages[$typo3LanguageCode] = (int)$serviceBwLanguageCode;
         }
 
         return $allowedLanguages;
