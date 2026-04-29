@@ -140,7 +140,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
             ->fetchFirstColumn();
     }
 
-    public function deleteIds(array $ids): void
+    public function deleteIds(array $ids, string $language): void
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -150,6 +150,10 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                 $queryBuilder->expr()->in(
                     'id',
                     $queryBuilder->createNamedParameter($ids, ArrayParameterType::INTEGER),
+                ),
+                $queryBuilder->expr()->eq(
+                    'language',
+                    $queryBuilder->createNamedParameter($language),
                 ),
             )
             ->executeStatement();

@@ -25,5 +25,5 @@ interface RepositoryInterface
 
     public function getAllIds(string $language): array;
 
-    public function deleteIds(array $ids): void;
+    public function deleteIds(array $ids, string $language): void;
 }
