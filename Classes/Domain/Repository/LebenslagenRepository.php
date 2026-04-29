@@ -11,39 +11,12 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
-use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(
     name: 'service-bw2.repository',
 )]
-readonly class LebenslagenRepository implements RepositoryInterface
+readonly class LebenslagenRepository extends AbstractRepository implements RepositoryInterface
 {
     public const CONTROLLER_TYPE = 'lebenslagen';
-
-    public function __construct(
-        protected ServiceBwClient $client,
-    ) {}
-
-    public function findById(int $id): array
-    {
-        return $this->client->request('/portal/lebenslagendetails/' . $id);
-    }
-
-    public function findAll(): array
-    {
-        return $this->client->request('/portal/lebenslagen', [], true, true);
-    }
-
-    public function findLebenslagenbaum(?int $ebenen = null): array
-    {
-        return $this->client->request(
-            '/portal/lebenslagen/lebenslagenbaum',
-            [
-                'ebenen' => $ebenen,
-            ],
-            true,
-            true,
-        );
-    }
 }

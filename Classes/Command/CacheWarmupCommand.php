@@ -12,17 +12,17 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Command;
 
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
+use JWeiland\ServiceBw2\Domain\Provider\ProviderFactory;
+use JWeiland\ServiceBw2\Domain\Provider\ProviderInterface;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use TYPO3\CMS\Core\Http\ServerRequest;
-use TYPO3\CMS\Core\Http\Uri;
-use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -32,7 +32,9 @@ class CacheWarmupCommand extends Command
 {
     public function __construct(
         protected ExtConf $extConf,
+        protected ProviderFactory $providerFactory,
         protected RepositoryFactory $repositoryFactory,
+        protected LoggerInterface $logger,
     ) {
         parent::__construct();
     }
@@ -44,23 +46,20 @@ class CacheWarmupCommand extends Command
             ->addOption(
                 'include-lebenslagen',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 'Warmup caches of Lebenslagen (Life situations)',
-                true,
             )
             ->addOption(
                 'include-leistungen',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 'Warmup caches of Leistungen (Services)',
-                true,
             )
             ->addOption(
                 'include-organisationseinheiten',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 'Warmup caches of Organisationseinheiten (Organisational units)',
-                true,
             )
             ->addOption(
                 'locales',
@@ -72,15 +71,14 @@ class CacheWarmupCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        foreach ($this->getLanguages($input) as $language2letterIsoCode) {
-            $output->writeln('Language for further requests: ' . $language2letterIsoCode);
+        $io = new SymfonyStyle($input, $output);
 
-            // We're using the ServerRequest for the SiteLanguage only! Maybe use an alternative way in later versions
-            $GLOBALS['TYPO3_REQUEST'] = $this->getTypo3Request($language2letterIsoCode);
+        foreach ($this->getLanguages($input) as $language) {
+            $io->section('Language for current cache warmup: ' . $language);
 
-            foreach ($this->repositoryFactory->getRepositories() as $repository) {
-                if ($input->getOption('include-' . $repository::CONTROLLER_TYPE)) {
-                    $this->warmupType($repository, $output);
+            foreach ($this->providerFactory->getProviders() as $provider) {
+                if ($input->getOption('include-' . $provider::CONTROLLER_TYPE)) {
+                    $this->warmupType($provider, $language, $io);
                 }
             }
         }
@@ -93,46 +91,105 @@ class CacheWarmupCommand extends Command
      */
     protected function getLanguages(InputInterface $input): array
     {
-        $configuredLanguages = GeneralUtility::trimExplode(
+        $allAllowedLanguages = array_keys($this->extConf->getAllowedLanguages());
+        $requestedLanguages = GeneralUtility::trimExplode(
             ',',
             (string)$input->getOption('locales'),
             true,
         );
 
-        // If no languages are configured for command, use all allowed languages configured in extension settings
-        return $configuredLanguages ?: array_keys($this->extConf->getAllowedLanguages());
-    }
-
-    protected function getTypo3Request(string $language2letterIsoCode): ServerRequestInterface
-    {
-        $typo3Request = new ServerRequest();
-
-        $siteLanguage = GeneralUtility::makeInstance(
-            SiteLanguage::class,
-            1,
-            $language2letterIsoCode,
-            GeneralUtility::makeInstance(Uri::class, '/' . $language2letterIsoCode),
-            ['iso-639-1' => $language2letterIsoCode],
+        $allowedLanguages = array_intersect(
+            $requestedLanguages,
+            $allAllowedLanguages,
         );
 
-        return $typo3Request->withAttribute('language', $siteLanguage);
-    }
-
-    protected function warmupType(RepositoryInterface $repository, OutputInterface $output): void
-    {
-        $output->writeln('Warmup caches for "' . get_class($repository) . '"');
-
-        $allRecords = $repository->findAll();
-
-        $progressBar = new ProgressBar($output, count($allRecords));
-        $progressBar->start();
-        foreach ($allRecords as $record) {
-            $repository->findById($record['id']);
-            $progressBar->advance();
+        if ($allowedLanguages === []) {
+            $allowedLanguages = $allAllowedLanguages;
         }
 
-        $progressBar->finish();
+        return $allowedLanguages;
+    }
 
-        $output->writeln('');
+    protected function warmupType(
+        ProviderInterface $provider,
+        string $language,
+        SymfonyStyle $io,
+    ): void {
+        $io->writeln(sprintf(
+            '  <info>→</info> Warmup caches for <comment>%s</comment>',
+            $provider::CONTROLLER_TYPE,
+        ));
+
+        $repository = $this->repositoryFactory->getRepository(
+            ControllerTypeEnum::from($provider::CONTROLLER_TYPE),
+        );
+
+        $existingIds = array_flip($repository->getAllIds($language));
+
+        try {
+            foreach ($provider->findAll($language) as $id => $record) {
+                $record = $provider->findById($id, $language);
+                if ($record === []) {
+                    continue;
+                }
+
+                if ($io->isVerbose()) {
+                    $io->writeln(sprintf(
+                        '    <info>➜</info> ID <comment>%s</comment>, name <comment>%s</comment>',
+                        $id,
+                        $record['name'] ?? '[no name]',
+                    ));
+                }
+
+                $repository->addOrUpdate($record, $language);
+
+                unset($existingIds[$id]);
+            }
+
+            $this->deleteStaleRecords($existingIds, $repository, $io);
+        } catch (\Throwable $throwable) {
+            $this->logger->error(
+                sprintf(
+                    'Cache warmup failed for type "%s" and language "%s": %s',
+                    $provider::CONTROLLER_TYPE,
+                    $language,
+                    $throwable->getMessage(),
+                ),
+                [
+                    'controllerType' => $provider::CONTROLLER_TYPE,
+                    'language' => $language,
+                    'exceptionClass' => $throwable::class,
+                    'exceptionCode' => $throwable->getCode(),
+                    'exceptionFile' => $throwable->getFile(),
+                    'exceptionLine' => $throwable->getLine(),
+                    'trace' => $throwable->getTraceAsString(),
+                ],
+            );
+
+            if ($io->isVerbose()) {
+                $io->error(sprintf(
+                    'Cache warmup failed for type "%s" and language "%s": %s',
+                    $provider::CONTROLLER_TYPE,
+                    $language,
+                    $throwable->getMessage(),
+                ));
+            }
+        }
+    }
+
+    protected function deleteStaleRecords(
+        array $staleRecords,
+        RepositoryInterface $repository,
+        SymfonyStyle $io,
+    ): void {
+        if ($staleRecords !== []) {
+            $io->writeln(sprintf(
+                '    <comment>↯</comment> Deleting <comment>%d</comment> stale record(s): <comment>%s</comment>',
+                count($staleRecords),
+                implode(', ', array_keys($staleRecords)),
+            ));
+
+            $repository->deleteIds(array_keys($staleRecords));
+        }
     }
 }

@@ -11,32 +11,12 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
-use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(
     name: 'service-bw2.repository',
 )]
-readonly class OrganisationseinheitenRepository implements RepositoryInterface
+readonly class OrganisationseinheitenRepository extends AbstractRepository implements RepositoryInterface
 {
     public const CONTROLLER_TYPE = 'organisationseinheiten';
-
-    public function __construct(
-        protected ServiceBwClient $client,
-    ) {}
-
-    public function findById(int $id): array
-    {
-        return $this->client->request('/portal/organisationseinheitsdetails/' . $id);
-    }
-
-    public function findAll(): array
-    {
-        return $this->client->request('/portal/organisationseinheiten', [], true, true);
-    }
-
-    public function findOrganisationseinheitenbaum(): array
-    {
-        return $this->client->request('/portal/organisationseinheitenbaum', [], true, true);
-    }
 }

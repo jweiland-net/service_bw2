@@ -15,7 +15,15 @@ interface RepositoryInterface
 {
     public const CONTROLLER_TYPE = 'INVALID';
 
-    public function findById(int $id): array;
+    public function findById(int $id): ?array;
 
-    public function findAll(): array;
+    public function hasId(int $id): bool;
+
+    public function findAll(string $language): array;
+
+    public function addOrUpdate(array $record, string $language): void;
+
+    public function getAllIds(string $language): array;
+
+    public function deleteIds(array $ids): void;
 }

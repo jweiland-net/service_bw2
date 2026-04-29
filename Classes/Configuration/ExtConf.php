@@ -29,7 +29,7 @@ readonly class ExtConf implements SingletonInterface
     private const DEFAULT_SETTINGS = [
         'mandant' => '',
         'token' => '',
-        'baseUrl' => 'https://sgw.service-bw.de:443/',
+        'baseUrl' => 'https://sgw.service-bw.de:443/rest-v2/api/',
         'allowedLanguages' => 'de=0;en=1;fr=2',
         'ags' => 0,
         'gebietId' => '',

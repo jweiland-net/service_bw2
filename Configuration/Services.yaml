@@ -12,15 +12,6 @@ services:
     factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
     arguments: ['servicebw_additionalstuff']
 
-  cache.servicebw_request:
-    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
-    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
-    arguments: ['servicebw_request']
-
-  JWeiland\ServiceBw2\Client\ServiceBwClient:
-    arguments:
-      $cache: '@cache.servicebw_request'
-
   JWeiland\ServiceBw2\Command\CacheWarmupCommand:
     tags:
       - name: 'console.command'
@@ -41,6 +32,12 @@ services:
   # Will be called by GeneralUtility::makeInstance in a hook of DataHandler
   JWeiland\ServiceBw2\Hook\ClearCacheHook:
     public: true
+
+  # To allow GeneralUtility::makeInstance
+  JWeiland\ServiceBw2\Domain\Provider\ProviderFactory:
+    public: true
+    arguments:
+      $providers: !tagged_iterator { tag: 'service-bw2.provider' }
 
   # To allow GeneralUtility::makeInstance
   JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory:

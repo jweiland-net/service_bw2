@@ -3,7 +3,7 @@ mandant =
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:token
 token =
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:baseUrl
-baseUrl = https://sgw.service-bw.de:443/
+baseUrl = https://sgw.service-bw.de:443/rest-v2/api/
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:allowedLanguages
 allowedLanguages = de=0;en=1;fr=2
 # cat=basic; type=string; label=LLL:EXT:service_bw2/Resources/Private/Language/ExtConf.xlf:ags
