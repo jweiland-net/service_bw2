@@ -7,7 +7,7 @@
 <f:section name="main">
     <div class="grid">
         <div class="col-12">
-            <h1>{organisationseinheit.name}</h1>
+            <h1>{organisationseinheit.data.name}</h1>
         </div>
         <aside class="col-4_md-12">
             <div class="infobox">
@@ -15,19 +15,19 @@
             </div>
         </aside>
         <div class="col-8_md-12 float-right">
-            <f:render partial="Textbloecke" arguments="{textbloecke: organisationseinheit.textbloecke}"/>
-            <f:if condition="{organisationseinheit.leistungen}">
-                <h2><f:translate key="organisationseinheit.leistungen"/></h2>
-                <f:render partial="Leistungen" arguments="{leistungen: organisationseinheit.leistungen}"/>
+            <f:render partial="Textbloecke" arguments="{textbloecke: organisationseinheit.data.textbloecke}"/>
+            <f:if condition="{organisationseinheit.data.leistungen}">
+                <h2><f:translate key="organisationseinheit.data.leistungen"/></h2>
+                <f:render partial="Leistungen" arguments="{leistungen: organisationseinheit.data.leistungen}"/>
             </f:if>
-            <f:if condition="{organisationseinheit.kontaktpersonen}">
-                <h2><f:translate key="organisationseinheit.kontaktpersonen"/></h2>
-                <f:render partial="Organisationseinheiten/Kontaktpersonen" arguments="{kontaktpersonen: organisationseinheit.kontaktpersonen}"/>
+            <f:if condition="{organisationseinheit.data.kontaktpersonen}">
+                <h2><f:translate key="organisationseinheit.data.kontaktpersonen"/></h2>
+                <f:render partial="Organisationseinheiten/Kontaktpersonen" arguments="{kontaktpersonen: organisationseinheit.data.kontaktpersonen}"/>
             </f:if>
-            <f:render partial="FormulareProzesse" arguments="{formulare: organisationseinheit.formulare}"/>
-            <f:if condition="{organisationseinheit.untergeordneteOEs}">
-                <h2><f:translate key="organisationseinheit.children"/></h2>
-                <f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit.untergeordneteOEs}"/>
+            <f:render partial="FormulareProzesse" arguments="{formulare: organisationseinheit.data.formulare}"/>
+            <f:if condition="{organisationseinheit.data.untergeordneteOEs}">
+                <h2><f:translate key="organisationseinheit.data.children"/></h2>
+                <f:render partial="Organisationseinheiten" arguments="{organisationseinheiten: organisationseinheit.data.untergeordneteOEs}"/>
             </f:if>
         </div>
         <f:if condition="{settings.organisationseinheiten.pidOfListPage}">
