@@ -30,7 +30,7 @@ class OrganisationseinheitenController extends AbstractController
                 512,
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $jsonException) {
+        } catch (\JsonException) {
             $listItems = [];
         }
 
@@ -46,13 +46,13 @@ class OrganisationseinheitenController extends AbstractController
 
     public function showAction(int $id): ResponseInterface
     {
-        $organisationseinheit = $this->organisationseinheitenRepository->findById($id);
+        $record = $this->organisationseinheitenRepository->findById($id);
 
-        if ($organisationseinheit === []) {
+        if ($record === null) {
             $this->addFlashMessage('Requested Organisationseinheit could not be found for current language');
         } else {
-            $this->setPageTitle($organisationseinheit['name'] ?? '');
-            $this->view->assign('organisationseinheit', $organisationseinheit);
+            $this->setPageTitle($record->getName());
+            $this->view->assign('organisationseinheit', $record);
         }
 
         return $this->htmlResponse();
