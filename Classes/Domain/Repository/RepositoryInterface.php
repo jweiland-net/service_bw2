@@ -21,7 +21,7 @@ interface RepositoryInterface
 
     public function hasId(int $id): bool;
 
-    public function findAll(string $language): array;
+    public function findAll(string $language): \Generator;
 
     public function addOrUpdate(array $record, string $language): void;
 

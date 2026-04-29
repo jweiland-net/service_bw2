@@ -15,7 +15,6 @@ use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use JWeiland\ServiceBw2\Service\AlphabeticalIndexService;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 class LeistungenController extends AbstractController
 {

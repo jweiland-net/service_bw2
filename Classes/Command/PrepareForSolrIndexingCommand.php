@@ -103,13 +103,14 @@ class PrepareForSolrIndexingCommand extends Command
         foreach ($this->filterAllowedLanguages($input, $this->extConf->getAllowedLanguages()) as $languageCode) {
             $io->section('Language for current cache warmup: ' . $languageCode);
 
-            $recordList = $repository->findAll($languageCode);
+            $records = $repository->findAll($languageCode);
 
             if ($repository::class === OrganisationseinheitenRepository::class) {
                 if ($input->getOption('content-uid')) {
-                    $recordList = $this->filterOrganisationseinheitenByParentIds(
-                        $recordList,
+                    $records = $this->filterOrganisationseinheitenByParentIds(
+                        $records,
                         $this->getInitialRecords((int)$input->getOption('content-uid')),
+                        $languageCode,
                     );
                 } else {
                     $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
@@ -119,14 +120,14 @@ class PrepareForSolrIndexingCommand extends Command
             }
 
             if (ExtensionManagementUtility::isLoaded('solr')) {
-                $progressBar = new ProgressBar($output, count($recordList));
+                $progressBar = new ProgressBar($output, count($records));
                 $progressBar->start();
 
                 try {
                     $solrIndexType = $input->getArgument('solr-index-type');
                     $rootPageUid = (int)$input->getArgument('root-page');
                     $solrSite = $this->getSiteRepository()->getSiteByRootPageId($rootPageUid);
-                } catch (InvalidArgumentException | SiteNotFoundException $e) {
+                } catch (InvalidArgumentException | SiteNotFoundException) {
                     return Command::INVALID;
                 }
 
@@ -141,7 +142,7 @@ class PrepareForSolrIndexingCommand extends Command
                     // The following method can take a very long time, as it retrieves details from the API call
                     // for each record. The result of each API call will be cached for better performance in the frontend.
                     // To speed up this process, you can call CacheWarmupCommand before.
-                    foreach ($this->generatorForLiveRecords($recordList, $repository) as $liveRecord) {
+                    foreach ($this->generatorForLiveRecords($records, $repository) as $liveRecord) {
                         $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
                         $progressBar->advance();
                     }

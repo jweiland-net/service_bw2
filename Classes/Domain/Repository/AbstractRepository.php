@@ -92,9 +92,9 @@ abstract readonly class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @return Record[]
+     * @return \Generator<Record>
      */
-    public function findAll(string $language): array
+    public function findAll(string $language): \Generator
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -109,10 +109,9 @@ abstract readonly class AbstractRepository implements RepositoryInterface
             )
             ->executeQuery();
 
-        $records = [];
         try {
             while ($record = $queryResult->fetchAssociative()) {
-                $records[] = new Record(
+                yield new Record(
                     $record['id'],
                     $record['name'],
                     $record['type'],
@@ -122,8 +121,6 @@ abstract readonly class AbstractRepository implements RepositoryInterface
             }
         } catch (Exception) {
         }
-
-        return $records;
     }
 
     public function addOrUpdate(array $record, string $language): void

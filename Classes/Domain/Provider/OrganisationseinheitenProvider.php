@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Domain\Provider;
 
 use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitenbaum;
 use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitsdetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(
@@ -41,8 +43,18 @@ readonly class OrganisationseinheitenProvider implements ProviderInterface
         return $this->client->requestAll($request, $language);
     }
 
-    public function findOrganisationseinheitenbaum(): array
+    public function findOrganisationseinheitenbaum(string $language): \Generator
     {
-        return $this->client->request('/portal/organisationseinheitenbaum', [], true, true);
+        $request = new Organisationseinheitenbaum();
+
+        foreach ($this->client->requestAll($request, $language) as $root) {
+            yield new Record(
+                $root['id'],
+                $root['name'],
+                '',
+                $language,
+                $root,
+            );
+        }
     }
 }

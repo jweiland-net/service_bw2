@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Http\Message\ResponseInterface;
 
@@ -21,6 +23,8 @@ class OrganisationseinheitenController extends AbstractController
 
     public function __construct(
         protected OrganisationseinheitenRepository $organisationseinheitenRepository,
+        protected OrganisationseinheitenProvider $organisationseinheitenProvider,
+        protected LanguageHelper $languageHelper,
     ) {}
 
     public function listAction(): ResponseInterface
@@ -36,9 +40,13 @@ class OrganisationseinheitenController extends AbstractController
             $listItems = [];
         }
 
+        $languageCode = $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request);
         $records = $this->filterOrganisationseinheitenByParentIds(
-            $this->organisationseinheitenRepository->findOrganisationseinheitenbaum(),
+            $this->organisationseinheitenProvider->findOrganisationseinheitenbaum(
+                $languageCode,
+            ),
             $listItems,
+            $languageCode,
         );
 
         $this->view->assign('organisationseinheitenbaum', $records);

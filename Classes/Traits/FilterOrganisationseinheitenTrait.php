@@ -11,39 +11,69 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Traits;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
+
 trait FilterOrganisationseinheitenTrait
 {
     /**
-     * This method filters the organisationseinheiten tree by passed parent ids. All matching parents
-     * will be added to the result arrays root including all of their children.
+     * This method filters the organisationseinheiten tree bypassed parent ids. All matching parents
+     * will be added to the result arrays root, including all of their children.
+     *
+     * @param \Generator<int, Record> $organisationseinheiten
      */
     protected function filterOrganisationseinheitenByParentIds(
-        array $organisationseinheiten,
+        \Generator $organisationseinheiten,
         array $allowedParentIds,
+        string $language,
         int $maxDepth = 2,
         int $depth = 0,
     ): array {
         $filteredOrganisationseinheiten = [];
         $allowedParentIds = array_map('intval', $allowedParentIds);
 
+        /** @var Record $organisationseinheit */
         foreach ($organisationseinheiten as $organisationseinheit) {
-            if (in_array((int)$organisationseinheit['id'], $allowedParentIds, true)) {
+            $untergeordneteOrganisationseinheiten = $organisationseinheit->getData()['untergeordneteOrganisationseinheiten'] ?? [];
+
+            if (in_array($organisationseinheit->getId(), $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
-            } elseif (
-                ($organisationseinheit['untergeordneteOrganisationseinheiten'] ?? []) !== []
-                && $depth < $maxDepth
-            ) {
+            } elseif ($untergeordneteOrganisationseinheiten !== [] && $depth < $maxDepth) {
+                $untergeordneteOrganisationseinheitenGenerator = $this->createOrganisationseinheitenGenerator(
+                    $untergeordneteOrganisationseinheiten,
+                    $language,
+                );
+
+                $filteredUntergeordneteOrganisationseinheiten = $this->filterOrganisationseinheitenByParentIds(
+                    $untergeordneteOrganisationseinheitenGenerator,
+                    $allowedParentIds,
+                    $language,
+                    $maxDepth,
+                    $depth + 1,
+                );
+
                 array_push(
                     $filteredOrganisationseinheiten,
-                    ...static::filterOrganisationseinheitenByParentIds(
-                        $organisationseinheit['untergeordneteOrganisationseinheiten'],
-                        $allowedParentIds,
-                        $depth++,
-                    ),
+                    ...$filteredUntergeordneteOrganisationseinheiten,
                 );
             }
         }
 
         return $filteredOrganisationseinheiten;
+    }
+
+    /**
+     * @return \Generator<Record>
+     */
+    private function createOrganisationseinheitenGenerator(iterable $items, string $language): \Generator
+    {
+        foreach ($items as $item) {
+            yield new Record(
+                $item['id'],
+                $item['name'],
+                '',
+                $language,
+                $item,
+            );
+        }
     }
 }
