@@ -13,8 +13,6 @@ namespace JWeiland\ServiceBw2\Domain\Provider;
 
 use JWeiland\ServiceBw2\Client\Request\Portal\Leistungen;
 use JWeiland\ServiceBw2\Client\Request\Portal\Leistungsdetails;
-use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheiten;
-use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitsdetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
