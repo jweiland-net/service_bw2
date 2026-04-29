@@ -25,20 +25,6 @@ class LeistungenController extends AbstractController
         protected AlphabeticalIndexService $alphabeticalIndexService,
     ) {}
 
-    public function showAction(int $id): ResponseInterface
-    {
-        $record = $this->leistungenRepository->findById($id);
-
-        if ($record === null) {
-            $this->addFlashMessage('Requested Leistung could not be found for current language');
-        } else {
-            $this->setPageTitle($record->getName());
-            $this->view->assign('leistung', $record);
-        }
-
-        return $this->htmlResponse();
-    }
-
     public function listAction(): ResponseInterface
     {
         $alphabeticalIndex = $this->alphabeticalIndexService->createAlphabeticalIndex(
@@ -52,6 +38,20 @@ class LeistungenController extends AbstractController
             'alphabeticalIndex' => $alphabeticalIndex,
             'request' => $this->request->getAttribute('extbase'),
         ]);
+
+        return $this->htmlResponse();
+    }
+
+    public function showAction(int $id): ResponseInterface
+    {
+        $record = $this->leistungenRepository->findById($id);
+
+        if ($record === null) {
+            $this->addFlashMessage('Requested Leistung could not be found for current language');
+        } else {
+            $this->setPageTitle($record->getName());
+            $this->view->assign('leistung', $record);
+        }
 
         return $this->htmlResponse();
     }
