@@ -55,9 +55,4 @@ class LeistungenController extends AbstractController
 
         return $this->htmlResponse();
     }
-
-    protected function getSiteLanguage(): SiteLanguage
-    {
-        return $this->request->getAttribute('language');
-    }
 }
