@@ -11,11 +11,8 @@ use JWeiland\ServiceBw2\Controller\LebenslagenController;
 use JWeiland\ServiceBw2\Controller\LeistungenController;
 use JWeiland\ServiceBw2\Controller\OrganisationseinheitenController;
 use JWeiland\ServiceBw2\Controller\SearchController;
-use JWeiland\ServiceBw2\Hook\ClearCacheHook;
 use JWeiland\ServiceBw2\Routing\Aspect\ServiceBwTitleMapper;
 use Psr\Log\LogLevel;
-use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Log\Writer\FileWriter;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
