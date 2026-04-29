@@ -27,13 +27,13 @@ class LeistungenController extends AbstractController
 
     public function showAction(int $id): ResponseInterface
     {
-        $leistung = $this->leistungenRepository->findById($id);
+        $record = $this->leistungenRepository->findById($id);
 
-        if ($leistung === null) {
+        if ($record === null) {
             $this->addFlashMessage('Requested Leistung could not be found for current language');
         } else {
-            $this->setPageTitle($leistung['name'] ?? '');
-            $this->view->assign('leistung', $leistung);
+            $this->setPageTitle($record['name'] ?? '');
+            $this->view->assign('leistung', $record);
         }
 
         return $this->htmlResponse();
