@@ -15,11 +15,13 @@ use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
 use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
 use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
 use GuzzleHttp\Exception\ClientException;
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
+use JWeiland\ServiceBw2\Traits\FilterAllowedLanguagesTrait;
 use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,6 +31,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -44,11 +47,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 )]
 class PrepareForSolrIndexingCommand extends Command
 {
+    use FilterAllowedLanguagesTrait;
     use FilterOrganisationseinheitenTrait;
 
     public function __construct(
         protected readonly LoggerInterface $logger,
         protected readonly RepositoryFactory $repositoryFactory,
+        protected readonly ExtConf $extConf,
     ) {
         parent::__construct();
     }
@@ -78,64 +83,76 @@ class PrepareForSolrIndexingCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Enter the tt_content UID of the service_bw2 plugin where you have assigned the '
                     . 'Organisationseinheiten. Only needed, if request-class is set to: "' . OrganisationseinheitenRepository::class . '"',
+            )
+            ->addOption(
+                'locales',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Comma-separated list of Service BW language codes to warm up, e.g. "de,en,fr". If omitted or invalid, all allowed Service BW languages will be used.',
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         $repository = $this->repositoryFactory->getRepository(
             ControllerTypeEnum::from(strtolower($input->getArgument('request-class'))),
         );
 
-        $recordList = $repository->findAll();
+        foreach ($this->filterAllowedLanguages($input, $this->extConf->getAllowedLanguages()) as $languageCode) {
+            $io->section('Language for current cache warmup: ' . $languageCode);
 
-        if ($repository::class === OrganisationseinheitenRepository::class) {
-            if ($input->getOption('content-uid')) {
-                $recordList = $this->filterOrganisationseinheitenByParentIds(
-                    $recordList,
-                    $this->getInitialRecords((int)$input->getOption('content-uid')),
-                );
-            } else {
-                $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
-                $this->logger->error($message);
-                throw new \InvalidArgumentException($message);
-            }
-        }
+            $recordList = $repository->findAll($languageCode);
 
-        if (ExtensionManagementUtility::isLoaded('solr')) {
-            $progressBar = new ProgressBar($output, count($recordList));
-            $progressBar->start();
-
-            try {
-                $solrIndexType = $input->getArgument('solr-index-type');
-                $rootPageUid = (int)$input->getArgument('root-page');
-                $solrSite = $this->getSiteRepository()->getSiteByRootPageId($rootPageUid);
-            } catch (InvalidArgumentException | SiteNotFoundException $e) {
-                return Command::INVALID;
-            }
-
-            try {
-                $solrIndexService = $this->getSiteIndexService();
-
-                // Keep that at first. If there is an error because of solr type or root page,
-                // it will throw an exception and prevents collecting all the records from API,
-                // which can be really slow
-                $solrIndexService->clearSolrIndexByType($solrIndexType, $solrSite);
-
-                // The following method can take a very long time, as it retrieves details from the API call
-                // for each record. The result of each API call will be cached for better performance in the frontend.
-                // To speed up this process, you can call CacheWarmupCommand before.
-                foreach ($this->generatorForLiveRecords($recordList, $repository) as $liveRecord) {
-                    $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
-                    $progressBar->advance();
+            if ($repository::class === OrganisationseinheitenRepository::class) {
+                if ($input->getOption('content-uid')) {
+                    $recordList = $this->filterOrganisationseinheitenByParentIds(
+                        $recordList,
+                        $this->getInitialRecords((int)$input->getOption('content-uid')),
+                    );
+                } else {
+                    $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
+                    $this->logger->error($message);
+                    throw new \InvalidArgumentException($message);
                 }
-            } catch (\RuntimeException | InvalidConnectionException $e) {
-                $this->logger->error(
-                    'Skip EXT:solr index because of given solr configuration "' . $solrIndexType . '"could not be found',
-                );
             }
 
-            $progressBar->finish();
+            if (ExtensionManagementUtility::isLoaded('solr')) {
+                $progressBar = new ProgressBar($output, count($recordList));
+                $progressBar->start();
+
+                try {
+                    $solrIndexType = $input->getArgument('solr-index-type');
+                    $rootPageUid = (int)$input->getArgument('root-page');
+                    $solrSite = $this->getSiteRepository()->getSiteByRootPageId($rootPageUid);
+                } catch (InvalidArgumentException | SiteNotFoundException $e) {
+                    return Command::INVALID;
+                }
+
+                try {
+                    $solrIndexService = $this->getSiteIndexService();
+
+                    // Keep that at first. If there is an error because of solr type or root page,
+                    // it will throw an exception and prevents collecting all the records from API,
+                    // which can be really slow
+                    $solrIndexService->clearSolrIndexByType($solrIndexType, $solrSite);
+
+                    // The following method can take a very long time, as it retrieves details from the API call
+                    // for each record. The result of each API call will be cached for better performance in the frontend.
+                    // To speed up this process, you can call CacheWarmupCommand before.
+                    foreach ($this->generatorForLiveRecords($recordList, $repository) as $liveRecord) {
+                        $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
+                        $progressBar->advance();
+                    }
+                } catch (\RuntimeException | InvalidConnectionException $e) {
+                    $this->logger->error(
+                        'Skip EXT:solr index because of given solr configuration "' . $solrIndexType . '"could not be found',
+                    );
+                }
+
+                $progressBar->finish();
+            }
         }
 
         return 0;

@@ -17,6 +17,7 @@ use JWeiland\ServiceBw2\Domain\Provider\ProviderFactory;
 use JWeiland\ServiceBw2\Domain\Provider\ProviderInterface;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
+use JWeiland\ServiceBw2\Traits\FilterAllowedLanguagesTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -24,7 +25,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Configurable command to warmup caches of Service BW
@@ -35,6 +35,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 )]
 class CacheWarmupCommand extends Command
 {
+    use FilterAllowedLanguagesTrait;
+
     public function __construct(
         protected ExtConf $extConf,
         protected ProviderFactory $providerFactory,
@@ -78,7 +80,7 @@ class CacheWarmupCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        foreach ($this->getLanguages($input) as $language) {
+        foreach ($this->filterAllowedLanguages($input, $this->extConf->getAllowedLanguages()) as $language) {
             $io->section('Language for current cache warmup: ' . $language);
 
             foreach ($this->providerFactory->getProviders() as $provider) {
@@ -89,30 +91,6 @@ class CacheWarmupCommand extends Command
         }
 
         return 0;
-    }
-
-    /**
-     * @return string[] Array of 2-letter language ISO codes
-     */
-    protected function getLanguages(InputInterface $input): array
-    {
-        $allAllowedLanguages = array_keys($this->extConf->getAllowedLanguages());
-        $requestedLanguages = GeneralUtility::trimExplode(
-            ',',
-            (string)$input->getOption('locales'),
-            true,
-        );
-
-        $allowedLanguages = array_intersect(
-            $requestedLanguages,
-            $allAllowedLanguages,
-        );
-
-        if ($allowedLanguages === []) {
-            $allowedLanguages = $allAllowedLanguages;
-        }
-
-        return $allowedLanguages;
     }
 
     protected function warmupType(
