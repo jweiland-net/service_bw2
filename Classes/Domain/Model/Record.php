@@ -52,7 +52,7 @@ final readonly class Record
             return true;
         }
 
-        foreach ($this->data['formulare'] as $formular) {
+        foreach (($this->data['formulare'] ?? []) as $formular) {
             if (is_array($formular) && ($formular['typ'] ?? null) === 'ONLINEDIENST') {
                 return true;
             }
