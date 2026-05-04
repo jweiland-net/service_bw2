@@ -11,11 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Domain\Model;
 
-use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Domain\Model\Record;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
