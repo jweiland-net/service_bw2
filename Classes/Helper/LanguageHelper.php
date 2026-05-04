@@ -42,7 +42,7 @@ readonly class LanguageHelper
 
     public function getTypo3LanguageCodeFromRequest(ServerRequestInterface $request): string
     {
-        return strtolower($this->getSiteLanguage($request)->getLocale()->getCountryCode());
+        return strtolower($this->getSiteLanguage($request)->getLocale()->getLanguageCode());
     }
 
     public function getServiceBwLanguageCodeFromRequest(ServerRequestInterface $request): string
