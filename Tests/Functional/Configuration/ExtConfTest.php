@@ -87,7 +87,7 @@ class ExtConfTest extends FunctionalTestCase
         $subject = new ExtConf(...$config);
 
         self::assertSame(
-            'https://sgw.service-bw.de:443',
+            'https://sgw.service-bw.de:443/rest-v2/api',
             $subject->getBaseUrl(),
         );
     }
@@ -130,9 +130,9 @@ class ExtConfTest extends FunctionalTestCase
 
         self::assertSame(
             [
-                'de' => 0,
-                'en' => 1,
-                'fr' => 2,
+                'de' => 'de',
+                'en' => 'en',
+                'fr' => 'fr',
             ],
             $subject->getAllowedLanguages(),
         );
@@ -141,7 +141,7 @@ class ExtConfTest extends FunctionalTestCase
     public static function allowedLanguagesDataProvider(): array
     {
         return [
-            'Empty' => ['', ['de' => 0, 'en' => 1, 'fr' => 2]],
+            'Empty' => ['', ['de' => 'de', 'en' => 'en', 'fr' => 'fr']],
             'Single Language' => ['de=1', ['de' => 1]],
             'Multiple Languages' => ['de=0;fr=1;en=2', ['de' => 0, 'fr' => 1, 'en' => 2]],
             'Multiple Languages with trailing ;' => ['de=0;pl=1;sp=2;', ['de' => 0, 'pl' => 1, 'sp' => 2]],
