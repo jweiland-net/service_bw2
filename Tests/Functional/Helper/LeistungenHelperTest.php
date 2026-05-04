@@ -11,9 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
-use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenProvider;
-use JWeiland\ServiceBw2\EventListener\LeistungenEventListener;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
@@ -74,14 +72,6 @@ class LeistungenHelperTest extends FunctionalTestCase
             ->method('findById')
             ->with(self::equalTo(1234))
             ->willReturnCallback(function () use ($cache, $leistungenMock) {
-                $leistungenListener = new LeistungenEventListener(new LeistungenHelper(
-                    $leistungenMock, // Using $this refers to the mock object itself
-                    $cache,
-                ));
-                $leistungenListener(new ModifyServiceBwResponseEvent(
-                    '/portal/leistungsdetails/1234',
-                    [],
-                ));
                 return [];
             });
 

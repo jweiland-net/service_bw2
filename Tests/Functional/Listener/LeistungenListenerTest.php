@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional;
 
-use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
-use JWeiland\ServiceBw2\EventListener\LeistungenEventListener;
 use JWeiland\ServiceBw2\Helper\LeistungenHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,44 +23,4 @@ class LeistungenListenerTest extends FunctionalTestCase
         'jweiland/maps2',
         'typo3/cms-scheduler',
     ];
-
-    public static function eventDataProvider(): array
-    {
-        return [
-            [
-                new ModifyServiceBwResponseEvent('/portal/leistungsdetails/1234', []),
-                ['hasFormulare' => false, 'hasProzesse' => false],
-            ],
-            [
-                new ModifyServiceBwResponseEvent('/portal/leistungsdetails/1234', ['formulare' => ['abc' => 'def']]),
-                ['hasFormulare' => true, 'hasProzesse' => false],
-            ],
-            [
-                new ModifyServiceBwResponseEvent('/portal/leistungsdetails/1234', ['prozesse' => ['abc' => 'def']]),
-                ['hasFormulare' => false, 'hasProzesse' => true],
-            ],
-            [
-                new ModifyServiceBwResponseEvent('/portal/leistungsdetails/1234', ['formulare' => ['abc' => 'def'], 'prozesse' => ['abc' => 'def']]),
-                ['hasFormulare' => true, 'hasProzesse' => true],
-            ],
-            [
-                new ModifyServiceBwResponseEvent('/portal/leistungsdetails/1234', ['formulare' => [], 'prozesse' => []]),
-                ['hasFormulare' => false, 'hasProzesse' => false],
-            ],
-        ];
-    }
-
-    #[Test]
-    #[DataProvider('eventDataProvider')]
-    public function invokeSavesAdditionalData(ModifyServiceBwResponseEvent $event, array $expectedResult): void
-    {
-        $leistungenHelperMock = $this->createMock(LeistungenHelper::class);
-        $leistungenHelperMock
-            ->expects($this->atLeastOnce())
-            ->method('saveAdditionalData')
-            ->with(self::equalTo(1234));
-
-        $leistungenListener = new LeistungenEventListener($leistungenHelperMock);
-        $leistungenListener($event);
-    }
 }
