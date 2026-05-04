@@ -141,15 +141,14 @@ class ExtConfTest extends FunctionalTestCase
     public static function allowedLanguagesDataProvider(): array
     {
         return [
-            'Empty' => ['', ['de' => 'de', 'en' => 'en', 'fr' => 'fr']],
-            'Single Language' => ['de=1', ['de' => 1]],
-            'Multiple Languages' => ['de=0;fr=1;en=2', ['de' => 0, 'fr' => 1, 'en' => 2]],
-            'Multiple Languages with trailing ;' => ['de=0;pl=1;sp=2;', ['de' => 0, 'pl' => 1, 'sp' => 2]],
-            'Use default on non trimmed values' => ['de = 1;   en  = 2', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on empty language settings' => ['de=1;;fr=3;', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on missing sys_language_uid' => ['de', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on wrong lang string' => ['deu', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on vise versa configuration' => ['1=de;3=fr;', ['de' => 0, 'en' => 1, 'fr' => 2]],
+            'Empty configuration results in default values' => ['', ['de' => 'de', 'en' => 'en', 'fr' => 'fr']],
+            'Configuration with language UIDs results in default values' => ['de=1', ['de' => 'de', 'en' => 'en', 'fr' => 'fr']],
+            'Single language configuration' => ['de=de', ['de' => 'de']],
+            'Multiple language configuration' => ['de=de;fr=fr;en=en', ['de' => 'de', 'fr' => 'fr', 'en' => 'en']],
+            'Trailing semicolon will be removed' => ['de=de;', ['de' => 'de']],
+            'Spaces will be removed' => ['de = de;   en  = en', ['de' => 'de', 'en' => 'en']],
+            'Missing language will be removed' => ['de=de;;fr=fr', ['de' => 'de', 'fr' => 'fr']],
+            'Map multiple TYPO3 languages to one Service BW language' => ['de=de;fr=en;gr=en;sp=en', ['de' => 'de', 'fr' => 'en', 'gr' => 'en', 'sp' => 'en']],
         ];
     }
 

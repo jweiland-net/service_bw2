@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * This class streamlines all settings from the extension manager
@@ -95,17 +96,10 @@ readonly class ExtConf implements SingletonInterface
      */
     public function getAllowedLanguages(): array
     {
-        // The first assigned language is the default language
-        $languagesToProcess = $this->allowedLanguages;
-        if (!preg_match('@^([a-z]{2,2}=[a-z]{2,2};?)+$@', $this->allowedLanguages)) {
-            $languagesToProcess = self::DEFAULT_SETTINGS['allowedLanguages'];
-        }
+        $allowedLanguages = $this->parseAllowedLanguages($this->allowedLanguages);
 
-        $allowedLanguages = [];
-        $languageConfigurations = GeneralUtility::trimExplode(';', $languagesToProcess, true);
-        foreach ($languageConfigurations as $languageConfiguration) {
-            [$typo3LanguageCode, $serviceBwLanguageCode] = explode('=', $languageConfiguration);
-            $allowedLanguages[$typo3LanguageCode] = $serviceBwLanguageCode;
+        if ($allowedLanguages === []) {
+            $allowedLanguages = $this->parseAllowedLanguages(self::DEFAULT_SETTINGS['allowedLanguages']);
         }
 
         return $allowedLanguages;
@@ -124,20 +118,25 @@ readonly class ExtConf implements SingletonInterface
         return $this->gebietId;
     }
 
-    public function getDefaultQueryForRequest(): array
+    private function parseAllowedLanguages(string $languages): array
     {
-        $query = [
-            'mandantId' => $this->getMandant(),
-        ];
+        $allowedLanguages = [];
+        $configuredLanguages = GeneralUtility::trimExplode(';', $languages, true);
+        foreach ($configuredLanguages as $configuredLanguage) {
+            [$typo3LanguageCode, $serviceBwLanguageCode] = GeneralUtility::trimExplode('=', $configuredLanguage, true);
 
-        if ($this->getAgs()) {
-            $query['gebietAgs'] = $this->getAgs();
+            // Using language UIDs is not supported anymore
+            if (MathUtility::canBeInterpretedAsInteger($typo3LanguageCode)) {
+                continue;
+            }
+
+            if (MathUtility::canBeInterpretedAsInteger($serviceBwLanguageCode)) {
+                continue;
+            }
+
+            $allowedLanguages[$typo3LanguageCode] = $serviceBwLanguageCode;
         }
 
-        if ($this->getGebietId()) {
-            $query['gebietId'] = $this->getGebietId();
-        }
-
-        return $query;
+        return $allowedLanguages;
     }
 }
