@@ -30,6 +30,14 @@ trait FilterOrganisationseinheitenTrait
     ): array {
         $filteredOrganisationseinheiten = [];
         $allowedParentIds = array_map('intval', $allowedParentIds);
+        $organisationseinheiten = iterator_to_array($organisationseinheiten);
+
+        // The Service BW API currently does not sort organisationseinheiten reliably.
+        // This fallback sorting can be removed once the API issue has been fixed.
+        usort(
+            $organisationseinheiten,
+            static fn(Record $a, Record $b): int => strcasecmp($a->getName(), $b->getName()),
+        );
 
         /** @var Record $organisationseinheit */
         foreach ($organisationseinheiten as $organisationseinheit) {
