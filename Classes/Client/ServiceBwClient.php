@@ -82,7 +82,7 @@ readonly class ServiceBwClient
                     ],
                 );
 
-                continue;
+                break;
             }
 
             if ($response->getStatusCode() !== 200) {
@@ -99,6 +99,11 @@ readonly class ServiceBwClient
             }
 
             $responseData = json_decode((string)$response->getBody(), true);
+
+            // Prevent infinite loop if these values are not part of the response
+            if (!isset($responseData['currentPage'], $responseData['totalPages'])) {
+                break;
+            }
 
             $currentPage = $responseData['currentPage'] + 1;
             $totalPages = $responseData['totalPages'];
