@@ -40,16 +40,4 @@ readonly class LebenslagenProvider implements ProviderInterface
 
         return $this->client->requestAll($request, $language);
     }
-
-    public function findLebenslagenbaum(?int $ebenen = null): array
-    {
-        return $this->client->request(
-            '/portal/lebenslagen/lebenslagenbaum',
-            [
-                'ebenen' => $ebenen,
-            ],
-            true,
-            true,
-        );
-    }
 }
