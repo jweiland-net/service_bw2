@@ -64,7 +64,7 @@ class LebenslagenProviderTest extends FunctionalTestCase
         ];
 
         $this->serviceBwClientMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('requestRecord')
             ->with(
                 self::isInstanceOf(Lebenslagendetails::class),
@@ -89,7 +89,7 @@ class LebenslagenProviderTest extends FunctionalTestCase
         ];
 
         $this->serviceBwClientMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('requestAll')
             ->with(
                 self::isInstanceOf(Lebenslagen::class),

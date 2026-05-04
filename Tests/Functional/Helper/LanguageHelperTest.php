@@ -104,8 +104,8 @@ class LanguageHelperTest extends FunctionalTestCase
         );
 
         self::assertSame(
-            'fr',
-            $this->subject->getServeBwLanguageCodeByTypo3LanguageCode('en'),
+            'en',
+            $this->subject->getServeBwLanguageCodeByTypo3LanguageCode('fr'),
         );
     }
 
@@ -132,7 +132,7 @@ class LanguageHelperTest extends FunctionalTestCase
 
         self::assertSame(
             'de',
-            $this->subject->getTypo3LanguageCodeFromRequest($request)
+            $this->subject->getTypo3LanguageCodeFromRequest($request),
         );
     }
 }

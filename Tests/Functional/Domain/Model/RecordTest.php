@@ -126,7 +126,7 @@ class RecordTest extends FunctionalTestCase
             [
                 'foo' => 'bar',
                 'prozesse' => [
-                    'foo' => 'bar'
+                    'foo' => 'bar',
                 ],
             ],
         );
@@ -135,7 +135,6 @@ class RecordTest extends FunctionalTestCase
             $subject->getHasProzesse(),
         );
     }
-
 
     #[Test]
     public function getHasProzesseWithOnlinedienstFormularWillReturnTrue()
@@ -150,7 +149,7 @@ class RecordTest extends FunctionalTestCase
                 'formulare' => [
                     [
                         'typ' => 'ONLINEDIENST',
-                    ]
+                    ],
                 ],
             ],
         );
@@ -247,7 +246,7 @@ class RecordTest extends FunctionalTestCase
                 'formulare' => [
                     [
                         'typ' => 'ONLINEDIENST',
-                    ]
+                    ],
                 ],
             ],
         );

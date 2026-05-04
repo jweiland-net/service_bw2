@@ -64,7 +64,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
         ];
 
         $this->serviceBwClientMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('requestRecord')
             ->with(
                 self::isInstanceOf(Organisationseinheitsdetails::class),
@@ -89,7 +89,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
         ];
 
         $this->serviceBwClientMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('requestAll')
             ->with(
                 self::isInstanceOf(Organisationseinheiten::class),

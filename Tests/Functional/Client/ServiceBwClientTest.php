@@ -17,7 +17,6 @@ use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -63,17 +62,17 @@ class ServiceBwClientTest extends FunctionalTestCase
     {
         $response = $this->createMock(Response::class);
         $response
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(404);
 
         $this->requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->willReturn($response);
 
         $this->loggerMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('error')
             ->with(self::stringStartsWith('Service BW API record was not found'));
 
@@ -85,17 +84,17 @@ class ServiceBwClientTest extends FunctionalTestCase
     {
         $response = $this->createMock(Response::class);
         $response
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(503);
 
         $this->requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->willReturn($response);
 
         $this->loggerMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('error')
             ->with(self::stringStartsWith('Service BW API responded with an unexpected status code.'));
 
@@ -116,7 +115,7 @@ class ServiceBwClientTest extends FunctionalTestCase
         ];
 
         $this->requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->willReturn(new Response(200, [], json_encode($data)));
 
@@ -124,7 +123,7 @@ class ServiceBwClientTest extends FunctionalTestCase
 
         self::assertSame(
             [
-                123 => ['id' => 123]
+                123 => ['id' => 123],
             ],
             $items,
         );
@@ -135,17 +134,17 @@ class ServiceBwClientTest extends FunctionalTestCase
     {
         $response = $this->createMock(Response::class);
         $response
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(503);
 
         $this->requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->willReturn($response);
 
         $this->loggerMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('error')
             ->with(self::stringStartsWith('Service BW API responded with an unexpected status code.'));
 
@@ -160,7 +159,7 @@ class ServiceBwClientTest extends FunctionalTestCase
         ];
 
         $this->requestFactoryMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('request')
             ->willReturn(new Response(200, [], json_encode($data)));
 

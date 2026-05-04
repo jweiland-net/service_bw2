@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Domain\Provider;
 
-use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheiten;
-use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitsdetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
 use JWeiland\ServiceBw2\Domain\Provider\LebenslagenProvider;
