@@ -11,35 +11,32 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Domain\Repository;
 
+use JWeiland\ServiceBw2\Client\Request\Portal\Suche;
+use JWeiland\ServiceBw2\Client\Request\SearchSortPropertyEnum;
+use JWeiland\ServiceBw2\Client\Request\SearchTypEnum;
+use JWeiland\ServiceBw2\Client\Request\SortDirectionEnum;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 
 readonly class SearchRepository
 {
-    public const TYP_NONE = '';
-
-    public const SORT_NAME = 'name';
-
-    public const SORT_RELEVANZ = 'relevanz';
-
     public function __construct(
         protected ServiceBwClient $client,
     ) {}
 
     public function search(
-        string $q,
-        string $typ = self::TYP_NONE,
-        string $sortProperty = self::SORT_NAME,
-    ): array {
-        $parameters = ['q' => $q, 'sortProperty' => $sortProperty];
-        if ($typ !== '' && $typ !== '0') {
-            $parameters['typ'] = $typ;
-        }
-
-        return $this->client->request(
-            '/portal/suche',
-            $parameters,
-            true,
-            true,
+        string $searchTerm,
+        string $language,
+        ?SearchTypEnum $typ,
+        SearchSortPropertyEnum $sortProperty,
+        SortDirectionEnum $sortDirection,
+    ): \Generator {
+        $request = new Suche(
+            searchTerm: $searchTerm,
+            typ: $typ,
+            sortProperty: $sortProperty,
+            sortDirection: $sortDirection,
         );
+
+        return $this->client->requestAll($request, $language);
     }
 }

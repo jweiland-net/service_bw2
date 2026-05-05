@@ -104,7 +104,7 @@ class PrepareForSolrIndexingCommand extends Command
         foreach ($this->filterAllowedLanguages($input, $this->extConf->getAllowedLanguages()) as $languageCode) {
             $io->section('Language for current cache warmup: ' . $languageCode);
 
-            $records = $repository->findAll($languageCode);
+            $records = iterator_to_array($repository->findAll($languageCode));
 
             if ($repository::class === OrganisationseinheitenRepository::class) {
                 if ($input->getOption('content-uid')) {

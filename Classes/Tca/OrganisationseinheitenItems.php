@@ -11,13 +11,16 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tca;
 
-use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Domain\Model\Record;
+use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
+use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use Psr\Log\LoggerInterface;
 
 readonly class OrganisationseinheitenItems
 {
     public function __construct(
-        protected OrganisationseinheitenRepository $organisationseinheitenRepository,
+        protected OrganisationseinheitenProvider $organisationseinheitenProvider,
+        protected LanguageHelper $languageHelper,
         protected LoggerInterface $logger,
     ) {}
 
@@ -27,7 +30,9 @@ readonly class OrganisationseinheitenItems
     public function getItems(array $processorParameters): void
     {
         try {
-            $records = $this->organisationseinheitenRepository->findOrganisationseinheitenbaum();
+            $records = $this->organisationseinheitenProvider->findOrganisationseinheitenTrees(
+                $this->languageHelper->getDefaultServiceBwLanguageCode(),
+            );
         } catch (\Exception $exception) {
             $this->logger->error(
                 'Could not get organisationseinheiten: ' . $exception->getMessage(),

@@ -43,18 +43,10 @@ readonly class OrganisationseinheitenProvider implements ProviderInterface
         return $this->client->requestAll($request, $language);
     }
 
-    public function findOrganisationseinheitenTrees(string $language): \Generator
+    public function findOrganisationseinheitenTrees(string $language): array
     {
         $request = new Organisationseinheitenbaum();
 
-        foreach ($this->client->requestAll($request, $language) as $root) {
-            yield new Record(
-                $root['id'],
-                $root['name'],
-                '',
-                $language,
-                $root,
-            );
-        }
+        return iterator_to_array($this->client->requestAll($request, $language));
     }
 }

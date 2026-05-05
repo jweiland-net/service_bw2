@@ -93,7 +93,9 @@ ExtensionUtility::configurePlugin(
     [
         SearchController::class => 'list',
     ],
-    [],
+    [
+        SearchController::class => 'list',
+    ],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
 

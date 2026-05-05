@@ -49,7 +49,7 @@ class OrganisationseinheitenController extends AbstractController
             $languageCode,
         );
 
-        $this->view->assign('organisationseinheitenbaum', $records);
+        $this->view->assign('organisationseinheitenTrees', $records);
 
         return $this->htmlResponse();
     }

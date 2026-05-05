@@ -19,10 +19,10 @@ trait FilterOrganisationseinheitenTrait
      * This method filters the organisationseinheiten tree bypassed parent ids. All matching parents
      * will be added to the result arrays root, including all of their children.
      *
-     * @param \Generator<int, Record> $organisationseinheiten
+     * @param Record[] $organisationseinheiten
      */
     protected function filterOrganisationseinheitenByParentIds(
-        \Generator $organisationseinheiten,
+        array $organisationseinheiten,
         array $allowedParentIds,
         string $language,
         int $maxDepth = 2,
@@ -36,23 +36,17 @@ trait FilterOrganisationseinheitenTrait
         // This fallback sorting can be removed once the API issue has been fixed.
         usort(
             $organisationseinheiten,
-            static fn(Record $a, Record $b): int => strcasecmp($a->getName(), $b->getName()),
+            static fn(array $a, array $b): int => strcasecmp($a['name'], $b['name']),
         );
 
-        /** @var Record $organisationseinheit */
         foreach ($organisationseinheiten as $organisationseinheit) {
-            $untergeordneteOrganisationseinheiten = $organisationseinheit->getData()['untergeordneteOrganisationseinheiten'] ?? [];
+            $untergeordneteOrganisationseinheiten = $organisationseinheit['untergeordneteOrganisationseinheiten'] ?? [];
 
-            if (in_array($organisationseinheit->getId(), $allowedParentIds, true)) {
+            if (in_array($organisationseinheit['id'], $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $organisationseinheit;
             } elseif ($untergeordneteOrganisationseinheiten !== [] && $depth < $maxDepth) {
-                $untergeordneteOrganisationseinheitenGenerator = $this->createOrganisationseinheitenGenerator(
-                    $untergeordneteOrganisationseinheiten,
-                    $language,
-                );
-
                 $filteredUntergeordneteOrganisationseinheiten = $this->filterOrganisationseinheitenByParentIds(
-                    $untergeordneteOrganisationseinheitenGenerator,
+                    $untergeordneteOrganisationseinheiten,
                     $allowedParentIds,
                     $language,
                     $maxDepth,
@@ -67,21 +61,5 @@ trait FilterOrganisationseinheitenTrait
         }
 
         return $filteredOrganisationseinheiten;
-    }
-
-    /**
-     * @return \Generator<Record>
-     */
-    private function createOrganisationseinheitenGenerator(iterable $items, string $language): \Generator
-    {
-        foreach ($items as $item) {
-            yield new Record(
-                $item['id'],
-                $item['name'],
-                '',
-                $language,
-                $item,
-            );
-        }
     }
 }
