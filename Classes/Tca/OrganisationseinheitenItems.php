@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tca;
 
-use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use Psr\Log\LoggerInterface;
