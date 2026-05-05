@@ -55,7 +55,6 @@ class AlphabeticalIndexService
 
     /**
      * Creates an alphabetical index from the given records.
-     *
      * Returns:
      * - letters: alphabetical navigation list, e.g. ['A' => true, 'B' => false]
      * - records: records grouped by their first letter, e.g. ['A' => [...], 'B' => [...]]
@@ -63,7 +62,7 @@ class AlphabeticalIndexService
      * @param \Generator<Record> $records
      * @return array{
      *     letters: array<string, bool>,
-     *     records: array<string, array<int, array<string, mixed>>>
+     *     records: array<string, array<int, Record>>
      * }
      */
     public static function createAlphabeticalIndex(
