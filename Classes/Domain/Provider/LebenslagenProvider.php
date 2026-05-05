@@ -43,18 +43,12 @@ readonly class LebenslagenProvider implements ProviderInterface
         return $this->client->requestAll($request, $language);
     }
 
-    public function findLebenslagenbaum(string $language): \Generator
+    public function findLebenslagenTrees(string $language): \Generator
     {
         $request = new Lebenslagenbaum();
 
         foreach ($this->client->requestAll($request, $language) as $root) {
-            yield new Record(
-                $root['id'],
-                $root['name'],
-                '',
-                $language,
-                $root,
-            );
+            yield $root;
         }
     }
 }

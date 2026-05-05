@@ -30,8 +30,8 @@ class LebenslagenController extends AbstractController
         $languageCode = $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request);
 
         $this->view->assign(
-            'lebenslagenbaum',
-            $this->lebenslagenProvider->findLebenslagenbaum($languageCode),
+            'lebenslagenTrees',
+            $this->lebenslagenProvider->findLebenslagenTrees($languageCode),
         );
 
         return $this->htmlResponse();
@@ -45,7 +45,7 @@ class LebenslagenController extends AbstractController
             $this->addFlashMessage('Requested Lebenslage could not be found for current language');
         } else {
             $this->view->assign('lebenslage', $lebenslage);
-            $this->setPageTitle($lebenslage['name'] ?? '');
+            $this->setPageTitle($lebenslage->getName());
         }
 
         return $this->htmlResponse();

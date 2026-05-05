@@ -6,14 +6,14 @@
     <li>
         <f:link.action pageUid="{pageUid}"
                        pluginName="LifeSituationsShow"
-                       arguments="{id: lebenslagenbaum.id}"
+                       arguments="{id: lebenslagenTree.id}"
                        action="show">
-            {lebenslagenbaum.name}
+            {lebenslagenTree.name}
         </f:link.action>
 
-        <f:if condition="{lebenslagenbaum.data.untergeordneteLebenslagen}">
-            <f:for each="{lebenslagenbaum.data.untergeordneteLebenslagen}" as="lebenslagenbaumItem">
-                <f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslagenbaumItem, pageUid: pageUid, isRecursiveCall: true}"/>
+        <f:if condition="{lebenslagenTree.untergeordneteLebenslagen}">
+            <f:for each="{lebenslagenTree.untergeordneteLebenslagen}" as="lebenslagenTree">
+                <f:render partial="Lebenslagen/LebenslagenTree" arguments="{lebenslagenTree: lebenslagenTree, pageUid: pageUid, isRecursiveCall: true}"/>
             </f:for>
         </f:if>
     </li>

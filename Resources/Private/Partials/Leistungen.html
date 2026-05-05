@@ -5,7 +5,10 @@
 <ul class="ul-menu">
     <f:for each="{leistungen}" as="leistung" iteration="iterator">
         <li>
-            <f:link.action pageUid="{settings.leistungen.pidOfDetailPage}" controller="Leistungen" arguments="{id: leistung.id}" action="show">
+            <f:link.action pageUid="{settings.leistungen.pidOfDetailPage}"
+                           controller="Leistungen"
+                           arguments="{id: leistung.id}"
+                           action="show">
                 {leistung.name}
             </f:link.action>
         </li>
