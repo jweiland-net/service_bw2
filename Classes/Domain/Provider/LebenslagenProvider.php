@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Domain\Provider;
 
 use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagen;
+use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagenbaum;
 use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagendetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(
@@ -39,5 +41,20 @@ readonly class LebenslagenProvider implements ProviderInterface
         $request = new Lebenslagen();
 
         return $this->client->requestAll($request, $language);
+    }
+
+    public function findLebenslagenbaum(string $language): \Generator
+    {
+        $request = new Lebenslagenbaum();
+
+        foreach ($this->client->requestAll($request, $language) as $root) {
+            yield new Record(
+                $root['id'],
+                $root['name'],
+                '',
+                $language,
+                $root,
+            );
+        }
     }
 }

@@ -12,20 +12,26 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Controller;
 
 use JWeiland\ServiceBw2\Domain\Model\Record;
+use JWeiland\ServiceBw2\Domain\Provider\LebenslagenProvider;
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
+use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use Psr\Http\Message\ResponseInterface;
 
 class LebenslagenController extends AbstractController
 {
     public function __construct(
         protected LebenslagenRepository $lebenslagenRepository,
+        protected LebenslagenProvider $lebenslagenProvider,
+        protected LanguageHelper $languageHelper,
     ) {}
 
     public function listAction(): ResponseInterface
     {
+        $languageCode = $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request);
+
         $this->view->assign(
             'lebenslagenbaum',
-            $this->lebenslagenRepository->findLebenslagenbaum(),
+            $this->lebenslagenProvider->findLebenslagenbaum($languageCode),
         );
 
         return $this->htmlResponse();
