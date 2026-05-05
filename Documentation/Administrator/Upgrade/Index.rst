@@ -92,7 +92,7 @@ the extensions individual. No need to wait for service_bw2 to be ready.
 
 For migration: Please implement the TCA for `selectMultipleSideBySide` on your
 own. Create a user-func for `itemsProcFunc` or create your own TCA render-type
-to will the selectbox with Organisationseinheiten. Please use our new
+to fill the selectbox with Organisationseinheiten. Please use our new
 :php:`OrganisationseinheitenRepository` to retrieve the data.
 
 Removed LeistungenAdditionalDataViewHelper
