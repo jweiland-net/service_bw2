@@ -42,7 +42,7 @@ class OrganisationseinheitenController extends AbstractController
 
         $languageCode = $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request);
         $records = $this->filterOrganisationseinheitenByParentIds(
-            $this->organisationseinheitenProvider->findOrganisationseinheitenbaum(
+            $this->organisationseinheitenProvider->findOrganisationseinheitenTrees(
                 $languageCode,
             ),
             $listItems,
