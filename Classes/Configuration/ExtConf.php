@@ -83,7 +83,7 @@ readonly class ExtConf implements SingletonInterface
 
     public function getBaseUrl(): string
     {
-        return rtrim(trim((string)$this->baseUrl), '/');
+        return rtrim(trim($this->baseUrl), '/');
     }
 
     /**
