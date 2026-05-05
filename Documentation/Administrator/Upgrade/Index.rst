@@ -31,7 +31,7 @@ by using DataProcessors instead.
 Removed SucheController
 -----------------------
 
-We have renamed the :php:`SucheController` zu :php:`SearchController`.
+We have renamed the :php:`SucheController` to :php:`SearchController`.
 
 Removed ClearCacheHook
 ----------------------
