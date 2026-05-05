@@ -19,6 +19,7 @@ use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
 use GuzzleHttp\Exception\ClientException;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
@@ -204,7 +205,7 @@ class PrepareForSolrIndexingCommand extends Command
         foreach ($recordsToIndex as $recordToIndex) {
             try {
                 $liveRecordWithFullData = $repository->findById($recordToIndex['id']);
-                if ($liveRecordWithFullData === []) {
+                if (!$liveRecordWithFullData instanceof Record) {
                     $this->logger->warning(sprintf(
                         'Record of type %s with ID %s could not be found',
                         $repository::class,
