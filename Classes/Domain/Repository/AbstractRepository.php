@@ -141,6 +141,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                 ],
                 [
                     'id' => $id,
+                    'type' => static::CONTROLLER_TYPE,
                 ],
             );
         } else {
