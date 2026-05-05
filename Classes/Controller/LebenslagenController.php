@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Repository\LebenslagenRepository;
 use Psr\Http\Message\ResponseInterface;
 
@@ -34,7 +35,7 @@ class LebenslagenController extends AbstractController
     {
         $lebenslage = $this->lebenslagenRepository->findById($id);
 
-        if ($lebenslage === []) {
+        if (!$lebenslage instanceof Record) {
             $this->addFlashMessage('Requested Lebenslage could not be found for current language');
         } else {
             $this->view->assign('lebenslage', $lebenslage);
