@@ -49,7 +49,6 @@ class CacheWarmupCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Configurable command to warmup the caches of Service BW to improve loading times')
             ->addOption(
                 'include-lebenslagen',
                 null,

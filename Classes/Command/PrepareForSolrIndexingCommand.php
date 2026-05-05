@@ -61,7 +61,6 @@ class PrepareForSolrIndexingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Prepare records of service_bw2 to be indexed by EXT:solr.')
             ->addArgument(
                 'request-class',
                 InputArgument::REQUIRED,
