@@ -15,7 +15,6 @@ use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagenbaum;
 use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagendetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
-use JWeiland\ServiceBw2\Domain\Model\Record;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(

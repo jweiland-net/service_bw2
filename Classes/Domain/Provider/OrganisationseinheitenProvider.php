@@ -15,7 +15,6 @@ use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheiten;
 use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitenbaum;
 use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitsdetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
-use JWeiland\ServiceBw2\Domain\Model\Record;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(
