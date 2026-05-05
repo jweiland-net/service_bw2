@@ -56,7 +56,7 @@ handling approach.
 Removed AlphabeticalIndexUtility
 --------------------------------
 
-We have migrated :php:`AlphabeticalIndexUtility` from an utility class with
+We have migrated :php:`AlphabeticalIndexUtility` from a utility class with
 static method calls to :php:`AlphabeticalIndexService`.
 
 Removed ModelUtility
