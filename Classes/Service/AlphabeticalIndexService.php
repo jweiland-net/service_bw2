@@ -60,14 +60,14 @@ readonly class AlphabeticalIndexService
      * - letters: alphabetical navigation list, e.g. ['A' => true, 'B' => false]
      * - records: records grouped by their first letter, e.g. ['A' => [...], 'B' => [...]]
      *
-     * @param Record[] $records
+     * @param \Generator<Record> $records
      * @return array{
      *     letters: array<string, bool>,
      *     records: array<string, array<int, array<string, mixed>>>
      * }
      */
     public static function createAlphabeticalIndex(
-        array $records,
+        \Generator $records,
         string $titleField,
     ): array {
         $letterList = self::GERMAN_ALPHABET;
