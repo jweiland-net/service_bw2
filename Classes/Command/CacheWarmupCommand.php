@@ -90,7 +90,7 @@ class CacheWarmupCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function warmupType(
