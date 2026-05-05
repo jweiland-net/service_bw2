@@ -29,7 +29,6 @@ use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -123,9 +122,6 @@ class PrepareForSolrIndexingCommand extends Command
             }
 
             if (ExtensionManagementUtility::isLoaded('solr')) {
-                $progressBar = new ProgressBar($output, count($records));
-                $progressBar->start();
-
                 try {
                     $solrIndexType = $input->getArgument('solr-index-type');
                     $rootPageUid = (int)$input->getArgument('root-page');
@@ -147,15 +143,20 @@ class PrepareForSolrIndexingCommand extends Command
                     // To speed up this process, you can call CacheWarmupCommand before.
                     foreach ($this->generatorForLiveRecords($records, $repository) as $liveRecord) {
                         $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
-                        $progressBar->advance();
+
+                        if ($io->isVerbose()) {
+                            $io->writeln(sprintf(
+                                '<info>➜</info> ID <comment>%s</comment>, name <comment>%s</comment>',
+                                $liveRecord->getId(),
+                                $liveRecord->getName() ?? '[no name]',
+                            ));
+                        }
                     }
                 } catch (\RuntimeException | InvalidConnectionException $e) {
                     $this->logger->error(
                         'Skip EXT:solr index because of given solr configuration "' . $solrIndexType . '"could not be found',
                     );
                 }
-
-                $progressBar->finish();
             }
         }
 
