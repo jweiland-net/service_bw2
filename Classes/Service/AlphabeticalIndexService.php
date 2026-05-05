@@ -14,7 +14,7 @@ namespace JWeiland\ServiceBw2\Service;
 use JWeiland\ServiceBw2\Domain\Model\Record;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-readonly class AlphabeticalIndexService
+class AlphabeticalIndexService
 {
     public const GERMAN_ALPHABET = [
         'A' => false,
