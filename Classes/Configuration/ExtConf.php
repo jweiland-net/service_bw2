@@ -61,7 +61,7 @@ readonly class ExtConf implements SingletonInterface
         return new self(
             mandant: (string)$extensionSettings['mandant'],
             token: (string)$extensionSettings['token'],
-            baseUrl: $extensionSettings['baseUrl'],
+            baseUrl: (string)$extensionSettings['baseUrl'],
             allowedLanguages: (string)$extensionSettings['allowedLanguages'],
 
             // Sometimes this value is prefixed with 0, which is not valid
