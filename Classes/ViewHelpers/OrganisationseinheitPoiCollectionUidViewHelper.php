@@ -95,14 +95,12 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
 
     /**
      * Find maps2 relation in the database
-     *
-     * @return array|bool array with hashed_address and tx_maps2_poi, false on failure (also if there is no relation)
      */
-    private function findMaps2Relation(): array|bool
+    private function findMaps2Relation(): ?array
     {
         $connection = $this->connectionPool->getConnectionForTable(self::TABLE);
 
-        return $connection
+        $record = $connection
             ->select(
                 ['hashed_address', 'tx_maps2_poi'],
                 self::TABLE,
@@ -111,6 +109,8 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
                 ],
             )
             ->fetchAssociative();
+
+        return is_array($record) ? $record : null;
     }
 
     /**
