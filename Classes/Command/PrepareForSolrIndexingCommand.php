@@ -57,6 +57,7 @@ class PrepareForSolrIndexingCommand extends Command
         protected readonly LoggerInterface $logger,
         protected readonly RepositoryFactory $repositoryFactory,
         protected readonly ExtConf $extConf,
+        protected readonly ConnectionPool $connectionPool,
     ) {
         parent::__construct();
     }
@@ -163,12 +164,15 @@ class PrepareForSolrIndexingCommand extends Command
 
     protected function getInitialRecords(int $contentUid): array
     {
-        $ttContentRecord = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tt_content')
+        $connection = $this->connectionPool->getConnectionForTable('tt_content');
+
+        $ttContentRecord = $connection
             ->select(
                 ['pi_flexform'],
                 'tt_content',
-                ['uid' => $contentUid],
+                [
+                    'uid' => $contentUid,
+                ],
             )->fetchOne();
 
         if (
