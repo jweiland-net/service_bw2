@@ -159,7 +159,7 @@ class PrepareForSolrIndexingCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function getInitialRecords(int $contentUid): array
