@@ -7,6 +7,17 @@
 ChangeLog
 =========
 
+Version 9.0.1
+=============
+
+*   [Bugfix] Correct variable and partial names in OE templates
+
+Version 9.0.0
+=============
+
+*   Implemented over 100 commits. Please see section "Upgrade"
+    on how to upgrade to this version.
+
 Version 8.0.6
 =============
 
