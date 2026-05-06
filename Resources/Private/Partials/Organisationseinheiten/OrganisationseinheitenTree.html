@@ -5,7 +5,7 @@
 <ul class="{f:if(condition: '{noClass}', then: '', else: 'ul-menu')}">
     <li>
         <f:link.action pageUid="{pageUid}" pluginName="OrganizationalUnitsShow" arguments="{id: organisationseinheitenTree.id}" action="show">
-            {organisationseinheitenbaum.name}
+            {organisationseinheitenTree.name}
         </f:link.action>
 
         <f:if condition="{organisationseinheitenTree.untergeordneteOrganisationseinheiten}">
