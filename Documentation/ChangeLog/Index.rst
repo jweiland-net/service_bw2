@@ -7,10 +7,15 @@
 ChangeLog
 =========
 
+Version 9.0.2
+=============
+
+*   [BUGFIX] Improve filtering and depth limiting of organisationseinheiten
+
 Version 9.0.1
 =============
 
-*   [Bugfix] Correct variable and partial names in OE templates
+*   [BUGFIX] Correct variable and partial names in OE templates
 
 Version 9.0.0
 =============
