@@ -171,11 +171,9 @@ readonly class ServiceBwClient
         array $headers,
         ?string $language = null,
     ): array {
-        if (
-            is_string($language)
-            && ($sanitizedLanguage = trim($language))
-            && $sanitizedLanguage !== ''
-        ) {
+        $sanitizedLanguage = is_string($language) ? trim($language) : '';
+
+        if ($sanitizedLanguage !== '') {
             $headers['Accept-Language'] = $sanitizedLanguage;
         }
 
