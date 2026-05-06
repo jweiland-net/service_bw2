@@ -11,55 +11,148 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Traits;
 
-use JWeiland\ServiceBw2\Domain\Model\Record;
-
 trait FilterOrganisationseinheitenTrait
 {
     /**
-     * This method filters the organisationseinheiten tree bypassed parent ids. All matching parents
-     * will be added to the result arrays root, including all of their children.
+     * Filters a recursive organisationseinheiten tree.
      *
-     * @param Record[] $organisationseinheiten
+     * Only records with an ID contained in $allowedParentIds are allowed to appear
+     * on the root level of the returned result. These records may exist anywhere
+     * in the original recursive tree.
+     *
+     * Once such a record is found, its children are included recursively up to
+     * $maxDepth levels below the matched root record.
+     *
+     * @param array<int, array<string, mixed>> $organisationseinheiten
+     * @param array<int|string> $allowedParentIds
+     * @return array<int, array<string, mixed>>
      */
     protected function filterOrganisationseinheitenByParentIds(
         array $organisationseinheiten,
         array $allowedParentIds,
-        string $language,
         int $maxDepth = 2,
-        int $depth = 0,
     ): array {
         $filteredOrganisationseinheiten = [];
-        $allowedParentIds = array_map('intval', $allowedParentIds);
-        $organisationseinheiten = iterator_to_array($organisationseinheiten);
-
-        // The Service BW API currently does not sort organisationseinheiten reliably.
-        // This fallback sorting can be removed once the API issue has been fixed.
-        usort(
-            $organisationseinheiten,
-            static fn(array $a, array $b): int => strcasecmp($a['name'], $b['name']),
-        );
 
         foreach ($organisationseinheiten as $organisationseinheit) {
-            $untergeordneteOrganisationseinheiten = $organisationseinheit['untergeordneteOrganisationseinheiten'] ?? [];
+            if (!is_array($organisationseinheit)) {
+                continue;
+            }
 
-            if (in_array($organisationseinheit['id'], $allowedParentIds, true)) {
-                $filteredOrganisationseinheiten[] = $organisationseinheit;
-            } elseif ($untergeordneteOrganisationseinheiten !== [] && $depth < $maxDepth) {
-                $filteredUntergeordneteOrganisationseinheiten = $this->filterOrganisationseinheitenByParentIds(
-                    $untergeordneteOrganisationseinheiten,
-                    $allowedParentIds,
-                    $language,
+            $organisationseinheitId = $organisationseinheit['id'] ?? null;
+
+            if (in_array($organisationseinheitId, $allowedParentIds, true)) {
+                $filteredOrganisationseinheiten[] = $this->limitOrganisationseinheitenDepth(
+                    $organisationseinheit,
+                    0,
                     $maxDepth,
-                    $depth + 1,
                 );
 
-                array_push(
-                    $filteredOrganisationseinheiten,
-                    ...$filteredUntergeordneteOrganisationseinheiten,
-                );
+                continue;
+            }
+
+            $untergeordneteOrganisationseinheiten = $this->getUntergeordneteOrganisationseinheiten(
+                $organisationseinheit,
+            );
+
+            if ($untergeordneteOrganisationseinheiten !== []) {
+                $filteredOrganisationseinheiten = [
+                    ...$filteredOrganisationseinheiten,
+                    ...$this->filterOrganisationseinheitenByParentIds(
+                        $untergeordneteOrganisationseinheiten,
+                        $allowedParentIds,
+                        $maxDepth,
+                    ),
+                ];
             }
         }
 
-        return $filteredOrganisationseinheiten;
+        return $this->sortOrganisationseinheitenByName($filteredOrganisationseinheiten);
+    }
+
+    /**
+     * Keeps a matched organisationseinheit and limits its recursive children
+     * to the configured maximum depth.
+     *
+     * Depth starts at 0 for the matched root record.
+     *
+     * With $maxDepth = 2, the result contains:
+     * - matched root record, depth 0
+     * - direct children, depth 1
+     * - grandchildren, depth 2
+     *
+     * Children below depth 2 are removed.
+     *
+     * @param array<string, mixed> $organisationseinheit
+     * @return array<string, mixed>
+     */
+    protected function limitOrganisationseinheitenDepth(
+        array $organisationseinheit,
+        int $depth,
+        int $maxDepth,
+    ): array {
+        $untergeordneteOrganisationseinheiten = $this->getUntergeordneteOrganisationseinheiten(
+            $organisationseinheit,
+        );
+
+        if ($untergeordneteOrganisationseinheiten === [] || $depth >= $maxDepth) {
+            $organisationseinheit['untergeordneteOrganisationseinheiten'] = [];
+
+            return $organisationseinheit;
+        }
+
+        $limitedUntergeordneteOrganisationseinheiten = [];
+
+        foreach ($untergeordneteOrganisationseinheiten as $untergeordneteOrganisationseinheit) {
+            if (!is_array($untergeordneteOrganisationseinheit)) {
+                continue;
+            }
+
+            $limitedUntergeordneteOrganisationseinheiten[] = $this->limitOrganisationseinheitenDepth(
+                $untergeordneteOrganisationseinheit,
+                $depth + 1,
+                $maxDepth,
+            );
+        }
+
+        $organisationseinheit['untergeordneteOrganisationseinheiten'] = $this->sortOrganisationseinheitenByName(
+            $limitedUntergeordneteOrganisationseinheiten,
+        );
+
+        return $organisationseinheit;
+    }
+
+    /**
+     * @param array<string, mixed> $organisationseinheit
+     * @return array<int, array<string, mixed>>
+     */
+    protected function getUntergeordneteOrganisationseinheiten(array $organisationseinheit): array
+    {
+        $untergeordneteOrganisationseinheiten = $organisationseinheit['untergeordneteOrganisationseinheiten'] ?? [];
+
+        if (!is_array($untergeordneteOrganisationseinheiten)) {
+            return [];
+        }
+
+        return $untergeordneteOrganisationseinheiten;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $organisationseinheiten
+     * @return array<int, array<string, mixed>>
+     */
+    protected function sortOrganisationseinheitenByName(array $organisationseinheiten): array
+    {
+        usort(
+            $organisationseinheiten,
+            static function (array $firstOrganisationseinheit, array $secondOrganisationseinheit): int {
+                return strcasecmp(
+                    (string)($firstOrganisationseinheit['name'] ?? ''),
+                    (string)($secondOrganisationseinheit['name'] ?? ''),
+                );
+            },
+        );
+
+        return $organisationseinheiten;
     }
 }

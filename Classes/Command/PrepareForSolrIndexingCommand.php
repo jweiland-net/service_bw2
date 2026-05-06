@@ -111,7 +111,6 @@ class PrepareForSolrIndexingCommand extends Command
                     $records = $this->filterOrganisationseinheitenByParentIds(
                         $records,
                         $this->getInitialRecords((int)$input->getOption('content-uid')),
-                        $languageCode,
                     );
                 } else {
                     $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
