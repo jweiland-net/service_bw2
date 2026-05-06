@@ -46,7 +46,6 @@ class OrganisationseinheitenController extends AbstractController
                 $languageCode,
             ),
             $listItems,
-            $languageCode,
         );
 
         $this->view->assign('organisationseinheitenTrees', $records);
