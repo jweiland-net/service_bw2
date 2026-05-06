@@ -11,206 +11,200 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Client;
 
-use JWeiland\ServiceBw2\Client\Event\ModifyServiceBwResponseEvent;
-use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
-use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
+use JWeiland\ServiceBw2\Client\Request\RequestInterface;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
-use TYPO3\CMS\Core\Registry;
 
 /**
  * Client to be used for all Service BW API v2 requests
  */
 readonly class ServiceBwClient
 {
-    protected const API_ENDPOINT = '/rest-v2/api';
-
-    protected const DEFAULT_PAGINATION_CONFIGURATION = [
-        'nextItem' => 'nextPage',
-        'pageParameter' => 'page',
-        'pageSizeParameter' => 'pageSize',
-        'pageSize' => 1000,
-    ];
-
-    protected const DEFAULT_LOCALIZATION_CONFIGURATION = [
-        'headerParameter' => 'Accept-Language',
-    ];
+    /**
+     * Max records to retrieve from Service BW API.
+     */
+    public const MAX_ITEMS_EACH_REQUEST = 100;
 
     /**
-     * @var string[]
+     * I got a lot of connect timeouts with 2 sec and 5 sec.
      */
+    public const GUZZLE_CONNECT_TIMEOUT = 10;
+
+    public const GUZZLE_TIMEOUT = 20;
+
     public function __construct(
         protected RequestFactory $requestFactory,
-        protected Registry $registry,
         protected ExtConf $extConf,
-        protected EventDispatcherInterface $eventDispatcher,
-        protected LocalizationHelper $localizationHelper,
-        protected TokenHelper $tokenHelper,
-        protected FrontendInterface $cache,
         protected LoggerInterface $logger,
-    ) {
-        if (!$this->registry->get('ServiceBw', 'token', false)) {
-            $this->tokenHelper->fetchAndSaveToken();
-        }
-    }
+    ) {}
 
-    public function request(
-        string $path,
-        array $getParameters = [],
-        bool $isLocalizedRequest = true,
-        bool $isPaginatedRequest = false,
-        ?string $body = null,
-        array $overridePaginationConfiguration = [],
-        array $overrideLocalizationConfiguration = [],
-    ): array {
-        $cacheIdentifier = $this->getCacheIdentifier([
-            $path,
-            $getParameters,
-            $isLocalizedRequest,
-            $isPaginatedRequest,
-            $body,
-            $overridePaginationConfiguration,
-            $overrideLocalizationConfiguration,
-        ]);
+    public function requestAll(
+        RequestInterface $request,
+        ?string $language = null,
+    ): \Generator {
+        $url = $this->extConf->getBaseUrl() . $request->getUrl();
 
-        // Early return, if data exists in cache
-        if ($this->cache->has($cacheIdentifier)) {
-            return $this->cache->get($cacheIdentifier);
-        }
+        $headers = $request->getHeaders();
+        $headers = $this->getHeaderWithAuthorization($headers);
+        $headers = $this->getHeaderWithLanguage($headers, $language);
 
-        $paginationConfiguration = $this->getPaginationConfiguration($overridePaginationConfiguration);
-        $localizationConfiguration = $this->getLocalizationConfiguration($overrideLocalizationConfiguration);
-        $queryPartForRequest = $this->getQueryPartForRequest(
-            $getParameters,
-            $isPaginatedRequest,
-            $paginationConfiguration,
-        );
+        $query = $request->getQuery();
+        $query = $this->getQueryWithMandant($query);
 
-        $items = [];
-        $isNextPageSet = false;
-        do {
-            try {
-                $responseBody = [];
+        $currentPage = 0;
+        $totalPages = 1;
 
-                $response = $this->requestFactory->request(
-                    $this->extConf->getBaseUrl() . self::API_ENDPOINT . $path,
-                    'GET',
+        while ($currentPage < $totalPages) {
+            $query = $this->updateQueryWithPagination($request, $query, $currentPage);
+
+            $options = [
+                'headers' => $headers,
+                'body' => $request->getBody(),
+                'query' => $query,
+                'http_errors' => false,
+            ];
+            $options = $this->updateOptionsWithTimeout($options);
+
+            $response = $this->requestFactory->request(
+                $url,
+                'GET',
+                $options,
+            );
+
+            if ($response->getStatusCode() === 404) {
+                $this->logger->error(
+                    'Service BW API record was not found. The requested endpoint or record may not exist.',
                     [
-                        'headers' => $this->getHeaders($isLocalizedRequest, $localizationConfiguration),
-                        'body' => $body,
-                        'query' => $queryPartForRequest,
+                        'Status Code' => $response->getStatusCode(),
+                        'URL' => $url,
+                        'Query' => $query,
                     ],
                 );
 
-                if ($response->getStatusCode() !== 200) {
-                    $this->logger->error('SKIP record because returned status code is not 200.');
-                    continue;
-                }
-
-                try {
-                    $responseBody = (array)json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-                } catch (\JsonException $jsonException) {
-                    $this->logger->error('SKIP record because Service BW response could not be extracted.');
-                    continue;
-                }
-
-                /** @var ModifyServiceBwResponseEvent $event */
-                $event = $this->eventDispatcher->dispatch(new ModifyServiceBwResponseEvent(
-                    $path,
-                    $responseBody,
-                    $isPaginatedRequest,
-                    $isLocalizedRequest,
-                ));
-
-                $responseBody = $event->getResponseBody();
-
-                $isNextPageSet = false;
-                if ($isPaginatedRequest) {
-                    if ($isNextPageSet = array_key_exists($paginationConfiguration['nextItem'], $responseBody)) {
-                        $queryPartForRequest[$paginationConfiguration['pageParameter']] = $responseBody[$paginationConfiguration['nextItem']];
-                    }
-
-                    array_push($items, ...$responseBody['items']);
-                }
-            } catch (\Exception $exception) {
-                $this->logger->error('SKIP record because of error: ' . $exception->getMessage());
+                break;
             }
 
-        } while ($isPaginatedRequest && $isNextPageSet);
+            if ($response->getStatusCode() !== 200) {
+                $this->logger->error(
+                    'Service BW API responded with an unexpected status code.',
+                    [
+                        'Status Code' => $response->getStatusCode(),
+                        'URL' => $url,
+                        'Query' => $query,
+                    ],
+                );
 
-        $this->cache->set(
-            $cacheIdentifier,
-            $isPaginatedRequest ? $items : $responseBody,
-            ['service_bw2_request'],
+                break;
+            }
+
+            $responseData = json_decode((string)$response->getBody(), true);
+
+            // Prevent infinite loop if these values are not part of the response
+            if (!isset($responseData['currentPage'], $responseData['totalPages'])) {
+                break;
+            }
+
+            $currentPage = $responseData['currentPage'] + 1;
+            $totalPages = $responseData['totalPages'];
+
+            foreach ($responseData['items'] as $item) {
+                yield (int)$item['id'] => $item;
+            }
+        }
+    }
+
+    public function requestRecord(
+        RequestInterface $request,
+        string $language,
+    ): array {
+        $url = $this->extConf->getBaseUrl() . $request->getUrl();
+
+        $headers = $request->getHeaders();
+        $headers = $this->getHeaderWithAuthorization($headers);
+        $headers = $this->getHeaderWithLanguage($headers, $language);
+
+        $query = $request->getQuery();
+        $query = $this->getQueryWithMandant($query);
+
+        $options = [
+            'headers' => $headers,
+            'body' => $request->getBody(),
+            'query' => $query,
+            'http_errors' => false,
+        ];
+        $options = $this->updateOptionsWithTimeout($options);
+
+        $response = $this->requestFactory->request(
+            $url,
+            'GET',
+            $options,
         );
 
-        return $isPaginatedRequest ? $items : $responseBody;
-    }
+        if ($response->getStatusCode() !== 200) {
+            $this->logger->error(
+                'Service BW API responded with an unexpected status code.',
+                [
+                    'Status Code' => $response->getStatusCode(),
+                    'URL' => $url,
+                    'Query' => $query,
+                ],
+            );
 
-    protected function getCacheIdentifier(array $requestArguments): string
-    {
-        try {
-            $value = json_encode($requestArguments, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $jsonException) {
-            return '';
+            return [];
         }
 
-        if ($requestArguments[2]) {
-            $value .= $this->localizationHelper->getFrontendLanguageIsoCode();
-        }
-
-        return md5($value);
+        return json_decode((string)$response->getBody(), true);
     }
 
-    protected function getHeaders(bool $isLocalizedRequest, array $localizationConfiguration): array
+    protected function getHeaderWithAuthorization(array $headers): array
     {
-        $headers = [
-            'Authorization' => $this->registry->get('ServiceBw', 'token', ''),
-        ];
+        $headers['Authorization'] = $this->extConf->getToken();
 
-        if ($isLocalizedRequest) {
-            $headers[$localizationConfiguration['headerParameter']] = $this->localizationHelper->getFrontendLanguageIsoCode();
+        return $headers;
+    }
+
+    /**
+     * @param ?string $language The 2-letter ISO code like "de", or "en"
+     */
+    protected function getHeaderWithLanguage(
+        array $headers,
+        ?string $language = null,
+    ): array {
+        $sanitizedLanguage = is_string($language) ? trim($language) : '';
+
+        if ($sanitizedLanguage !== '') {
+            $headers['Accept-Language'] = $sanitizedLanguage;
         }
 
         return $headers;
     }
 
-    protected function getQueryForPaginatedRequest(array $paginationConfiguration): array
+    protected function getQueryWithMandant(array $query): array
     {
-        return [
-            $paginationConfiguration['pageParameter'] => 0,
-            $paginationConfiguration['pageSizeParameter'] => $paginationConfiguration['pageSize'],
-        ];
+        $query['mandantId'] = $this->extConf->getMandant();
+
+        return $query;
     }
 
-    protected function getPaginationConfiguration(array $overridePaginationConfiguration): array
-    {
-        return array_merge(
-            self::DEFAULT_PAGINATION_CONFIGURATION,
-            $overridePaginationConfiguration,
-        );
-    }
-
-    protected function getLocalizationConfiguration(array $overrideLocalizationConfiguration): array
-    {
-        return array_merge(
-            self::DEFAULT_LOCALIZATION_CONFIGURATION,
-            $overrideLocalizationConfiguration,
-        );
-    }
-
-    protected function getQueryPartForRequest(
-        array $getParameters,
-        bool $isPaginatedRequest,
-        array $paginationConfiguration,
+    protected function updateQueryWithPagination(
+        RequestInterface $request,
+        array $query,
+        int $currentPage,
     ): array {
-        return array_merge(
-            $this->extConf->getDefaultQueryForRequest(),
-            $getParameters,
-            $isPaginatedRequest ? $this->getQueryForPaginatedRequest($paginationConfiguration) : [],
-        );
+        if ($request::SUPPORTS_PAGINATION) {
+            $query['page'] = $currentPage;
+            $query['pageSize'] = self::MAX_ITEMS_EACH_REQUEST;
+        }
+
+        return $query;
+    }
+
+    protected function updateOptionsWithTimeout(array $options): array
+    {
+        $options['connect_timeout'] = self::GUZZLE_CONNECT_TIMEOUT;
+        $options['timeout'] = self::GUZZLE_TIMEOUT;
+
+        return $options;
     }
 }

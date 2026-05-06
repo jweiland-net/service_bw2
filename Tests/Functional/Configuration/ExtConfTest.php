@@ -29,58 +29,6 @@ class ExtConfTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getUsernameInitiallyReturnsEmptyString()
-    {
-        $config = [];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            '',
-            $subject->getUsername(),
-        );
-    }
-
-    #[Test]
-    public function setUsernameSetsUsername()
-    {
-        $config = [
-            'username' => 'jweiland',
-        ];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            'jweiland',
-            $subject->getUsername(),
-        );
-    }
-
-    #[Test]
-    public function getPasswordInitiallyReturnsEmptyString()
-    {
-        $config = [];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            '',
-            $subject->getPassword(),
-        );
-    }
-
-    #[Test]
-    public function setPasswordSetsPassword()
-    {
-        $config = [
-            'password' => 'crypted',
-        ];
-        $subject = new ExtConf(...$config);
-
-        self::assertSame(
-            'crypted',
-            $subject->getPassword(),
-        );
-    }
-
-    #[Test]
     public function getMandantInitiallyReturnsEmptyString()
     {
         $config = [];
@@ -107,13 +55,39 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
+    public function getTokenInitiallyReturnsEmptyString()
+    {
+        $config = [];
+        $subject = new ExtConf(...$config);
+
+        self::assertSame(
+            '',
+            $subject->getToken(),
+        );
+    }
+
+    #[Test]
+    public function setTokenSetsToken()
+    {
+        $config = [
+            'token' => 'Bearer abc',
+        ];
+        $subject = new ExtConf(...$config);
+
+        self::assertSame(
+            'Bearer abc',
+            $subject->getToken(),
+        );
+    }
+
+    #[Test]
     public function getBaseUrlInitiallyReturnsDefaultValue()
     {
         $config = [];
         $subject = new ExtConf(...$config);
 
         self::assertSame(
-            'https://sgw.service-bw.de:443',
+            'https://sgw.service-bw.de:443/rest-v2/api',
             $subject->getBaseUrl(),
         );
     }
@@ -133,7 +107,7 @@ class ExtConfTest extends FunctionalTestCase
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -156,9 +130,9 @@ class ExtConfTest extends FunctionalTestCase
 
         self::assertSame(
             [
-                'de' => 0,
-                'en' => 1,
-                'fr' => 2,
+                'de' => 'de',
+                'en' => 'en',
+                'fr' => 'fr',
             ],
             $subject->getAllowedLanguages(),
         );
@@ -167,15 +141,14 @@ class ExtConfTest extends FunctionalTestCase
     public static function allowedLanguagesDataProvider(): array
     {
         return [
-            'Empty' => ['', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Single Language' => ['de=1', ['de' => 1]],
-            'Multiple Languages' => ['de=0;fr=1;en=2', ['de' => 0, 'fr' => 1, 'en' => 2]],
-            'Multiple Languages with trailing ;' => ['de=0;pl=1;sp=2;', ['de' => 0, 'pl' => 1, 'sp' => 2]],
-            'Use default on non trimmed values' => ['de = 1;   en  = 2', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on empty language settings' => ['de=1;;fr=3;', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on missing sys_language_uid' => ['de', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on wrong lang string' => ['deu', ['de' => 0, 'en' => 1, 'fr' => 2]],
-            'Use default on vise versa configuration' => ['1=de;3=fr;', ['de' => 0, 'en' => 1, 'fr' => 2]],
+            'Empty configuration results in default values' => ['', ['de' => 'de', 'en' => 'en', 'fr' => 'fr']],
+            'Configuration with language UIDs results in default values' => ['de=1', ['de' => 'de', 'en' => 'en', 'fr' => 'fr']],
+            'Single language configuration' => ['de=de', ['de' => 'de']],
+            'Multiple language configuration' => ['de=de;fr=fr;en=en', ['de' => 'de', 'fr' => 'fr', 'en' => 'en']],
+            'Trailing semicolon will be removed' => ['de=de;', ['de' => 'de']],
+            'Spaces will be removed' => ['de = de;   en  = en', ['de' => 'de', 'en' => 'en']],
+            'Missing language will be removed' => ['de=de;;fr=fr', ['de' => 'de', 'fr' => 'fr']],
+            'Map multiple TYPO3 languages to one Service BW language' => ['de=de;fr=en;gr=en;sp=en', ['de' => 'de', 'fr' => 'en', 'gr' => 'en', 'sp' => 'en']],
         ];
     }
 
@@ -187,7 +160,7 @@ class ExtConfTest extends FunctionalTestCase
     ) {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([
@@ -219,7 +192,7 @@ class ExtConfTest extends FunctionalTestCase
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('service_bw2')
             ->willReturn([

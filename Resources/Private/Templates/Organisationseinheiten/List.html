@@ -7,8 +7,9 @@
 <f:section name="main">
     <!--TYPO3SEARCH_end-->
     <div class="frame-indent">
-        <f:for each="{organisationseinheitenbaum}" as="organisationseinheitenbaumItem">
-            <f:render partial="Organisationseinheiten/Organisationseinheitenbaum" arguments="{organisationseinheitenbaum: organisationseinheitenbaumItem, pageUid: settings.organisationseinheiten.pidOfDetailPage}"/>
+        <f:for each="{organisationseinheitenTrees}" as="organisationseinheitenTree">
+            <f:render partial="Organisationseinheiten/Organisationseinheitenbaum"
+                      arguments="{organisationseinheitenTree: organisationseinheitenTree, pageUid: settings.organisationseinheiten.pidOfDetailPage}"/>
         </f:for>
     </div>
     <!--TYPO3SEARCH_begin-->

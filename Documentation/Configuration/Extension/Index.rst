@@ -21,26 +21,22 @@ first panel and chose `service_bw2` from the extension list.
 Tab: Basic
 ==========
 
-Username for Service BW API
----------------------------
-
-Default: <empty>
-
-The username provided by Service BW for API usage. (Mostly starts with `ws_`)
-
-Password for Service BW API
----------------------------
-
-Default: <empty>
-
-The password provided by Service BW for API usage.
-
 Mandant
 -------
 
 Default: <empty>
 
 The mandant number of the city.
+
+Bearer Accesstoken for Service BW API
+-------------------------------------
+
+Default: <empty>
+
+The Bearer Access Token to get access to Service BW API endpoint. You can
+retrieve one from here: https://sgw.service-bw.de/rest-v2/documentation/
+Scoll down to "Authentifizierung: Token", click on "Try it out" and enter your
+credentials and click on "Execute". You will find the Bearer Token below in "Response Body". Copy over the full string incl. the "Bearer" word.
 
 Base URL
 --------

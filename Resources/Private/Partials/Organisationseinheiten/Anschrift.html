@@ -3,10 +3,10 @@
       xmlns:jw="http://typo3.org/ns/JWeiland/ServiceBw2/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:for each="{organisationseinheit.anschriften}" as="anschriftItem">
+<f:for each="{organisationseinheit.data.anschriften}" as="anschriftItem">
     <f:if condition="{anschriftItem.type} == {type}">
         <dt class="margin-top">
-            <f:translate key="organisationseinheit.anschrift.{type}"/>
+            <f:translate key="organisationseinheit.data.anschrift.{type}"/>
         </dt>
         <dd>
             <f:if condition="{anschriftItem.postfach}">

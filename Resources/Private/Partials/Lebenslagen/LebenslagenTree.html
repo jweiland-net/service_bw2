@@ -1,0 +1,21 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<ul class="{f:if(condition: '{isRecursiveCall}', then: '', else: 'ul-menu')}">
+    <li>
+        <f:link.action pageUid="{pageUid}"
+                       pluginName="LifeSituationsShow"
+                       arguments="{id: lebenslagenTree.id}"
+                       action="show">
+            {lebenslagenTree.name}
+        </f:link.action>
+
+        <f:if condition="{lebenslagenTree.untergeordneteLebenslagen}">
+            <f:for each="{lebenslagenTree.untergeordneteLebenslagen}" as="lebenslagenTree">
+                <f:render partial="Lebenslagen/LebenslagenTree" arguments="{lebenslagenTree: lebenslagenTree, pageUid: pageUid, isRecursiveCall: true}"/>
+            </f:for>
+        </f:if>
+    </li>
+</ul>
+</html>

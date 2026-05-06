@@ -48,7 +48,6 @@ Service BW (https://www.service-bw.de/) to your website.
     Configuration/Index
     User/Index
     Administrator/Index
-    Developer/Index
     KnownProblems/Index
     ChangeLog/Index
     Links

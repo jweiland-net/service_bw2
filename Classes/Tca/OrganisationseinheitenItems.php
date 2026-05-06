@@ -11,27 +11,27 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tca;
 
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
+use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
 
-/**
- * Class OrganisationseinheitenItems
- */
 readonly class OrganisationseinheitenItems
 {
     public function __construct(
-        protected Organisationseinheiten $organisationseinheiten,
+        protected OrganisationseinheitenProvider $organisationseinheitenProvider,
+        protected LanguageHelper $languageHelper,
         protected LoggerInterface $logger,
     ) {}
 
     /**
      * Get items for a select field
      */
-    public function getItems(array $processorParameters, AbstractItemProvider $itemProvider): void
+    public function getItems(array $processorParameters): void
     {
         try {
-            $records = $this->organisationseinheiten->findOrganisationseinheitenbaum();
+            $records = $this->organisationseinheitenProvider->findOrganisationseinheitenTrees(
+                $this->languageHelper->getDefaultServiceBwLanguageCode(),
+            );
         } catch (\Exception $exception) {
             $this->logger->error(
                 'Could not get organisationseinheiten: ' . $exception->getMessage(),

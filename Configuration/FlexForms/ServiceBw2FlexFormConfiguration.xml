@@ -6,9 +6,7 @@
                 <type>array</type>
                 <el>
                     <settings.organisationseinheiten.listItems>
-                        <label>
-                            LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.list_items
-                        </label>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.list_items</label>
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitslist</displayCond>
                         <config>
                             <type>select</type>
@@ -17,9 +15,7 @@
                         </config>
                     </settings.organisationseinheiten.listItems>
                     <settings.organisationseinheiten.maps2Pid>
-                        <label>
-                            LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_pid
-                        </label>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_pid</label>
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitsshow</displayCond>
                         <config>
                             <type>group</type>
@@ -28,9 +24,7 @@
                         </config>
                     </settings.organisationseinheiten.maps2Pid>
                     <settings.organisationseinheiten.maps2DetailPage>
-                        <label>
-                            LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_detail_page
-                        </label>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_detail_page</label>
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitsshow</displayCond>
                         <config>
                             <type>group</type>
@@ -47,8 +41,7 @@
                 <type>array</type>
                 <el>
                     <settings.organisationseinheiten.pidOfListPage>
-                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten
-                        </label>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label>
                         <config>
                             <type>group</type>
                             <allowed>pages</allowed>
@@ -80,8 +73,7 @@
                 <type>array</type>
                 <el>
                     <settings.organisationseinheiten.pidOfDetailPage>
-                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten
-                        </label>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:organisationseinheiten</label>
                         <config>
                             <type>group</type>
                             <allowed>pages</allowed>

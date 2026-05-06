@@ -9,7 +9,12 @@
     <!--TYPO3SEARCH_end-->
     <f:render
         partial="Utility/AlphabeticalIndex"
-        arguments="{detailPageUid: settings.leistungen.pidOfDetailPage, titleField: 'name', sortedLetterList: '{sortedLetterList}', sortedRecordList: '{sortedRecordList}', controller: 'Leistungen', action: 'show', plugin: 'ServicesShow'}"/>
+        arguments="{
+            detailPageUid: settings.leistungen.pidOfDetailPage,
+            titleField: 'name',
+            alphabeticalIndex: alphabeticalIndex,
+            request: request,
+        }"/>
     <!--TYPO3SEARCH_begin-->
 </f:section>
 </html>

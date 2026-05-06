@@ -12,19 +12,22 @@
             </header>
         </div>
     </section>
-    <f:render partial="Textbloecke" arguments="{textbloecke: lebenslage.textbloecke}"/>
+
+    <f:render partial="Textbloecke" arguments="{textbloecke: lebenslage.data.textbloecke}"/>
+
     <aside>
         <div class="width-max">
             <div class="relations lebenslagenshow">
-                <f:if condition="{lebenslage.lebenslagenbaum}">
+                <f:if condition="{lebenslage.data.lebenslagenbaum}">
                     <h2><f:translate key="lebenslage.assigned_life_situations"/></h2>
-                    <f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslage.lebenslagenbaum}"/>
+                    <f:render partial="Lebenslagen/LebenslagenTree" arguments="{lebenslagenTree: lebenslage.data.lebenslagenbaum}"/>
                 </f:if>
             </div>
+
             <div class="relations lebenslagenshow">
-                <f:if condition="{lebenslage.leistungen}">
-                    <h2><f:translate key="lebenslage.related_verfahren"/></h2>
-                    <f:render partial="Leistungen" arguments="{leistungen: lebenslage.leistungen}"/>
+                <f:if condition="{lebenslage.data.leistungen}">
+                    <h2><f:translate key="lebenslage.data.related_verfahren"/></h2>
+                    <f:render partial="Leistungen" arguments="{leistungen: lebenslage.data.leistungen}"/>
                 </f:if>
             </div>
         </div>

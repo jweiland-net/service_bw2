@@ -11,29 +11,24 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
-use JWeiland\ServiceBw2\Client\Helper\LocalizationHelper;
-use JWeiland\ServiceBw2\Client\Helper\TokenHelper;
+use GuzzleHttp\Psr7\Response;
+use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use SebastianBergmann\Comparator\ComparisonFailure;
-use SebastianBergmann\Comparator\Factory;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
-use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Http\RequestFactory;
-use TYPO3\CMS\Core\Http\Response;
-use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Log\Logger;
-use TYPO3\CMS\Core\Registry;
-use TYPO3\CMS\Core\Routing\Route;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class ServiceBwClientTest extends FunctionalTestCase
 {
+    protected ServiceBwClient $subject;
+
+    protected RequestFactory|MockObject $requestFactoryMock;
+
+    protected Logger|MockObject $loggerMock;
+
     protected array $testExtensionsToLoad = [
         'jweiland/service-bw2',
         'jweiland/maps2',
@@ -44,145 +39,135 @@ class ServiceBwClientTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        $request = (new ServerRequest('https://example.com/typo3/'))
-            ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE)
-            ->withAttribute('route', new Route('path', ['packageName' => 'typo3/cms-backend']));
-        $GLOBALS['TYPO3_REQUEST'] = $request;
+        $this->requestFactoryMock = $this->createMock(RequestFactory::class);
+        $this->loggerMock = $this->createMock(Logger::class);
+        $extConf = new ExtConf(
+            '123',
+            'abc123',
+            'https://sgw.service-bw.de:443/rest-v2/api',
+            'de=de;en=en;fr=en',
+            12,
+            '',
+        );
 
-        GeneralUtility::makeInstance(Registry::class)
-            ->set('ServiceBw', 'token', '123456');
-    }
-
-    public static function requestVariantsDataProvider(): array
-    {
-        return [
-            'default query' => [
-                false,
-                [],
-                [
-                    'mandantId' => 'testMandant',
-                    'gebietAgs' => 1234,
-                    'gebietId' => 'testGebietId',
-                ],
-            ],
-            'default paginated query' => [
-                true,
-                [],
-                [
-                    'mandantId' => 'testMandant',
-                    'gebietAgs' => 1234,
-                    'gebietId' => 'testGebietId',
-                    'page' => 0,
-                    'pageSize' => 1000,
-                ],
-            ],
-            'query with additional parameters' => [
-                false,
-                [
-                    'coca' => 'cola',
-                ],
-                [
-                    'mandantId' => 'testMandant',
-                    'gebietAgs' => 1234,
-                    'gebietId' => 'testGebietId',
-                    'coca' => 'cola',
-                ],
-            ],
-            'paginated query with additional parameters' => [
-                false,
-                [
-                    'pepsi' => 'cola',
-                ],
-                [
-                    'mandantId' => 'testMandant',
-                    'gebietAgs' => 1234,
-                    'gebietId' => 'testGebietId',
-                    'pepsi' => 'cola',
-                ],
-            ],
-        ];
+        $this->subject = new ServiceBwClient(
+            $this->requestFactoryMock,
+            $extConf,
+            $this->loggerMock,
+        );
     }
 
     #[Test]
-    #[DataProvider('requestVariantsDataProvider')]
-    public function requestAddsQueryParameters(
-        bool $isPaginatedRequest,
-        array $getParameters,
-        array $expectedQuery,
-    ): void {
-        $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
-        $extensionConfigurationMock
-            ->expects(self::once())
-            ->method('get')
-            ->with('service_bw2')
-            ->willReturn([
-                'mandant' => 'testMandant',
-                'ags' => '1234',
-                'gebietId' => 'testGebietId',
-            ]);
+    public function requestAllWithStatusCode404WillAddErrorLog(): void
+    {
+        $response = $this->createMock(Response::class);
+        $response
+            ->expects($this->atLeastOnce())
+            ->method('getStatusCode')
+            ->willReturn(404);
 
-        $extConf = ExtConf::create($extensionConfigurationMock);
-
-        $responseBody = [
-            0 => [
-                'hello' => 'world',
-            ],
-        ];
-        if ($isPaginatedRequest) {
-            $responseBody = ['items' => $responseBody];
-        }
-
-        $response = new Response();
-        $response->getBody()->write(json_encode($responseBody));
-        $response->getBody()->rewind();
-
-        $requestFactoryMock = $this->createMock(RequestFactory::class);
-        $requestFactoryMock
-            ->expects(self::atLeastOnce())
+        $this->requestFactoryMock
+            ->expects($this->atLeastOnce())
             ->method('request')
-            ->with(
-                self::anything(),
-                self::equalTo('GET'),
-                self::callback(function ($argument) use ($expectedQuery) {
-                    try {
-                        Factory::getInstance()
-                            ->getComparatorFor($expectedQuery, $argument['query'])
-                            ->assertEquals($expectedQuery, $argument['query']);
-                    } catch (ComparisonFailure $comparisonFailure) {
-                        echo $comparisonFailure->getDiff();
-                        return false;
-                    }
-
-                    return true;
-                }),
-            )
             ->willReturn($response);
 
-        $serviceBwClient = new ServiceBwClient(
-            $requestFactoryMock,
-            GeneralUtility::makeInstance(Registry::class),
-            $extConf,
-            GeneralUtility::makeInstance(EventDispatcher::class),
-            GeneralUtility::makeInstance(LocalizationHelper::class),
-            self::createStub(TokenHelper::class),
-            self::createStub(VariableFrontend::class),
-            self::createStub(Logger::class),
-        );
+        $this->loggerMock
+            ->expects($this->atLeastOnce())
+            ->method('error')
+            ->with(self::stringStartsWith('Service BW API record was not found'));
 
-        $result = $serviceBwClient->request(
-            (string)time(),
-            $getParameters,
-            true,
-            $isPaginatedRequest,
-        );
+        iterator_to_array($this->subject->requestAll(new Lebenslagen(), 'de'));
+    }
 
-        self::assertEquals(
-            [
+    #[Test]
+    public function requestAllWithStatusCode503WillAddErrorLog(): void
+    {
+        $response = $this->createMock(Response::class);
+        $response
+            ->expects($this->atLeastOnce())
+            ->method('getStatusCode')
+            ->willReturn(503);
+
+        $this->requestFactoryMock
+            ->expects($this->atLeastOnce())
+            ->method('request')
+            ->willReturn($response);
+
+        $this->loggerMock
+            ->expects($this->atLeastOnce())
+            ->method('error')
+            ->with(self::stringStartsWith('Service BW API responded with an unexpected status code.'));
+
+        iterator_to_array($this->subject->requestAll(new Lebenslagen(), 'de'));
+    }
+
+    #[Test]
+    public function requestAllWillReturnResponseData(): void
+    {
+        $data = [
+            'currentPage' => 0,
+            'totalPages' => 1,
+            'items' => [
                 0 => [
-                    'hello' => 'world',
+                    'id' => 123,
                 ],
             ],
-            $result,
+        ];
+
+        $this->requestFactoryMock
+            ->expects($this->atLeastOnce())
+            ->method('request')
+            ->willReturn(new Response(200, [], json_encode($data)));
+
+        $items = iterator_to_array($this->subject->requestAll(new Lebenslagen(), 'de'));
+
+        self::assertSame(
+            [
+                123 => ['id' => 123],
+            ],
+            $items,
+        );
+    }
+
+    #[Test]
+    public function requestRecordWithStatusCode503WillAddErrorLog(): void
+    {
+        $response = $this->createMock(Response::class);
+        $response
+            ->expects($this->atLeastOnce())
+            ->method('getStatusCode')
+            ->willReturn(503);
+
+        $this->requestFactoryMock
+            ->expects($this->atLeastOnce())
+            ->method('request')
+            ->willReturn($response);
+
+        $this->loggerMock
+            ->expects($this->atLeastOnce())
+            ->method('error')
+            ->with(self::stringStartsWith('Service BW API responded with an unexpected status code.'));
+
+        $this->subject->requestRecord(new Lebenslagen(), 'de');
+    }
+
+    #[Test]
+    public function requestRecordWillReturnResponseData(): void
+    {
+        $data = [
+            'id' => 123,
+        ];
+
+        $this->requestFactoryMock
+            ->expects($this->atLeastOnce())
+            ->method('request')
+            ->willReturn(new Response(200, [], json_encode($data)));
+
+        $responseData = $this->subject->requestRecord(new Lebenslagen(), 'de');
+
+        self::assertSame(
+            $data,
+            $responseData,
         );
     }
 }

@@ -8,8 +8,8 @@
 <f:section name="main">
     <!--TYPO3SEARCH_end-->
     <div class="frame-indent">
-        <f:for each="{lebenslagenbaum}" as="lebenslagenbaumItem">
-            <f:render partial="Lebenslagen/Lebenslagenbaum" arguments="{lebenslagenbaum: lebenslagenbaumItem, pageUid: settings.lebenslagen.pidOfDetailPage}"/>
+        <f:for each="{lebenslagenTrees}" as="lebenslagenTree">
+            <f:render partial="Lebenslagen/LebenslagenTree" arguments="{lebenslagenTree: lebenslagenTree, pageUid: settings.lebenslagen.pidOfDetailPage}"/>
         </f:for>
     </div>
     <!--TYPO3SEARCH_begin-->

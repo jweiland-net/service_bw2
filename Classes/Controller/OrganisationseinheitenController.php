@@ -11,21 +11,21 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
-use JWeiland\ServiceBw2\Utility\ServiceBwUtility;
+use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
+use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
+use JWeiland\ServiceBw2\Helper\LanguageHelper;
+use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class OrganisationseinheitenController
- */
 class OrganisationseinheitenController extends AbstractController
 {
-    protected Organisationseinheiten $organisationseinheiten;
+    use FilterOrganisationseinheitenTrait;
 
-    public function injectOrganisationseinheiten(Organisationseinheiten $organisationseinheiten): void
-    {
-        $this->organisationseinheiten = $organisationseinheiten;
-    }
+    public function __construct(
+        protected OrganisationseinheitenRepository $organisationseinheitenRepository,
+        protected OrganisationseinheitenProvider $organisationseinheitenProvider,
+        protected LanguageHelper $languageHelper,
+    ) {}
 
     public function listAction(): ResponseInterface
     {
@@ -36,28 +36,33 @@ class OrganisationseinheitenController extends AbstractController
                 512,
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $jsonException) {
+        } catch (\JsonException) {
             $listItems = [];
         }
 
-        $records = ServiceBwUtility::filterOrganisationseinheitenByParentIds(
-            $this->organisationseinheiten->findOrganisationseinheitenbaum(),
+        $languageCode = $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request);
+        $records = $this->filterOrganisationseinheitenByParentIds(
+            $this->organisationseinheitenProvider->findOrganisationseinheitenTrees(
+                $languageCode,
+            ),
             $listItems,
+            $languageCode,
         );
 
-        $this->view->assign('organisationseinheitenbaum', $records);
+        $this->view->assign('organisationseinheitenTrees', $records);
 
         return $this->htmlResponse();
     }
 
     public function showAction(int $id): ResponseInterface
     {
-        $organisationseinheit = $this->organisationseinheiten->findById($id);
-        if ($organisationseinheit === []) {
+        $record = $this->organisationseinheitenRepository->findById($id);
+
+        if ($record === null) {
             $this->addFlashMessage('Requested Organisationseinheit could not be found for current language');
         } else {
-            $this->setPageTitle($organisationseinheit['name'] ?? '');
-            $this->view->assign('organisationseinheit', $organisationseinheit);
+            $this->setPageTitle($record->getName());
+            $this->view->assign('organisationseinheit', $record);
         }
 
         return $this->htmlResponse();

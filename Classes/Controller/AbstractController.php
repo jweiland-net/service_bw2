@@ -91,7 +91,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
     }
 
     /**
-     * Validates the given ext_emconf by checking
+     * Validates the given ext_conf_template.txt by checking
      * if the setting is filled or empty. Throws an exception in case of a
      * misconfiguration.
      *
@@ -99,7 +99,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      */
     protected function validateExtConf(): void
     {
-        $requiredSettings = ['username', 'password', 'mandant', 'baseUrl', 'allowedLanguages'];
+        $requiredSettings = ['mandant', 'token', 'baseUrl', 'allowedLanguages'];
         $missingSettings = [];
         foreach ($requiredSettings as $requiredSetting) {
             $getterMethodName = 'get' . ucfirst($requiredSetting);

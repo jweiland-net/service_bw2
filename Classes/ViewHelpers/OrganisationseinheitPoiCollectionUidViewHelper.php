@@ -14,8 +14,8 @@ namespace JWeiland\ServiceBw2\ViewHelpers;
 use JWeiland\Maps2\Domain\Model\Position;
 use JWeiland\Maps2\Service\GeoCodeService;
 use JWeiland\Maps2\Service\MapService;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -39,11 +39,18 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
     public function __construct(
         private ConfigurationManagerInterface $configurationManager,
         private GeoCodeService $geoCodeService,
+        private MapService $mapService,
+        private ConnectionPool $connectionPool,
     ) {}
 
     public function initializeArguments(): void
     {
-        $this->registerArgument('organisationseinheit', 'array', 'organisationseinheit', true);
+        $this->registerArgument(
+            'organisationseinheit',
+            Record::class,
+            'organisationseinheit',
+            true,
+        );
     }
 
     /**
@@ -57,20 +64,29 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
         )['settings']['organisationseinheiten']['maps2Pid'] ?? 0);
 
-        $this->id = $this->arguments['organisationseinheit']['id'] ?? 0;
+        /** @var Record $record */
+        $record = $this->arguments['organisationseinheit'];
+
+        $this->id = $record->getId();
 
         $maps2Relation = $this->findMaps2Relation();
-        $address = $this->getAddress($this->arguments['organisationseinheit']);
+        $address = $this->getAddress($record);
         $hashedAddress = md5($address);
         if (is_array($maps2Relation) && $maps2Relation !== []) {
             if ($maps2Relation['hashed_address'] === $hashedAddress) {
                 $maps2PoiUid = $maps2Relation['tx_maps2_poi'];
             } else {
-                $maps2PoiUid = $this->getUidOfNewPoiCollectionForAddress($address, $this->arguments['organisationseinheit']['name']);
+                $maps2PoiUid = $this->getUidOfNewPoiCollectionForAddress(
+                    $address,
+                    $record->getName(),
+                );
                 $this->updatePoiRelation($hashedAddress, $maps2PoiUid);
             }
         } else {
-            $maps2PoiUid = $this->getUidOfNewPoiCollectionForAddress($address, $this->arguments['organisationseinheit']['name']);
+            $maps2PoiUid = $this->getUidOfNewPoiCollectionForAddress(
+                $address,
+                $record->getName(),
+            );
             $this->createPoiRelation($hashedAddress, $maps2PoiUid);
         }
 
@@ -79,15 +95,12 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
 
     /**
      * Find maps2 relation in the database
-     *
-     * @return array|bool array with hashed_address and tx_maps2_poi, false on failure (also if there is no relation)
      */
-    private function findMaps2Relation(): array|bool
+    private function findMaps2Relation(): ?array
     {
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable(self::TABLE);
+        $connection = $this->connectionPool->getConnectionForTable(self::TABLE);
 
-        return $connection
+        $record = $connection
             ->select(
                 ['hashed_address', 'tx_maps2_poi'],
                 self::TABLE,
@@ -96,6 +109,8 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
                 ],
             )
             ->fetchAssociative();
+
+        return is_array($record) ? $record : null;
     }
 
     /**
@@ -108,7 +123,7 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
             'tx_maps2_poi' => $txMaps2Poi,
         ];
 
-        GeneralUtility::makeInstance(ConnectionPool::class)
+        $this->connectionPool
             ->getConnectionForTable(self::TABLE)
             ->update(
                 self::TABLE,
@@ -130,7 +145,7 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
             'tx_maps2_poi' => $txMaps2Poi,
         ];
 
-        GeneralUtility::makeInstance(ConnectionPool::class)
+        $this->connectionPool
             ->getConnectionForTable(self::TABLE)
             ->insert(self::TABLE, $data);
     }
@@ -138,25 +153,27 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
     /**
      * Get address from organisationseinheit
      */
-    private function getAddress(array $organisationseinheit): string
+    private function getAddress(Record $record): string
     {
-        if ($organisationseinheit['anschriften']) {
-            foreach ($organisationseinheit['anschriften'] as $anschrift) {
-                if (
-                    ($anschrift['type'] === 'HAUSANSCHRIFT')
-                    && $anschrift['strasse']
-                    && $anschrift['hausnummer']
-                    && $anschrift['postleitzahl']
-                    && $anschrift['ort']
-                ) {
-                    return sprintf(
-                        '%s %s %s %s',
-                        $anschrift['strasse'],
-                        $anschrift['hausnummer'],
-                        $anschrift['postleitzahl'],
-                        $anschrift['ort'],
-                    );
-                }
+        if (!isset($record->getData()['anschriften'])) {
+            return '';
+        }
+
+        foreach ($record->getData()['anschriften'] as $anschrift) {
+            if (
+                ($anschrift['type'] === 'HAUSANSCHRIFT')
+                && $anschrift['strasse']
+                && $anschrift['hausnummer']
+                && $anschrift['postleitzahl']
+                && $anschrift['ort']
+            ) {
+                return sprintf(
+                    '%s %s %s %s',
+                    $anschrift['strasse'],
+                    $anschrift['hausnummer'],
+                    $anschrift['postleitzahl'],
+                    $anschrift['ort'],
+                );
             }
         }
 
@@ -173,8 +190,7 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
         $poiUid = 0;
         $position = $this->geoCodeService->getFirstFoundPositionByAddress($address);
         if ($position instanceof Position && $this->maps2Pid !== 0) {
-            $mapService = GeneralUtility::makeInstance(MapService::class);
-            $poiUid = $mapService->createNewPoiCollection(
+            $poiUid = $this->mapService->createNewPoiCollection(
                 $this->maps2Pid,
                 $position,
                 [

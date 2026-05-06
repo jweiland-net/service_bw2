@@ -11,11 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Routing\Aspect;
 
-use GuzzleHttp\Exception\ClientException;
-use JWeiland\ServiceBw2\Request\AbstractRequest;
-use JWeiland\ServiceBw2\Request\Portal\Lebenslagen;
-use JWeiland\ServiceBw2\Request\Portal\Leistungen;
-use JWeiland\ServiceBw2\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
+use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
@@ -70,16 +67,22 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
 
     public function generate(string $value): ?string
     {
-        $controllerType = (string)$this->settings['controllerType'];
-        $title = '';
-        if (in_array($controllerType, ['lebenslagen', 'leistungen', 'organisationseinheiten'], true)) {
-            try {
-                $records = $this->getRequestClassForControllerType($controllerType)->findAll();
-                $key = array_search((int)$value, array_column($records, 'id'), true);
-                $title = $key !== false ? $records[$key]['name'] : '';
-            } catch (ClientException $clientException) {
-                return null;
-            }
+        $entityId = (int)$value;
+
+        try {
+            $repository = $this->getRepositoryFactory()->getRepository(
+                ControllerTypeEnum::from((string)($this->settings['controllerType'] ?? '')),
+            );
+
+            $records = $repository->findAll();
+        } catch (\Exception|\Throwable) {
+            return null;
+        }
+
+        $titlesById = array_column($records, 'name', 'id');
+        $title = $titlesById[$entityId] ?? '';
+        if ($title === '') {
+            return null;
         }
 
         // SlugHelper->sanitize will not replace / to -, so do it here
@@ -104,31 +107,6 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
         return $id;
     }
 
-    /**
-     * @throws \InvalidArgumentException if controller name is invalid
-     */
-    protected function getRequestClassForControllerType(string $controllerType): AbstractRequest
-    {
-        switch ($controllerType) {
-            case 'lebenslagen':
-                $requestClass = GeneralUtility::makeInstance(Lebenslagen::class);
-                break;
-            case 'leistungen':
-                $requestClass = GeneralUtility::makeInstance(Leistungen::class);
-                break;
-            case 'organisationseinheiten':
-                $requestClass = GeneralUtility::makeInstance(Organisationseinheiten::class);
-                break;
-            default:
-                throw new \InvalidArgumentException(
-                    'Could not find request class for selected controller type "' . $controllerType . '"!',
-                    1523960421,
-                );
-        }
-
-        return $requestClass;
-    }
-
     protected function getSlugHelper(): SlugHelper
     {
         // We don't have any table- or fieldname. We only have a JSON result,
@@ -142,5 +120,10 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
                 'prependSlash' => false,
             ],
         );
+    }
+
+    protected function getRepositoryFactory(): RepositoryFactory
+    {
+        return GeneralUtility::makeInstance(RepositoryFactory::class);
     }
 }

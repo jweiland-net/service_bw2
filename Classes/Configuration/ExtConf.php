@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * This class streamlines all settings from the extension manager
@@ -27,19 +28,17 @@ readonly class ExtConf implements SingletonInterface
     private const EXT_KEY = 'service_bw2';
 
     private const DEFAULT_SETTINGS = [
-        'username' => '',
-        'password' => '',
         'mandant' => '',
-        'baseUrl' => 'https://sgw.service-bw.de:443/',
-        'allowedLanguages' => 'de=0;en=1;fr=2',
+        'token' => '',
+        'baseUrl' => 'https://sgw.service-bw.de:443/rest-v2/api',
+        'allowedLanguages' => 'de=de;en=en;fr=fr',
         'ags' => 0,
         'gebietId' => '',
     ];
 
     public function __construct(
-        private string $username = self::DEFAULT_SETTINGS['username'],
-        private string $password = self::DEFAULT_SETTINGS['password'],
         private string $mandant = self::DEFAULT_SETTINGS['mandant'],
+        private string $token = self::DEFAULT_SETTINGS['token'],
         private string $baseUrl = self::DEFAULT_SETTINGS['baseUrl'],
         private string $allowedLanguages = self::DEFAULT_SETTINGS['allowedLanguages'],
         private int $ags = self::DEFAULT_SETTINGS['ags'],
@@ -60,10 +59,9 @@ readonly class ExtConf implements SingletonInterface
         }
 
         return new self(
-            username: (string)$extensionSettings['username'],
-            password: (string)$extensionSettings['password'],
             mandant: (string)$extensionSettings['mandant'],
-            baseUrl: $extensionSettings['baseUrl'],
+            token: (string)$extensionSettings['token'],
+            baseUrl: (string)$extensionSettings['baseUrl'],
             allowedLanguages: (string)$extensionSettings['allowedLanguages'],
 
             // Sometimes this value is prefixed with 0, which is not valid
@@ -73,39 +71,35 @@ readonly class ExtConf implements SingletonInterface
         );
     }
 
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
     public function getMandant(): string
     {
         return $this->mandant;
     }
 
-    public function getBaseUrl(): string
+    public function getToken(): string
     {
-        return rtrim(trim((string)$this->baseUrl), '/');
+        return $this->token;
     }
 
+    public function getBaseUrl(): string
+    {
+        return rtrim(trim($this->baseUrl), '/');
+    }
+
+    /**
+     * Returns allowed languages mapped from Service BW language codes to configured TYPO3 language codes.
+     *
+     * The array key contains the language code of the configured TYPO3 language, and the
+     * array value contains the Service BW language code.
+     *
+     * @return array<string, string>
+     */
     public function getAllowedLanguages(): array
     {
-        // The first assigned language is the default language
-        $languagesToProcess = $this->allowedLanguages;
-        if (!preg_match('@^([a-z]{2,2}=\d+;?)+$@', $this->allowedLanguages)) {
-            $languagesToProcess = self::DEFAULT_SETTINGS['allowedLanguages'];
-        }
+        $allowedLanguages = $this->parseAllowedLanguages($this->allowedLanguages);
 
-        $allowedLanguages = [];
-        $languageConfigurations = GeneralUtility::trimExplode(';', $languagesToProcess, true);
-        foreach ($languageConfigurations as $languageConfiguration) {
-            [$language, $sysLanguageUid] = explode('=', $languageConfiguration);
-            $allowedLanguages[$language] = (int)$sysLanguageUid;
+        if ($allowedLanguages === []) {
+            $allowedLanguages = $this->parseAllowedLanguages(self::DEFAULT_SETTINGS['allowedLanguages']);
         }
 
         return $allowedLanguages;
@@ -124,20 +118,25 @@ readonly class ExtConf implements SingletonInterface
         return $this->gebietId;
     }
 
-    public function getDefaultQueryForRequest(): array
+    private function parseAllowedLanguages(string $languages): array
     {
-        $query = [
-            'mandantId' => $this->getMandant(),
-        ];
+        $allowedLanguages = [];
+        $configuredLanguages = GeneralUtility::trimExplode(';', $languages, true);
+        foreach ($configuredLanguages as $configuredLanguage) {
+            [$typo3LanguageCode, $serviceBwLanguageCode] = GeneralUtility::trimExplode('=', $configuredLanguage, true);
 
-        if ($this->getAgs()) {
-            $query['gebietAgs'] = $this->getAgs();
+            // Using language UIDs is not supported anymore
+            if (MathUtility::canBeInterpretedAsInteger($typo3LanguageCode)) {
+                continue;
+            }
+
+            if (MathUtility::canBeInterpretedAsInteger($serviceBwLanguageCode)) {
+                continue;
+            }
+
+            $allowedLanguages[$typo3LanguageCode] = $serviceBwLanguageCode;
         }
 
-        if ($this->getGebietId()) {
-            $query['gebietId'] = $this->getGebietId();
-        }
-
-        return $query;
+        return $allowedLanguages;
     }
 }
