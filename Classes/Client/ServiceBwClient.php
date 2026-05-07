@@ -23,8 +23,12 @@ readonly class ServiceBwClient
 {
     /**
      * Max records to retrieve from Service BW API.
+     *
+     * Currently, Service BW API PageBrowser is broken and returns
+     * always itemPages=1 instead of the real number of pages.
+     * Set this value back to ~100 if their responses are repaired again.
      */
-    public const MAX_ITEMS_EACH_REQUEST = 100;
+    public const MAX_ITEMS_EACH_REQUEST = 1000;
 
     /**
      * I got a lot of connect timeouts with 2 sec and 5 sec.

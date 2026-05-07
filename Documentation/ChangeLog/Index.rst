@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 9.0.3
+=============
+
+*   [BUGFIX] Increate max number of records to retrieve in ServiceBwClient
+
 Version 9.0.2
 =============
 
