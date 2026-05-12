@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 9.0.4
+=============
+
+*   [BUGFIX] Introduce retry mechanism for API requests
+
 Version 9.0.3
 =============
 

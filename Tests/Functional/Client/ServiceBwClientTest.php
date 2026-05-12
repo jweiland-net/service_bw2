@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tests\Functional\Client;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use JWeiland\ServiceBw2\Client\Request\Portal\Lebenslagen;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
@@ -130,23 +133,46 @@ class ServiceBwClientTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function requestRecordWithStatusCode503WillAddErrorLog(): void
+    public function requestRecordWithStatusCode503WillRetryThreeTimes(): void
     {
+        $this->expectExceptionMessage('An error was encountered while creating the response');
+        $this->expectException(RequestException::class);
+
         $response = $this->createMock(Response::class);
         $response
             ->expects($this->atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(503);
 
+        $guzzleRequestException = new RequestException(
+            'An error was encountered while creating the response',
+            new Request('GET', 'https://example.com'),
+            $response,
+        );
+
         $this->requestFactoryMock
             ->expects($this->atLeastOnce())
             ->method('request')
-            ->willReturn($response);
+            ->willThrowException($guzzleRequestException);
 
-        $this->loggerMock
+        $this->subject->requestRecord(new Lebenslagen(), 'de');
+    }
+
+    #[Test]
+    public function requestRecordWithConnectionExceptionWillRetryThreeTimes(): void
+    {
+        $this->expectExceptionMessage('cURL error 28: Connection timed out after 10007');
+        $this->expectException(ConnectException::class);
+
+        $guzzleConnectException = new ConnectException(
+            'cURL error 28: Connection timed out after 10007',
+            new Request('GET', 'https://example.com'),
+        );
+
+        $this->requestFactoryMock
             ->expects($this->atLeastOnce())
-            ->method('error')
-            ->with(self::stringStartsWith('Service BW API responded with an unexpected status code.'));
+            ->method('request')
+            ->willThrowException($guzzleConnectException);
 
         $this->subject->requestRecord(new Lebenslagen(), 'de');
     }
