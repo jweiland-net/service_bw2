@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Client;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use JWeiland\ServiceBw2\Client\Request\RequestInterface;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use Psr\Log\LoggerInterface;
@@ -28,14 +30,16 @@ readonly class ServiceBwClient
      * always itemPages=1 instead of the real number of pages.
      * Set this value back to ~100 if their responses are repaired again.
      */
-    public const MAX_ITEMS_EACH_REQUEST = 1000;
+    protected const MAX_ITEMS_EACH_REQUEST = 1000;
+
+    protected const MAX_REQUEST_RETRIES = 2;
 
     /**
      * I got a lot of connect timeouts with 2 sec and 5 sec.
      */
-    public const GUZZLE_CONNECT_TIMEOUT = 10;
+    protected const GUZZLE_CONNECT_TIMEOUT = 10;
 
-    public const GUZZLE_TIMEOUT = 20;
+    protected const GUZZLE_TIMEOUT = 20;
 
     public function __construct(
         protected RequestFactory $requestFactory,
@@ -122,6 +126,8 @@ readonly class ServiceBwClient
         RequestInterface $request,
         string $language,
     ): array {
+        $attempt = 0;
+
         $url = $this->extConf->getBaseUrl() . $request->getUrl();
 
         $headers = $request->getHeaders();
@@ -139,26 +145,52 @@ readonly class ServiceBwClient
         ];
         $options = $this->updateOptionsWithTimeout($options);
 
-        $response = $this->requestFactory->request(
-            $url,
-            'GET',
-            $options,
-        );
+        while (true) {
+            try {
+                $response = $this->requestFactory->request(
+                    $url,
+                    'GET',
+                    $options,
+                );
 
-        if ($response->getStatusCode() !== 200) {
-            $this->logger->error(
-                'Service BW API responded with an unexpected status code.',
-                [
-                    'Status Code' => $response->getStatusCode(),
-                    'URL' => $url,
-                    'Query' => $query,
-                ],
-            );
+                if ($response->getStatusCode() >= 500 && $attempt < self::MAX_REQUEST_RETRIES) {
+                    ++$attempt;
+                    $this->waitBeforeRetry($attempt);
 
-            return [];
+                    continue;
+                }
+
+                return json_decode((string)$response->getBody(), true);
+            } catch (ConnectException $exception) {
+                if ($attempt >= self::MAX_REQUEST_RETRIES) {
+                    throw $exception;
+                }
+
+                ++$attempt;
+                $this->waitBeforeRetry($attempt);
+            } catch (RequestException $exception) {
+                $response = $exception->getResponse();
+
+                if (
+                    $response !== null
+                    && $response->getStatusCode() < 500
+                ) {
+                    throw $exception;
+                }
+
+                if ($attempt >= self::MAX_REQUEST_RETRIES) {
+                    throw $exception;
+                }
+
+                ++$attempt;
+                $this->waitBeforeRetry($attempt);
+            }
         }
+    }
 
-        return json_decode((string)$response->getBody(), true);
+    protected function waitBeforeRetry(int $attempt): void
+    {
+        usleep($attempt * 250_000);
     }
 
     protected function getHeaderWithAuthorization(array $headers): array
