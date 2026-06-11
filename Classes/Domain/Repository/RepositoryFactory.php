@@ -32,12 +32,4 @@ final readonly class RepositoryFactory
             1523960421,
         );
     }
-
-    /**
-     * @return iterable<RepositoryInterface>
-     */
-    public function getRepositories(): iterable
-    {
-        return $this->repositories;
-    }
 }

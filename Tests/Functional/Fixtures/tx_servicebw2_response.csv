@@ -1,0 +1,8 @@
+"tx_servicebw2_response",,,,,,,
+,"uid","pid","id","name","type","language","data"
+,1,0,5000646,"Abbruch einer baulichen Anlage","lebenslagen","de","{}"
+,2,0,5001070,"Abfallentsorgung und Müllgebühr","lebenslagen","de","{}"
+,3,0,4640,"Abfall- und Kreislaufwirtschaftsrecht","leistungen","de","{}"
+,4,0,166,"Abfall und Müll entsorgen","leistungen","de","{}"
+,5,0,6021657,"Abfallwirtschaft","organisationseinheiten","de","{}"
+,6,0,6021675,"Allgemeine Verwaltung","organisationseinheiten","de","{}"

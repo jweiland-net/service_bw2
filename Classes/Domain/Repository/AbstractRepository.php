@@ -106,6 +106,10 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                     'type',
                     $queryBuilder->createNamedParameter(static::CONTROLLER_TYPE),
                 ),
+                $queryBuilder->expr()->eq(
+                    'language',
+                    $queryBuilder->createNamedParameter($language),
+                ),
             )
             ->executeQuery();
 

@@ -304,4 +304,145 @@ class RecordTest extends FunctionalTestCase
             $subject->getHasFormulare(),
         );
     }
+
+    #[Test]
+    public function getTextBloeckeWillReturnEmptyArray()
+    {
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            [
+                'foo' => 'bar',
+            ],
+        );
+
+        self::assertSame(
+            [],
+            $subject->getTextBloecke(),
+        );
+    }
+
+    #[Test]
+    public function getTextBloeckeWillReturnTextBloecke()
+    {
+        $textBloecke = [
+            0 => ['text' => 'Hello <a href="https://jweiland.net">jweiland.net</a>'],
+        ];
+
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            [
+                'foo' => 'bar',
+                'textbloecke' => $textBloecke,
+            ],
+        );
+
+        self::assertSame(
+            $textBloecke,
+            $subject->getTextBloecke(),
+        );
+    }
+
+    #[Test]
+    public function getProcessedTextBloeckeWillReturnEmptyString()
+    {
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            [
+                'foo' => 'bar',
+            ],
+        );
+
+        self::assertSame(
+            '',
+            $subject->getProcessedTextBloecke(),
+        );
+    }
+
+    #[Test]
+    public function getProcessedTextBloeckeWillReturnTextBloeckeAsString()
+    {
+        $textBloecke = [
+            0 => ['text' => 'Hello <a href="https://jweiland.net">jweiland.net</a>'],
+            1 => ['text' => 'Hello <a href="https://typo3.org">TYPO3 CMS</a>'],
+        ];
+
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            [
+                'foo' => 'bar',
+                'textbloecke' => $textBloecke,
+            ],
+        );
+
+        self::assertSame(
+            'Hello jweiland.net,Hello TYPO3 CMS',
+            $subject->getProcessedTextBloecke(),
+        );
+    }
+
+    #[Test]
+    public function asArrayWillReturnDataArray()
+    {
+        $data = [
+            'id' => 1234,
+            'name' => 'TYPO3',
+            'type' => 'orga',
+        ];
+
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            $data,
+        );
+
+        self::assertSame(
+            $data,
+            $subject->asArray(),
+        );
+    }
+
+    #[Test]
+    public function asArrayWillReturnDataArrayWithTextBloecke()
+    {
+        $textBloecke = [
+            0 => ['text' => 'Hello <a href="https://jweiland.net">jweiland.net</a>'],
+            1 => ['text' => 'Hello <a href="https://typo3.org">TYPO3 CMS</a>'],
+        ];
+
+        $data = $expectedData = [
+            'id' => 1234,
+            'name' => 'TYPO3',
+            'type' => 'orga',
+            'textbloecke' => $textBloecke,
+        ];
+
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            $data,
+        );
+
+        $expectedData['processed_textbloecke'] = 'Hello jweiland.net,Hello TYPO3 CMS';
+
+        self::assertSame(
+            $expectedData,
+            $subject->asArray(),
+        );
+    }
 }

@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 9.0.5
+=============
+
+*   [BUGFIX] Repair PrepareForSolrIndexingCommand
+*   [BUGFIX] Add a lot more functional tests
+
 Version 9.0.4
 =============
 
