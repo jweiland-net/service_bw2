@@ -74,7 +74,7 @@ final readonly class Record
 
     public function getTextBloecke(): array
     {
-        return $this->data['textblocke'] ?? [];
+        return $this->data['textbloecke'] ?? [];
     }
 
     public function getProcessedTextBloecke(): string
