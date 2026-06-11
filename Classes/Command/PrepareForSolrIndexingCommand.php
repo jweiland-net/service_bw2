@@ -140,7 +140,7 @@ class PrepareForSolrIndexingCommand extends Command
                     // for each record. The result of each API call will be cached for better performance in the frontend.
                     // To speed up this process, you can call CacheWarmupCommand before.
                     foreach ($this->generatorForLiveRecords($records, $repository) as $liveRecord) {
-                        $solrIndexService->indexServiceBWRecord($liveRecord, $solrIndexType, $solrSite);
+                        $solrIndexService->indexServiceBWRecord($liveRecord->asArray(), $solrIndexType, $solrSite);
 
                         if ($io->isVerbose()) {
                             $io->writeln(sprintf(
@@ -181,15 +181,15 @@ class PrepareForSolrIndexingCommand extends Command
             return [];
         }
 
-        $flexform = GeneralUtility::xml2array($ttContentRecord['pi_flexform']);
-        if (!is_array($flexform)) {
+        $flexForm = GeneralUtility::xml2array($ttContentRecord['pi_flexform']);
+        if (!is_array($flexForm)) {
             return [];
         }
 
         try {
             return GeneralUtility::intExplode(
                 ',',
-                ArrayUtility::getValueByPath($flexform, 'data/sDEFAULT/lDEF/settings.organisationseinheiten.listItems/vDEF'),
+                ArrayUtility::getValueByPath($flexForm, 'data/sDEFAULT/lDEF/settings.organisationseinheiten.listItems/vDEF'),
                 true,
             );
         } catch (\InvalidArgumentException | \RuntimeException $e) {
@@ -200,46 +200,27 @@ class PrepareForSolrIndexingCommand extends Command
     /**
      * Loop through all records and request individual data from Service BW API.
      * The individual response data will be stored in Cache for faster response in FE.
+     *
+     * @param Record[] $recordsToIndex
+     * @return \Generator<Record>
      */
     protected function generatorForLiveRecords(
         array $recordsToIndex,
         RepositoryInterface $repository,
     ): \Generator {
         foreach ($recordsToIndex as $recordToIndex) {
-            $liveRecordWithFullData = $repository->findById($recordToIndex['id']);
+            $liveRecordWithFullData = $repository->findById($recordToIndex->getId());
             if (!$liveRecordWithFullData instanceof Record) {
                 $this->logger->warning(sprintf(
                     'Record of type %s with ID %s could not be found',
                     $repository::class,
-                    $recordToIndex['id'],
+                    $recordToIndex->getId(),
                 ));
                 continue;
             }
 
-            if (isset($liveRecordWithFullData['textbloecke']) && is_array($liveRecordWithFullData['textbloecke'])) {
-                $liveRecordWithFullData['processed_textbloecke'] = $this->buildCSVListOfTextBloecke(
-                    $liveRecordWithFullData['textbloecke'],
-                );
-            }
-
             yield $liveRecordWithFullData;
         }
-    }
-
-    /**
-     * Extract all non-empty "text" (array-key) elements from $textBloecke, combine them to a concatenated string
-     * and remove all HTML tags.
-     */
-    protected function buildCSVListOfTextBloecke(array $textBloecke): string
-    {
-        return strip_tags(
-            implode(
-                ',',
-                array_filter(
-                    array_column($textBloecke, 'text'),
-                ),
-            ),
-        );
     }
 
     /**

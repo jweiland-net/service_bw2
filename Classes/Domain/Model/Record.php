@@ -71,4 +71,32 @@ final readonly class Record
 
         return false;
     }
+
+    public function getTextBloecke(): array
+    {
+        return $this->data['textblocke'] ?? [];
+    }
+
+    public function getProcessedTextBloecke(): string
+    {
+        return strip_tags(
+            implode(
+                ',',
+                array_filter(
+                    array_column($this->getTextBloecke(), 'text'),
+                ),
+            ),
+        );
+    }
+
+    public function asArray(): array
+    {
+        $data = $this->data;
+
+        if ($this->getTextBloecke() !== []) {
+            $data['processed_textbloecke'] = $this->getProcessedTextBloecke();
+        }
+
+        return $data;
+    }
 }
