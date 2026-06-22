@@ -25,6 +25,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
@@ -71,6 +73,8 @@ class CacheWarmupCommandTest extends FunctionalTestCase
             $providerFactory,
             $this->repositoryFactory,
             $this->createMock(LoggerInterface::class),
+            $this->get(ConnectionPool::class),
+            $this->get(CacheManager::class),
         );
     }
 

@@ -25,6 +25,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 
 /**
  * Configurable command to warmup caches of Service BW
@@ -42,6 +44,8 @@ class CacheWarmupCommand extends Command
         protected ProviderFactory $providerFactory,
         protected RepositoryFactory $repositoryFactory,
         protected LoggerInterface $logger,
+        protected ConnectionPool $connectionPool,
+        protected CacheManager $cacheManager,
     ) {
         parent::__construct();
     }
@@ -89,7 +93,43 @@ class CacheWarmupCommand extends Command
             }
         }
 
+        $io->section('Clearing TYPO3 page cache for Service BW pages');
+        $this->clearPageCachesForServiceBw2Pages($io);
+
         return Command::SUCCESS;
+    }
+
+    protected function clearPageCachesForServiceBw2Pages(SymfonyStyle $io): void
+    {
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
+        $rows = $queryBuilder
+            ->select('pid')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->like(
+                    'CType',
+                    $queryBuilder->createNamedParameter('servicebw2_%'),
+                ),
+            )
+            ->groupBy('pid')
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        foreach ($rows as $row) {
+            $pid = (int)$row['pid'];
+            $this->cacheManager->flushCachesInGroupByTag('pages', 'pageId_' . $pid);
+            if ($io->isVerbose()) {
+                $io->writeln(sprintf(
+                    '  <info>→</info> Cleared page cache for page UID <comment>%d</comment>',
+                    $pid,
+                ));
+            }
+        }
+
+        $io->writeln(sprintf(
+            '  <info>✓</info> Cleared page cache for <comment>%d</comment> page(s)',
+            count($rows),
+        ));
     }
 
     protected function warmupType(
