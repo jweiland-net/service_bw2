@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 9.0.6
+=============
+
+*   [BUGFIX] Clear TYPO3 page cache for pages with servicebw2 content elements after cache warmup
+
 Version 9.0.5
 =============
 
