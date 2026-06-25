@@ -64,7 +64,7 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
                 'Abfallwirtschaft',
                 'organisationseinheiten',
                 'de',
-                [],
+                ['id' => 6021657],
             ),
             $this->subject->findById(6021657),
         );
@@ -122,7 +122,7 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
                 'Abfallwirtschaft',
                 'organisationseinheiten',
                 'de',
-                [],
+                ['id' => 6021657],
             ),
             $records[0],
         );
@@ -133,7 +133,7 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
                 'Allgemeine Verwaltung',
                 'organisationseinheiten',
                 'de',
-                [],
+                ['id' => 6021675],
             ),
             $records[1],
         );

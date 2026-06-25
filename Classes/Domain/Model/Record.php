@@ -89,6 +89,42 @@ final readonly class Record
         );
     }
 
+    /**
+     * Returns all nested Organisationseinheiten as Record objects.
+     * The raw data array is preserved; conversion happens lazily on each call.
+     *
+     * @return array<int, Record>
+     */
+    public function getUntergeordneteOrganisationseinheiten(): array
+    {
+        $untergeordnete = $this->data['untergeordneteOrganisationseinheiten'] ?? [];
+
+        if (!is_array($untergeordnete)) {
+            return [];
+        }
+
+        $records = [];
+        foreach ($untergeordnete as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+            $records[] = new self(
+                (int)($item['id'] ?? 0),
+                (string)($item['name'] ?? ''),
+                $this->type,
+                $this->language,
+                $item,
+            );
+        }
+
+        return $records;
+    }
+
+    public function withData(array $data): self
+    {
+        return new self($this->id, $this->name, $this->type, $this->language, $data);
+    }
+
     public function asArray(): array
     {
         $data = $this->data;

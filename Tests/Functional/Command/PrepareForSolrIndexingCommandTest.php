@@ -46,14 +46,6 @@ class PrepareForSolrIndexingCommandTest extends FunctionalTestCase
 
         $this->importCSVDataSet(__DIR__ . '/../Fixtures/tx_servicebw2_response.csv');
 
-        $siteRepository = $this->createMock(SiteRepository::class);
-        $siteRepository
-            ->expects($this->atLeastOnce())
-            ->method('getSiteByRootPageId')
-            ->with(1)
-            ->willReturn($this->createMock(Site::class));
-        GeneralUtility::addInstance(SiteRepository::class, $siteRepository);
-
         $this->repositoryFactory = $this->get(RepositoryFactory::class);
 
         $this->subject = new PrepareForSolrIndexingCommand(
@@ -65,8 +57,16 @@ class PrepareForSolrIndexingCommandTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function executeWithEmptyLebenslagenWillRemoveAllLebenslagen(): void
+    public function executeWithLebenslagenWillRegisterTwoLebenslagen(): void
     {
+        $siteRepository = $this->createMock(SiteRepository::class);
+        $siteRepository
+            ->expects($this->atLeastOnce())
+            ->method('getSiteByRootPageId')
+            ->with(1)
+            ->willReturn($this->createMock(Site::class));
+        GeneralUtility::addInstance(SiteRepository::class, $siteRepository);
+
         $input = $this->createMock(InputInterface::class);
         $input
             ->expects($this->atLeastOnce())
@@ -93,6 +93,141 @@ class PrepareForSolrIndexingCommandTest extends FunctionalTestCase
             ->with(
                 self::isArray(),
                 'tx_servicebw2_lebenslagen',
+                self::isInstanceOf(Site::class),
+            );
+        GeneralUtility::addInstance(SolrIndexService::class, $solrIndexServiceMock);
+
+        $this->subject->run($input, $output);
+    }
+
+    #[Test]
+    public function executeWithLeistungenWillRegisterTwoLeistungen(): void
+    {
+        $siteRepository = $this->createMock(SiteRepository::class);
+        $siteRepository
+            ->expects($this->atLeastOnce())
+            ->method('getSiteByRootPageId')
+            ->with(1)
+            ->willReturn($this->createMock(Site::class));
+        GeneralUtility::addInstance(SiteRepository::class, $siteRepository);
+
+        $input = $this->createMock(InputInterface::class);
+        $input
+            ->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->willReturnMap([
+                ['request-class', 'Leistungen'],
+                ['root-page', 1],
+                ['solr-index-type', 'tx_servicebw2_leistungen'],
+            ]);
+
+        $output = $this->createMock(OutputInterface::class);
+
+        $solrIndexServiceMock = $this->createMock(SolrIndexService::class);
+        $solrIndexServiceMock
+            ->expects($this->once())
+            ->method('clearSolrIndexByType')
+            ->with(
+                'tx_servicebw2_leistungen',
+                self::isInstanceOf(Site::class),
+            );
+        $solrIndexServiceMock
+            ->expects($this->atLeast(2))
+            ->method('indexServiceBWRecord')
+            ->with(
+                self::isArray(),
+                'tx_servicebw2_leistungen',
+                self::isInstanceOf(Site::class),
+            );
+        GeneralUtility::addInstance(SolrIndexService::class, $solrIndexServiceMock);
+
+        $this->subject->run($input, $output);
+    }
+
+    #[Test]
+    public function executeWithOrganisationseinheitenWillThrowInvalidArgumentException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $siteRepository = $this->createMock(SiteRepository::class);
+        $siteRepository
+            ->expects($this->never())
+            ->method('getSiteByRootPageId');
+        GeneralUtility::addInstance(SiteRepository::class, $siteRepository);
+
+        $input = $this->createMock(InputInterface::class);
+        $input
+            ->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->willReturnMap([
+                ['request-class', 'Organisationseinheiten'],
+            ]);
+        $input
+            ->expects($this->atLeastOnce())
+            ->method('getOption')
+            ->willReturnMap([
+                ['languages', 'de'],
+                ['content-uid', null],
+            ]);
+
+        $output = $this->createMock(OutputInterface::class);
+
+        $solrIndexServiceMock = $this->createMock(SolrIndexService::class);
+        $solrIndexServiceMock
+            ->expects($this->never())
+            ->method('clearSolrIndexByType');
+        $solrIndexServiceMock
+            ->expects($this->never())
+            ->method('indexServiceBWRecord');
+        GeneralUtility::addInstance(SolrIndexService::class, $solrIndexServiceMock);
+
+        $this->subject->run($input, $output);
+    }
+
+    #[Test]
+    public function executeWithOrganisationseinheitenWillRegisterTwoOrganisationseinheiten(): void
+    {
+        $siteRepository = $this->createMock(SiteRepository::class);
+        $siteRepository
+            ->expects($this->atLeastOnce())
+            ->method('getSiteByRootPageId')
+            ->with(1)
+            ->willReturn($this->createMock(Site::class));
+        GeneralUtility::addInstance(SiteRepository::class, $siteRepository);
+
+        $input = $this->createMock(InputInterface::class);
+        $input
+            ->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->willReturnMap([
+                ['request-class', 'Organisationseinheiten'],
+                ['root-page', 1],
+                ['solr-index-type', 'tx_servicebw2_organisationseinheiten'],
+            ]);
+        $input
+            ->expects($this->atLeastOnce())
+            ->method('getOption')
+            ->willReturnMap([
+                ['languages', 'de'],
+                ['content-uid', 1],
+            ]);
+
+        $output = $this->createMock(OutputInterface::class);
+
+        $solrIndexServiceMock = $this->createMock(SolrIndexService::class);
+        $solrIndexServiceMock
+            ->expects($this->once())
+            ->method('clearSolrIndexByType')
+            ->with(
+                'tx_servicebw2_organisationseinheiten',
+                self::isInstanceOf(Site::class),
+            );
+        $solrIndexServiceMock
+            ->expects($this->atLeast(2))
+            ->method('indexServiceBWRecord')
+            ->with(
+                self::isArray(),
+                'tx_servicebw2_organisationseinheiten',
                 self::isInstanceOf(Site::class),
             );
         GeneralUtility::addInstance(SolrIndexService::class, $solrIndexServiceMock);

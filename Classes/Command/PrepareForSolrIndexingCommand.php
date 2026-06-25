@@ -16,6 +16,7 @@ use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
 use ApacheSolrForTypo3\Solr\Exception\InvalidArgumentException;
 use ApacheSolrForTypo3\Solr\Exception\InvalidConnectionException;
 use ApacheSolrForTypo3\Solr\IndexQueue\Queue;
+use Doctrine\DBAL\Exception;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
 use JWeiland\ServiceBw2\Domain\Model\Record;
@@ -165,14 +166,18 @@ class PrepareForSolrIndexingCommand extends Command
     {
         $connection = $this->connectionPool->getConnectionForTable('tt_content');
 
-        $ttContentRecord = $connection
-            ->select(
-                ['pi_flexform'],
-                'tt_content',
-                [
-                    'uid' => $contentUid,
-                ],
-            )->fetchOne();
+        try {
+            $ttContentRecord = $connection
+                ->select(
+                    ['pi_flexform'],
+                    'tt_content',
+                    [
+                        'uid' => $contentUid,
+                    ],
+                )->fetchAssociative();
+        } catch (Exception) {
+            return [];
+        }
 
         if (
             !is_array($ttContentRecord)

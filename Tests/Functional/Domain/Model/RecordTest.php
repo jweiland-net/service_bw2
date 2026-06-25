@@ -445,4 +445,112 @@ class RecordTest extends FunctionalTestCase
             $subject->asArray(),
         );
     }
+
+    #[Test]
+    public function getUntergeordneteOrganisationseinheitenWithMissingKeyWillReturnEmptyArray()
+    {
+        $subject = new Record(1234, 'TYPO3', 'organisationseinheiten', 'de', []);
+
+        self::assertSame([], $subject->getUntergeordneteOrganisationseinheiten());
+    }
+
+    #[Test]
+    public function getUntergeordneteOrganisationseinheitenWithEmptyArrayWillReturnEmptyArray()
+    {
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'organisationseinheiten',
+            'de',
+            ['untergeordneteOrganisationseinheiten' => []],
+        );
+
+        self::assertSame([], $subject->getUntergeordneteOrganisationseinheiten());
+    }
+
+    #[Test]
+    public function getUntergeordneteOrganisationseinheitenWillReturnRecordObjects()
+    {
+        $subject = new Record(
+            1,
+            'Root',
+            'organisationseinheiten',
+            'de',
+            [
+                'untergeordneteOrganisationseinheiten' => [
+                    ['id' => 2, 'name' => 'Child A', 'untergeordneteOrganisationseinheiten' => []],
+                    ['id' => 3, 'name' => 'Child B', 'untergeordneteOrganisationseinheiten' => []],
+                ],
+            ],
+        );
+
+        $children = $subject->getUntergeordneteOrganisationseinheiten();
+
+        self::assertCount(2, $children);
+        self::assertContainsOnlyInstancesOf(Record::class, $children);
+        self::assertSame(2, $children[0]->getId());
+        self::assertSame('Child A', $children[0]->getName());
+        self::assertSame('organisationseinheiten', $children[0]->getType());
+        self::assertSame('de', $children[0]->getLanguage());
+        self::assertSame(3, $children[1]->getId());
+    }
+
+    #[Test]
+    public function getUntergeordneteOrganisationseinheitenSkipsNonArrayEntries()
+    {
+        $subject = new Record(
+            1,
+            'Root',
+            'organisationseinheiten',
+            'de',
+            [
+                'untergeordneteOrganisationseinheiten' => [
+                    ['id' => 2, 'name' => 'Valid'],
+                    'invalid-string-entry',
+                    null,
+                ],
+            ],
+        );
+
+        $children = $subject->getUntergeordneteOrganisationseinheiten();
+
+        self::assertCount(1, $children);
+        self::assertSame(2, $children[0]->getId());
+    }
+
+    #[Test]
+    public function getUntergeordneteOrganisationseinheitenInheritsTypeAndLanguageFromParent()
+    {
+        $subject = new Record(
+            1,
+            'Root',
+            'organisationseinheiten',
+            'fr',
+            [
+                'untergeordneteOrganisationseinheiten' => [
+                    ['id' => 2, 'name' => 'Child'],
+                ],
+            ],
+        );
+
+        $children = $subject->getUntergeordneteOrganisationseinheiten();
+
+        self::assertSame('organisationseinheiten', $children[0]->getType());
+        self::assertSame('fr', $children[0]->getLanguage());
+    }
+
+    #[Test]
+    public function withDataWillReturnNewRecordWithReplacedData()
+    {
+        $original = new Record(1234, 'TYPO3', 'orga', 'en', ['foo' => 'bar']);
+        $modified = $original->withData(['baz' => 'qux']);
+
+        self::assertNotSame($original, $modified);
+        self::assertSame(1234, $modified->getId());
+        self::assertSame('TYPO3', $modified->getName());
+        self::assertSame('orga', $modified->getType());
+        self::assertSame('en', $modified->getLanguage());
+        self::assertSame(['baz' => 'qux'], $modified->getData());
+        self::assertSame(['foo' => 'bar'], $original->getData());
+    }
 }

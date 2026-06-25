@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Traits;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
+
 trait FilterOrganisationseinheitenTrait
 {
     /**
@@ -23,9 +25,9 @@ trait FilterOrganisationseinheitenTrait
      * Once such a record is found, its children are included recursively up to
      * $maxDepth levels below the matched root record.
      *
-     * @param array<int, array<string, mixed>> $organisationseinheiten
+     * @param array<int, Record> $organisationseinheiten
      * @param array<int|string> $allowedParentIds
-     * @return array<int, array<string, mixed>>
+     * @return array<int, Record>
      */
     protected function filterOrganisationseinheitenByParentIds(
         array $organisationseinheiten,
@@ -35,13 +37,7 @@ trait FilterOrganisationseinheitenTrait
         $filteredOrganisationseinheiten = [];
 
         foreach ($organisationseinheiten as $organisationseinheit) {
-            if (!is_array($organisationseinheit)) {
-                continue;
-            }
-
-            $organisationseinheitId = $organisationseinheit['id'] ?? null;
-
-            if (in_array($organisationseinheitId, $allowedParentIds, true)) {
+            if (in_array($organisationseinheit->getId(), $allowedParentIds, true)) {
                 $filteredOrganisationseinheiten[] = $this->limitOrganisationseinheitenDepth(
                     $organisationseinheit,
                     0,
@@ -82,74 +78,55 @@ trait FilterOrganisationseinheitenTrait
      * - grandchildren, depth 2
      *
      * Children below depth 2 are removed.
-     *
-     * @param array<string, mixed> $organisationseinheit
-     * @return array<string, mixed>
      */
     protected function limitOrganisationseinheitenDepth(
-        array $organisationseinheit,
+        Record $organisationseinheit,
         int $depth,
         int $maxDepth,
-    ): array {
+    ): Record {
         $untergeordneteOrganisationseinheiten = $this->getUntergeordneteOrganisationseinheiten(
             $organisationseinheit,
         );
 
         if ($untergeordneteOrganisationseinheiten === [] || $depth >= $maxDepth) {
-            $organisationseinheit['untergeordneteOrganisationseinheiten'] = [];
-
-            return $organisationseinheit;
-        }
-
-        $limitedUntergeordneteOrganisationseinheiten = [];
-
-        foreach ($untergeordneteOrganisationseinheiten as $untergeordneteOrganisationseinheit) {
-            if (!is_array($untergeordneteOrganisationseinheit)) {
-                continue;
-            }
-
-            $limitedUntergeordneteOrganisationseinheiten[] = $this->limitOrganisationseinheitenDepth(
-                $untergeordneteOrganisationseinheit,
-                $depth + 1,
-                $maxDepth,
+            return $organisationseinheit->withData(
+                array_merge($organisationseinheit->getData(), ['untergeordneteOrganisationseinheiten' => []]),
             );
         }
 
-        $organisationseinheit['untergeordneteOrganisationseinheiten'] = $this->sortOrganisationseinheitenByName(
-            $limitedUntergeordneteOrganisationseinheiten,
+        $limitedChildren = array_map(
+            fn(Record $child): Record => $this->limitOrganisationseinheitenDepth($child, $depth + 1, $maxDepth),
+            $untergeordneteOrganisationseinheiten,
         );
 
-        return $organisationseinheit;
+        $sortedChildren = $this->sortOrganisationseinheitenByName($limitedChildren);
+
+        return $organisationseinheit->withData(
+            array_merge(
+                $organisationseinheit->getData(),
+                ['untergeordneteOrganisationseinheiten' => array_map(fn(Record $r): array => $r->getData(), $sortedChildren)],
+            ),
+        );
     }
 
     /**
-     * @param array<string, mixed> $organisationseinheit
-     * @return array<int, array<string, mixed>>
+     * @return array<int, Record>
      */
-    protected function getUntergeordneteOrganisationseinheiten(array $organisationseinheit): array
+    protected function getUntergeordneteOrganisationseinheiten(Record $organisationseinheit): array
     {
-        $untergeordneteOrganisationseinheiten = $organisationseinheit['untergeordneteOrganisationseinheiten'] ?? [];
-
-        if (!is_array($untergeordneteOrganisationseinheiten)) {
-            return [];
-        }
-
-        return $untergeordneteOrganisationseinheiten;
+        return $organisationseinheit->getUntergeordneteOrganisationseinheiten();
     }
 
     /**
-     * @param array<int, array<string, mixed>> $organisationseinheiten
-     * @return array<int, array<string, mixed>>
+     * @param array<int, Record> $organisationseinheiten
+     * @return array<int, Record>
      */
     protected function sortOrganisationseinheitenByName(array $organisationseinheiten): array
     {
         usort(
             $organisationseinheiten,
-            static function (array $firstOrganisationseinheit, array $secondOrganisationseinheit): int {
-                return strcasecmp(
-                    (string)($firstOrganisationseinheit['name'] ?? ''),
-                    (string)($secondOrganisationseinheit['name'] ?? ''),
-                );
+            static function (Record $first, Record $second): int {
+                return strcasecmp($first->getName(), $second->getName());
             },
         );
 
