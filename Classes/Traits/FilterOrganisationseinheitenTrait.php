@@ -16,11 +16,10 @@ use JWeiland\ServiceBw2\Domain\Model\Record;
 trait FilterOrganisationseinheitenTrait
 {
     /**
-     * Filters a flat list of Organisationseinheiten by allowed parent IDs.
-     *
-     * An Organisationseinheit is included in the result when one of its ancestors
-     * (walked up via uebergeordneteOE) has an ID contained in $allowedParentIds.
-     * The matched records are depth-limited and sorted by name.
+     * Filters a flat list of Organisationseinheiten to only those whose own ID is in $allowedParentIds.
+     * Intended for frontend tree rendering: each matched record already carries its children
+     * in untergeordneteOEs, so only the root level is returned here. The nested tree is
+     * depth-limited to $maxDepth and sorted by name.
      *
      * @param array<int, Record> $organisationseinheiten
      * @param array<int|string> $allowedParentIds
@@ -46,8 +45,37 @@ trait FilterOrganisationseinheitenTrait
 
     private function hasAllowedParentInChain(Record $oe, array $allowedParentIds): bool
     {
+        return in_array($oe->getId(), $allowedParentIds, true);
+    }
+
+    /**
+     * Returns a flat list of all Organisationseinheiten whose ancestor chain (up to $maxDepth
+     * levels) contains one of the $allowedParentIds. Intended for use cases such as Solr indexing
+     * where every individual record must appear as a separate item rather than as a nested tree.
+     *
+     * @param array<int, Record> $organisationseinheiten
+     * @param array<int|string> $allowedParentIds
+     * @return array<int, Record>
+     */
+    protected function filterOrganisationseinheitenDescendantsByParentIds(
+        array $organisationseinheiten,
+        array $allowedParentIds,
+        int $maxDepth = 2,
+    ): array {
+        return array_values(array_filter(
+            $organisationseinheiten,
+            fn(Record $oe): bool => $this->hasAllowedAncestorWithinDepth($oe, $allowedParentIds, $maxDepth),
+        ));
+    }
+
+    private function hasAllowedAncestorWithinDepth(Record $oe, array $allowedParentIds, int $remainingDepth): bool
+    {
         if (in_array($oe->getId(), $allowedParentIds, true)) {
             return true;
+        }
+
+        if ($remainingDepth === 0) {
+            return false;
         }
 
         $parent = $oe->getUebergeordneteOE();
@@ -55,7 +83,7 @@ trait FilterOrganisationseinheitenTrait
             return false;
         }
 
-        return $this->hasAllowedParentInChain($parent, $allowedParentIds);
+        return $this->hasAllowedAncestorWithinDepth($parent, $allowedParentIds, $remainingDepth - 1);
     }
 
     /**
