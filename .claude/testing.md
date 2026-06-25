@@ -93,10 +93,25 @@ Tests/Functional/
     └── LanguageHelperTest.php
 ```
 
+## Pre-commit Sequence
+
+Always run these three suites in order before committing:
+
+```bash
+CI=true ./Build/Scripts/runTests.sh -s lint
+CI=true ./Build/Scripts/runTests.sh -s rector
+CI=true ./Build/Scripts/runTests.sh -s cgl
+```
+
+Lint runs first — it is a fast PHP syntax check and gates the subsequent
+tools. Rector cannot correctly parse and transform code that has syntax
+errors. Cgl runs last because rector may restructure code that then needs
+reformatting.
+
 ## Rector
 
 Rector is configured in `Build/rector/rector.php` and targets TYPO3 13 +
-PHP 8.2. Run before commits to catch upgrade and code-quality issues:
+PHP 8.2.
 
 ```bash
 # Dry-run — shows what would change without touching files
@@ -105,8 +120,6 @@ CI=true ./Build/Scripts/runTests.sh -s rector -n
 # Apply all changes
 CI=true ./Build/Scripts/runTests.sh -s rector
 ```
-
-Always follow rector with `cgl` and `lint` to catch any formatting drift.
 
 ## Notes
 
