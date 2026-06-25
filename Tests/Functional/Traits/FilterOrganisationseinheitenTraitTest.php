@@ -97,6 +97,7 @@ class FilterOrganisationseinheitenTraitTest extends FunctionalTestCase
                     'name' => 'Child',
                     'uebergeordneteOE' => ['id' => 100, 'name' => 'Root'],
                 ],
+                'untergeordneteOEs' => [],
             ],
         );
 
@@ -161,10 +162,12 @@ class FilterOrganisationseinheitenTraitTest extends FunctionalTestCase
                                 'id' => 12,
                                 'name' => 'Grandchild',
                                 'untergeordneteOEs' => [
-                                    ['id' => 13, 'name' => 'GreatGrandchild', 'untergeordneteOEs' => []],
+                                    ['id' => 13, 'name' => 'GreatGrandchild', 'untergeordneteOEs' => [], 'uebergeordneteOE' => ['id' => 12, 'name' => 'Grandchild']],
                                 ],
+                                'uebergeordneteOE' => ['id' => 11, 'name' => 'Child'],
                             ],
                         ],
+                        'uebergeordneteOE' => ['id' => 10, 'name' => 'OE'],
                     ],
                 ],
             ],

@@ -27,75 +27,48 @@ class RecordTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getIdWillReturnId()
+    public function getIdWillReturnId(): void
     {
-        $subject = new Record(
-            1234,
-            '',
-            '',
-            '',
-            [],
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
 
-        self::assertSame(
-            1234,
-            $subject->getId(),
-        );
+        self::assertSame(1234, $subject->getId());
     }
 
     #[Test]
-    public function getNameWillReturnName()
+    public function getNameWillReturnName(): void
     {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            '',
-            '',
-            [],
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
 
-        self::assertSame(
-            'TYPO3',
-            $subject->getName(),
-        );
+        self::assertSame('TYPO3', $subject->getName());
     }
 
     #[Test]
-    public function getTypeWillReturnType()
+    public function getTypeWillReturnType(): void
     {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            '',
-            [],
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
 
-        self::assertSame(
-            'orga',
-            $subject->getType(),
-        );
+        self::assertSame('orga', $subject->getType());
     }
 
     #[Test]
-    public function getLanguageWillReturnLanguage()
+    public function getLanguageWillReturnLanguage(): void
     {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [],
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
 
-        self::assertSame(
-            'en',
-            $subject->getLanguage(),
-        );
+        self::assertSame('en', $subject->getLanguage());
     }
 
     #[Test]
-    public function getDataWillReturnData()
+    public function getDataWillReturnData(): void
+    {
+        $data = ['id' => 1234, 'name' => 'TYPO3', 'foo' => 'bar'];
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', $data);
+
+        self::assertSame($data, $subject->getData());
+    }
+
+    #[Test]
+    public function getHasProzesseWithProzesseWillReturnTrue(): void
     {
         $subject = new Record(
             1234,
@@ -103,20 +76,17 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
+                'prozesse' => ['foo' => 'bar'],
             ],
         );
 
-        self::assertSame(
-            [
-                'foo' => 'bar',
-            ],
-            $subject->getData(),
-        );
+        self::assertTrue($subject->getHasProzesse());
     }
 
     #[Test]
-    public function getHasProzesseWithProzesseWillReturnTrue()
+    public function getHasProzesseWithOnlinedienstFormularWillReturnTrue(): void
     {
         $subject = new Record(
             1234,
@@ -124,20 +94,17 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
-                'prozesse' => [
-                    'foo' => 'bar',
-                ],
+                'id' => 1234,
+                'name' => 'TYPO3',
+                'formulare' => [['typ' => 'ONLINEDIENST']],
             ],
         );
 
-        self::assertTrue(
-            $subject->getHasProzesse(),
-        );
+        self::assertTrue($subject->getHasProzesse());
     }
 
     #[Test]
-    public function getHasProzesseWithOnlinedienstFormularWillReturnTrue()
+    public function getHasProzesseWithEmptyProzesseWillReturnFalse(): void
     {
         $subject = new Record(
             1234,
@@ -145,41 +112,25 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
-                'formulare' => [
-                    [
-                        'typ' => 'ONLINEDIENST',
-                    ],
-                ],
-            ],
-        );
-
-        self::assertTrue(
-            $subject->getHasProzesse(),
-        );
-    }
-
-    #[Test]
-    public function getHasProzesseWithEmptyProzesseWillReturnFalse()
-    {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
                 'prozesse' => [],
             ],
         );
 
-        self::assertFalse(
-            $subject->getHasProzesse(),
-        );
+        self::assertFalse($subject->getHasProzesse());
     }
 
     #[Test]
-    public function getHasProzesseWithMissingProzesseWillReturnFalse()
+    public function getHasProzesseWithMissingProzesseWillReturnFalse(): void
+    {
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
+
+        self::assertFalse($subject->getHasProzesse());
+    }
+
+    #[Test]
+    public function getHasFormulareWithEmptyFormulareWillReturnFalse(): void
     {
         $subject = new Record(
             1234,
@@ -187,36 +138,25 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
-            ],
-        );
-
-        self::assertFalse(
-            $subject->getHasProzesse(),
-        );
-    }
-
-    #[Test]
-    public function getHasFormulareWithEmptyFormulareWillReturnFalse()
-    {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
                 'formulare' => [],
             ],
         );
 
-        self::assertFalse(
-            $subject->getHasFormulare(),
-        );
+        self::assertFalse($subject->getHasFormulare());
     }
 
     #[Test]
-    public function getHasFormulareWithMissingFormulareWillReturnFalse()
+    public function getHasFormulareWithMissingFormulareWillReturnFalse(): void
+    {
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
+
+        self::assertFalse($subject->getHasFormulare());
+    }
+
+    #[Test]
+    public function getHasFormulareWithTypeOnlinedienstWillReturnFalse(): void
     {
         $subject = new Record(
             1234,
@@ -224,17 +164,17 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
+                'formulare' => [['typ' => 'ONLINEDIENST']],
             ],
         );
 
-        self::assertFalse(
-            $subject->getHasFormulare(),
-        );
+        self::assertFalse($subject->getHasFormulare());
     }
 
     #[Test]
-    public function getHasFormulareWithTypeOnlinedienstWillReturnFalse()
+    public function getHasFormulareWithoutOnlinedienstWillReturnTrue(): void
     {
         $subject = new Record(
             1234,
@@ -242,90 +182,46 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
+                'formulare' => [['typ' => 'Whatever']],
+            ],
+        );
+
+        self::assertTrue($subject->getHasFormulare());
+    }
+
+    #[Test]
+    public function getHasFormulareWithMultipleTypesWillReturnTrue(): void
+    {
+        $subject = new Record(
+            1234,
+            'TYPO3',
+            'orga',
+            'en',
+            [
+                'id' => 1234,
+                'name' => 'TYPO3',
                 'formulare' => [
-                    [
-                        'typ' => 'ONLINEDIENST',
-                    ],
+                    ['typ' => 'ONLINEDIENST'],
+                    ['typ' => 'Whatever'],
                 ],
             ],
         );
 
-        self::assertFalse(
-            $subject->getHasFormulare(),
-        );
+        self::assertTrue($subject->getHasFormulare());
     }
 
     #[Test]
-    public function getHasFormulareWithoutOnlinedienstWillReturnTrue()
+    public function getTextBloeckeWillReturnEmptyArray(): void
     {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [
-                'foo' => 'bar',
-                'formulare' => [
-                    [
-                        'typ' => 'Whatever',
-                    ],
-                ],
-            ],
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
 
-        self::assertTrue(
-            $subject->getHasFormulare(),
-        );
+        self::assertSame([], $subject->getTextBloecke());
     }
 
     #[Test]
-    public function getHasFormulareWithMultipleTypesWillReturnTrue()
-    {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [
-                'foo' => 'bar',
-                'formulare' => [
-                    [
-                        'typ' => 'ONLINEDIENST',
-                    ],
-                    [
-                        'typ' => 'Whatever',
-                    ],
-                ],
-            ],
-        );
-
-        self::assertTrue(
-            $subject->getHasFormulare(),
-        );
-    }
-
-    #[Test]
-    public function getTextBloeckeWillReturnEmptyArray()
-    {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [
-                'foo' => 'bar',
-            ],
-        );
-
-        self::assertSame(
-            [],
-            $subject->getTextBloecke(),
-        );
-    }
-
-    #[Test]
-    public function getTextBloeckeWillReturnTextBloecke()
+    public function getTextBloeckeWillReturnTextBloecke(): void
     {
         $textBloecke = [
             0 => ['text' => 'Hello <a href="https://jweiland.net">jweiland.net</a>'],
@@ -337,38 +233,25 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
                 'textbloecke' => $textBloecke,
             ],
         );
 
-        self::assertSame(
-            $textBloecke,
-            $subject->getTextBloecke(),
-        );
+        self::assertSame($textBloecke, $subject->getTextBloecke());
     }
 
     #[Test]
-    public function getProcessedTextBloeckeWillReturnEmptyString()
+    public function getProcessedTextBloeckeWillReturnEmptyString(): void
     {
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            [
-                'foo' => 'bar',
-            ],
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3']);
 
-        self::assertSame(
-            '',
-            $subject->getProcessedTextBloecke(),
-        );
+        self::assertSame('', $subject->getProcessedTextBloecke());
     }
 
     #[Test]
-    public function getProcessedTextBloeckeWillReturnTextBloeckeAsString()
+    public function getProcessedTextBloeckeWillReturnTextBloeckeAsString(): void
     {
         $textBloecke = [
             0 => ['text' => 'Hello <a href="https://jweiland.net">jweiland.net</a>'],
@@ -381,19 +264,17 @@ class RecordTest extends FunctionalTestCase
             'orga',
             'en',
             [
-                'foo' => 'bar',
+                'id' => 1234,
+                'name' => 'TYPO3',
                 'textbloecke' => $textBloecke,
             ],
         );
 
-        self::assertSame(
-            'Hello jweiland.net,Hello TYPO3 CMS',
-            $subject->getProcessedTextBloecke(),
-        );
+        self::assertSame('Hello jweiland.net,Hello TYPO3 CMS', $subject->getProcessedTextBloecke());
     }
 
     #[Test]
-    public function asArrayWillReturnDataArray()
+    public function asArrayWillReturnDataArray(): void
     {
         $data = [
             'id' => 1234,
@@ -401,22 +282,13 @@ class RecordTest extends FunctionalTestCase
             'type' => 'orga',
         ];
 
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            $data,
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', $data);
 
-        self::assertSame(
-            $data,
-            $subject->asArray(),
-        );
+        self::assertSame($data, $subject->asArray());
     }
 
     #[Test]
-    public function asArrayWillReturnDataArrayWithTextBloecke()
+    public function asArrayWillReturnDataArrayWithTextBloecke(): void
     {
         $textBloecke = [
             0 => ['text' => 'Hello <a href="https://jweiland.net">jweiland.net</a>'],
@@ -430,46 +302,37 @@ class RecordTest extends FunctionalTestCase
             'textbloecke' => $textBloecke,
         ];
 
-        $subject = new Record(
-            1234,
-            'TYPO3',
-            'orga',
-            'en',
-            $data,
-        );
+        $subject = new Record(1234, 'TYPO3', 'orga', 'en', $data);
 
         $expectedData['processed_textbloecke'] = 'Hello jweiland.net,Hello TYPO3 CMS';
 
-        self::assertSame(
-            $expectedData,
-            $subject->asArray(),
-        );
+        self::assertSame($expectedData, $subject->asArray());
     }
 
     #[Test]
-    public function getUntergeordneteOEsWithMissingKeyWillReturnEmptyArray()
+    public function getUntergeordneteOEsWithMissingKeyWillReturnEmptyArray(): void
     {
-        $subject = new Record(1234, 'TYPO3', 'organisationseinheiten', 'de', []);
+        $subject = new Record(1234, 'TYPO3', 'organisationseinheiten', 'de', ['id' => 1234, 'name' => 'TYPO3']);
 
         self::assertSame([], $subject->getUntergeordneteOEs());
     }
 
     #[Test]
-    public function getUntergeordneteOEsWithEmptyArrayWillReturnEmptyArray()
+    public function getUntergeordneteOEsWithEmptyArrayWillReturnEmptyArray(): void
     {
         $subject = new Record(
             1234,
             'TYPO3',
             'organisationseinheiten',
             'de',
-            ['untergeordneteOEs' => []],
+            ['id' => 1234, 'name' => 'TYPO3', 'untergeordneteOEs' => []],
         );
 
         self::assertSame([], $subject->getUntergeordneteOEs());
     }
 
     #[Test]
-    public function getUntergeordneteOEsWillReturnRecordObjects()
+    public function getUntergeordneteOEsWillReturnRecordObjects(): void
     {
         $subject = new Record(
             1,
@@ -477,6 +340,8 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'de',
             [
+                'id' => 1,
+                'name' => 'Root',
                 'untergeordneteOEs' => [
                     ['id' => 2, 'name' => 'Child A', 'untergeordneteOEs' => []],
                     ['id' => 3, 'name' => 'Child B', 'untergeordneteOEs' => []],
@@ -496,7 +361,7 @@ class RecordTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getUntergeordneteOEsSkipsNonArrayEntries()
+    public function getUntergeordneteOEsSkipsNonArrayEntries(): void
     {
         $subject = new Record(
             1,
@@ -504,6 +369,8 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'de',
             [
+                'id' => 1,
+                'name' => 'Root',
                 'untergeordneteOEs' => [
                     ['id' => 2, 'name' => 'Valid'],
                     'invalid-string-entry',
@@ -519,7 +386,7 @@ class RecordTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getUntergeordneteOEsInheritsTypeAndLanguageFromParent()
+    public function getUntergeordneteOEsInheritsTypeAndLanguageFromParent(): void
     {
         $subject = new Record(
             1,
@@ -527,6 +394,8 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'fr',
             [
+                'id' => 1,
+                'name' => 'Root',
                 'untergeordneteOEs' => [
                     ['id' => 2, 'name' => 'Child'],
                 ],
@@ -542,7 +411,7 @@ class RecordTest extends FunctionalTestCase
     #[Test]
     public function withDataWillReturnNewRecordWithReplacedData(): void
     {
-        $original = new Record(1234, 'TYPO3', 'orga', 'en', ['foo' => 'bar']);
+        $original = new Record(1234, 'TYPO3', 'orga', 'en', ['id' => 1234, 'name' => 'TYPO3', 'foo' => 'bar']);
         $modified = $original->withData(['baz' => 'qux']);
 
         self::assertNotSame($original, $modified);
@@ -551,13 +420,13 @@ class RecordTest extends FunctionalTestCase
         self::assertSame('orga', $modified->getType());
         self::assertSame('en', $modified->getLanguage());
         self::assertSame(['baz' => 'qux'], $modified->getData());
-        self::assertSame(['foo' => 'bar'], $original->getData());
+        self::assertSame(['id' => 1234, 'name' => 'TYPO3', 'foo' => 'bar'], $original->getData());
     }
 
     #[Test]
     public function getUebergeordneteOEWithMissingKeyWillReturnNull(): void
     {
-        $subject = new Record(1, 'Test', 'organisationseinheiten', 'de', []);
+        $subject = new Record(1, 'Test', 'organisationseinheiten', 'de', ['id' => 1, 'name' => 'Test']);
 
         self::assertNull($subject->getUebergeordneteOE());
     }
@@ -565,7 +434,13 @@ class RecordTest extends FunctionalTestCase
     #[Test]
     public function getUebergeordneteOEWithNonArrayValueWillReturnNull(): void
     {
-        $subject = new Record(1, 'Test', 'organisationseinheiten', 'de', ['uebergeordneteOE' => 'invalid']);
+        $subject = new Record(
+            1,
+            'Test',
+            'organisationseinheiten',
+            'de',
+            ['id' => 1, 'name' => 'Test', 'uebergeordneteOE' => 'invalid'],
+        );
 
         self::assertNull($subject->getUebergeordneteOE());
     }
@@ -578,7 +453,7 @@ class RecordTest extends FunctionalTestCase
             'Child',
             'organisationseinheiten',
             'de',
-            ['uebergeordneteOE' => ['id' => 1, 'name' => 'Parent']],
+            ['id' => 2, 'name' => 'Child', 'uebergeordneteOE' => ['id' => 1, 'name' => 'Parent']],
         );
 
         $parent = $subject->getUebergeordneteOE();
@@ -596,7 +471,7 @@ class RecordTest extends FunctionalTestCase
             'Child',
             'organisationseinheiten',
             'fr',
-            ['uebergeordneteOE' => ['id' => 1, 'name' => 'Parent']],
+            ['id' => 2, 'name' => 'Child', 'uebergeordneteOE' => ['id' => 1, 'name' => 'Parent']],
         );
 
         $parent = $subject->getUebergeordneteOE();
@@ -614,6 +489,8 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'de',
             [
+                'id' => 3,
+                'name' => 'Grandchild',
                 'uebergeordneteOE' => [
                     'id' => 2,
                     'name' => 'Child',
