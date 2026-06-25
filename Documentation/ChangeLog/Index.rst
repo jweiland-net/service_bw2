@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 9.0.11
+==============
+
+*   [TASK] Replace in-memory OE filtering with recursive DB fetch
+*   [BUGFIX] Fix ServiceBwTitleMapper calling findAll() with wrong number
+    of arguments and passing Generator to array_column()
+
 Version 9.0.10
 ==============
 
