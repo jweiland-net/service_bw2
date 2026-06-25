@@ -176,6 +176,7 @@ class PrepareForSolrIndexingCommand extends Command
         return $flat;
     }
 
+    /** @return array<int, int> */
     protected function getInitialRecords(int $contentUid): array
     {
         $connection = $this->connectionPool->getConnectionForTable('tt_content');

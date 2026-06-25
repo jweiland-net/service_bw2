@@ -13,6 +13,7 @@ namespace JWeiland\ServiceBw2\Domain\Model;
 
 final readonly class Record
 {
+    /** @param array<string, mixed> $data */
     public function __construct(
         private int $id,
         private string $name,
@@ -41,6 +42,7 @@ final readonly class Record
         return $this->language;
     }
 
+    /** @return array<string, mixed> */
     public function getData(): array
     {
         return $this->data;
@@ -72,6 +74,7 @@ final readonly class Record
         return false;
     }
 
+    /** @return array<int, array<string, mixed>> */
     public function getTextBloecke(): array
     {
         return $this->data['textbloecke'] ?? [];
@@ -136,11 +139,13 @@ final readonly class Record
         return $records;
     }
 
+    /** @param array<string, mixed> $data */
     public function withData(array $data): self
     {
         return new self($this->id, $this->name, $this->type, $this->language, $data);
     }
 
+    /** @return array<string, mixed> */
     public function asArray(): array
     {
         $data = $this->data;

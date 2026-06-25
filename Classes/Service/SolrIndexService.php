@@ -71,6 +71,7 @@ readonly class SolrIndexService
         }
     }
 
+    /** @param array<string, mixed> $record */
     public function indexServiceBWRecord(array $record, string $type, Site $solrSite): bool
     {
         $record['pid'] = $solrSite->getRootPageId();
@@ -97,6 +98,9 @@ readonly class SolrIndexService
         return $indexed;
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $records
+     */
     protected function indexServiceBWRecords(
         array $records,
         string $type,
@@ -197,6 +201,7 @@ readonly class SolrIndexService
 
     protected function getSolrIndexer(Item $item, TypoScriptConfiguration $solrConfiguration): Indexer
     {
+        /** @var class-string<Indexer> $indexerClass */
         $indexerClass = $solrConfiguration->getIndexQueueIndexerByConfigurationName(
             $item->getIndexingConfigurationName(),
         );
@@ -205,6 +210,9 @@ readonly class SolrIndexService
             $item->getIndexingConfigurationName(),
         );
 
-        return GeneralUtility::makeInstance($indexerClass, $indexerConfiguration);
+        /** @var Indexer $indexer */
+        $indexer = GeneralUtility::makeInstance($indexerClass, $indexerConfiguration);
+
+        return $indexer;
     }
 }

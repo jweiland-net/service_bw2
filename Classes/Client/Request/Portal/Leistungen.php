@@ -24,6 +24,7 @@ final readonly class Leistungen implements RequestInterface
         return self::URL;
     }
 
+    /** @return array<string, mixed> */
     public function getQuery(): array
     {
         return [
@@ -32,6 +33,7 @@ final readonly class Leistungen implements RequestInterface
         ];
     }
 
+    /** @return array<string, string> */
     public function getHeaders(): array
     {
         return [

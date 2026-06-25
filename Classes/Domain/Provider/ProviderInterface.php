@@ -15,6 +15,7 @@ interface ProviderInterface
 {
     public const CONTROLLER_TYPE = 'INVALID';
 
+    /** @return array<string, mixed> */
     public function findById(int $id, string $language): array;
 
     public function findAll(string $language): \Generator;

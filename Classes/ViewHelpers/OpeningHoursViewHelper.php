@@ -84,14 +84,18 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Get HTML for a structuredOpeningHours array
+     *
+     * @param array<string, mixed> $structuredOpeningHours
      */
     private function getStructuredOpeningHoursHTML(array $structuredOpeningHours): string
     {
         $html = [];
         if (isset($structuredOpeningHours['regulaereZeiten']) && is_array($structuredOpeningHours['regulaereZeiten'])) {
             // Forenoon opening hours mon - fri
+            /** @var array<int, string> $forenoonOpeningHoursWorkdays */
             $forenoonOpeningHoursWorkdays = [];
             // Afternoon opening hours
+            /** @var array<string, array<int, string>> $afternoonOpeningHours */
             $afternoonOpeningHours = [];
 
             $this->processOpeningHours(
@@ -148,6 +152,10 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Process opening hours using $structuredOpeningHours['regulaereZeiten'] array
+     *
+     * @param array<int, array<string, mixed>> $regulaereZeiten
+     * @param array<int, string> $forenoonOpeningHoursWorkdays
+     * @param array<string, array<int, string>> $afternoonOpeningHours
      */
     private function processOpeningHours(
         array $regulaereZeiten,
@@ -168,7 +176,7 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
                 } else {
                     // Opening hours individual day afternoon
                     $regulaereZeitenHours = $this->getRegulaereZeitenHours($regulaereZeitenDay);
-                    $afternoonOpeningHours[$regulaereZeitenDay['tagestyp']][(int)substr($regulaereZeitenHours, 0, 2)]
+                    $afternoonOpeningHours[(string)$regulaereZeitenDay['tagestyp']][(int)substr($regulaereZeitenHours, 0, 2)]
                         = $regulaereZeitenHours;
                 }
             }
@@ -177,6 +185,8 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
 
     /**
      * Get the opening hours as a string e.g., 07:00 - 12:00
+     *
+     * @param array<string, mixed> $regulaereZeiten
      */
     private function getRegulaereZeitenHours(array $regulaereZeiten): string
     {

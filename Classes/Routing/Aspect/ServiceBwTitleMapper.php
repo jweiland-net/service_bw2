@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Routing\Aspect;
 
 use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
@@ -58,6 +59,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ServiceBwTitleMapper implements StaticMappableAspectInterface
 {
+    /** @param array<string, mixed> $settings */
     public function __construct(protected array $settings) {}
 
     public function generate(string $value): ?string
@@ -68,14 +70,16 @@ class ServiceBwTitleMapper implements StaticMappableAspectInterface
             $repository = $this->getRepositoryFactory()->getRepository(
                 ControllerTypeEnum::from((string)($this->settings['controllerType'] ?? '')),
             );
-
-            $records = $repository->findAll();
-        } catch (\Exception|\Throwable) {
+            $record = $repository->findById($entityId);
+        } catch (\Throwable) {
             return null;
         }
 
-        $titlesById = array_column($records, 'name', 'id');
-        $title = $titlesById[$entityId] ?? '';
+        if (!$record instanceof Record) {
+            return null;
+        }
+
+        $title = $record->getName();
         if ($title === '') {
             return null;
         }

@@ -118,6 +118,7 @@ readonly class ExtConf implements SingletonInterface
         return $this->gebietId;
     }
 
+    /** @return array<string, string> */
     private function parseAllowedLanguages(string $languages): array
     {
         $allowedLanguages = [];

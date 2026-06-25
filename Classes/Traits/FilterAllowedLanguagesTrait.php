@@ -17,7 +17,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 trait FilterAllowedLanguagesTrait
 {
     /**
-     * @return string[] Array of 2-letter language ISO codes
+     * @param array<string, string> $allAllowedLanguages
+     * @return string[]
      */
     protected function filterAllowedLanguages(InputInterface $input, array $allAllowedLanguages): array
     {
