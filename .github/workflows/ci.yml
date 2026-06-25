@@ -36,9 +36,17 @@ jobs:
       - name: 'Composer normalize'
         run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -s composerNormalize -n
 
+      - name: 'Rector'
+        if: ${{ matrix.php <= '8.3' }}
+        run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -s rector -n
+
       - name: 'CGL'
         if: ${{ matrix.php <= '8.3' }}
         run: Build/Scripts/runTests.sh -b podman -n -p ${{ matrix.php }} -s cgl
+
+      - name: 'PHPStan'
+        if: ${{ matrix.php <= '8.3' }}
+        run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -s phpstan
 
       - name: 'Execute functional tests'
         run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -d mysql -s functional
