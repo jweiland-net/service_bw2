@@ -46,12 +46,13 @@ trait FilterOrganisationseinheitenTrait
 
     private function hasAllowedParentInChain(Record $oe, array $allowedParentIds): bool
     {
+        if (in_array($oe->getId(), $allowedParentIds, true)) {
+            return true;
+        }
+
         $parent = $oe->getUebergeordneteOE();
         if (!$parent instanceof Record) {
             return false;
-        }
-        if (in_array($parent->getId(), $allowedParentIds, true)) {
-            return true;
         }
 
         return $this->hasAllowedParentInChain($parent, $allowedParentIds);

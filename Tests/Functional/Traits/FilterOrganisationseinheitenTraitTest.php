@@ -108,7 +108,18 @@ class FilterOrganisationseinheitenTraitTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function filterExcludesOeWithNoParent(): void
+    public function filterIncludesTopLevelOeWhoseOwnIdIsAllowed(): void
+    {
+        $oe = $this->makeRecord(100, 'Root');
+
+        $result = $this->subject->filter([$oe], [100]);
+
+        self::assertCount(1, $result);
+        self::assertSame(100, $result[0]->getId());
+    }
+
+    #[Test]
+    public function filterExcludesOeWithNoParentAndNonMatchingId(): void
     {
         $oe = $this->makeRecord(1, 'Root');
 
