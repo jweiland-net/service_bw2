@@ -32,7 +32,7 @@ class SearchController extends AbstractController
     ): ResponseInterface {
         $variables = [
             'searchTerm' => $searchTerm,
-            'typ' => $typ === null ? '' : $typ->value,
+            'typ' => $typ instanceof SearchTypEnum ? $typ->value : '',
             'sortProperty' => $sortProperty->value,
             'result' => [],
         ];

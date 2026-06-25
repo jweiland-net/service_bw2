@@ -58,12 +58,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ServiceBwTitleMapper implements StaticMappableAspectInterface
 {
-    protected array $settings;
-
-    public function __construct(array $settings)
-    {
-        $this->settings = $settings;
-    }
+    public function __construct(protected array $settings) {}
 
     public function generate(string $value): ?string
     {

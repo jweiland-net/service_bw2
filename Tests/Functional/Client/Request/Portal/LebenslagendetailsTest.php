@@ -27,7 +27,7 @@ class LebenslagendetailsTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getUrlWillReturnUrl()
+    public function getUrlWillReturnUrl(): void
     {
         $subject = new Lebenslagendetails(123);
 
@@ -38,7 +38,7 @@ class LebenslagendetailsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getQueryWillReturnQuery()
+    public function getQueryWillReturnQuery(): void
     {
         $subject = new Lebenslagendetails(123);
 
@@ -49,7 +49,7 @@ class LebenslagendetailsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getHeadersWillReturnHeaders()
+    public function getHeadersWillReturnHeaders(): void
     {
         $subject = new Lebenslagendetails(123);
 
@@ -62,7 +62,7 @@ class LebenslagendetailsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getBodyWillReturnBody()
+    public function getBodyWillReturnBody(): void
     {
         $subject = new Lebenslagendetails(123);
 

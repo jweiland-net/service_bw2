@@ -42,7 +42,7 @@ final readonly class Suche implements RequestInterface
             $query['q'] = $this->searchTerm;
         }
 
-        if ($this->typ !== null) {
+        if ($this->typ instanceof SearchTypEnum) {
             $query['typ'] = $this->typ->value;
         }
 

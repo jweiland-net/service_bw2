@@ -56,7 +56,7 @@ class LebenslagenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findByIdWillRequestRecord()
+    public function findByIdWillRequestRecord(): void
     {
         $data = [
             'id' => 123,
@@ -79,7 +79,7 @@ class LebenslagenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findAllWillRequestRecords()
+    public function findAllWillRequestRecords(): void
     {
         $data = [
             [

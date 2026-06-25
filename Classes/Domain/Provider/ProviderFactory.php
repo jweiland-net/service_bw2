@@ -16,7 +16,7 @@ use JWeiland\ServiceBw2\Controller\ControllerTypeEnum;
 final readonly class ProviderFactory
 {
     public function __construct(
-        protected iterable $providers,
+        private iterable $providers,
     ) {}
 
     public function getProvider(ControllerTypeEnum $controllerType): ProviderInterface

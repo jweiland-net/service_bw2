@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Repository\LeistungenRepository;
 use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use JWeiland\ServiceBw2\Service\AlphabeticalIndexService;
@@ -45,7 +46,7 @@ class LeistungenController extends AbstractController
     {
         $record = $this->leistungenRepository->findById($id);
 
-        if ($record === null) {
+        if (!$record instanceof Record) {
             $this->addFlashMessage('Requested Leistung could not be found for current language');
         } else {
             $this->setPageTitle($record->getName());

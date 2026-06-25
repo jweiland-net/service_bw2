@@ -4,5 +4,20 @@
 ,2,0,5001070,"Abfallentsorgung und Müllgebühr","lebenslagen","de","{}"
 ,3,0,4640,"Abfall- und Kreislaufwirtschaftsrecht","leistungen","de","{}"
 ,4,0,166,"Abfall und Müll entsorgen","leistungen","de","{}"
-,5,0,6021657,"Abfallwirtschaft","organisationseinheiten","de","{}"
-,6,0,6021675,"Allgemeine Verwaltung","organisationseinheiten","de","{}"
+,5,0,6021657,"Abfallwirtschaft","organisationseinheiten","de","{""id"":6021657,""uebergeordneteOE"":{""id"":6000000,""name"":""Root""}}"
+,6,0,6021675,"Allgemeine Verwaltung","organisationseinheiten","de","{""id"":6021675,""uebergeordneteOE"":{""id"":6000000,""name"":""Root""}}"
+
+"tt_content",,,
+,"uid","pid","pi_flexform"
+,1,1,"<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?>
+      <T3FlexForms>
+          <data>
+              <sheet index=""sDEFAULT"">
+                  <language index=""lDEF"">
+                      <field index=""settings.organisationseinheiten.listItems"">
+                          <value index=""vDEF"">6000000</value>
+                      </field>
+                  </language>
+              </sheet>
+          </data>
+      </T3FlexForms>"

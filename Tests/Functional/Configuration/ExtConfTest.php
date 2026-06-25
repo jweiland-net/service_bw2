@@ -29,7 +29,7 @@ class ExtConfTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getMandantInitiallyReturnsEmptyString()
+    public function getMandantInitiallyReturnsEmptyString(): void
     {
         $config = [];
         $subject = new ExtConf(...$config);
@@ -41,7 +41,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function setMandantSetsMandant()
+    public function setMandantSetsMandant(): void
     {
         $config = [
             'mandant' => 'jweiland.net',
@@ -55,7 +55,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getTokenInitiallyReturnsEmptyString()
+    public function getTokenInitiallyReturnsEmptyString(): void
     {
         $config = [];
         $subject = new ExtConf(...$config);
@@ -67,7 +67,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function setTokenSetsToken()
+    public function setTokenSetsToken(): void
     {
         $config = [
             'token' => 'Bearer abc',
@@ -81,7 +81,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getBaseUrlInitiallyReturnsDefaultValue()
+    public function getBaseUrlInitiallyReturnsDefaultValue(): void
     {
         $config = [];
         $subject = new ExtConf(...$config);
@@ -103,7 +103,7 @@ class ExtConfTest extends FunctionalTestCase
 
     #[Test]
     #[DataProvider('baseUrlDataProvider')]
-    public function setBaseUrlSetsBaseUrl(string $actualBaseUrl, string $expectedBaseUrl)
+    public function setBaseUrlSetsBaseUrl(string $actualBaseUrl, string $expectedBaseUrl): void
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
@@ -123,7 +123,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getAllowedLanguagesInitiallyReturnsPreconfiguredArray()
+    public function getAllowedLanguagesInitiallyReturnsPreconfiguredArray(): void
     {
         $config = [];
         $subject = new ExtConf(...$config);
@@ -157,7 +157,7 @@ class ExtConfTest extends FunctionalTestCase
     public function setAllowedLanguagesSetsAllowedLanguages(
         string $actualAllowedLanguages,
         array $expectedAllowedLanguages,
-    ) {
+    ): void {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
             ->expects($this->once())
@@ -176,7 +176,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getAgsInitiallyReturnsEmptyString()
+    public function getAgsInitiallyReturnsEmptyString(): void
     {
         $config = [];
         $subject = new ExtConf(...$config);
@@ -188,7 +188,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function setAgsSetsAgs()
+    public function setAgsSetsAgs(): void
     {
         $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
         $extensionConfigurationMock
@@ -208,7 +208,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getGebietIdInitiallyReturnsEmptyString()
+    public function getGebietIdInitiallyReturnsEmptyString(): void
     {
         $config = [];
         $subject = new ExtConf(...$config);
@@ -220,7 +220,7 @@ class ExtConfTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function setGebietIdSetsGebietId()
+    public function setGebietIdSetsGebietId(): void
     {
         $config = [
             'gebietId' => 'area',

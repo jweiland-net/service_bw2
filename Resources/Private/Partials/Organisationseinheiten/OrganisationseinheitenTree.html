@@ -8,8 +8,8 @@
             {organisationseinheitenTree.name}
         </f:link.action>
 
-        <f:if condition="{organisationseinheitenTree.untergeordneteOrganisationseinheiten}">
-            <f:for each="{organisationseinheitenTree.untergeordneteOrganisationseinheiten}" as="organisationseinheitenTree">
+        <f:if condition="{organisationseinheitenTree.untergeordneteOEs}">
+            <f:for each="{organisationseinheitenTree.untergeordneteOEs}" as="organisationseinheitenTree">
                 <f:render partial="Organisationseinheiten/OrganisationseinheitenTree" arguments="{organisationseinheitenTree: organisationseinheitenTree, pageUid: pageUid, noClass: 'true'}"/>
             </f:for>
         </f:if>

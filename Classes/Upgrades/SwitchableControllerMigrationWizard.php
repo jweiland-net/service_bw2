@@ -58,9 +58,9 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         ],
     ];
 
-    protected FlexFormService $flexFormService;
+    private FlexFormService $flexFormService;
 
-    protected FlexFormTools $flexFormTools;
+    private FlexFormTools $flexFormTools;
 
     public function __construct()
     {
@@ -136,7 +136,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         return $this->getMigrationRecords() !== [];
     }
 
-    protected function getMigrationRecords(): array
+    private function getMigrationRecords(): array
     {
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -157,12 +157,12 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
                 )
                 ->executeQuery()
                 ->fetchAllAssociative();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return [];
         }
     }
 
-    protected function getTargetListType(string $switchableControllerActions): string
+    private function getTargetListType(string $switchableControllerActions): string
     {
         foreach (self::MIGRATION_SETTINGS as $setting) {
             if ($setting['switchableControllerActions'] === $switchableControllerActions) {
@@ -173,7 +173,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         return '';
     }
 
-    protected function array2xml(array $input = []): string
+    private function array2xml(array $input = []): string
     {
         $options = [
             'parentTagMap' => [
@@ -193,7 +193,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         return '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' . LF . $output;
     }
 
-    protected function updateContentElement(int $uid, string $newCtype, string $flexform): void
+    private function updateContentElement(int $uid, string $newCtype, string $flexform): void
     {
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
         $queryBuilder->update('tt_content')

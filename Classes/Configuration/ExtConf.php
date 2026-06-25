@@ -99,7 +99,7 @@ readonly class ExtConf implements SingletonInterface
         $allowedLanguages = $this->parseAllowedLanguages($this->allowedLanguages);
 
         if ($allowedLanguages === []) {
-            $allowedLanguages = $this->parseAllowedLanguages(self::DEFAULT_SETTINGS['allowedLanguages']);
+            return $this->parseAllowedLanguages(self::DEFAULT_SETTINGS['allowedLanguages']);
         }
 
         return $allowedLanguages;

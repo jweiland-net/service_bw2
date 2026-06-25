@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Tca;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use JWeiland\ServiceBw2\Helper\LanguageHelper;
 use Psr\Log\LoggerInterface;
@@ -47,14 +48,15 @@ readonly class OrganisationseinheitenItems
     }
 
     /**
-     * Create an item list
+     * @param array<int, Record> $records
      */
     protected function createList(array &$items, array $records): void
     {
         foreach ($records as $record) {
-            $items[] = [$record['name'], $record['id']];
-            if ($record['untergeordneteOrganisationseinheiten']) {
-                $this->createList($items, $record['untergeordneteOrganisationseinheiten']);
+            $items[] = [$record->getName(), $record->getId()];
+            $children = $record->getUntergeordneteOEs();
+            if ($children !== []) {
+                $this->createList($items, $children);
             }
         }
     }

@@ -27,7 +27,7 @@ class OrganisationseinheitsdetailsTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getUrlWillReturnUrl()
+    public function getUrlWillReturnUrl(): void
     {
         $subject = new Organisationseinheitsdetails(123);
 
@@ -38,7 +38,7 @@ class OrganisationseinheitsdetailsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getQueryWillReturnQuery()
+    public function getQueryWillReturnQuery(): void
     {
         $subject = new Organisationseinheitsdetails(123);
 
@@ -51,7 +51,7 @@ class OrganisationseinheitsdetailsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getHeadersWillReturnHeaders()
+    public function getHeadersWillReturnHeaders(): void
     {
         $subject = new Organisationseinheitsdetails(123);
 
@@ -64,7 +64,7 @@ class OrganisationseinheitsdetailsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getBodyWillReturnBody()
+    public function getBodyWillReturnBody(): void
     {
         $subject = new Organisationseinheitsdetails(123);
 

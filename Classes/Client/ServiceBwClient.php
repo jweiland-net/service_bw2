@@ -15,6 +15,7 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use JWeiland\ServiceBw2\Client\Request\RequestInterface;
 use JWeiland\ServiceBw2\Configuration\ExtConf;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 
@@ -172,7 +173,7 @@ readonly class ServiceBwClient
                 $response = $exception->getResponse();
 
                 if (
-                    $response !== null
+                    $response instanceof ResponseInterface
                     && $response->getStatusCode() < 500
                 ) {
                     throw $exception;

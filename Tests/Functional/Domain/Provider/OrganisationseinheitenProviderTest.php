@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace JWeiland\ServiceBw2\Tests\Functional\Domain\Provider;
 
 use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheiten;
+use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitenbaum;
 use JWeiland\ServiceBw2\Client\Request\Portal\Organisationseinheitsdetails;
 use JWeiland\ServiceBw2\Client\ServiceBwClient;
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -56,7 +58,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findByIdWillRequestRecord()
+    public function findByIdWillRequestRecord(): void
     {
         $data = [
             'id' => 123,
@@ -79,7 +81,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findAllWillRequestRecords()
+    public function findAllWillRequestRecords(): void
     {
         $data = [
             [
@@ -103,5 +105,58 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
             $data,
             iterator_to_array($this->subject->findAll('de')),
         );
+    }
+
+    #[Test]
+    public function findOrganisationseinheitenTreesWillReturnRecordObjects(): void
+    {
+        $treeData = [
+            ['id' => 10, 'name' => 'Root A', 'untergeordneteOEs' => []],
+            ['id' => 20, 'name' => 'Root B', 'untergeordneteOEs' => []],
+        ];
+
+        $this->serviceBwClientMock
+            ->expects($this->atLeastOnce())
+            ->method('requestAll')
+            ->with(
+                self::isInstanceOf(Organisationseinheitenbaum::class),
+                self::identicalTo('de'),
+            )
+            ->willReturn((static function () use ($treeData): \Generator {
+                yield from $treeData;
+            })());
+
+        $result = $this->subject->findOrganisationseinheitenTrees('de');
+
+        self::assertCount(2, $result);
+        self::assertContainsOnlyInstancesOf(Record::class, $result);
+        self::assertSame(10, $result[0]->getId());
+        self::assertSame('Root A', $result[0]->getName());
+        self::assertSame('organisationseinheiten', $result[0]->getType());
+        self::assertSame('de', $result[0]->getLanguage());
+        self::assertSame(20, $result[1]->getId());
+    }
+
+    #[Test]
+    public function findOrganisationseinheitenTreesPreservesNestedChildrenInData(): void
+    {
+        $child = ['id' => 11, 'name' => 'Child', 'untergeordneteOEs' => []];
+        $treeData = [
+            ['id' => 10, 'name' => 'Root', 'untergeordneteOEs' => [$child]],
+        ];
+
+        $this->serviceBwClientMock
+            ->expects($this->atLeastOnce())
+            ->method('requestAll')
+            ->willReturn((static function () use ($treeData): \Generator {
+                yield from $treeData;
+            })());
+
+        $result = $this->subject->findOrganisationseinheitenTrees('de');
+        $children = $result[0]->getUntergeordneteOEs();
+
+        self::assertCount(1, $children);
+        self::assertInstanceOf(Record::class, $children[0]);
+        self::assertSame(11, $children[0]->getId());
     }
 }
