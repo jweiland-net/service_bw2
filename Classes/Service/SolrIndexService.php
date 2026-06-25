@@ -86,7 +86,7 @@ readonly class SolrIndexService
 
         try {
             $indexed = $this->indexItem($item, $solrSite->getSolrConfiguration());
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -155,7 +155,6 @@ readonly class SolrIndexService
      * All following methods are copies of EXT:solr IndexService methods
      * to get the indexItem method from above working.
      */
-
     /**
      * Initializes the $_SERVER['HTTP_HOST'] environment variable in CLI
      * environments dependent on the Index Queue item's root page.
@@ -165,7 +164,6 @@ readonly class SolrIndexService
      * root page information, we can determine the correct host although being
      * in a CLI environment.
      *
-     * @param Item $item
      * @throws DBALException
      * @throws InvalidArgumentException
      */

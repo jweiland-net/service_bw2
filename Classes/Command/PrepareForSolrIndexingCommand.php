@@ -116,7 +116,7 @@ class PrepareForSolrIndexingCommand extends Command
                 } else {
                     $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
                     $this->logger->error($message);
-                    throw new \InvalidArgumentException($message);
+                    throw new \InvalidArgumentException($message, 5940254917);
                 }
             }
 
@@ -151,7 +151,7 @@ class PrepareForSolrIndexingCommand extends Command
                             ));
                         }
                     }
-                } catch (\RuntimeException | InvalidConnectionException $e) {
+                } catch (\RuntimeException | InvalidConnectionException) {
                     $this->logger->error(
                         'Skip EXT:solr index because of given solr configuration "' . $solrIndexType . '"could not be found',
                     );
@@ -197,7 +197,7 @@ class PrepareForSolrIndexingCommand extends Command
                 ArrayUtility::getValueByPath($flexForm, 'data/sDEFAULT/lDEF/settings.organisationseinheiten.listItems/vDEF'),
                 true,
             );
-        } catch (\InvalidArgumentException | \RuntimeException $e) {
+        } catch (\InvalidArgumentException | \RuntimeException) {
             return [];
         }
     }

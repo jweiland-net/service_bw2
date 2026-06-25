@@ -48,7 +48,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                 )
                 ->executeQuery()
                 ->fetchAssociative();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
 
@@ -85,7 +85,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
                 )
                 ->executeQuery()
                 ->fetchOne();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         return false;

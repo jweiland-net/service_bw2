@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Helper\LanguageHelper;
@@ -57,7 +58,7 @@ class OrganisationseinheitenController extends AbstractController
     {
         $record = $this->organisationseinheitenRepository->findById($id);
 
-        if ($record === null) {
+        if (!$record instanceof Record) {
             $this->addFlashMessage('Requested Organisationseinheit could not be found for current language');
         } else {
             $this->setPageTitle($record->getName());

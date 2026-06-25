@@ -37,10 +37,10 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
     private int $id = 0;
 
     public function __construct(
-        private ConfigurationManagerInterface $configurationManager,
-        private GeoCodeService $geoCodeService,
-        private MapService $mapService,
-        private ConnectionPool $connectionPool,
+        private readonly ConfigurationManagerInterface $configurationManager,
+        private readonly GeoCodeService $geoCodeService,
+        private readonly MapService $mapService,
+        private readonly ConnectionPool $connectionPool,
     ) {}
 
     public function initializeArguments(): void
@@ -190,7 +190,7 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
         $poiUid = 0;
         $position = $this->geoCodeService->getFirstFoundPositionByAddress($address);
         if ($position instanceof Position && $this->maps2Pid !== 0) {
-            $poiUid = $this->mapService->createNewPoiCollection(
+            return $this->mapService->createNewPoiCollection(
                 $this->maps2Pid,
                 $position,
                 [

@@ -34,7 +34,7 @@ trait FilterAllowedLanguagesTrait
         );
 
         if ($allowedLanguages === []) {
-            $allowedLanguages = $allAllowedLanguages;
+            return $allAllowedLanguages;
         }
 
         return $allowedLanguages;

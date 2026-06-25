@@ -13,7 +13,7 @@ non-interactively.
 | `functional`           | PHPUnit functional tests (SQLite by default) |
 | `phpstan`              | PHPStan static analysis                      |
 | `phpstanBaseline`      | Regenerate PHPStan baseline                  |
-| `rector`               | Apply Rector rules (not installed by default)|
+| `rector`               | Apply Rector rules                           |
 | `composerUpdate`       | `composer update` inside the container       |
 | `composerValidate`     | `composer validate`                          |
 | `composerNormalize`    | `composer normalize`                         |
@@ -93,9 +93,22 @@ Tests/Functional/
     └── LanguageHelperTest.php
 ```
 
+## Rector
+
+Rector is configured in `Build/rector/rector.php` and targets TYPO3 13 +
+PHP 8.2. Run before commits to catch upgrade and code-quality issues:
+
+```bash
+# Dry-run — shows what would change without touching files
+CI=true ./Build/Scripts/runTests.sh -s rector -n
+
+# Apply all changes
+CI=true ./Build/Scripts/runTests.sh -s rector
+```
+
+Always follow rector with `cgl` and `lint` to catch any formatting drift.
+
 ## Notes
 
-- Rector (`-s rector`) requires `.Build/bin/rector` — install via `composer
-  require --dev rector/rector` if needed; currently not in composer.json.
 - The CI workflow (`.github/workflows/ci.yml`) runs lint + functional tests on
   PHP 8.2/8.3/8.4 against MySQL, MariaDB, and PostgreSQL.

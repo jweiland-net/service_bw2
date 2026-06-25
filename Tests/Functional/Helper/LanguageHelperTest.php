@@ -74,7 +74,7 @@ class LanguageHelperTest extends FunctionalTestCase
     public function getServiceBwLanguageCodeFromRequestWillReturnServiceBwLanguageCode(
         string $typo3Locale,
         string $serviceBwLanguage,
-    ) {
+    ): void {
         $language = new SiteLanguage(
             2,
             $typo3Locale,
@@ -91,7 +91,7 @@ class LanguageHelperTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getServeBwLanguageCodeByTypo3LanguageCodeWillReturnServiceBwLanguageCode()
+    public function getServeBwLanguageCodeByTypo3LanguageCodeWillReturnServiceBwLanguageCode(): void
     {
         self::assertSame(
             'de',
@@ -110,7 +110,7 @@ class LanguageHelperTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getDefaultServiceBwLanguageCodeWillReturnDefaultServiceBwLanguageCode()
+    public function getDefaultServiceBwLanguageCodeWillReturnDefaultServiceBwLanguageCode(): void
     {
         self::assertSame(
             'de',
@@ -119,7 +119,7 @@ class LanguageHelperTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getTypo3LanguageCodeFromRequestWillReturnTypo3LanguageCode()
+    public function getTypo3LanguageCodeFromRequestWillReturnTypo3LanguageCode(): void
     {
         $language = new SiteLanguage(
             2,

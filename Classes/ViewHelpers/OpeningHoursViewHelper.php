@@ -104,7 +104,7 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
             $html[] = '<dt>';
             $html[] = LocalizationUtility::translate(
                 'organisationseinheit.opening_hours.' . $structuredOpeningHours['typ'],
-                'service_bw2',
+                'ServiceBw2',
             );
             $html[] = '</dt>';
 
@@ -119,7 +119,7 @@ final class OpeningHoursViewHelper extends AbstractViewHelper
                 $isWorkday = in_array($dayInGerman, self::WORKDAYS, true);
                 if (($isWorkday && $forenoonOpeningHoursWorkdays) || $afternoon) {
                     $html[] = '<dd class="structured-opening-hours">';
-                    $html[] = LocalizationUtility::translate('opening_hours.short-form.' . $dayInGerman, 'service_bw2');
+                    $html[] = LocalizationUtility::translate('opening_hours.short-form.' . $dayInGerman, 'ServiceBw2');
                     if ($isWorkday && $forenoonOpeningHoursWorkdays) {
                         ksort($forenoonOpeningHoursWorkdays);
                         $html[] = ' ' . implode(', ', $forenoonOpeningHoursWorkdays);

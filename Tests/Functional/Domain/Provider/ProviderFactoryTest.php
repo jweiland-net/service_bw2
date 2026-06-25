@@ -65,7 +65,7 @@ class ProviderFactoryTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getProviderWillReturnProvider()
+    public function getProviderWillReturnProvider(): void
     {
         $controllerType = ControllerTypeEnum::from(
             OrganisationseinheitenProvider::CONTROLLER_TYPE,
@@ -78,7 +78,7 @@ class ProviderFactoryTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getProvidersWillReturnRegisteredProviders()
+    public function getProvidersWillReturnRegisteredProviders(): void
     {
         self::assertSame(
             $this->providers,

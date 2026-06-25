@@ -58,7 +58,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findByIdWillRequestRecord()
+    public function findByIdWillRequestRecord(): void
     {
         $data = [
             'id' => 123,
@@ -81,7 +81,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findAllWillRequestRecords()
+    public function findAllWillRequestRecords(): void
     {
         $data = [
             [
@@ -108,7 +108,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findOrganisationseinheitenTreesWillReturnRecordObjects()
+    public function findOrganisationseinheitenTreesWillReturnRecordObjects(): void
     {
         $treeData = [
             ['id' => 10, 'name' => 'Root A', 'untergeordneteOrganisationseinheiten' => []],
@@ -138,7 +138,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function findOrganisationseinheitenTreesPreservesNestedChildrenInData()
+    public function findOrganisationseinheitenTreesPreservesNestedChildrenInData(): void
     {
         $child = ['id' => 11, 'name' => 'Child', 'untergeordneteOrganisationseinheiten' => []];
         $treeData = [

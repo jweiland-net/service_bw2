@@ -125,9 +125,7 @@ trait FilterOrganisationseinheitenTrait
     {
         usort(
             $organisationseinheiten,
-            static function (Record $first, Record $second): int {
-                return strcasecmp($first->getName(), $second->getName());
-            },
+            static fn(Record $first, Record $second): int => strcasecmp($first->getName(), $second->getName()),
         );
 
         return $organisationseinheiten;

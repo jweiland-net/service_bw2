@@ -27,7 +27,7 @@ class LeistungenTest extends FunctionalTestCase
     ];
 
     #[Test]
-    public function getUrlWillReturnUrl()
+    public function getUrlWillReturnUrl(): void
     {
         $subject = new Leistungen();
 
@@ -38,7 +38,7 @@ class LeistungenTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getQueryWillReturnQuery()
+    public function getQueryWillReturnQuery(): void
     {
         $subject = new Leistungen();
 
@@ -52,7 +52,7 @@ class LeistungenTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getHeadersWillReturnHeaders()
+    public function getHeadersWillReturnHeaders(): void
     {
         $subject = new Leistungen();
 
@@ -65,7 +65,7 @@ class LeistungenTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getBodyWillReturnBody()
+    public function getBodyWillReturnBody(): void
     {
         $subject = new Leistungen();
 

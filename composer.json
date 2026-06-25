@@ -35,6 +35,7 @@
 	"require-dev": {
 		"apache-solr-for-typo3/solr": "^13.1",
 		"ergebnis/composer-normalize": "^2.44",
+		"ssch/typo3-rector": "^3.6",
 		"sjbr/static-info-tables": "^13.4",
 		"typo3/cms-install": "^13.4.0",
 		"typo3/coding-standards": "^0.8",
