@@ -89,6 +89,22 @@ final readonly class Record
         );
     }
 
+    public function getUebergeordneteOE(): ?self
+    {
+        $parent = $this->data['uebergeordneteOE'] ?? null;
+        if (!is_array($parent)) {
+            return null;
+        }
+
+        return new self(
+            (int)($parent['id'] ?? 0),
+            (string)($parent['name'] ?? ''),
+            $this->type,
+            $this->language,
+            $parent,
+        );
+    }
+
     /**
      * Returns all nested Organisationseinheiten as Record objects.
      * The raw data array is preserved; conversion happens lazily on each call.

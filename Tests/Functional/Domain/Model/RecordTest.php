@@ -540,7 +540,7 @@ class RecordTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function withDataWillReturnNewRecordWithReplacedData()
+    public function withDataWillReturnNewRecordWithReplacedData(): void
     {
         $original = new Record(1234, 'TYPO3', 'orga', 'en', ['foo' => 'bar']);
         $modified = $original->withData(['baz' => 'qux']);
@@ -552,5 +552,81 @@ class RecordTest extends FunctionalTestCase
         self::assertSame('en', $modified->getLanguage());
         self::assertSame(['baz' => 'qux'], $modified->getData());
         self::assertSame(['foo' => 'bar'], $original->getData());
+    }
+
+    #[Test]
+    public function getUebergeordneteOEWithMissingKeyWillReturnNull(): void
+    {
+        $subject = new Record(1, 'Test', 'organisationseinheiten', 'de', []);
+
+        self::assertNull($subject->getUebergeordneteOE());
+    }
+
+    #[Test]
+    public function getUebergeordneteOEWithNonArrayValueWillReturnNull(): void
+    {
+        $subject = new Record(1, 'Test', 'organisationseinheiten', 'de', ['uebergeordneteOE' => 'invalid']);
+
+        self::assertNull($subject->getUebergeordneteOE());
+    }
+
+    #[Test]
+    public function getUebergeordneteOEWillReturnParentAsRecord(): void
+    {
+        $subject = new Record(
+            2,
+            'Child',
+            'organisationseinheiten',
+            'de',
+            ['uebergeordneteOE' => ['id' => 1, 'name' => 'Parent']],
+        );
+
+        $parent = $subject->getUebergeordneteOE();
+
+        self::assertInstanceOf(Record::class, $parent);
+        self::assertSame(1, $parent->getId());
+        self::assertSame('Parent', $parent->getName());
+    }
+
+    #[Test]
+    public function getUebergeordneteOEInheritsTypeAndLanguageFromChild(): void
+    {
+        $subject = new Record(
+            2,
+            'Child',
+            'organisationseinheiten',
+            'fr',
+            ['uebergeordneteOE' => ['id' => 1, 'name' => 'Parent']],
+        );
+
+        $parent = $subject->getUebergeordneteOE();
+
+        self::assertSame('organisationseinheiten', $parent->getType());
+        self::assertSame('fr', $parent->getLanguage());
+    }
+
+    #[Test]
+    public function getUebergeordneteOESupportsChainedParents(): void
+    {
+        $subject = new Record(
+            3,
+            'Grandchild',
+            'organisationseinheiten',
+            'de',
+            [
+                'uebergeordneteOE' => [
+                    'id' => 2,
+                    'name' => 'Child',
+                    'uebergeordneteOE' => ['id' => 1, 'name' => 'Root'],
+                ],
+            ],
+        );
+
+        $parent = $subject->getUebergeordneteOE();
+        $grandparent = $parent->getUebergeordneteOE();
+
+        self::assertSame(2, $parent->getId());
+        self::assertInstanceOf(Record::class, $grandparent);
+        self::assertSame(1, $grandparent->getId());
     }
 }

@@ -16,14 +16,11 @@ use JWeiland\ServiceBw2\Domain\Model\Record;
 trait FilterOrganisationseinheitenTrait
 {
     /**
-     * Filters a recursive organisationseinheiten tree.
+     * Filters a flat list of Organisationseinheiten by allowed parent IDs.
      *
-     * Only records with an ID contained in $allowedParentIds are allowed to appear
-     * on the root level of the returned result. These records may exist anywhere
-     * in the original recursive tree.
-     *
-     * Once such a record is found, its children are included recursively up to
-     * $maxDepth levels below the matched root record.
+     * An Organisationseinheit is included in the result when one of its ancestors
+     * (walked up via uebergeordneteOE) has an ID contained in $allowedParentIds.
+     * The matched records are depth-limited and sorted by name.
      *
      * @param array<int, Record> $organisationseinheiten
      * @param array<int|string> $allowedParentIds
@@ -34,34 +31,30 @@ trait FilterOrganisationseinheitenTrait
         array $allowedParentIds,
         int $maxDepth = 2,
     ): array {
-        $filteredOrganisationseinheiten = [];
+        $filtered = array_values(array_filter(
+            $organisationseinheiten,
+            fn(Record $oe): bool => $this->hasAllowedParentInChain($oe, $allowedParentIds),
+        ));
 
-        foreach ($organisationseinheiten as $organisationseinheit) {
-            if (in_array($organisationseinheit->getId(), $allowedParentIds, true)) {
-                $filteredOrganisationseinheiten[] = $this->limitOrganisationseinheitenDepth(
-                    $organisationseinheit,
-                    0,
-                    $maxDepth,
-                );
+        return $this->sortOrganisationseinheitenByName(
+            array_map(
+                fn(Record $oe): Record => $this->limitOrganisationseinheitenDepth($oe, 0, $maxDepth),
+                $filtered,
+            ),
+        );
+    }
 
-                continue;
-            }
-
-            $untergeordneteOEs = $organisationseinheit->getUntergeordneteOEs();
-
-            if ($untergeordneteOEs !== []) {
-                $filteredOrganisationseinheiten = [
-                    ...$filteredOrganisationseinheiten,
-                    ...$this->filterOrganisationseinheitenByParentIds(
-                        $untergeordneteOEs,
-                        $allowedParentIds,
-                        $maxDepth,
-                    ),
-                ];
-            }
+    private function hasAllowedParentInChain(Record $oe, array $allowedParentIds): bool
+    {
+        $parent = $oe->getUebergeordneteOE();
+        if (!$parent instanceof Record) {
+            return false;
+        }
+        if (in_array($parent->getId(), $allowedParentIds, true)) {
+            return true;
         }
 
-        return $this->sortOrganisationseinheitenByName($filteredOrganisationseinheiten);
+        return $this->hasAllowedParentInChain($parent, $allowedParentIds);
     }
 
     /**
