@@ -25,7 +25,6 @@ use JWeiland\ServiceBw2\Domain\Repository\RepositoryFactory;
 use JWeiland\ServiceBw2\Domain\Repository\RepositoryInterface;
 use JWeiland\ServiceBw2\Service\SolrIndexService;
 use JWeiland\ServiceBw2\Traits\FilterAllowedLanguagesTrait;
-use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -50,7 +49,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PrepareForSolrIndexingCommand extends Command
 {
     use FilterAllowedLanguagesTrait;
-    use FilterOrganisationseinheitenTrait;
 
     public function __construct(
         protected readonly LoggerInterface $logger,
@@ -105,19 +103,20 @@ class PrepareForSolrIndexingCommand extends Command
         foreach ($this->filterAllowedLanguages($input, $this->extConf->getAllowedLanguages()) as $languageCode) {
             $io->section('Language for current cache warmup: ' . $languageCode);
 
-            $records = iterator_to_array($repository->findAll($languageCode));
-
-            if ($repository::class === OrganisationseinheitenRepository::class) {
-                if ($input->getOption('content-uid')) {
-                    $records = $this->filterOrganisationseinheitenDescendantsByParentIds(
-                        $records,
-                        $this->getInitialRecords((int)$input->getOption('content-uid')),
-                    );
-                } else {
+            if ($repository instanceof OrganisationseinheitenRepository) {
+                if (!$input->getOption('content-uid')) {
                     $message = 'In case of request-class = ' . OrganisationseinheitenRepository::class . ' you also have to set content-uid';
                     $this->logger->error($message);
                     throw new \InvalidArgumentException($message, 5940254917);
                 }
+                $records = $this->flattenOrganisationseinheiten(
+                    $repository->getOrganisationseinheitenTree(
+                        $this->getInitialRecords((int)$input->getOption('content-uid')),
+                        $languageCode,
+                    ),
+                );
+            } else {
+                $records = iterator_to_array($repository->findAll($languageCode));
             }
 
             if (ExtensionManagementUtility::isLoaded('solr')) {
@@ -160,6 +159,21 @@ class PrepareForSolrIndexingCommand extends Command
         }
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * @param array<int, Record> $tree
+     * @return array<int, Record>
+     */
+    private function flattenOrganisationseinheiten(array $tree): array
+    {
+        $flat = [];
+        foreach ($tree as $record) {
+            $flat[] = $record;
+            array_push($flat, ...$this->flattenOrganisationseinheiten($record->getUntergeordneteOEs()));
+        }
+
+        return $flat;
     }
 
     protected function getInitialRecords(int $contentUid): array

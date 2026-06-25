@@ -15,13 +15,11 @@ use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
 use JWeiland\ServiceBw2\Helper\LanguageHelper;
-use JWeiland\ServiceBw2\Traits\FilterOrganisationseinheitenTrait;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class OrganisationseinheitenController extends AbstractController
 {
-    use FilterOrganisationseinheitenTrait;
-
     public function __construct(
         protected OrganisationseinheitenRepository $organisationseinheitenRepository,
         protected OrganisationseinheitenProvider $organisationseinheitenProvider,
@@ -30,21 +28,12 @@ class OrganisationseinheitenController extends AbstractController
 
     public function listAction(): ResponseInterface
     {
-        try {
-            $listItems = json_decode(
-                '[' . $this->settings['organisationseinheiten']['listItems'] . ']',
-                true,
-                512,
-                JSON_THROW_ON_ERROR,
-            );
-        } catch (\JsonException) {
-            $listItems = [];
-        }
+        $listItems = GeneralUtility::intExplode(',', $this->settings['organisationseinheiten']['listItems'] ?? '', true);
 
         $languageCode = $this->languageHelper->getServiceBwLanguageCodeFromRequest($this->request);
-        $records = $this->filterOrganisationseinheitenByParentIds(
-            iterator_to_array($this->organisationseinheitenRepository->findAll($languageCode)),
+        $records = $this->organisationseinheitenRepository->getOrganisationseinheitenTree(
             $listItems,
+            $languageCode,
         );
 
         $this->view->assign('organisationseinheitenTrees', $records);

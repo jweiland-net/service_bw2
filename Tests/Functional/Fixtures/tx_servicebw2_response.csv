@@ -6,6 +6,11 @@
 ,4,0,166,"Abfall und Müll entsorgen","leistungen","de","{}"
 ,5,0,6021657,"Abfallwirtschaft","organisationseinheiten","de","{""id"":6021657,""uebergeordneteOE"":{""id"":6000000,""name"":""Root""}}"
 ,6,0,6021675,"Allgemeine Verwaltung","organisationseinheiten","de","{""id"":6021675,""uebergeordneteOE"":{""id"":6000000,""name"":""Root""}}"
+,7,0,100,"Root","organisationseinheiten","de","{""id"":100,""name"":""Root"",""untergeordneteOEs"":[{""id"":101,""name"":""Omega""},{""id"":104,""name"":""Alpha""}]}"
+,8,0,101,"Omega","organisationseinheiten","de","{""id"":101,""name"":""Omega"",""uebergeordneteOE"":{""id"":100,""name"":""Root""},""untergeordneteOEs"":[{""id"":102,""name"":""Grandchild""}]}"
+,9,0,102,"Grandchild","organisationseinheiten","de","{""id"":102,""name"":""Grandchild"",""uebergeordneteOE"":{""id"":101,""name"":""Omega""},""untergeordneteOEs"":[{""id"":103,""name"":""GreatGrandchild""}]}"
+,10,0,103,"GreatGrandchild","organisationseinheiten","de","{""id"":103,""name"":""GreatGrandchild"",""uebergeordneteOE"":{""id"":102,""name"":""Grandchild""},""untergeordneteOEs"":[]}"
+,11,0,104,"Alpha","organisationseinheiten","de","{""id"":104,""name"":""Alpha"",""uebergeordneteOE"":{""id"":100,""name"":""Root""},""untergeordneteOEs"":[]}"
 
 "tt_content",,,
 ,"uid","pid","pi_flexform"
