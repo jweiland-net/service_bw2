@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 9.0.9
+=============
+
+*   [BUGFIX] Fix duplicate Organisationseinheiten in list view caused by
+    ancestor chain traversal
+
 Version 9.0.8
 =============
 
