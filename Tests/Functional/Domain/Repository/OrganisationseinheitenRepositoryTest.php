@@ -92,7 +92,7 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
         $records = iterator_to_array($this->subject->findAll('de'));
 
         self::assertCount(
-            2,
+            7,
             $records,
         );
     }
@@ -183,6 +183,11 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
             [
                 6021657,
                 6021675,
+                100,
+                101,
+                102,
+                103,
+                104,
             ],
             $this->subject->getAllIds('de'),
         );

@@ -20,7 +20,7 @@
               <sheet index=""sDEFAULT"">
                   <language index=""lDEF"">
                       <field index=""settings.organisationseinheiten.listItems"">
-                          <value index=""vDEF"">6000000</value>
+                          <value index=""vDEF"">100</value>
                       </field>
                   </language>
               </sheet>

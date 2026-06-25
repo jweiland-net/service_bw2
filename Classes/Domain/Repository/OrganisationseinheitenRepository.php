@@ -47,7 +47,7 @@ readonly class OrganisationseinheitenRepository extends AbstractRepository imple
                 $queryBuilder->expr()->in(
                     'id',
                     $queryBuilder->createNamedParameter(
-                        array_values(array_map('intval', $rootIds)),
+                        array_values(array_map(intval(...), $rootIds)),
                         ArrayParameterType::INTEGER,
                     ),
                 ),
