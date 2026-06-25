@@ -109,7 +109,7 @@ class PrepareForSolrIndexingCommand extends Command
 
             if ($repository::class === OrganisationseinheitenRepository::class) {
                 if ($input->getOption('content-uid')) {
-                    $records = $this->filterOrganisationseinheitenByParentIds(
+                    $records = $this->filterOrganisationseinheitenDescendantsByParentIds(
                         $records,
                         $this->getInitialRecords((int)$input->getOption('content-uid')),
                     );
