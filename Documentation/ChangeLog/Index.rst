@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 9.0.7
+=============
+
+*   [BUGFIX] Replace fetchOne with fetchAssociative in
+    PrepareForSolrIndexingCommand
+*   [BUGFIX] Use Record objects consistently for Organisationseinheiten trees
+
 Version 9.0.6
 =============
 
