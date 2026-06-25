@@ -52,3 +52,14 @@ Only user-facing fixes and features. Internal tooling commits (Rector,
 ```
 
 No body needed for a plain version bump.
+
+## Branch and push
+
+**Pushing to `main` is blocked.** Always push releases on a dedicated branch:
+
+```bash
+git switch -c bugfix/release-X.Y.Z   # or feature/release-X.Y.Z for minor bumps
+git push -u origin bugfix/release-X.Y.Z
+```
+
+Then open a pull request on GitHub and merge from there.

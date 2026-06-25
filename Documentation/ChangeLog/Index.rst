@@ -7,6 +7,14 @@
 ChangeLog
 =========
 
+Version 9.0.8
+=============
+
+*   [BUGFIX] Add getUebergeordneteOE() getter to Record for parent
+    traversal
+*   [BUGFIX] Simplify OE filter using uebergeordneteOE ancestry walk
+*   [BUGFIX] Include top-level OEs whose own id matches allowedParentIds
+
 Version 9.0.7
 =============
 
