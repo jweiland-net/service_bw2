@@ -16,10 +16,13 @@ use JWeiland\ServiceBw2\Domain\Model\Record;
 trait FilterOrganisationseinheitenTrait
 {
     /**
-     * Filters a flat list of Organisationseinheiten to only those whose own ID is in $allowedParentIds.
-     * Intended for frontend tree rendering: each matched record already carries its children
-     * in untergeordneteOEs, so only the root level is returned here. The nested tree is
-     * depth-limited to $maxDepth and sorted by name.
+     * Filters a flat list of Organisationseinheiten by allowed parent IDs and
+     * reconstructs the hierarchy from individual records.
+     *
+     * Returns only the root records (those in $allowedParentIds) with their
+     * children assembled from the flat list up to $maxDepth levels. This
+     * approach correctly handles stored data where a parent record does not
+     * contain its full descendant tree.
      *
      * @param array<int, Record> $organisationseinheiten
      * @param array<int|string> $allowedParentIds
@@ -30,22 +33,13 @@ trait FilterOrganisationseinheitenTrait
         array $allowedParentIds,
         int $maxDepth = 2,
     ): array {
-        $filtered = array_values(array_filter(
+        $descendants = $this->filterOrganisationseinheitenDescendantsByParentIds(
             $organisationseinheiten,
-            fn(Record $oe): bool => $this->hasAllowedParentInChain($oe, $allowedParentIds),
-        ));
-
-        return $this->sortOrganisationseinheitenByName(
-            array_map(
-                fn(Record $oe): Record => $this->limitOrganisationseinheitenDepth($oe, 0, $maxDepth),
-                $filtered,
-            ),
+            $allowedParentIds,
+            $maxDepth,
         );
-    }
 
-    private function hasAllowedParentInChain(Record $oe, array $allowedParentIds): bool
-    {
-        return in_array($oe->getId(), $allowedParentIds, true);
+        return $this->buildOrganisationseinheitenTree($descendants, $allowedParentIds);
     }
 
     /**
@@ -87,44 +81,60 @@ trait FilterOrganisationseinheitenTrait
     }
 
     /**
-     * Keeps a matched organisationseinheit and limits its recursive children
-     * to the configured maximum depth.
+     * Assembles a tree from a flat list of records by linking each record to its
+     * parent via uebergeordneteOE. Returns only root records (those in $rootIds)
+     * with their full subtree attached and children sorted by name.
      *
-     * Depth starts at 0 for the matched root record.
-     *
-     * With $maxDepth = 2, the result contains:
-     * - matched root record, depth 0
-     * - direct children, depth 1
-     * - grandchildren, depth 2
-     *
-     * Children below depth 2 are removed.
+     * @param array<int, Record> $records
+     * @param array<int|string> $rootIds
+     * @return array<int, Record>
      */
-    protected function limitOrganisationseinheitenDepth(
-        Record $organisationseinheit,
-        int $depth,
-        int $maxDepth,
-    ): Record {
-        $untergeordneteOEs = $organisationseinheit->getUntergeordneteOEs();
-
-        if ($untergeordneteOEs === [] || $depth >= $maxDepth) {
-            return $organisationseinheit->withData(
-                array_merge($organisationseinheit->getData(), ['untergeordneteOEs' => []]),
-            );
+    private function buildOrganisationseinheitenTree(array $records, array $rootIds): array
+    {
+        $byId = [];
+        foreach ($records as $record) {
+            $byId[$record->getId()] = $record;
         }
 
-        $limitedChildren = array_map(
-            fn(Record $child): Record => $this->limitOrganisationseinheitenDepth($child, $depth + 1, $maxDepth),
-            $untergeordneteOEs,
-        );
+        $childrenByParentId = [];
+        foreach ($records as $record) {
+            $parent = $record->getUebergeordneteOE();
+            if ($parent instanceof Record && isset($byId[$parent->getId()])) {
+                $childrenByParentId[$parent->getId()][] = $record->getId();
+            }
+        }
 
-        $sortedChildren = $this->sortOrganisationseinheitenByName($limitedChildren);
+        $roots = array_values(array_filter(
+            $records,
+            fn(Record $r): bool => in_array($r->getId(), $rootIds, true),
+        ));
 
-        return $organisationseinheit->withData(
-            array_merge(
-                $organisationseinheit->getData(),
-                ['untergeordneteOEs' => array_map(fn(Record $r): array => $r->getData(), $sortedChildren)],
+        return $this->sortOrganisationseinheitenByName(
+            array_map(
+                fn(Record $r): Record => $this->attachChildrenToRecord($r, $byId, $childrenByParentId),
+                $roots,
             ),
         );
+    }
+
+    private function attachChildrenToRecord(Record $record, array $byId, array $childrenByParentId): Record
+    {
+        $childIds = $childrenByParentId[$record->getId()] ?? [];
+        if ($childIds === []) {
+            return $record->withData(array_merge($record->getData(), ['untergeordneteOEs' => []]));
+        }
+
+        $children = [];
+        foreach ($childIds as $childId) {
+            $children[] = $this->attachChildrenToRecord($byId[$childId], $byId, $childrenByParentId);
+        }
+
+        $sortedChildren = $this->sortOrganisationseinheitenByName($children);
+
+        return $record->withData(array_merge(
+            $record->getData(),
+            ['untergeordneteOEs' => array_map(fn(Record $r): array => $r->getData(), $sortedChildren)],
+        ));
     }
 
     /**
