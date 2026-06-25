@@ -199,6 +199,9 @@ class CacheWarmupCommand extends Command
         }
     }
 
+    /**
+     * @param array<int, int> $staleRecords
+     */
     protected function deleteStaleRecords(
         array $staleRecords,
         string $language,

@@ -127,6 +127,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
         }
     }
 
+    /** @param array<string, mixed> $record */
     public function addOrUpdate(array $record, string $language): void
     {
         $id = (int)($record['id'] ?? 0);
@@ -164,6 +165,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
         }
     }
 
+    /** @return array<int, int> */
     public function getAllIds(string $language): array
     {
         $queryBuilder = $this->getQueryBuilder();
@@ -185,6 +187,7 @@ abstract readonly class AbstractRepository implements RepositoryInterface
             ->fetchFirstColumn();
     }
 
+    /** @param array<int, int> $ids */
     public function deleteIds(array $ids, string $language): void
     {
         $queryBuilder = $this->getQueryBuilder();

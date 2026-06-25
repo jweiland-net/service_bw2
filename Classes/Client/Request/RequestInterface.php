@@ -20,8 +20,10 @@ interface RequestInterface
 
     public function getUrl(): string;
 
+    /** @return array<string, mixed> */
     public function getQuery(): array;
 
+    /** @return array<string, string> */
     public function getHeaders(): array;
 
     public function getBody(): ?string;

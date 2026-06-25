@@ -26,6 +26,8 @@ readonly class OrganisationseinheitenItems
 
     /**
      * Get items for a select field
+     *
+     * @param array<string, mixed> $processorParameters
      */
     public function getItems(array $processorParameters): void
     {
@@ -48,6 +50,7 @@ readonly class OrganisationseinheitenItems
     }
 
     /**
+     * @param array<int, mixed> $items
      * @param array<int, Record> $records
      */
     protected function createList(array &$items, array $records): void

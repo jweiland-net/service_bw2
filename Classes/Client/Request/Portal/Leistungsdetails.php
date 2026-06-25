@@ -31,11 +31,13 @@ final readonly class Leistungsdetails implements RequestInterface
         );
     }
 
+    /** @return array<string, mixed> */
     public function getQuery(): array
     {
         return [];
     }
 
+    /** @return array<string, string> */
     public function getHeaders(): array
     {
         return [

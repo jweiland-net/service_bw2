@@ -96,6 +96,7 @@ final class OrganisationseinheitPoiCollectionUidViewHelper extends AbstractViewH
     /**
      * Find maps2 relation in the database
      */
+    /** @return array<string, mixed>|null */
     private function findMaps2Relation(): ?array
     {
         $connection = $this->connectionPool->getConnectionForTable(self::TABLE);

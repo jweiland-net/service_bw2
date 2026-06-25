@@ -136,6 +136,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         return $this->getMigrationRecords() !== [];
     }
 
+    /** @return array<int, array<string, mixed>> */
     private function getMigrationRecords(): array
     {
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
@@ -173,6 +174,7 @@ final class SwitchableControllerMigrationWizard implements UpgradeWizardInterfac
         return '';
     }
 
+    /** @param array<string, mixed> $input */
     private function array2xml(array $input = []): string
     {
         $options = [

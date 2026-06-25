@@ -17,6 +17,10 @@ namespace JWeiland\ServiceBw2\Service;
  */
 readonly class TypoScriptService
 {
+    /**
+     * @param array<string, mixed> $mergedFlexFormSettings
+     * @param array<string, mixed> $typoScriptSettings
+     */
     public function override(array &$mergedFlexFormSettings, array $typoScriptSettings): void
     {
         foreach ($typoScriptSettings as $property => $value) {

@@ -123,6 +123,7 @@ readonly class ServiceBwClient
         }
     }
 
+    /** @return array<string, mixed> */
     public function requestRecord(
         RequestInterface $request,
         string $language,
@@ -194,6 +195,10 @@ readonly class ServiceBwClient
         usleep($attempt * 250_000);
     }
 
+    /**
+     * @param array<string, string> $headers
+     * @return array<string, string>
+     */
     protected function getHeaderWithAuthorization(array $headers): array
     {
         $headers['Authorization'] = $this->extConf->getToken();
@@ -202,7 +207,9 @@ readonly class ServiceBwClient
     }
 
     /**
+     * @param array<string, string> $headers
      * @param ?string $language The 2-letter ISO code like "de", or "en"
+     * @return array<string, string>
      */
     protected function getHeaderWithLanguage(
         array $headers,
@@ -217,6 +224,10 @@ readonly class ServiceBwClient
         return $headers;
     }
 
+    /**
+     * @param array<string, mixed> $query
+     * @return array<string, mixed>
+     */
     protected function getQueryWithMandant(array $query): array
     {
         $query['mandantId'] = $this->extConf->getMandant();
@@ -224,6 +235,10 @@ readonly class ServiceBwClient
         return $query;
     }
 
+    /**
+     * @param array<string, mixed> $query
+     * @return array<string, mixed>
+     */
     protected function updateQueryWithPagination(
         RequestInterface $request,
         array $query,
@@ -237,6 +252,10 @@ readonly class ServiceBwClient
         return $query;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>
+     */
     protected function updateOptionsWithTimeout(array $options): array
     {
         $options['connect_timeout'] = self::GUZZLE_CONNECT_TIMEOUT;

@@ -92,7 +92,7 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
         $records = iterator_to_array($this->subject->findAll('de'));
 
         self::assertCount(
-            2,
+            7,
             $records,
         );
     }
@@ -183,6 +183,11 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
             [
                 6021657,
                 6021675,
+                100,
+                101,
+                102,
+                103,
+                104,
             ],
             $this->subject->getAllIds('de'),
         );
@@ -200,5 +205,82 @@ class OrganisationseinheitenRepositoryTest extends FunctionalTestCase
         self::assertTrue(
             $this->subject->hasId(6021675),
         );
+    }
+
+    // -------------------------------------------------------------------------
+    // getOrganisationseinheitenTree
+    // -------------------------------------------------------------------------
+
+    #[Test]
+    public function getOrganisationseinheitenTreeReturnsEmptyArrayForEmptyIds(): void
+    {
+        self::assertSame([], $this->subject->getOrganisationseinheitenTree([], 'de'));
+    }
+
+    #[Test]
+    public function getOrganisationseinheitenTreeReturnsEmptyArrayForUnknownIds(): void
+    {
+        self::assertSame([], $this->subject->getOrganisationseinheitenTree([99999], 'de'));
+    }
+
+    #[Test]
+    public function getOrganisationseinheitenTreeReturnsEmptyArrayForWrongLanguage(): void
+    {
+        self::assertSame([], $this->subject->getOrganisationseinheitenTree([100], 'pt'));
+    }
+
+    #[Test]
+    public function getOrganisationseinheitenTreeBuildsThreeLevelsAtDefaultMaxDepth(): void
+    {
+        $result = $this->subject->getOrganisationseinheitenTree([100], 'de');
+
+        self::assertCount(1, $result);
+        self::assertSame(100, $result[0]->getId());
+
+        $children = $result[0]->getUntergeordneteOEs();
+        self::assertCount(2, $children);
+        self::assertSame(104, $children[0]->getId());
+        self::assertSame(101, $children[1]->getId());
+
+        $grandchildren = $children[1]->getUntergeordneteOEs();
+        self::assertCount(1, $grandchildren);
+        self::assertSame(102, $grandchildren[0]->getId());
+
+        self::assertSame([], $grandchildren[0]->getUntergeordneteOEs());
+    }
+
+    #[Test]
+    public function getOrganisationseinheitenTreeRespectsMaxDepthOne(): void
+    {
+        $result = $this->subject->getOrganisationseinheitenTree([100], 'de', 1);
+
+        self::assertCount(1, $result);
+
+        $children = $result[0]->getUntergeordneteOEs();
+        self::assertCount(2, $children);
+
+        foreach ($children as $child) {
+            self::assertSame([], $child->getUntergeordneteOEs());
+        }
+    }
+
+    #[Test]
+    public function getOrganisationseinheitenTreeRespectsMaxDepthZero(): void
+    {
+        $result = $this->subject->getOrganisationseinheitenTree([100], 'de', 0);
+
+        self::assertCount(1, $result);
+        self::assertSame([], $result[0]->getUntergeordneteOEs());
+    }
+
+    #[Test]
+    public function getOrganisationseinheitenTreeSortsChildrenAlphabetically(): void
+    {
+        $result = $this->subject->getOrganisationseinheitenTree([100], 'de', 1);
+
+        $children = $result[0]->getUntergeordneteOEs();
+
+        self::assertSame('Alpha', $children[0]->getName());
+        self::assertSame('Omega', $children[1]->getName());
     }
 }

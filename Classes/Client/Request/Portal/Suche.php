@@ -34,6 +34,7 @@ final readonly class Suche implements RequestInterface
         return self::URL;
     }
 
+    /** @return array<string, mixed> */
     public function getQuery(): array
     {
         $query = [];
@@ -52,6 +53,7 @@ final readonly class Suche implements RequestInterface
         return $query;
     }
 
+    /** @return array<string, string> */
     public function getHeaders(): array
     {
         return [

@@ -23,9 +23,12 @@ interface RepositoryInterface
 
     public function findAll(string $language): \Generator;
 
+    /** @param array<string, mixed> $record */
     public function addOrUpdate(array $record, string $language): void;
 
+    /** @return array<int, int> */
     public function getAllIds(string $language): array;
 
+    /** @param array<int, int> $ids */
     public function deleteIds(array $ids, string $language): void;
 }

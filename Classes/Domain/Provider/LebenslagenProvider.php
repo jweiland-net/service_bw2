@@ -28,6 +28,7 @@ readonly class LebenslagenProvider implements ProviderInterface
         protected ServiceBwClient $client,
     ) {}
 
+    /** @return array<string, mixed> */
     public function findById(int $id, string $language): array
     {
         $request = new Lebenslagendetails($id);

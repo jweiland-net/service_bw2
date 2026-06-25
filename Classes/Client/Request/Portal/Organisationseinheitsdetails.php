@@ -31,6 +31,7 @@ final readonly class Organisationseinheitsdetails implements RequestInterface
         );
     }
 
+    /** @return array<string, mixed> */
     public function getQuery(): array
     {
         // Keep "Leistungen". With "true" we not only prevent the Leistungen records,
@@ -40,6 +41,7 @@ final readonly class Organisationseinheitsdetails implements RequestInterface
         ];
     }
 
+    /** @return array<string, string> */
     public function getHeaders(): array
     {
         return [
