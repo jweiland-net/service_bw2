@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 9.0.10
+==============
+
+*   [BUGFIX] Rebuild OE tree from flat list to restore all depth levels
+
 Version 9.0.9
 =============
 
