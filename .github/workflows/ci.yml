@@ -37,15 +37,15 @@ jobs:
         run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -s composerNormalize -n
 
       - name: 'Rector'
-        if: ${{ matrix.php <= '8.3' }}
+        if: ${{ matrix.php == '8.2' }}
         run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -s rector -n
 
       - name: 'CGL'
-        if: ${{ matrix.php <= '8.3' }}
+        if: ${{ matrix.php == '8.2' }}
         run: Build/Scripts/runTests.sh -b podman -n -p ${{ matrix.php }} -s cgl
 
       - name: 'PHPStan'
-        if: ${{ matrix.php <= '8.3' }}
+        if: ${{ matrix.php == '8.2' }}
         run: Build/Scripts/runTests.sh -b podman -p ${{ matrix.php }} -s phpstan
 
       - name: 'Execute functional tests'
