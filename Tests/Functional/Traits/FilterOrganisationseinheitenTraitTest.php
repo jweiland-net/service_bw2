@@ -123,37 +123,34 @@ class FilterOrganisationseinheitenTraitTest extends FunctionalTestCase
     #[Test]
     public function filterPreservesNestedChildrenUpToMaxDepth(): void
     {
-        // depth 0: matched OE (id=100, own ID in allowed list)
-        // depth 1: child (id=11)
-        // depth 2: grandchild (id=12)
-        // depth 3: great-grandchild (id=13) — must be stripped at maxDepth=2
-        $oe = new Record(
-            100,
-            'Root',
-            'organisationseinheiten',
-            'de',
-            [
-                'id' => 100,
-                'name' => 'Root',
-                'untergeordneteOEs' => [
-                    [
-                        'id' => 11,
-                        'name' => 'Child',
-                        'untergeordneteOEs' => [
-                            [
-                                'id' => 12,
-                                'name' => 'Grandchild',
-                                'untergeordneteOEs' => [
-                                    ['id' => 13, 'name' => 'GreatGrandchild', 'untergeordneteOEs' => []],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
+        // The tree is built from a flat list of individually stored records.
+        // depth 0: root (id=100, in allowedParentIds)
+        // depth 1: child (id=11, parent=100)
+        // depth 2: grandchild (id=12, parent=11)
+        // depth 3: great-grandchild (id=13, parent=12) — excluded at maxDepth=2
+        $root = new Record(100, 'Root', 'organisationseinheiten', 'de', [
+            'id' => 100, 'name' => 'Root', 'untergeordneteOEs' => [],
+        ]);
+        $child = new Record(11, 'Child', 'organisationseinheiten', 'de', [
+            'id' => 11, 'name' => 'Child',
+            'uebergeordneteOE' => ['id' => 100, 'name' => 'Root'],
+            'untergeordneteOEs' => [],
+        ]);
+        $grandchild = new Record(12, 'Grandchild', 'organisationseinheiten', 'de', [
+            'id' => 12, 'name' => 'Grandchild',
+            'uebergeordneteOE' => ['id' => 11, 'name' => 'Child', 'uebergeordneteOE' => ['id' => 100, 'name' => 'Root']],
+            'untergeordneteOEs' => [],
+        ]);
+        $greatGrandchild = new Record(13, 'GreatGrandchild', 'organisationseinheiten', 'de', [
+            'id' => 13, 'name' => 'GreatGrandchild',
+            'uebergeordneteOE' => [
+                'id' => 12, 'name' => 'Grandchild',
+                'uebergeordneteOE' => ['id' => 11, 'name' => 'Child', 'uebergeordneteOE' => ['id' => 100, 'name' => 'Root']],
             ],
-        );
+            'untergeordneteOEs' => [],
+        ]);
 
-        $result = $this->subject->filter([$oe], [100], 2);
+        $result = $this->subject->filter([$root, $child, $grandchild, $greatGrandchild], [100], 2);
 
         self::assertCount(1, $result);
         $children = $result[0]->getUntergeordneteOEs();
@@ -164,23 +161,26 @@ class FilterOrganisationseinheitenTraitTest extends FunctionalTestCase
         self::assertCount(1, $grandchildren);
         self::assertSame(12, $grandchildren[0]->getId());
 
+        // depth 3 must be excluded
         self::assertSame([], $grandchildren[0]->getUntergeordneteOEs());
     }
 
     #[Test]
     public function filterStripsAllChildrenWhenMaxDepthIsZero(): void
     {
-        $oe = $this->makeRecord(
-            100,
-            'Root',
-            null,
-            null,
-            [['id' => 11, 'name' => 'Child', 'untergeordneteOEs' => []]],
-        );
+        $root = new Record(100, 'Root', 'organisationseinheiten', 'de', [
+            'id' => 100, 'name' => 'Root', 'untergeordneteOEs' => [],
+        ]);
+        $child = new Record(11, 'Child', 'organisationseinheiten', 'de', [
+            'id' => 11, 'name' => 'Child',
+            'uebergeordneteOE' => ['id' => 100, 'name' => 'Root'],
+            'untergeordneteOEs' => [],
+        ]);
 
-        $result = $this->subject->filter([$oe], [100], 0);
+        $result = $this->subject->filter([$root, $child], [100], 0);
 
         self::assertCount(1, $result);
+        self::assertSame(100, $result[0]->getId());
         self::assertSame([], $result[0]->getUntergeordneteOEs());
     }
 
