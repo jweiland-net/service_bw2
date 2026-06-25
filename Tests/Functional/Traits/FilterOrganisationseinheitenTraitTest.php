@@ -135,4 +135,70 @@ class FilterOrganisationseinheitenTraitTest extends FunctionalTestCase
         self::assertSame('Beta', $result[1]->getName());
         self::assertSame('Gamma', $result[2]->getName());
     }
+
+    #[Test]
+    public function filterPreservesNestedChildrenUpToMaxDepth(): void
+    {
+        // depth 0: matched OE (id=10)
+        // depth 1: child (id=11)
+        // depth 2: grandchild (id=12)
+        // depth 3: great-grandchild (id=13) — must be stripped at maxDepth=2
+        $oe = new Record(
+            10,
+            'OE',
+            'organisationseinheiten',
+            'de',
+            [
+                'id' => 10,
+                'name' => 'OE',
+                'uebergeordneteOE' => ['id' => 100, 'name' => 'Root'],
+                'untergeordneteOEs' => [
+                    [
+                        'id' => 11,
+                        'name' => 'Child',
+                        'untergeordneteOEs' => [
+                            [
+                                'id' => 12,
+                                'name' => 'Grandchild',
+                                'untergeordneteOEs' => [
+                                    ['id' => 13, 'name' => 'GreatGrandchild', 'untergeordneteOEs' => []],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        );
+
+        $result = $this->subject->filter([$oe], [100], 2);
+
+        self::assertCount(1, $result);
+        $children = $result[0]->getUntergeordneteOEs();
+        self::assertCount(1, $children);
+        self::assertSame(11, $children[0]->getId());
+
+        $grandchildren = $children[0]->getUntergeordneteOEs();
+        self::assertCount(1, $grandchildren);
+        self::assertSame(12, $grandchildren[0]->getId());
+
+        // depth 3 must be stripped
+        self::assertSame([], $grandchildren[0]->getUntergeordneteOEs());
+    }
+
+    #[Test]
+    public function filterStripsAllChildrenWhenMaxDepthIsZero(): void
+    {
+        $oe = $this->makeRecord(
+            10,
+            'OE',
+            100,
+            'Root',
+            [['id' => 11, 'name' => 'Child', 'untergeordneteOEs' => []]],
+        );
+
+        $result = $this->subject->filter([$oe], [100], 0);
+
+        self::assertCount(1, $result);
+        self::assertSame([], $result[0]->getUntergeordneteOEs());
+    }
 }
