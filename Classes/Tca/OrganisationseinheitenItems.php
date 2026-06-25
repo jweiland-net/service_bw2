@@ -54,7 +54,7 @@ readonly class OrganisationseinheitenItems
     {
         foreach ($records as $record) {
             $items[] = [$record->getName(), $record->getId()];
-            $children = $record->getUntergeordneteOrganisationseinheiten();
+            $children = $record->getUntergeordneteOEs();
             if ($children !== []) {
                 $this->createList($items, $children);
             }

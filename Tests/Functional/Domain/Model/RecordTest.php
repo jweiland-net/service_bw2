@@ -447,29 +447,29 @@ class RecordTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getUntergeordneteOrganisationseinheitenWithMissingKeyWillReturnEmptyArray()
+    public function getUntergeordneteOEsWithMissingKeyWillReturnEmptyArray()
     {
         $subject = new Record(1234, 'TYPO3', 'organisationseinheiten', 'de', []);
 
-        self::assertSame([], $subject->getUntergeordneteOrganisationseinheiten());
+        self::assertSame([], $subject->getUntergeordneteOEs());
     }
 
     #[Test]
-    public function getUntergeordneteOrganisationseinheitenWithEmptyArrayWillReturnEmptyArray()
+    public function getUntergeordneteOEsWithEmptyArrayWillReturnEmptyArray()
     {
         $subject = new Record(
             1234,
             'TYPO3',
             'organisationseinheiten',
             'de',
-            ['untergeordneteOrganisationseinheiten' => []],
+            ['untergeordneteOEs' => []],
         );
 
-        self::assertSame([], $subject->getUntergeordneteOrganisationseinheiten());
+        self::assertSame([], $subject->getUntergeordneteOEs());
     }
 
     #[Test]
-    public function getUntergeordneteOrganisationseinheitenWillReturnRecordObjects()
+    public function getUntergeordneteOEsWillReturnRecordObjects()
     {
         $subject = new Record(
             1,
@@ -477,14 +477,14 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'de',
             [
-                'untergeordneteOrganisationseinheiten' => [
-                    ['id' => 2, 'name' => 'Child A', 'untergeordneteOrganisationseinheiten' => []],
-                    ['id' => 3, 'name' => 'Child B', 'untergeordneteOrganisationseinheiten' => []],
+                'untergeordneteOEs' => [
+                    ['id' => 2, 'name' => 'Child A', 'untergeordneteOEs' => []],
+                    ['id' => 3, 'name' => 'Child B', 'untergeordneteOEs' => []],
                 ],
             ],
         );
 
-        $children = $subject->getUntergeordneteOrganisationseinheiten();
+        $children = $subject->getUntergeordneteOEs();
 
         self::assertCount(2, $children);
         self::assertContainsOnlyInstancesOf(Record::class, $children);
@@ -496,7 +496,7 @@ class RecordTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function getUntergeordneteOrganisationseinheitenSkipsNonArrayEntries()
+    public function getUntergeordneteOEsSkipsNonArrayEntries()
     {
         $subject = new Record(
             1,
@@ -504,7 +504,7 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'de',
             [
-                'untergeordneteOrganisationseinheiten' => [
+                'untergeordneteOEs' => [
                     ['id' => 2, 'name' => 'Valid'],
                     'invalid-string-entry',
                     null,
@@ -512,14 +512,14 @@ class RecordTest extends FunctionalTestCase
             ],
         );
 
-        $children = $subject->getUntergeordneteOrganisationseinheiten();
+        $children = $subject->getUntergeordneteOEs();
 
         self::assertCount(1, $children);
         self::assertSame(2, $children[0]->getId());
     }
 
     #[Test]
-    public function getUntergeordneteOrganisationseinheitenInheritsTypeAndLanguageFromParent()
+    public function getUntergeordneteOEsInheritsTypeAndLanguageFromParent()
     {
         $subject = new Record(
             1,
@@ -527,13 +527,13 @@ class RecordTest extends FunctionalTestCase
             'organisationseinheiten',
             'fr',
             [
-                'untergeordneteOrganisationseinheiten' => [
+                'untergeordneteOEs' => [
                     ['id' => 2, 'name' => 'Child'],
                 ],
             ],
         );
 
-        $children = $subject->getUntergeordneteOrganisationseinheiten();
+        $children = $subject->getUntergeordneteOEs();
 
         self::assertSame('organisationseinheiten', $children[0]->getType());
         self::assertSame('fr', $children[0]->getLanguage());

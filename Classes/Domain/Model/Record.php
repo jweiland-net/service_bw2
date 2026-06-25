@@ -95,9 +95,9 @@ final readonly class Record
      *
      * @return array<int, Record>
      */
-    public function getUntergeordneteOrganisationseinheiten(): array
+    public function getUntergeordneteOEs(): array
     {
-        $untergeordnete = $this->data['untergeordneteOrganisationseinheiten'] ?? [];
+        $untergeordnete = $this->data['untergeordneteOEs'] ?? [];
 
         if (!is_array($untergeordnete)) {
             return [];

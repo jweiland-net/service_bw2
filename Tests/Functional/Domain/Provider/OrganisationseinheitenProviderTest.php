@@ -111,8 +111,8 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     public function findOrganisationseinheitenTreesWillReturnRecordObjects(): void
     {
         $treeData = [
-            ['id' => 10, 'name' => 'Root A', 'untergeordneteOrganisationseinheiten' => []],
-            ['id' => 20, 'name' => 'Root B', 'untergeordneteOrganisationseinheiten' => []],
+            ['id' => 10, 'name' => 'Root A', 'untergeordneteOEs' => []],
+            ['id' => 20, 'name' => 'Root B', 'untergeordneteOEs' => []],
         ];
 
         $this->serviceBwClientMock
@@ -140,9 +140,9 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
     #[Test]
     public function findOrganisationseinheitenTreesPreservesNestedChildrenInData(): void
     {
-        $child = ['id' => 11, 'name' => 'Child', 'untergeordneteOrganisationseinheiten' => []];
+        $child = ['id' => 11, 'name' => 'Child', 'untergeordneteOEs' => []];
         $treeData = [
-            ['id' => 10, 'name' => 'Root', 'untergeordneteOrganisationseinheiten' => [$child]],
+            ['id' => 10, 'name' => 'Root', 'untergeordneteOEs' => [$child]],
         ];
 
         $this->serviceBwClientMock
@@ -153,7 +153,7 @@ class OrganisationseinheitenProviderTest extends FunctionalTestCase
             })());
 
         $result = $this->subject->findOrganisationseinheitenTrees('de');
-        $children = $result[0]->getUntergeordneteOrganisationseinheiten();
+        $children = $result[0]->getUntergeordneteOEs();
 
         self::assertCount(1, $children);
         self::assertInstanceOf(Record::class, $children[0]);

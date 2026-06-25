@@ -47,15 +47,13 @@ trait FilterOrganisationseinheitenTrait
                 continue;
             }
 
-            $untergeordneteOrganisationseinheiten = $this->getUntergeordneteOrganisationseinheiten(
-                $organisationseinheit,
-            );
+            $untergeordneteOEs = $organisationseinheit->getUntergeordneteOEs();
 
-            if ($untergeordneteOrganisationseinheiten !== []) {
+            if ($untergeordneteOEs !== []) {
                 $filteredOrganisationseinheiten = [
                     ...$filteredOrganisationseinheiten,
                     ...$this->filterOrganisationseinheitenByParentIds(
-                        $untergeordneteOrganisationseinheiten,
+                        $untergeordneteOEs,
                         $allowedParentIds,
                         $maxDepth,
                     ),
@@ -84,19 +82,17 @@ trait FilterOrganisationseinheitenTrait
         int $depth,
         int $maxDepth,
     ): Record {
-        $untergeordneteOrganisationseinheiten = $this->getUntergeordneteOrganisationseinheiten(
-            $organisationseinheit,
-        );
+        $untergeordneteOEs = $organisationseinheit->getUntergeordneteOEs();
 
-        if ($untergeordneteOrganisationseinheiten === [] || $depth >= $maxDepth) {
+        if ($untergeordneteOEs === [] || $depth >= $maxDepth) {
             return $organisationseinheit->withData(
-                array_merge($organisationseinheit->getData(), ['untergeordneteOrganisationseinheiten' => []]),
+                array_merge($organisationseinheit->getData(), ['untergeordneteOEs' => []]),
             );
         }
 
         $limitedChildren = array_map(
             fn(Record $child): Record => $this->limitOrganisationseinheitenDepth($child, $depth + 1, $maxDepth),
-            $untergeordneteOrganisationseinheiten,
+            $untergeordneteOEs,
         );
 
         $sortedChildren = $this->sortOrganisationseinheitenByName($limitedChildren);
@@ -104,17 +100,9 @@ trait FilterOrganisationseinheitenTrait
         return $organisationseinheit->withData(
             array_merge(
                 $organisationseinheit->getData(),
-                ['untergeordneteOrganisationseinheiten' => array_map(fn(Record $r): array => $r->getData(), $sortedChildren)],
+                ['untergeordneteOEs' => array_map(fn(Record $r): array => $r->getData(), $sortedChildren)],
             ),
         );
-    }
-
-    /**
-     * @return array<int, Record>
-     */
-    protected function getUntergeordneteOrganisationseinheiten(Record $organisationseinheit): array
-    {
-        return $organisationseinheit->getUntergeordneteOrganisationseinheiten();
     }
 
     /**
