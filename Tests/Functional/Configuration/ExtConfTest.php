@@ -232,4 +232,36 @@ class ExtConfTest extends FunctionalTestCase
             $subject->getGebietId(),
         );
     }
+
+    #[Test]
+    public function getMaxDepthInitiallyReturnsTwo(): void
+    {
+        $config = [];
+        $subject = new ExtConf(...$config);
+
+        self::assertSame(
+            2,
+            $subject->getMaxDepth(),
+        );
+    }
+
+    #[Test]
+    public function setMaxDepthSetsMaxDepth(): void
+    {
+        $extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
+        $extensionConfigurationMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('service_bw2')
+            ->willReturn([
+                'maxDepth' => '5',
+            ]);
+
+        $subject = ExtConf::create($extensionConfigurationMock);
+
+        self::assertSame(
+            5,
+            $subject->getMaxDepth(),
+        );
+    }
 }

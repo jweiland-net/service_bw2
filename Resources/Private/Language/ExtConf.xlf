@@ -21,6 +21,9 @@
 			<trans-unit id="ags">
 				<source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
 			</trans-unit>
+			<trans-unit id="maxDepth" xml:space="preserve">
+				<source>Maximum tree depth: How many levels of organizational units should be loaded and displayed in the tree view?</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

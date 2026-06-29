@@ -23,6 +23,14 @@
 				<source>Choose items to display (recursive)</source>
 				<target>Zeige folgende Organisationseinheiten davon an (rekursiv)</target>
 			</trans-unit>
+			<trans-unit id="settings.organisationseinheiten.maxDepth">
+				<source>Maximum tree depth</source>
+				<target>Maximale Baumtiefe</target>
+			</trans-unit>
+			<trans-unit id="settings.organisationseinheiten.maxDepth.description">
+				<source>If set to 0, the value from the Extension Configuration is used.</source>
+				<target>Ist der Wert auf 0 gesetzt, wird der Wert aus der Extension-Konfiguration verwendet.</target>
+			</trans-unit>
 			<trans-unit id="sheet_list_pages">
 				<source>Pages (list view)</source>
 				<target>Seiten (Listenansicht)</target>
