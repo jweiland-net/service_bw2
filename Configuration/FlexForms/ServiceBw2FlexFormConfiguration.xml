@@ -14,6 +14,24 @@
                             <itemsProcFunc>JWeiland\ServiceBw2\Tca\OrganisationseinheitenItems->getItems</itemsProcFunc>
                         </config>
                     </settings.organisationseinheiten.listItems>
+                    <settings.organisationseinheiten.maxDepth>
+                        <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maxDepth</label>
+                        <description>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maxDepth.description</description>
+                        <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitslist</displayCond>
+                        <config>
+                            <type>number</type>
+                            <format>integer</format>
+                            <nullable>false</nullable>
+                            <range>
+                                <lower>0</lower>
+                                <upper>10</upper>
+                            </range>
+                            <slider>
+                                <step>1</step>
+                            </slider>
+                            <default>0</default>
+                        </config>
+                    </settings.organisationseinheiten.maxDepth>
                     <settings.organisationseinheiten.maps2Pid>
                         <label>LLL:EXT:service_bw2/Resources/Private/Language/FlexForms.xlf:settings.organisationseinheiten.maps2_pid</label>
                         <displayCond>FIELD:parentRec.CType:=:servicebw2_organizationalunitsshow</displayCond>

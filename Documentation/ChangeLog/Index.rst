@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 9.0.12
+==============
+
+*   [FEATURE] Add configurable tree depth for Organisationseinheiten
+
 Version 9.0.11
 ==============
 

@@ -34,6 +34,7 @@ readonly class ExtConf implements SingletonInterface
         'allowedLanguages' => 'de=de;en=en;fr=fr',
         'ags' => 0,
         'gebietId' => '',
+        'maxDepth' => 2,
     ];
 
     public function __construct(
@@ -43,6 +44,7 @@ readonly class ExtConf implements SingletonInterface
         private string $allowedLanguages = self::DEFAULT_SETTINGS['allowedLanguages'],
         private int $ags = self::DEFAULT_SETTINGS['ags'],
         private string $gebietId = self::DEFAULT_SETTINGS['gebietId'],
+        private int $maxDepth = self::DEFAULT_SETTINGS['maxDepth'],
     ) {}
 
     public static function create(ExtensionConfiguration $extensionConfiguration): self
@@ -68,6 +70,7 @@ readonly class ExtConf implements SingletonInterface
             // for requests. That's why we cast this value to int.
             ags: (int)$extensionSettings['ags'],
             gebietId: (string)$extensionSettings['gebietId'],
+            maxDepth: (int)$extensionSettings['maxDepth'],
         );
     }
 
@@ -116,6 +119,11 @@ readonly class ExtConf implements SingletonInterface
     public function getGebietId(): string
     {
         return $this->gebietId;
+    }
+
+    public function getMaxDepth(): int
+    {
+        return $this->maxDepth;
     }
 
     /** @return array<string, string> */

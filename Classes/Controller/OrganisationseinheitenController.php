@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\ServiceBw2\Controller;
 
+use JWeiland\ServiceBw2\Configuration\ExtConf;
 use JWeiland\ServiceBw2\Domain\Model\Record;
 use JWeiland\ServiceBw2\Domain\Provider\OrganisationseinheitenProvider;
 use JWeiland\ServiceBw2\Domain\Repository\OrganisationseinheitenRepository;
@@ -24,6 +25,7 @@ class OrganisationseinheitenController extends AbstractController
         protected OrganisationseinheitenRepository $organisationseinheitenRepository,
         protected OrganisationseinheitenProvider $organisationseinheitenProvider,
         protected LanguageHelper $languageHelper,
+        protected ExtConf $extConf,
     ) {}
 
     public function listAction(): ResponseInterface
@@ -34,6 +36,7 @@ class OrganisationseinheitenController extends AbstractController
         $records = $this->organisationseinheitenRepository->getOrganisationseinheitenTree(
             $listItems,
             $languageCode,
+            $this->settings['organisationseinheiten']['maxDepth'] ?? $this->extConf->getMaxDepth(),
         );
 
         $this->view->assign('organisationseinheitenTrees', $records);

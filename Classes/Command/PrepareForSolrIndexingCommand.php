@@ -113,6 +113,7 @@ class PrepareForSolrIndexingCommand extends Command
                     $repository->getOrganisationseinheitenTree(
                         $this->getInitialRecords((int)$input->getOption('content-uid')),
                         $languageCode,
+                        $this->extConf->getMaxDepth(),
                     ),
                 );
             } else {
