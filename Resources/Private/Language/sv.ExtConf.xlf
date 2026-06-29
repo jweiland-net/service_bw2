@@ -23,6 +23,9 @@
         <source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
         <target state="needs-translation">Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</target>
       </trans-unit>
+      <trans-unit id="maxDepth" xml:space="preserve">
+				<source>Maximum tree depth: How many levels of organizational units should be loaded and displayed in the tree view?</source>
+			<target state="needs-translation">Maximum tree depth: How many levels of organizational units should be loaded and displayed in the tree view?</target></trans-unit>
     </body>
   </file>
 </xliff>
