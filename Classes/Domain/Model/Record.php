@@ -94,7 +94,7 @@ final readonly class Record
 
     public function getUebergeordneteOE(): ?self
     {
-        $parent = $this->data['uebergeordneteOE'] ?? null;
+        $parent = $this->data['uebergeordneteOE'] ?? $this->data['uebergeordneteOrganisationseinheit'] ?? null;
         if (!is_array($parent)) {
             return null;
         }
@@ -116,7 +116,7 @@ final readonly class Record
      */
     public function getUntergeordneteOEs(): array
     {
-        $untergeordnete = $this->data['untergeordneteOEs'] ?? [];
+        $untergeordnete = $this->data['untergeordneteOEs'] ?? $this->data['untergeordneteOrganisationseinheiten'] ?? [];
 
         if (!is_array($untergeordnete)) {
             return [];

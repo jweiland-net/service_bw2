@@ -36,7 +36,7 @@ class OrganisationseinheitenController extends AbstractController
         $records = $this->organisationseinheitenRepository->getOrganisationseinheitenTree(
             $listItems,
             $languageCode,
-            $this->settings['organisationseinheiten']['maxDepth'] ?? $this->extConf->getMaxDepth(),
+            (int)($this->settings['organisationseinheiten']['maxDepth'] ?? $this->extConf->getMaxDepth()),
         );
 
         $this->view->assign('organisationseinheitenTrees', $records);
