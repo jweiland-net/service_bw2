@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 9.0.13
+==============
+
+*   [BUGFIX] Add missing pluginName to f:link.action in Leistungen partial
+*   [BUGFIX] Fix language keys broken by record API search-replace
+
 Version 9.0.12
 ==============
 
