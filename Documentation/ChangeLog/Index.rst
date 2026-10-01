@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 7.0.3
+=============
+
+*   [BUGFIX] Remove outdated indexItem() override in Solr Indexer, which
+    crashed with a TypeError since EXT:solr 12.1
+
 Version 7.0.2
 =============
 
