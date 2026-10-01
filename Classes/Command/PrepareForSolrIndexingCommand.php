@@ -136,7 +136,7 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
 
     protected function getInitialRecords(int $contentUid): array
     {
-        $ttContentRecord = GeneralUtility::makeInstance(ConnectionPool::class)
+        $piFlexform = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tt_content')
             ->select(
                 ['pi_flexform'],
@@ -144,14 +144,11 @@ class PrepareForSolrIndexingCommand extends Command implements LoggerAwareInterf
                 ['uid' => $contentUid]
             )->fetchOne();
 
-        if (
-            !is_array($ttContentRecord)
-            || !array_key_exists('pi_flexform', $ttContentRecord)
-        ) {
+        if (!is_string($piFlexform) || $piFlexform === '') {
             return [];
         }
 
-        $flexform = GeneralUtility::xml2array($ttContentRecord['pi_flexform']);
+        $flexform = GeneralUtility::xml2array($piFlexform);
         if (!is_array($flexform)) {
             return [];
         }
