@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 7.0.4
+=============
+
+*   [BUGFIX] Fix filtering of Organisationseinheiten for Solr indexing,
+    which indexed no records because content-uid was not evaluated
+
 Version 7.0.3
 =============
 
