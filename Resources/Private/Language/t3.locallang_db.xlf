@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-03-28T08:36:40Z" product-name="service_bw2" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="plugin.servicebw.title">
+        <source>Service BW</source>
+        <target>crwdns309822:0crwdne309822:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw.description">
+        <source>This plugin provides the possibility to list and show various kinds of entities of Service BW
+					API onto your website.
+				</source>
+        <target>crwdns309824:0crwdne309824:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitslist.title">
+        <source>Service BW: Organisationseinheiten Units List</source>
+        <target>crwdns309826:0crwdne309826:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitslist.description">
+        <source>Organisationseinheiten List Plugin: Effectively organizes and lists organizational units,
+					ensuring straightforward access to relevant information.
+				</source>
+        <target>crwdns309828:0crwdne309828:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitsshow.title">
+        <source>Service BW: Organisationseinheiten Units Show</source>
+        <target>crwdns309830:0crwdne309830:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_organizationalunitsshow.description">
+        <source>Organisationseinheiten Show Plugin: Presents organizational units with a user-friendly interface
+					for seamless exploration.
+				</source>
+        <target>crwdns309832:0crwdne309832:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_serviceslist.title">
+        <source>Service BW: Services List</source>
+        <target>crwdns309834:0crwdne309834:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_serviceslist.description">
+        <source>Services List Plugin: Efficiently organizes and lists available services, ensuring
+					straightforward access to relevant information.
+				</source>
+        <target>crwdns309836:0crwdne309836:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicesshow.title">
+        <source>Service BW: Services Show</source>
+        <target>crwdns309838:0crwdne309838:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicesshow.description">
+        <source>Services Show Plugin: Displays detailed information about services with a user-friendly
+					interface for easy exploration.
+				</source>
+        <target>crwdns309840:0crwdne309840:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationslist.title">
+        <source>Service BW: Lebenslagen List</source>
+        <target>crwdns309842:0crwdne309842:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationslist.description">
+        <source>Lebenslagen List Plugin: Efficiently organizes and lists essential life scenarios, ensuring
+					straightforward access to relevant information.
+				</source>
+        <target>crwdns309844:0crwdne309844:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationsshow.title">
+        <source>Service BW: Lebenslagen Show</source>
+        <target>crwdns309846:0crwdne309846:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_lifesituationsshow.description">
+        <source>Lebenslagen Show Plugin: Displays crucial life situations with a user-friendly interface for
+					easy exploration.
+				</source>
+        <target>crwdns309848:0crwdne309848:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicebw2search.title">
+        <source>Service BW: Search</source>
+        <target>crwdns309850:0crwdne309850:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.servicebw2_servicebw2search.description">
+        <source>Specialized in swiftly retrieving information from the BW2 service entities, ensuring precise
+					and targeted results for an enhanced user experience.
+				</source>
+        <target>crwdns309852:0crwdne309852:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
