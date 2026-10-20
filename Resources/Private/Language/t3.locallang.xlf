@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-09-05T08:44:00Z" product-name="service_bw2" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="scheduler.pid">
+        <source>Storage PID</source>
+        <target>crwdns309714:0crwdne309714:0</target>
+      </trans-unit>
+      <trans-unit id="api_error.head">
+        <source>An error has occurred</source>
+        <target>crwdns309716:0crwdne309716:0</target>
+      </trans-unit>
+      <trans-unit id="api_error.default">
+        <source>There was an error while fetching records. Please try again or contact an admin if the error message
+					appears again!
+				</source>
+        <target>crwdns309718:0crwdne309718:0</target>
+      </trans-unit>
+      <trans-unit id="api_error.404">
+        <source>The requested record was not found. Maybe the URL has changed. Try to use the search. </source>
+        <target>crwdns309720:0crwdne309720:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.HAUSANSCHRIFT">
+        <source>Home address</source>
+        <target>crwdns309722:0crwdne309722:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.BESUCHERANSCHRIFT">
+        <source>Visitor address</source>
+        <target>crwdns309724:0crwdne309724:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.GROSSEMPFAENGERPOSTFACH">
+        <source>Mailing address</source>
+        <target>crwdns309726:0crwdne309726:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.anschrift.POSTFACH">
+        <source>Post office box</source>
+        <target>crwdns309728:0crwdne309728:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.mail">
+        <source>e-mail</source>
+        <target>crwdns309730:0crwdne309730:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ALLGEMEINE_OEFFNUNGSZEIT">
+        <source>Opening hours</source>
+        <target>crwdns309732:0crwdne309732:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.ANMELDEZEIT">
+        <source>Registration time</source>
+        <target>crwdns309734:0crwdne309734:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.BESUCHSZEIT">
+        <source>Visiting hours</source>
+        <target>crwdns309736:0crwdne309736:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.FUNKTIONSZEIT">
+        <source>Operational time</source>
+        <target>crwdns309738:0crwdne309738:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.KERNZEIT">
+        <source>Core hours</source>
+        <target>crwdns309740:0crwdne309740:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.SERVICEZEIT">
+        <source>Engineering time</source>
+        <target>crwdns309742:0crwdne309742:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.opening_hours.TELEFONISCHE_ERREICHBARKEIT">
+        <source>Accessibility by phone</source>
+        <target>crwdns309744:0crwdne309744:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.leistungen">
+        <source>Services</source>
+        <target>crwdns309746:0crwdne309746:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.kontaktpersonen">
+        <source>Contact persons</source>
+        <target>crwdns309748:0crwdne309748:0</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.assigned_life_situations">
+        <source>Assigned life situations</source>
+        <target>crwdns309750:0crwdne309750:0</target>
+      </trans-unit>
+      <trans-unit id="lebenslage.related_verfahren">
+        <source>Related Procedure</source>
+        <target>crwdns309752:0crwdne309752:0</target>
+      </trans-unit>
+      <trans-unit id="formulare_prozesse">
+        <source>Related forms and processes</source>
+        <target>crwdns309754:0crwdne309754:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.zugehoerige_behoerde">
+        <source>Related Organisationseinheit</source>
+        <target>crwdns309756:0crwdne309756:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.maps2_detail_view">
+        <source>Show on card</source>
+        <target>crwdns309758:0crwdne309758:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.children">
+        <source>Subordinate Organisationseinheiten</source>
+        <target>crwdns309760:0crwdne309760:0</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.to_top">
+        <source>To top</source>
+        <target>crwdns309762:0crwdne309762:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MONTAG">
+        <source>Mon</source>
+        <target>crwdns309764:0crwdne309764:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DIENSTAG">
+        <source>Tues</source>
+        <target>crwdns309766:0crwdne309766:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.MITTWOCH">
+        <source>Weds</source>
+        <target>crwdns309768:0crwdne309768:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.DONNERSTAG">
+        <source>Thurs</source>
+        <target>crwdns309770:0crwdne309770:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.FREITAG">
+        <source>Fri</source>
+        <target>crwdns309772:0crwdne309772:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.SAMSTAG">
+        <source>Sat</source>
+        <target>crwdns309774:0crwdne309774:0</target>
+      </trans-unit>
+      <trans-unit id="opening_hours.short-form.SONNTAG">
+        <source>Sun</source>
+        <target>crwdns309776:0crwdne309776:0</target>
+      </trans-unit>
+      <trans-unit id="leistungen.organisationseinheiten.head">
+        <source>Competent Organisationseinheiten</source>
+        <target>crwdns309778:0crwdne309778:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit.internetadressen">
+        <source>Related URLs</source>
+        <target>crwdns309780:0crwdne309780:0</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy">
+        <source>Sort by</source>
+        <target>crwdns309782:0crwdne309782:0</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy.name">
+        <source>Name</source>
+        <target>crwdns309784:0crwdne309784:0</target>
+      </trans-unit>
+      <trans-unit id="suche.sortBy.relevanz">
+        <source>Relevance</source>
+        <target>crwdns309786:0crwdne309786:0</target>
+      </trans-unit>
+      <trans-unit id="suche.typ">
+        <source>Show type</source>
+        <target>crwdns309788:0crwdne309788:0</target>
+      </trans-unit>
+      <trans-unit id="suche.typ.all">
+        <source>All</source>
+        <target>crwdns309790:0crwdne309790:0</target>
+      </trans-unit>
+      <trans-unit id="suche.result">
+        <source>Result</source>
+        <target>crwdns309792:0crwdne309792:0</target>
+      </trans-unit>
+      <trans-unit id="suche.results">
+        <source>Results</source>
+        <target>crwdns309794:0crwdne309794:0</target>
+      </trans-unit>
+      <!-- For general use in ext:service_bw2. Used english words from service-bw.de! -->
+      <trans-unit id="leistung">
+        <source>Service</source>
+        <target>crwdns309796:0crwdne309796:0</target>
+      </trans-unit>
+      <trans-unit id="lebenslage">
+        <source>Life situation</source>
+        <target>crwdns309798:0crwdne309798:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheit">
+        <source>Organisational unit</source>
+        <target>crwdns309800:0crwdne309800:0</target>
+      </trans-unit>
+      <trans-unit id="leistungen">
+        <source>Services</source>
+        <target>crwdns309802:0crwdne309802:0</target>
+      </trans-unit>
+      <trans-unit id="lebenslagen">
+        <source>Life situations</source>
+        <target>crwdns309804:0crwdne309804:0</target>
+      </trans-unit>
+      <trans-unit id="organisationseinheiten">
+        <source>Organisational units</source>
+        <target>crwdns309806:0crwdne309806:0</target>
+      </trans-unit>
+      <trans-unit id="has_prozesse">
+        <source>This service includes processes that allow you to fill out an interactive online form</source>
+        <target>crwdns309808:0crwdne309808:0</target>
+      </trans-unit>
+      <trans-unit id="has_formulare">
+        <source>This service includes PDF forms</source>
+        <target>crwdns309810:0crwdne309810:0</target>
+      </trans-unit>
+      <trans-unit id="prozess.description">
+        <source>Interactive online form. May require an Service BW Account.</source>
+        <target>crwdns309812:0crwdne309812:0</target>
+      </trans-unit>
+      <trans-unit id="formular.description">
+        <source>PDF form to download and print out</source>
+        <target>crwdns309814:0crwdne309814:0</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.search_leistungen">
+        <source>Search for a service</source>
+        <target>crwdns309816:0crwdne309816:0</target>
+      </trans-unit>
+      <trans-unit id="alphabetical_index.filter_prozesse">
+        <source>Show services with online forms only</source>
+        <target>crwdns309818:0crwdne309818:0</target>
+      </trans-unit>
+      <trans-unit id="button.back">
+        <source>Back to List</source>
+        <target>crwdns309820:0crwdne309820:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
