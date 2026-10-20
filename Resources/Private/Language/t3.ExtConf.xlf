@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T10:23:00Z" product-name="service_bw2" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="mandant" xml:space="preserve">
+				<source>Mandant: Place the number of the mandant of the city (only BW).</source>
+			<target>crwdns309668:0crwdne309668:0</target></trans-unit>
+      <trans-unit id="token" xml:space="preserve">
+				<source>Token: Enter the Bearer Authorization Token. You can generate one here: https://sgw.service-bw.de/rest-v2/documentation/</source>
+			<target>crwdns409392:0crwdne409392:0</target></trans-unit>
+      <trans-unit id="baseUrl" xml:space="preserve">
+				<source>URI of Service BW API: To which URI the API requests should be send?. Normally: https://sgw.service-bw.de:443/</source>
+			<target>crwdns309670:0crwdne309670:0</target></trans-unit>
+      <trans-unit id="allowedLanguages" xml:space="preserve">
+				<source>Allowed languages: Define multiple allowed languages. Format: [2 letters language ISO code of Service BW]=[2 letters language ISO code of TYPO3 locale]. Assign multiple languages with ";". Example: de=de;en=en. First value will be used as default language</source>
+			<target>crwdns409394:0crwdne409394:0</target></trans-unit>
+      <trans-unit id="gebietId">
+        <source>Description from Service BW API - Die IDs der Gebiete, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
+        <target>crwdns309674:0crwdne309674:0</target>
+      </trans-unit>
+      <trans-unit id="ags">
+        <source>Description from Service BW API - Die amtlichen Gemeindeschlüssel, in deren Kontext man diese Operation ausführen möchte.:Optional parameter for API requests. Leave empty to not use this filter option.</source>
+        <target>crwdns309676:0crwdne309676:0</target>
+      </trans-unit>
+      <trans-unit id="maxDepth" xml:space="preserve">
+				<source>Maximum tree depth: How many levels of organizational units should be loaded and displayed in the tree view?</source>
+			<target>crwdns411413:0crwdne411413:0</target></trans-unit>
+    </body>
+  </file>
+</xliff>
