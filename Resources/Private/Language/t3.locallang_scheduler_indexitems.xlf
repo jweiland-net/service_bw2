@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" product-name="service_bw2" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="typeToIndex">
+        <source>Type to index</source>
+        <target>crwdns309860:0crwdne309860:0</target>
+      </trans-unit>
+      <trans-unit id="solrConfig">
+        <source>Solr type</source>
+        <target>crwdns309862:0crwdne309862:0</target>
+      </trans-unit>
+      <trans-unit id="pluginTtContentUid">
+        <source>Uid of plugin tt_content</source>
+        <target>crwdns309864:0crwdne309864:0</target>
+      </trans-unit>
+      <trans-unit id="rootPage">
+        <source>Root page uid</source>
+        <target>crwdns309866:0crwdne309866:0</target>
+      </trans-unit>
+      <trans-unit id="initialRecordIds">
+        <source>Intial record ids</source>
+        <target>crwdns309868:0crwdne309868:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
